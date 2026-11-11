@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz & Révision NoSQL / MongoDB - Genie Informatique</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        mongo: {
+                            green: '#00ED64',
+                            darkGreen: '#001E2B',
+                            slate: '#132E35',
+                            hover: '#00C853',
+                            lightBg: '#F8FAFC',
+                            cardLight: '#FFFFFF',
+                            cardDark: '#1C2D37'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'Consolas', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        pre, code { font-family: 'Fira Code', monospace; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.4); border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-mongo-lightBg dark:bg-mongo-darkGreen text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300 flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-mongo-darkGreen/90 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-mongo-green p-2 rounded-xl text-mongo-darkGreen font-extrabold text-xl shadow-lg shadow-mongo-green/20">
+                    <i class="fa-solid font-mono text-2xl">leaf</i>
+                </div>
+                <div>
+                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-mongo-green block">Sohaibu vous présente</span>
+                    <h1 class="text-base sm:text-lg font-bold leading-none tracking-tight">Quiz & Révision NoSQL / MongoDB</h1>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-mongo-green transition-all" title="Changer le thème">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:inline"></i>
+                </button>
+                <button onclick="showHome()" class="px-4 py-2 text-sm font-semibold rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-house mr-1.5"></i>Accueil
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-5xl w-full mx-auto p-4 md:p-6 flex flex-col justify-center">
+
+        <!-- SCREEN 1: Home / Mode Selection -->
+        <section id="homeScreen" class="space-y-8 animate-fadeIn">
+            <div class="text-center space-y-4 max-w-2xl mx-auto mt-4">
+                <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight">Plateforme de Révision NoSQL & MongoDB</h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base leading-relaxed">
+                    Évaluations interactives construites strictly d'après le cours. Entraînez-vous sur les théories de base ou sur la syntaxe pratique de Mongosh.
+                </p>
+            </div>
+
+            <!-- Quiz Category Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Category 1: Theory -->
+                <div onclick="startQuiz('theory')" class="group cursor-pointer bg-white dark:bg-mongo-cardDark border border-slate-200 dark:border-slate-800 hover:border-mongo-green/60 dark:hover:border-mongo-green/60 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-mongo-green/5 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 group-hover:text-mongo-green transition">1. Questions de Cours</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+                            Les fondements théoriques : 3V, Théorème CAP (CP vs AP), modèle BASE vs ACID, types de bases NoSQL, Embedding vs Referencing, et Architecture WiredTiger.
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 text-xs font-semibold text-mongo-green">
+                        <span id="theoryCount">12 Questions</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- Category 2: Practice / Methods -->
+                <div onclick="startQuiz('methods')" class="group cursor-pointer bg-white dark:bg-mongo-cardDark border border-slate-200 dark:border-slate-800 hover:border-mongo-green/60 dark:hover:border-mongo-green/60 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:shadow-mongo-green/5 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-mongo-green/10 text-mongo-green flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 group-hover:text-mongo-green transition">2. Méthodes & Opérateurs</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
+                            Syntaxe pratique Mongosh : CRUD (`find`, `update`, `delete`), opérateurs de requêtes (`$inc`, `$set`, `$unset`, `arrayFilters`), `$elemMatch`, `$filter`, `$map`, `$slice`, etc.
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 text-xs font-semibold text-mongo-green">
+                        <span id="methodsCount">18 Questions</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- Category 3: Full Quiz -->
+                <div onclick="startQuiz('all')" class="group cursor-pointer bg-gradient-to-br from-slate-900 to-mongo-slate text-white p-6 rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between border border-slate-700 hover:border-mongo-green">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-mongo-green text-mongo-darkGreen flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-white group-hover:text-mongo-green transition">3. Grand Quiz Mélangé</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed mb-4">
+                            Examen complet combinant la théorie et la syntaxe pratique des 5 chapitres pour un entraînement global intensif.
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-700/60 text-xs font-semibold text-mongo-green">
+                        <span id="allCount">30 Questions</span>
+                        <i class="fa-solid fa-circle-play text-lg group-hover:scale-125 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Summary Highlights -->
+            <div class="bg-white dark:bg-mongo-cardDark border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
+                <h4 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-mongo-green"></i> Thèmes d'examen couverts (Chapitres 1 à 5)
+                </h4>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-xs font-medium text-slate-600 dark:text-slate-300">
+                    <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                        <span class="block text-mongo-green font-bold mb-1">Chap. 1</span> Introduction & 3V, CAP, BASE
+                    </div>
+                    <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                        <span class="block text-mongo-green font-bold mb-1">Chap. 2</span> MongoDB, WiredTiger, JSON/BSON
+                    </div>
+                    <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                        <span class="block text-mongo-green font-bold mb-1">Chap. 3</span> Requêtes Find, Projections & Filtres
+                    </div>
+                    <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                        <span class="block text-mongo-green font-bold mb-1">Chap. 4</span> Modélisation Embedding vs Referencing
+                    </div>
+                    <div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                        <span class="block text-mongo-green font-bold mb-1">Chap. 5</span> Opérations de Mise à Jour & Suppression
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: Quiz Play Screen -->
+        <section id="quizScreen" class="hidden space-y-6">
+            <!-- Top Controls & Progress Bar -->
+            <div class="bg-white dark:bg-mongo-cardDark border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-sm space-y-3">
+                <div class="flex justify-between items-center text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    <span id="quizCategoryBadge" class="px-2.5 py-1 rounded-lg bg-mongo-green/10 text-mongo-green border border-mongo-green/20">Modèle</span>
+                    <div class="flex items-center gap-4">
+                        <span id="questionProgressText">Question 1 / 10</span>
+                        <span id="quizTimer" class="font-mono bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg text-slate-700 dark:text-slate-200"><i class="fa-regular fa-clock mr-1"></i>00:00</span>
+                    </div>
+                </div>
+                <div class="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                    <div id="progressBar" class="bg-mongo-green h-full w-0 transition-all duration-300"></div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-white dark:bg-mongo-cardDark border border-slate-200 dark:border-slate-800 p-6 md:p-8 rounded-2xl shadow-md space-y-6">
+                <!-- Question Title -->
+                <div class="space-y-3">
+                    <span id="questionTopicTag" class="text-xs font-bold uppercase tracking-wider text-mongo-green">Chapitre X</span>
+                    <h3 id="questionText" class="text-lg md:text-xl font-bold leading-snug">Intitulé de la question ici ?</h3>
+                </div>
+
+                <!-- Question Code Snippet (If available) -->
+                <div id="codeSnippetBox" class="hidden">
+                    <div class="bg-slate-900 text-slate-200 p-4 rounded-xl text-xs md:text-sm border border-slate-800 font-mono overflow-x-auto custom-scrollbar">
+                        <pre id="codeSnippetText"><code>// Code MongoDB</code></pre>
+                    </div>
+                </div>
+
+                <!-- Answer Choices -->
+                <div id="optionsContainer" class="grid grid-cols-1 gap-3">
+                    <!-- Dynamic Options -->
+                </div>
+
+                <!-- Explanation Box (Appears after answer selection) -->
+                <div id="explanationBox" class="hidden p-4 rounded-xl border text-sm space-y-2 animate-fadeIn">
+                    <div class="flex items-center gap-2 font-bold" id="explanationHeader">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Explications de cours</span>
+                    </div>
+                    <p id="explanationText" class="text-xs md:text-sm leading-relaxed text-slate-700 dark:text-slate-300"></p>
+                </div>
+
+                <!-- Bottom Navigation Buttons -->
+                <div class="flex justify-between items-center pt-4 border-t border-slate-100 dark:border-slate-800">
+                    <button onclick="quitQuiz()" class="text-xs font-semibold text-slate-400 hover:text-red-500 transition">
+                        <i class="fa-solid fa-xmark mr-1"></i>Abandonner
+                    </button>
+                    <button id="nextBtn" onclick="nextQuestion()" disabled class="px-6 py-2.5 rounded-xl bg-slate-300 dark:bg-slate-700 text-slate-500 dark:text-slate-400 font-semibold text-sm cursor-not-allowed transition">
+                        Suivant <i class="fa-solid fa-arrow-right ml-1.5"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: Result Dashboard -->
+        <section id="resultScreen" class="hidden space-y-8 animate-fadeIn">
+            <div class="bg-white dark:bg-mongo-cardDark border border-slate-200 dark:border-slate-800 p-8 rounded-2xl shadow-xl text-center space-y-6">
+                <div class="w-20 h-20 mx-auto rounded-full bg-mongo-green/10 text-mongo-green flex items-center justify-center text-4xl shadow-inner">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                
+                <div class="space-y-2">
+                    <h2 class="text-3xl font-extrabold">Quiz Terminé !</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm">Voici votre bilan de performance sur les concepts NoSQL/MongoDB.</p>
+                </div>
+
+                <!-- Score Big Display -->
+                <div class="py-4">
+                    <span id="finalScorePercent" class="text-5xl font-extrabold text-mongo-green">0%</span>
+                    <p id="finalScoreFraction" class="text-sm font-semibold text-slate-500 mt-1">0 / 0 réponses correctes</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                        <span class="text-xs text-slate-400 font-medium block">Temps écoulé</span>
+                        <span id="statTime" class="text-lg font-bold">00:00</span>
+                    </div>
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                        <span class="text-xs text-slate-400 font-medium block">Réponses Exactes</span>
+                        <span id="statCorrect" class="text-lg font-bold text-emerald-500">0</span>
+                    </div>
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                        <span class="text-xs text-slate-400 font-medium block">Erreurs</span>
+                        <span id="statIncorrect" class="text-lg font-bold text-rose-500">0</span>
+                    </div>
+                    <div class="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                        <span class="text-xs text-slate-400 font-medium block">Mention</span>
+                        <span id="statGrade" class="text-lg font-bold text-mongo-green">-</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap justify-center gap-4 pt-4">
+                    <button onclick="showHome()" class="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold text-sm transition">
+                        <i class="fa-solid fa-house mr-2"></i>Accueil
+                    </button>
+                    <button id="retryBtn" onclick="retryQuiz()" class="px-6 py-3 rounded-xl bg-mongo-green hover:bg-mongo-hover text-mongo-darkGreen font-bold text-sm shadow-lg shadow-mongo-green/20 transition">
+                        <i class="fa-solid fa-rotate-right mr-2"></i>Recommencer le Quiz
+                    </button>
+                </div>
+            </div>
+
+            <!-- Review Missed Questions -->
+            <div id="reviewContainer" class="space-y-4">
+                <h3 class="text-lg font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-mongo-green"></i> Synthèse des Réponses & Correction
+                </h3>
+                <div id="reviewList" class="space-y-4">
+                    <!-- Dynamic review items -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 py-4 text-center text-xs text-slate-400 mt-auto">
+        <p>Matière NoSQL - Génie Informatique</p>
+    </footer>
+
+    <!-- Quiz Logic & Question Database -->
+    <script>
+        // QUESTION DATABASE (Extracted strictly from PDF Course Content)
+        const questionDatabase = [
+            // ==================== CATEGORY 1: COURS & THEORIE ====================
+            {
+                id: 1,
+                category: 'theory',
+                chapter: 'Chapitre 1 - Généralités NoSQL',
+                question: "Selon le cours, quelles sont les caractéristiques principales définissant les '3V' du Big Data ?",
+                code: null,
+                options: [
+                    "Volume, Vélocité, Variété",
+                    "Volume, Vérification, Valeur",
+                    "Virtualisation, Vélocité, Variabilité",
+                    "Vitesse, Volume, Visibilité"
+                ],
+                correct: 0,
+                explanation: "Les 3V qui caractérisent les données massives et motivent l'usage du NoSQL sont : Volume (quantités gigantesques), Vélocité (flux générés en continu à grande vitesse) et Variété (formats structurés, semi-structurés JSON/XML, et non-structurés)."
+            },
+            {
+                id: 2,
+                category: 'theory',
+                chapter: 'Chapitre 1 - Théorème CAP',
+                question: "Que stipule le Théorème CAP (Brewer, 2000) pour un système distribué ?",
+                code: null,
+                options: [
+                    "Il est impossible de garantir simultanément la Cohérence, la Disponibilité et la Tolérance au Partitionnement.",
+                    "On peut obtenir la Cohérence et la Disponibilité parfaites sans tolérer le partitionnement réseau.",
+                    "Toutes les bases NoSQL garantissent toujours la Cohérence stricte au détriment de la Disponibilité.",
+                    "La disponibilité totale annule automatiquement le besoin de réplication des données."
+                ],
+                correct: 0,
+                explanation: "Le théorème CAP affirme qu'un système distribué ne peut garantir simultanément que 2 des 3 propriétés : Cohérence (C), Disponibilité (A), et Tolérance au partitionnement (P). En présence d'une panne réseau (P), il faut choisir entre C et A."
+            },
+            {
+                id: 3,
+                category: 'theory',
+                chapter: 'Chapitre 1 - Modèle BASE',
+                question: "Que signifient les acronymes du modèle BASE utilisé par de nombreuses bases NoSQL ?",
+                code: null,
+                options: [
+                    "Basically Available, Soft-state, Eventually consistent",
+                    "Basic Access, Synchronized-state, Efficient",
+                    "Binary Available, Scalable-state, Event-consistent",
+                    "Basic Atomic, Soft-storage, Encrypted"
+                ],
+                correct: 0,
+                explanation: "Le modèle BASE privilégie la disponibilité et la scalabilité : Basically Available (système toujours disponible), Soft-state (état pouvant évoluer sans saisie), et Eventually consistent (cohérence atteinte au bout d'un certain temps)."
+            },
+            {
+                id: 4,
+                category: 'theory',
+                chapter: 'Chapitre 1 - Topologies NoSQL',
+                question: "Quelles sont les quatre principales topologies de bases de données NoSQL présentées dans le cours ?",
+                code: null,
+                options: [
+                    "Clé-Valeur, Orientées Colonnes, Orientées Documents, Orientées Graphes",
+                    "Relationnelles, Tabulaires, Documentaires, Réseau",
+                    "Fichiers, Objets, Colonnes, XML",
+                    "Distribuées, Centralisées, En Mémoire, Orientées Événements"
+                ],
+                correct: 0,
+                explanation: "Le cours classe les SGBD NoSQL en 4 catégories fondamentales : Clé-Valeur (ex: Redis), Orientées Colonnes (ex: Cassandra), Orientées Documents (ex: MongoDB), et Orientées Graphes (ex: Neo4j)."
+            },
+            {
+                id: 5,
+                category: 'theory',
+                chapter: 'Chapitre 2 - MongoDB & WiredTiger',
+                question: "Quel est le moteur de stockage par défaut de MongoDB (introduit avec MongoDB 3.0) ?",
+                code: null,
+                options: [
+                    "WiredTiger",
+                    "MMAPv1",
+                    "InnoDB",
+                    "RocksDB"
+                ],
+                correct: 0,
+                explanation: "Depuis la version 3.0, MongoDB utilise le moteur WiredTiger par défaut. Il gère le cache en mémoire (RAM), la journalisation (Write Ahead Log) pour la durabilité et la compression efficace des données."
+            },
+            {
+                id: 6,
+                category: 'theory',
+                chapter: 'Chapitre 2 - Format de Stockage',
+                question: "Sous quel format interne MongoDB stocke-t-il physiquement les documents sur disque ?",
+                code: null,
+                options: [
+                    "BSON (Binary JSON)",
+                    "JSON pur sous forme de texte",
+                    "Fichiers XML compréssés",
+                    "Tables relationnelles binaires"
+                ],
+                correct: 0,
+                explanation: "MongoDB utilise BSON (Binary JSON). C'est une représentation binaire de JSON qui prend en charge des types de données supplémentaires (comme Date, ObjectId, Int32/Int64) et permet un balayage plus rapide."
+            },
+            {
+                id: 7,
+                category: 'theory',
+                chapter: 'Chapitre 2 - Capped Collections',
+                question: "Qu'est-ce qu'une 'Capped Collection' dans MongoDB ?",
+                code: null,
+                options: [
+                    "Une collection de taille fixe (FIFO) où les anciens documents sont écrasés par les nouveaux une fois la taille atteinte.",
+                    "Une collection sécurisée par mot de passe et cryptée sur disque.",
+                    "Une collection qui n'accepte aucun document imbriqué ni tableau.",
+                    "Une collection temporaire effacée automatiquement après la fermeture de mongosh."
+                ],
+                correct: 0,
+                explanation: "Une Capped Collection est une collection à taille fixe qui conserve l'ordre d'insertion. Lorsque l'espace alloué (size) ou le nombre max de documents (max) est atteint, MongoDB supprime automatiquement les plus anciens documents."
+            },
+            {
+                id: 8,
+                category: 'theory',
+                chapter: 'Chapitre 4 - Embedding vs Referencing',
+                question: "Dans la modélisation MongoDB, quel est le principal avantage de l'Imbrication (Embedding) ?",
+                code: null,
+                options: [
+                    "Optimisation des lectures rapides en évitant d'effectuer des jointures complexes.",
+                    "Optimisation des écriture massives et élimination totale de la duplication.",
+                    "Augmentation de la taille maximale des documents au-delà de 16 Mo.",
+                    "Possibilité d'interroger plusieurs collections dans une seule commande find()."
+                ],
+                correct: 0,
+                explanation: "L'Embedding (imbrication) regroupe les données fréquemment consultées ensemble dans un seul document. Son slogan est 'Embedding = lecture optimisée' car il supprime le besoin de jointures inter-collections."
+            },
+            {
+                id: 9,
+                category: 'theory',
+                chapter: 'Chapitre 4 - Referencing',
+                question: "Quand est-il préférable d'utiliser le Référencement (Referencing) au lieu de l'Embedding ?",
+                code: null,
+                options: [
+                    "Pour les relations N:N (plusieurs-à-plusieurs) ou pour éviter la duplication de données volumineuses.",
+                    "Lorsque les données sont stables et toujours lues en même temps.",
+                    "Pour minimiser le nombre de requêtes envoyées à la base de données.",
+                    "Uniquement si les sous-documents dépassent 100 Mo."
+                ],
+                correct: 0,
+                explanation: "Le Referencing (référencement par identifiants `_id`) est recommandé pour éviter la duplication inutile, pour les structures de données N:N, et pour éviter que le document ne dépasse la limite de 16 Mo."
+            },
+            {
+                id: 10,
+                category: 'theory',
+                chapter: 'Chapitre 2 - Taille Document',
+                question: "Quelle est la taille maximale autorisée pour un document unique en MongoDB ?",
+                code: null,
+                options: [
+                    "16 Mo",
+                    "8 Mo",
+                    "64 Mo",
+                    "Illimitée"
+                ],
+                correct: 0,
+                explanation: "La limite stricte de taille pour un document BSON unique dans MongoDB est de 16 Mo, ce qui garantit qu'un document individuel ne consomme pas une quantité excessive de mémoire RAM lors des transferts."
+            },
+            {
+                id: 11,
+                category: 'theory',
+                chapter: 'Chapitre 1 - Scalabilité',
+                question: "Quelle différence fondamentale existe entre Scale-Up (vertical) et Scale-Out (horizontal) ?",
+                code: null,
+                options: [
+                    "Scale-up ajoute des ressources (RAM/CPU) à un seul serveur, tandis que Scale-out répartit la charge sur plusieurs machines (Sharding).",
+                    "Scale-up utilise le Sharding et Scale-out utilise la réplication Replica Set.",
+                    "Scale-out convient aux bases SQL relationnelles et Scale-up convient uniquement aux bases NoSQL.",
+                    "Il n'y a aucune différence, ce sont deux termes pour la même opération d'indexation."
+                ],
+                correct: 0,
+                explanation: "Les bases relationnelles classiques évoluent surtout en Scale-up (augmentation de RAM/CPU d'un serveur unique), tandis que NoSQL est conçu pour le Scale-out (répartition des données sur un cluster de machines courantes)."
+            },
+            {
+                id: 12,
+                category: 'theory',
+                chapter: 'Chapitre 2 - Haute Disponibilité',
+                question: "Dans un Replica Set MongoDB, quel membre reçoit les opérations d'écriture par défaut ?",
+                code: null,
+                options: [
+                    "Le nœud Primaire (Primary)",
+                    "N'importe quel nœud Secondaire (Secondary)",
+                    "Le nœud Arbiter uniquement",
+                    "Tous les nœuds simultanément en écriture synchrone"
+                ],
+                correct: 0,
+                explanation: "Dans un Replica Set, seul le nœud Primaire (Primary) reçoit les requêtes d'écriture. Il réplique ensuite les opérations sur les nœuds Secondaires. Si le Primaire tombe, un secondaire est élu automatiquement."
+            },
+
+            // ==================== CATEGORY 2: METHODES & OPERATEURS ====================
+            {
+                id: 13,
+                category: 'methods',
+                chapter: 'Chapitre 3 - find & projection',
+                question: "Que retourne la requête suivante exécutée sous mongosh ?",
+                code: `db.Etudiants.find({}, { nom: 1, "adresse.ville": 1, _id: 0 })`,
+                options: [
+                    "Le nom et la ville de tous les étudiants, en excluant le champ _id.",
+                    "Tous les étudiants avec l'identifiant _id obligatoire.",
+                    "Uniquement le champ _id de tous les étudiants.",
+                    "Une erreur de syntaxe car la projection imbriquée est interdite."
+                ],
+                correct: 0,
+                explanation: "La projection `{ nom: 1, 'adresse.ville': 1, _id: 0 }` indique d'inclure (`1`) le nom et la ville sous-document, et d'exclure explicitement (`0`) le champ `_id` qui est inclus par défaut."
+            },
+            {
+                id: 14,
+                category: 'methods',
+                chapter: 'Chapitre 3 - Opérateurs de Comparaison',
+                question: "Quelle requête permet de trouver les films dont l'année est strictly supérieure à 2010 ?",
+                code: null,
+                options: [
+                    "db.films.find({ annee: { $gt: 2010 } })",
+                    "db.films.find({ annee: { $gte: 2010 } })",
+                    "db.films.find({ annee: { $eq: 2010 } })",
+                    "db.films.find({ $gt: { annee: 2010 } })"
+                ],
+                correct: 0,
+                explanation: "L'opérateur de comparaison `$gt` (Greater Than) sélectionne les documents où la valeur du champ est strictement supérieure à la valeur spécifiée."
+            },
+            {
+                id: 15,
+                category: 'methods',
+                chapter: 'Chapitre 3 - Expressions Régulières',
+                question: "Que sélectionne la condition `{ titre: /^In/i }` dans une requête find() ?",
+                code: null,
+                options: [
+                    "Les titres qui commencent par 'In' (ou 'in'), de manière insensible à la casse.",
+                    "Les titres qui se terminent par la lettre 'In'.",
+                    "Les titres qui contiennent exactement le mot 'In'.",
+                    "Les titres qui ne contiennent pas les lettres 'I' et 'n'."
+                ],
+                correct: 0,
+                explanation: "Le symbole `^` indique le début de chaîne, et le drapeau `i` rend la recherche insensible à la casse. La requête matchera donc des titres comme 'Inception' ou 'inside'."
+            },
+            {
+                id: 16,
+                category: 'methods',
+                chapter: 'Chapitre 3 - $elemMatch sur Tableaux',
+                question: "Pourquoi utilise-t-on l'opérateur $elemMatch dans la recherche sur des tableaux de sous-documents ?",
+                code: `db.Etudiants.find({
+  resultats: {
+    $elemMatch: { module: "Statistiques", note: { $gte: 16 } }
+  }
+})`,
+                options: [
+                    "Pour s'assurer qu'au moins UN SEUL ET MÊME sous-document du tableau satisfait l'ensemble des conditions.",
+                    "Pour calculer la moyenne des notes du module Statistiques.",
+                    "Pour modifier la note du module Statistiques à 16.",
+                    "Pour supprimer le tableau resultats s'il contient moins de 16 éléments."
+                ],
+                correct: 0,
+                explanation: "`$elemMatch` garantit que les critères (ex: module='Statistiques' ET note>=16) sont vérifiés simultanément au sein du MÊME élément du tableau."
+            },
+            {
+                id: 17,
+                category: 'methods',
+                chapter: 'Chapitre 3 - $size & $all',
+                question: "Quelle est la particularité de l'opérateur de tableau $size dans MongoDB ?",
+                code: `db.Etudiants.find({ modules: { $size: 3 } })`,
+                options: [
+                    "Il ne permet que la comparaison d'ÉGALITÉ stricte (ex: exactement 3 éléments).",
+                    "Il peut être combiné avec $gt pour trouver les tableaux ayant plus de 3 éléments.",
+                    "Il retourne le nombre total de documents dans la collection.",
+                    "Il redimensionne le tableau à 3 éléments lors de la lecture."
+                ],
+                correct: 0,
+                explanation: "En MongoDB, `$size` n'accepte qu'un nombre entier fixe pour l'égalité exacte. On ne peut pas faire `{ $size: { $gt: 3 } }` directement sans passer par l'agrégation."
+            },
+            {
+                id: 18,
+                category: 'methods',
+                chapter: 'Chapitre 3 - Tri et Pagination',
+                question: "Quel sera le résultat de la chaîne de commandes suivante ?",
+                code: `db.Etudiants.find().sort({ nom: 1 }).skip(2).limit(2)`,
+                options: [
+                    "Trie par nom croissant (A-Z), ignore les 2 premiers étudiants, puis affiche les 2 suivants.",
+                    "Affiche les 2 premiers étudiants triés par nom décroissant.",
+                    "Ignore les 2 derniers étudiants et limite la collection à 2 documents.",
+                    "Génère une erreur car sort() doit être placé après limit()."
+                ],
+                correct: 0,
+                explanation: "MongoDB applique d'abord le tri `.sort({ nom: 1 })` (croissant), puis `.skip(2)` saute les 2 premiers éléments du résultat trié, et `.limit(2)` retourne uniquement les 2 documents suivants (page 2)."
+            },
+            {
+                id: 19,
+                category: 'methods',
+                chapter: 'Chapitre 5 - Opérateurs Update',
+                question: "Quel opérateur de mise à jour devez-vous utiliser pour augmenter la valeur du champ stock de 5 unités ?",
+                code: null,
+                options: [
+                    "{$inc: { stock: 5 }}",
+                    "{$set: { stock: stock + 5 }}",
+                    "{$add: { stock: 5 }}",
+                    "{$push: { stock: 5 }}"
+                ],
+                correct: 0,
+                explanation: "L'opérateur `$inc` incrémente (ou décrémente si négatif) une valeur numérique. Si le champ n'existe pas, MongoDB le crée et l'initialise avec la valeur d'incrément."
+            },
+            {
+                id: 20,
+                category: 'methods',
+                chapter: 'Chapitre 5 - $set vs replaceOne',
+                question: "Quelle est la différence fondamentale entre updateOne() avec $set et replaceOne() ?",
+                code: null,
+                options: [
+                    "updateOne() modifie ou ajoute uniquement les champs ciblés, tandis que replaceOne() remplace tout le document par un nouveau.",
+                    "replaceOne() permet d'utiliser $inc et $unset, alors que updateOne() ne le permet pas.",
+                    "updateOne() crée toujours un nouveau document en cas de correspondance.",
+                    "Il n'y a aucune différence de fonctionnement."
+                ],
+                correct: 0,
+                explanation: "replaceOne() remplace l'intégralité du document (sauf l'id) et n'accepte AUCUN opérateur de mise à jour ($set, $inc...). updateOne() modifie la structure de façon ciblée."
+            },
+            {
+                id: 21,
+                category: 'methods',
+                chapter: 'Chapitre 5 - Limitation de l'opérateur positionnel $',
+                question: "Quelle est la limitation majeure de l'opérateur positionnel $ lors d'une mise à jour de tableau ?",
+                code: `db.produits.updateMany(
+  { "avis.client": "Client1" },
+  { $set: { "avis.$.note": 6 }}
+)`,
+                options: [
+                    "Il ne modifie que la PREMIÈRE occurrence trouvée dans le tableau pour chaque document.",
+                    "Il supprime tous les sous-documents du tableau qui ne correspondent pas.",
+                    "Il échoue si le tableau contient plus de 2 éléments.",
+                    "Il ne fonctionne qu'avec la méthode updateOne() et est interdit dans updateMany()."
+                ],
+                correct: 0,
+                explanation: "L'opérateur positionnel `$` ne cible que le premier élément correspondant dans le tableau. Pour mettre à jour TOUTES les occurrences correspondantes d'un tableau, il faut utiliser `arrayFilters`."
+            },
+            {
+                id: 22,
+                category: 'methods',
+                chapter: 'Chapitre 5 - Option arrayFilters',
+                question: "Quelle requête met à jour la note à 8 pour TOUS les avis donnés par le client 'Client1' dans une collection ?",
+                code: null,
+                options: [
+                    "db.produits.updateMany({ }, { $set: { "avis.$[elem].note": 8 } }, { arrayFilters: [{ "elem.client": "Client1" }] })",
+                    "db.produits.updateMany({ "avis.client": "Client1" }, { $set: { "avis.$.note": 8 } })",
+                    "db.produits.updateMany({ }, { $inc: { "avis.note": 8 } })",
+                    "db.produits.updateOne({ arrayFilters: [ "Client1" ] }, { $set: { note: 8 } })"
+                ],
+                correct: 0,
+                explanation: "L'option `arrayFilters` combinée avec l'identifiant `$[elem]` permet d'appliquer la modification à toutes les occurrences d'un tableau répondant à la condition spécifiée dans `arrayFilters`."
+            },
+            {
+                id: 23,
+                category: 'methods',
+                chapter: 'Chapitre 5 - Opérateurs sur Tableaux',
+                question: "Quelle est la différence entre $push et $addToSet ?",
+                code: null,
+                options: [
+                    "$push ajoute l'élément à la fin du tableau même s'il existe déjà; $addToSet ne l'ajoute que s'il n'existe pas (évite les doublons).",
+                    "$addToSet supprime les doublons existants et $push réordonne le tableau.",
+                    "$push insère au début du tableau et $addToSet insère à la fin.",
+                    "$addToSet fonctionne uniquement sur des entiers et $push sur des chaînes."
+                ],
+                correct: 0,
+                explanation: "`$push` ajoute inconditionnellement un élément à la fin du tableau. `$addToSet` traite le tableau comme un ensemble et garantit l'absence de doublons."
+            },
+            {
+                id: 24,
+                category: 'methods',
+                chapter: 'Chapitre 5 - Suppression de Champ',
+                question: "Comment supprimer définitivement le champ 'garantie' du produit nommé 'Souris Gamer' ?",
+                code: null,
+                options: [
+                    "db.produit.updateOne({ nom: 'Souris Gamer' }, { $unset: { garantie: '' } })",
+                    "db.produit.updateOne({ nom: 'Souris Gamer' }, { $delete: { garantie: 1 } })",
+                    "db.produit.updateOne({ nom: 'Souris Gamer' }, { $set: { garantie: null } })",
+                    "db.produit.removeField({ nom: 'Souris Gamer', champ: 'garantie' })"
+                ],
+                correct: 0,
+                explanation: "L'opérateur `$unset` supprime complètement la clé/champ spécifié d'un document. Mettre à `null` conserve le champ dans le document avec une valeur nulle."
+            },
+            {
+                id: 25,
+                category: 'methods',
+                chapter: 'Chapitre 4 - Projection Avancée $filter',
+                question: "À quoi sert l'opérateur d'agrégation/projection $filter ?",
+                code: `db.Produits.find({}, {
+  clients_filtres: {
+    $filter: {
+      input: "$clients",
+      as: "c",
+      cond: { $eq: ["$$c.nom", "Client1"] }
+    }
+  }
+})`,
+                options: [
+                    "À filtrer les éléments d'un tableau dans la projection pour n'afficher que les sous-documents respectant une condition.",
+                    "À supprimer les documents de la base de données si le client n'est pas Client1.",
+                    "À renommer le tableau $clients en clients_filtres.",
+                    "À calculer le nombre total de clients nommés Client1."
+                ],
+                correct: 0,
+                explanation: "`$filter` prend un tableau source (`input`), un alias (`as`), et évalue une condition (`cond`) pour retourner un sous-tableau contenant uniquement les éléments validés."
+            },
+            {
+                id: 26,
+                category: 'methods',
+                chapter: 'Chapitre 4 - Projection Avancée $map',
+                question: "Quel est le rôle de l'opérateur $map sur un tableau imbriqué ?",
+                code: null,
+                options: [
+                    "Parcourir un tableau et appliquer une transformation sur chaque élément pour produire un nouveau tableau.",
+                    "Créer un index géospatial sur une carte.",
+                    "Rechercher un mot clé dans tous les documents de la collection.",
+                    "Trier les éléments du tableau par ordre alphabétique."
+                ],
+                correct: 0,
+                explanation: "L'opérateur `$map` agit comme une boucle de transformation : il applique une expression (`in`) sur chaque élément d'un tableau d'entrée (`input`) et retourne le tableau transformé."
+            },
+            {
+                id: 27,
+                category: 'methods',
+                chapter: 'Chapitre 4 - Opérateur $slice',
+                question: "Que retourne la projection `{ deuxieme_client: { $slice: [ "$clients", 1, 1 ] } }` ?",
+                code: null,
+                options: [
+                    "Extrait un sous-tableau à partir de l'index 1 (deuxième élément) contenant exactement 1 élément.",
+                    "Supprime le premier et le dernier client du tableau.",
+                    "Découpe le tableau clients en 11 morceaux égaux.",
+                    "Conserve uniquement le premier client du tableau."
+                ],
+                correct: 0,
+                explanation: "La syntaxe `$slice: [ tableau, position_debut, nombre_elements ]` permet de segmenter un tableau. L'index `1` correspond au 2ème élément, et le second `1` indique d'extraire 1 seul élément."
+            },
+            {
+                id: 28,
+                category: 'methods',
+                chapter: 'Chapitre 3 - Gestion du Null et $exists',
+                question: "Quelle requête permet de sélectionner les utilisateurs ayant le champ 'notes' présent dans leur document (même si sa valeur est null) ?",
+                code: null,
+                options: [
+                    "db.users.find({ notes: { $exists: true } })",
+                    "db.users.find({ notes: null })",
+                    "db.users.find({ notes: { $type: 'null' } })",
+                    "db.users.find({ $hasField: 'notes' })"
+                ],
+                correct: 0,
+                explanation: "`{ notes: { $exists: true } }` vérifie l'existence physique du champ dans le document. La requête `{ notes: null }` retournerait aussi les documents où le champ est totalement ABSENT."
+            },
+            {
+                id: 29,
+                category: 'methods',
+                chapter: 'Chapitre 3 - Opérateur $type',
+                question: "Quelle commande trouve tous les documents où le champ 'age' est stocké sous forme de chaîne de caractères (String) ?",
+                code: null,
+                options: [
+                    "db.users.find({ age: { $type: 'string' } })",
+                    "db.users.find({ age: { $isString: true } })",
+                    "db.users.find({ age: 'string' })",
+                    "db.users.find({ typeof: { age: 'string' } })"
+                ],
+                correct: 0,
+                explanation: "L'opérateur `$type` permet de filtrer selon le type de données BSON (ex: 'string' ou code numérique 2, 'number', 'array', 'bool', etc.)."
+            },
+            {
+                id: 30,
+                category: 'methods',
+                chapter: 'Chapitre 5 - Opérateur $rename',
+                question: "Quelle restriction importante s'applique à l'opérateur $rename ?",
+                code: `db.produits.updateOne(
+  { "fournisseur.nom": "TechWorld" },
+  { $rename: { "fournisseur.nom": "fournisseur.nomFournisseur" } }
+)`,
+                options: [
+                    "MongoDB n'autorise pas l'utilisation de arrayFilters avec $rename car il agit sur la structure et non sur les éléments d'un tableau.",
+                    "$rename ne fonctionne pas sur les sous-documents imbriqués.",
+                    "$rename supprime la valeur du champ après l'avoir renommé.",
+                    "$rename nécessite obligatoirement la réindexation complète de la base."
+                ],
+                correct: 0,
+                explanation: "Comme précisé au Chapitre 5 (slide 30), `$rename` modifie les noms de champs de la structure du document. Il ne peut pas être combiné avec `arrayFilters` pour renommer des clés au sein des éléments d'un tableau."
+            }
+        ];
+
+        // QUIZ STATE VARIABLES
+        let currentQuizList = [];
+        let currentIndex = 0;
+        let score = 0;
+        let userAnswers = [];
+        let timerInterval = null;
+        let secondsElapsed = 0;
+        let selectedCategory = 'all';
+
+        // INITIALIZATION
+        window.onload = function() {
+            updateCategoryCounts();
+            // Check system dark mode preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            }
+        };
+
+        function updateCategoryCounts() {
+            const theoryCount = questionDatabase.filter(q => q.category === 'theory').length;
+            const methodsCount = questionDatabase.filter(q => q.category === 'methods').length;
+            document.getElementById('theoryCount').textContent = `${theoryCount} Questions`;
+            document.getElementById('methodsCount').textContent = `${methodsCount} Questions`;
+            document.getElementById('allCount').textContent = `${questionDatabase.length} Questions`;
+        }
+
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        // NAVIGATION LOGIC
+        function showHome() {
+            clearInterval(timerInterval);
+            document.getElementById('homeScreen').classList.remove('hidden');
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+        }
+
+        function startQuiz(mode) {
+            selectedCategory = mode;
+            if (mode === 'theory') {
+                currentQuizList = questionDatabase.filter(q => q.category === 'theory');
+                document.getElementById('quizCategoryBadge').textContent = 'Questions de Cours';
+            } else if (mode === 'methods') {
+                currentQuizList = questionDatabase.filter(q => q.category === 'methods');
+                document.getElementById('quizCategoryBadge').textContent = 'Méthodes & Syntaxe';
+            } else {
+                currentQuizList = [...questionDatabase];
+                document.getElementById('quizCategoryBadge').textContent = 'Grand Quiz Mélangé';
+            }
+
+            // Shuffle questions slightly for variety
+            currentQuizList.sort(() => Math.random() - 0.5);
+
+            currentIndex = 0;
+            score = 0;
+            userAnswers = [];
+            secondsElapsed = 0;
+
+            document.getElementById('homeScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+
+            startTimer();
+            renderQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            const timerEl = document.getElementById('quizTimer');
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+                const secs = String(secondsElapsed % 60).padStart(2, '0');
+                timerEl.innerHTML = `<i class="fa-regular fa-clock mr-1"></i>${mins}:${secs}`;
+            }, 1000);
+        }
+
+        // RENDER QUESTION
+        function renderQuestion() {
+            const q = currentQuizList[currentIndex];
+
+            // Progress Update
+            const total = currentQuizList.length;
+            document.getElementById('questionProgressText').textContent = `Question ${currentIndex + 1} / ${total}`;
+            const pct = ((currentIndex) / total) * 100;
+            document.getElementById('progressBar').style.width = `${pct}%`;
+
+            // Topic Tag & Question Text
+            document.getElementById('questionTopicTag').textContent = q.chapter;
+            document.getElementById('questionText').textContent = q.question;
+
+            // Code Snippet Display
+            const codeBox = document.getElementById('codeSnippetBox');
+            const codeText = document.getElementById('codeSnippetText');
+            if (q.code) {
+                codeText.textContent = q.code;
+                codeBox.classList.remove('hidden');
+            } else {
+                codeBox.classList.add('hidden');
+            }
+
+            // Hide explanation
+            const expBox = document.getElementById('explanationBox');
+            expBox.classList.add('hidden');
+
+            // Render Options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `option-btn w-full text-left p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-mongo-green/50 text-sm font-medium transition flex items-start gap-3 group`;
+                btn.onclick = () => selectOption(idx);
+                
+                const letterBadge = document.createElement('span');
+                letterBadge.className = `w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center text-xs font-bold shrink-0 group-hover:bg-mongo-green group-hover:text-mongo-darkGreen transition`;
+                letterBadge.textContent = String.fromCharCode(65 + idx);
+
+                const textSpan = document.createElement('span');
+                textSpan.className = "flex-1 pt-0.5 leading-snug";
+                textSpan.textContent = opt;
+
+                btn.appendChild(letterBadge);
+                btn.appendChild(textSpan);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Disable Next Button
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = true;
+            nextBtn.className = "px-6 py-2.5 rounded-xl bg-slate-300 dark:bg-slate-700 text-slate-500 dark:text-slate-400 font-semibold text-sm cursor-not-allowed transition";
+        }
+
+        // HANDLE ANSWER SELECTION
+        function selectOption(selectedIndex) {
+            const q = currentQuizList[currentIndex];
+            const buttons = document.querySelectorAll('.option-btn');
+
+            // Prevent multiple selection
+            buttons.forEach(btn => btn.disabled = true);
+
+            const isCorrect = (selectedIndex === q.correct);
+            if (isCorrect) score++;
+
+            // Store User Answer for final review
+            userAnswers.push({
+                question: q,
+                selectedIndex: selectedIndex,
+                isCorrect: isCorrect
+            });
+
+            // Highlight Options
+            buttons.forEach((btn, idx) => {
+                if (idx === q.correct) {
+                    btn.className = "w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-sm font-bold flex items-start gap-3";
+                } else if (idx === selectedIndex && !isCorrect) {
+                    btn.className = "w-full text-left p-4 rounded-xl border-2 border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-400 text-sm font-bold flex items-start gap-3";
+                } else {
+                    btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 dark:border-slate-800 opacity-40 text-sm font-medium flex items-start gap-3";
+                }
+            });
+
+            // Display Explanation
+            const expBox = document.getElementById('explanationBox');
+            const expHeader = document.getElementById('explanationHeader');
+            const expText = document.getElementById('explanationText');
+
+            if (isCorrect) {
+                expBox.className = "p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300 text-sm space-y-2 animate-fadeIn";
+                expHeader.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500"></i> Correct !`;
+            } else {
+                expBox.className = "p-4 rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-800 dark:text-rose-300 text-sm space-y-2 animate-fadeIn";
+                expHeader.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-500"></i> Incorrect !`;
+            }
+            expText.textContent = q.explanation;
+            expBox.classList.remove('hidden');
+
+            // Enable Next Button
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = false;
+            nextBtn.className = "px-6 py-2.5 rounded-xl bg-mongo-green hover:bg-mongo-hover text-mongo-darkGreen font-bold text-sm shadow-md shadow-mongo-green/20 cursor-pointer transition";
+        }
+
+        // NEXT QUESTION OR FINISH
+        function nextQuestion() {
+            currentIndex++;
+            if (currentIndex < currentQuizList.length) {
+                renderQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function quitQuiz() {
+            if (confirm("Voulez-vous vraiment quitter le quiz en cours ?")) {
+                showHome();
+            }
+        }
+
+        function retryQuiz() {
+            startQuiz(selectedCategory);
+        }
+
+        // FINISH QUIZ & DASHBOARD
+        function finishQuiz() {
+            clearInterval(timerInterval);
+
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            const total = currentQuizList.length;
+            const percentage = Math.round((score / total) * 100);
+
+            // Set Scores
+            document.getElementById('finalScorePercent').textContent = `${percentage}%`;
+            document.getElementById('finalScoreFraction').textContent = `${score} / ${total} réponses correctes`;
+
+            // Time Stat
+            const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+            const secs = String(secondsElapsed % 60).padStart(2, '0');
+            document.getElementById('statTime').textContent = `${mins}:${secs}`;
+            document.getElementById('statCorrect').textContent = score;
+            document.getElementById('statIncorrect').textContent = total - score;
+
+            // Grade Mention
+            const gradeEl = document.getElementById('statGrade');
+            if (percentage >= 90) {
+                gradeEl.textContent = "Excellent (A+)";
+                gradeEl.className = "text-lg font-bold text-emerald-500";
+            } else if (percentage >= 75) {
+                gradeEl.textContent = "Très Bien (A)";
+                gradeEl.className = "text-lg font-bold text-mongo-green";
+            } else if (percentage >= 50) {
+                gradeEl.textContent = "Passable (C)";
+                gradeEl.className = "text-lg font-bold text-amber-500";
+            } else {
+                gradeEl.textContent = "À Réviser (F)";
+                gradeEl.className = "text-lg font-bold text-rose-500";
+            }
+
+            // Render Review List
+            renderReviewList();
+        }
+
+        function renderReviewList() {
+            const reviewList = document.getElementById('reviewList');
+            reviewList.innerHTML = '';
+
+            userAnswers.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = `p-5 rounded-2xl border ${item.isCorrect ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-rose-500/30 bg-rose-500/5'} space-y-3`;
+
+                const header = document.createElement('div');
+                header.className = "flex items-start justify-between gap-4";
+                header.innerHTML = `
+                    <div class="space-y-1">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">${item.question.chapter}</span>
+                        <h4 class="font-bold text-sm md:text-base">${index + 1}. ${item.question.question}</h4>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg text-xs font-bold ${item.isCorrect ? 'bg-emerald-500/20 text-emerald-500' : 'bg-rose-500/20 text-rose-500'}">
+                        ${item.isCorrect ? '<i class="fa-solid fa-check mr-1"></i>Correct' : '<i class="fa-solid fa-xmark mr-1"></i>Erreur'}
+                    </span>
+                `;
+                card.appendChild(header);
+
+                if (item.question.code) {
+                    const codeBlock = document.createElement('div');
+                    codeBlock.className = "bg-slate-900 text-slate-200 p-3 rounded-xl text-xs font-mono overflow-x-auto";
+                    codeBlock.textContent = item.question.code;
+                    card.appendChild(codeBlock);
+                }
+
+                const answersDiv = document.createElement('div');
+                answersDiv.className = "text-xs space-y-1 text-slate-600 dark:text-slate-300";
+                answersDiv.innerHTML = `
+                    <p><span class="font-semibold text-slate-400">Votre réponse :</span> <span class="${item.isCorrect ? 'text-emerald-500 font-bold' : 'text-rose-500 font-bold'}">${item.question.options[item.selectedIndex]}</span></p>
+                    ${!item.isCorrect ? `<p><span class="font-semibold text-slate-400">Réponse correcte :</span> <span class="text-emerald-500 font-bold">${item.question.options[item.question.correct]}</span></p>` : ''}
+                `;
+                card.appendChild(answersDiv);
+
+                const expDiv = document.createElement('div');
+                expDiv.className = "pt-2 border-t border-slate-200/50 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400 leading-relaxed";
+                expDiv.innerHTML = `<i class="fa-solid fa-lightbulb text-amber-500 mr-1.5"></i><strong>Explication :</strong> ${item.question.explanation}`;
+                card.appendChild(expDiv);
+
+                reviewList.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
