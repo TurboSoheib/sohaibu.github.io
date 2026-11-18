@@ -46,9 +46,29 @@ body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Source Sans 
 main{max-width:780px;margin:0 auto;padding:20px 16px 48px}
 h1{font:700 1.9rem/1.1 "Bricolage Grotesque",system-ui,sans-serif;margin:8px 0 4px}
 h3{font:600 1.05rem "Bricolage Grotesque",system-ui,sans-serif;margin:14px 0 6px}
-.sub{color:var(--mute);margin:0 0 18px}
+.sub{color:var(--mute);margin:0 0 12px}
 code{font:.88em "JetBrains Mono",ui-monospace,monospace;background:var(--code);padding:.1em .35em;border-radius:4px}
 pre{font:.83rem/1.5 "JetBrains Mono",ui-monospace,monospace;background:var(--code);padding:12px;border-radius:6px;overflow-x:auto;margin:10px 0 0;white-space:pre}
+
+/* Bandeau beta */
+.beta{
+  display:flex; gap:10px; align-items:flex-start;
+  background:var(--accent-soft); border:1px solid var(--line);
+  border-left:4px solid var(--accent);
+  border-radius:8px; padding:10px 12px; margin:0 0 16px;
+  font-size:.9rem; line-height:1.45; color:var(--ink);
+}
+.beta .beta-ico{ font-size:1.1rem; line-height:1.2; }
+.beta .beta-txt{ flex:1; }
+.beta b{ color:var(--accent); }
+.beta a{ color:var(--accent); font-weight:700; text-decoration:none; white-space:nowrap; }
+.beta a:hover{ text-decoration:underline; }
+.beta .beta-close{
+  background:none; border:0; color:var(--mute); cursor:pointer;
+  font:700 1.1rem/1 sans-serif; padding:0 2px; align-self:flex-start;
+}
+.beta .beta-close:hover{ color:var(--accent); }
+.beta.hid{ display:none; }
 
 .subjects{display:flex;gap:4px;background:var(--line);padding:4px;border-radius:12px;margin:0 0 16px;flex-wrap:wrap}
 .subjects button{flex:1;min-width:70px;padding:10px 4px;border:0;border-radius:9px;background:transparent;color:var(--mute);
@@ -56,9 +76,9 @@ pre{font:.83rem/1.5 "JetBrains Mono",ui-monospace,monospace;background:var(--cod
 .subjects button[aria-selected="true"]{background:var(--accent);color:var(--bg)}
 .subjects button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
-nav.modes{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:18px}
+nav.modes{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:18px;overflow-x:auto}
 nav.modes button{font:600 1rem "Source Sans 3",sans-serif;background:none;border:0;color:var(--mute);
-  padding:10px 14px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+  padding:10px 14px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
 nav.modes button[aria-selected="true"]{color:var(--accent);border-color:var(--accent)}
 
 button:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
@@ -87,12 +107,26 @@ th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);verti
 h2{font:700 1.2rem "Bricolage Grotesque",sans-serif;margin:22px 0 8px}
 h2:first-child{margin-top:0}
 .hid{display:none}
+
+/* Exercices */
+.exo-title{font:700 1.15rem "Bricolage Grotesque",sans-serif;margin:0 0 4px}
+.exo-cat{display:inline-block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+  background:var(--accent-soft);color:var(--accent);padding:3px 8px;border-radius:4px;margin-bottom:10px}
+.exo-q{background:var(--code);border-left:4px solid var(--mute);padding:12px 14px;border-radius:0 6px 6px 0;margin:10px 0 14px}
+.exo-sol{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 14px;border-radius:0 6px 6px 0;margin-top:14px}
+.exo-sol h4{margin:0 0 8px;font:700 1rem "Bricolage Grotesque",sans-serif;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
 </style>
 </head>
 <body>
 <main>
 <h1>Réviser</h1>
 <p class="sub" id="subtitle">NoSQL : lecture, mises à jour, modélisation.</p>
+
+<div class="beta" id="betaBar">
+  <span class="beta-ico">🚧</span>
+  <span class="beta-txt">site en beta pas parfait, si vous rencontrez des bugs ou que vous avez des suggestions de truc a rajouter envoyez moi un msg sur whatsapp :P <a href="https://wa.me/212780119465" target="_blank" rel="noopener">+212780119465</a></span>
+  <button class="beta-close" id="betaClose" aria-label="Fermer le bandeau" title="Fermer">✕</button>
+</div>
 
 <div class="subjects" role="tablist" aria-label="Matière">
   <button data-subject="mongodb" aria-selected="true">MongoDB</button>
@@ -105,6 +139,7 @@ h2:first-child{margin-top:0}
 <nav class="modes" role="tablist" aria-label="Mode">
   <button data-mode="quiz" aria-selected="true">Quiz</button>
   <button data-mode="cards" aria-selected="false">Cartes</button>
+  <button data-mode="exos" aria-selected="false">Exercices</button>
   <button data-mode="fiche" aria-selected="false">Fiche</button>
 </nav>
 
@@ -121,6 +156,12 @@ h2:first-child{margin-top:0}
   <div class="row"><label for="ccat">Thème</label><select id="ccat"></select><button class="btn alt" id="shuf">Mélanger</button></div>
   <div class="card flip" id="fc" tabindex="0" role="button" aria-label="Retourner la carte"></div>
   <div class="row" style="margin-top:14px"><button class="btn alt" id="prev">Précédente</button><button class="btn" id="next">Suivante</button><span class="meta" id="cnt"></span></div>
+</section>
+
+<section id="exos" class="hid">
+  <div class="row"><label for="ecat">Thème</label><select id="ecat"></select><button class="btn alt" id="eshuf">Mélanger</button></div>
+  <div class="card" id="excard"></div>
+  <div class="row" style="margin-top:14px"><button class="btn alt" id="eprev">Précédent</button><button class="btn alt" id="enext">Suivant</button><span class="meta" id="ecnt"></span></div>
 </section>
 
 <!-- ============ FICHE MONGODB ============ -->
@@ -173,7 +214,7 @@ else                  { $m = "Non validé"; }</pre>
 <section id="fiche-ql" class="hid">
 <div class="card">
 <h2>Fondamentaux</h2>
-<p>Qualité = satisfaction des besoins explicites + implicites. 2 piliers : <b>Produit</b>, <b>Processus</b>. Chaîne causale : <b>erreur</b> (humaine) → <b>défaut</b> (code) → <b>défaillance</b> (observable).</p>
+<p>Qualité = satisfaction des besoins explicites + implicites. 2 piliers : <b>Produit</b>, <b>Processus</b>. Chaîne causale : <b>erreur</b> → <b>défaut</b> → <b>défaillance</b>.</p>
 <h2>SQuaRE / ISO 25010</h2>
 <p>8 caractéristiques : adéquation fonctionnelle, efficacité de performance, compatibilité, facilité d'utilisation, fiabilité, sécurité, maintenabilité, portabilité.</p>
 <h2>Métriques</h2>
@@ -206,82 +247,34 @@ else                  { $m = "Non validé"; }</pre>
 <tr><td><code>IconButton</code></td><td>Icône seule (compact)</td></tr>
 <tr><td><code>FloatingActionButton</code></td><td>Cercle flottant, 1/écran</td></tr>
 </table></div>
-<p>Styliser avec <code>style: X.styleFrom(backgroundColor, foregroundColor, elevation, shape: StadiumBorder() / RoundedRectangleBorder(), side: BorderSide(...))</code>.</p>
 <h2>TextField / TextFormField</h2>
-<p><code>TextFormField</code> dans un <code>Form</code> + <code>GlobalKey&lt;FormState&gt;</code> pour la validation (<code>validator</code> renvoie <code>String?</code>). <code>TextEditingController</code> pour lire/vider. <code>keyboardType</code> adapte le clavier. <code>obscureText</code> masque le mot de passe.</p>
+<p><code>TextFormField</code> dans un <code>Form</code> + <code>GlobalKey&lt;FormState&gt;</code> pour la validation. <code>TextEditingController</code> pour lire/vider. <code>keyboardType</code> adapte le clavier. <code>obscureText</code> masque le mot de passe.</p>
 <h2>Widgets / État</h2>
 <p><code>StatelessWidget</code> (immuable) vs <code>StatefulWidget</code> (mutable, <code>setState(() {...})</code>).</p>
-<p><code>Center</code>, <code>Padding</code>, <code>SizedBox</code>, <code>Column</code>, <code>Row</code>, <code>Container</code>, <code>ClipOval</code>.</p>
 </div>
 </section>
 
 <!-- ============ FICHE RÉSEAUX ============ -->
 <section id="fiche-res" class="hid">
 <div class="card">
-<h2>Capacité et théorèmes</h2>
+<h2>Formules</h2>
 <div class="wrap"><table>
 <tr><th>Formule</th><th>Expression</th></tr>
 <tr><td>Capacité (Shannon)</td><td><code>C = W · log₂(1 + S/N)</code></td></tr>
-<tr><td>Nyquist (max binaire)</td><td><code>D_max = 2W · log₂(V)</code></td></tr>
+<tr><td>Nyquist</td><td><code>D_max = 2W · log₂(V)</code></td></tr>
 <tr><td>Rapidité de modulation</td><td><code>R = D / log₂(V)</code> (bauds)</td></tr>
 <tr><td>Temps de transmission</td><td><code>T = Volume / Débit</code></td></tr>
-<tr><td>Échantillonnage (Nyquist)</td><td><code>Fe ≥ 2 · f_max</code></td></tr>
-<tr><td>Nb échantillons</td><td><code>N = T / Te</code> avec <code>Fe = 1/Te</code></td></tr>
+<tr><td>Échantillonnage</td><td><code>Fe ≥ 2 f_max</code> ; <code>N = T / Te</code></td></tr>
 <tr><td>Niveau dBm</td><td><code>P(dBm) = 10 log₁₀(P / 1mW)</code></td></tr>
-<tr><td>Puissance (résistance)</td><td><code>P = V_eff² / R</code></td></tr>
+<tr><td>Puissance</td><td><code>P = V_eff² / R</code></td></tr>
+<tr><td>Antenne</td><td><code>L = c/(4f)</code></td></tr>
 </table></div>
-<p>Atténuation : en <b>décibels (dB)</b>. Rapport S/N en dB : <code>10 log₁₀(S/N)</code>.</p>
-
 <h2>Codage en bande de base</h2>
-<div class="wrap"><table>
-<tr><th>Code</th><th>Caractéristique</th><th>R</th></tr>
-<tr><td><b>NRZ</b></td><td>Pas de retour à zéro ; problème de synchronisation sur longues suites</td><td>R = D</td></tr>
-<tr><td><b>RZ</b></td><td>Retour à zéro à chaque demi-période</td><td>R = 2D</td></tr>
-<tr><td><b>Manchester (biphasé)</b></td><td>1 transition par bit (au milieu) ; auto-synchronisant ; composante continue nulle</td><td>R = 2D</td></tr>
-<tr><td><b>Manchester diff.</b></td><td>Auto-synchronisant, basé sur les transitions</td><td>R = 2D</td></tr>
-<tr><td><b>Bipolaire</b></td><td>3 niveaux : +V, 0, −V ; alternance des impulsions</td><td>R = D</td></tr>
-<tr><td><b>Miller</b></td><td>Transitions au milieu d'un 1 et entre deux 0 consécutifs</td><td>R = D</td></tr>
-</table></div>
-<pre>Manchester avec Δ = 10⁻⁸ s (demi-bit) :
-  T_bit = 2Δ = 2×10⁻⁸ s
-  D = 1 / (2Δ) = 50 Mb/s</pre>
-
-<h2>Transmission et modulation</h2>
-<p><b>Pourquoi moduler ?</b> Réduire les dimensions de l'antenne : <code>L = λ/4 = c/(4f)</code>. Pour <code>f = 1 MHz</code>, <code>λ = 300 m</code>, <code>L = 75 m</code> (raisonnable).</p>
-<p><b>Signal modulant</b> (message, BF) + <b>porteuse</b> (HF). <code>x(t) = A cos(θ(t))</code>.</p>
-<div class="wrap"><table>
-<tr><th>Type</th><th>Paramètre modulé</th></tr>
-<tr><td><b>AM</b></td><td>Amplitude A</td></tr>
-<tr><td><b>FM</b></td><td>Fréquence (dans θ)</td></tr>
-<tr><td><b>PM</b></td><td>Phase (dans θ)</td></tr>
-</table></div>
-<p>Modulations <b>analogiques</b> : AM, FM, PM. Modulations <b>numériques</b> : ASK, FSK, PSK.</p>
-
-<h2>Supports de transmission</h2>
-<div class="wrap"><table>
-<tr><th>Support</th><th>Caractéristiques</th></tr>
-<tr><td><b>Câble coaxial</b></td><td>Impédance 50 ou 75 Ω ; distance max 500 m sans ampli</td></tr>
-<tr><td><b>Paire torsadée</b></td><td>Impédance 100 Ω ; 100 m max ; UTP (non blindé) / STP / FTP (blindé)</td></tr>
-<tr><td><b>Fibre optique</b></td><td>Monomode (1 mode) / multimode (plusieurs) ; ré-amplification après ~250 km</td></tr>
-<tr><td><b>Espace libre</b></td><td>Faisceaux hertziens, satellites</td></tr>
-</table></div>
-<p>4 grands canaux : filaire, bifilaire, fibre optique, espace libre.</p>
-
-<h2>Chaîne de communication</h2>
-<pre>Source → Capteur → CAN → Codage bande de base
-   → Canal de transmission → Récepteur → Utilisation
-
-Numérisation son : 8000 Hz × 8 bits = 64 kb/s</pre>
-<p><b>ETCD</b> = Equipement Terminal de Circuit de Données (ex. : modem).</p>
-
-<h2>Pièges</h2>
-<ul>
-<li><b>Unités</b> : Mo vs Mb (×8). 16 Mo / 16 Mb/s = 8.38 s (16 Mo = 2²⁴ octets).</li>
-<li><b>Manchester</b> : R = 2D (2 transitions par bit).</li>
-<li><b>Shannon</b> donne un maximum ; <b>S/N</b> en dB → <code>10^(dB/10)</code>.</li>
-<li><b>dBm</b> : toujours référencé au milliwatt.</li>
-<li><b>Antenne</b> : <code>L = c/(4f)</code>, <code>c = 3×10⁸ m/s</code>.</li>
-</ul>
+<p>NRZ (R=D), RZ (R=2D), Manchester (R=2D, DC nulle), bipolaire (3 niveaux), Miller (R=D).</p>
+<h2>Modulation</h2>
+<p>AM (amplitude), FM (fréquence), PM (phase). Numériques : ASK, FSK, PSK.</p>
+<h2>Supports</h2>
+<p>Coaxial (50/75 Ω, 500 m), paire torsadée (100 Ω, 100 m), fibre (mono/multimode, ~250 km), espace libre (satellites).</p>
 </div>
 </section>
 </main>
@@ -290,8 +283,8 @@ Numérisation son : 8000 Hz × 8 bits = 64 kb/s</pre>
 var CATS = {
   mongodb:{all:"Tout MongoDB",find:"Lecture : find et comparaisons",regex:"Regex et sous-documents",tab:"Tableaux : $filter, $map, combos",upd:"Mises à jour",del:"Suppression et replaceOne",mod:"Modélisation"},
   php:{all:"Tout PHP",phpop:"Opérateurs et expressions",phpcond:"Conditions : if, switch, match"},
-  ql:{all:"Tout Qualité",ql_fond:"Fondamentaux (besoins, SQA)",ql_square:"SQuaRE (ISO 25010)",ql_metrics:"Métriques (LOC, McCabe, CK)",ql_process:"Processus SDLC"},
-  mob:{all:"Tout Mobile (Flutter)",mob_btn:"Boutons",mob_txt:"TextFields et formulaires",mob_wdg:"Widgets et état"},
+  ql:{all:"Tout Qualité",ql_fond:"Fondamentaux",ql_square:"SQuaRE (ISO 25010)",ql_metrics:"Métriques (LOC, McCabe, CK)",ql_process:"Processus SDLC"},
+  mob:{all:"Tout Mobile",mob_btn:"Boutons",mob_txt:"TextFields et formulaires",mob_wdg:"Widgets et état"},
   res:{all:"Tout Réseaux",res_codage:"Codage en bande de base",res_capacite:"Capacité, débits, théorèmes",res_modulation:"Modulation et porteuse",res_supports:"Supports de transmission"}
 };
 function subjectOf(tag){
@@ -302,282 +295,608 @@ function subjectOf(tag){
   return "mongodb";
 }
 
+/* ===================== QUIZ ===================== */
 var Q=[
-/* ========== MongoDB ========== */
 ["find",`Que renvoie <code>find()</code> ?`,["Les documents","Un curseur","Un tableau","Un JSON"],1,`Un curseur.`],
 ["find",`Que fait <code>find()</code> sans argument ?`,["Erreur","Tous les documents","Le premier","Le schéma"],1,`Tous les documents.`],
-["find",`Deux champs dans le même objet = ?`,["OU","ET implicite ($and)","Un seul","Aléatoire"],1,`ET implicite.`],
-["find",`Quel opérateur pour AU MOINS une condition ?`,["$and","$or","$in","$not"],1,`$or.`],
+["find",`Deux champs dans le même objet = ?`,["OU","ET implicite","Un seul","Aléatoire"],1,`ET implicite.`],
+["find",`Opérateur pour AU MOINS une condition ?`,["$and","$or","$in","$not"],1,`$or.`],
 ["find",`<code>{ annee: { $gt: 2010 } }</code> ?`,["= 2010","&gt; 2010","≤ 2010","≠ 2010"],1,`$gt strict.`],
 ["find",`Appartenance à une liste ?`,["$eq","$in","$or","$size"],1,`$in.`],
-["find",`Ordre de <code>.sort().skip(1).limit(2)</code> ?`,["Écriture","limit, skip, sort","sort, skip, limit","skip, sort, limit"],2,`Toujours tri → skip → limit.`],
+["find",`Ordre de <code>.sort().skip(1).limit(2)</code> ?`,["Écriture","limit, skip, sort","sort, skip, limit","skip, sort, limit"],2,`Tri → skip → limit.`],
 ["find",`Toutes les valeurs d'une liste ?`,["[[$in]]","[[$all]]","[[$size]]","[[$elemMatch]]"],1,`[[$all]].`],
 ["find",`Pourquoi [[$elemMatch]] ?`,["Rapide","Même élément du tableau","Trier","Modifier"],1,`Même élément.`],
-["find",`<code>absences: 0</code>, <code>$exists: true</code> ?`,["Non, 0 est faux","Oui, champ présent","Seulement $gt","Dépend"],1,`Présence, pas valeur.`],
 ["regex",`<code>/ar/i</code> ?`,["= ar","Contient ar, insensible casse","Commence","Finit"],1,`Insensible casse.`],
 ["regex",`Commence par « In » ?`,["/In$/","/^In/","/In/","/.In./"],1,`<code>^</code>.`],
-["regex",`<code>/colou?r/</code> ?`,["colouur","color ou colour","color exact","Aucune"],1,`<code>?</code> = optionnel.`],
 ["regex",`Sous-doc <code>adresse.ville</code> ?`,["<code>{ adresse: { ville: \"X\" } }</code>","<code>{ \"adresse.ville\": \"X\" }</code>","<code>{ adresse->ville: \"X\" }</code>","<code>{ $ville: \"X\" }</code>"],1,`Notation pointée entre guillemets.`],
 ["tab",`[[$filter]] ?`,["Trier","Garder si cond","Supprimer","Compter"],1,`Ne modifie pas les données.`],
 ["tab",`[[$map]] ?`,["Filtre","Transforme","Fusionne","Renomme"],1,`Comme une boucle.`],
 ["tab",`[[$reduce]] ?`,["Filtre","Réduit à une valeur","Trie","Compte"],1,`Accumulateur.`],
 ["tab",`<code>$$m</code> ?`,["Champ","Variable d'alias","Opérateur","Parent"],1,`Double <code>$</code> = variable.`],
 ["tab",`<code>$arrayElemAt[..., 0]</code> ?`,["Dernier","Premier","Taille","Vide"],1,`Premier.`],
-["tab",`<code>$slice[..., 2]</code> ?`,["2 derniers","2 premiers","2ᵉ","Rien"],1,`Premiers.`],
 ["tab",`<code>$arrayElemAt</code> sur tableau vide ?`,["Erreur","Champ absent","0","null"],1,`Champ absent.`],
-["tab",`Version min <code>$filter/$map/$slice</code> ?`,["3.2","4.4","6.0","Aucune"],1,`4.4+.`],
 ["upd",`<code>$set</code> sur champ absent ?`,["Erreur","Crée","Rien","Supprime"],1,`Crée.`],
 ["upd",`<code>$inc</code> sur champ absent ?`,["Erreur","Crée avec valeur","Rien","null"],1,`Crée.`],
 ["upd",`<code>$</code> positionnel limite ?`,["$set seulement","1ʳᵉ occurrence seulement","Pas updateMany","Doublons"],1,`Première seulement.`],
 ["upd",`Sans <code>arrayFilters</code> ?`,["$set","$inc","$unset","$rename"],3,`$rename agit sur la structure.`],
 ["upd",`<code>$push</code> vs <code>$addToSet</code> ?`,["Identiques","addToSet évite doublons","push au début","addToSet trie"],1,`addToSet sans doublon.`],
-["upd",`<code>$pull: { avis: { client: \"Y\" } }</code> ?`,["Ajoute","Retire tous les avis Y","Premier","Renomme"],1,`Tous les correspondants.`],
-["upd",`Supprimer <code>garantie</code> ?`,[`<code>{ $unset: { garantie: "" } }</code>`,"<code>{ $delete: garantie }</code>","<code>{ $set: { garantie: null } }</code>","<code>{ $pull: { garantie: 1 } }</code>"],0,`<code>$unset</code>.`],
 ["del",`<code>deleteOne</code> ?`,["Tous","Le premier","Le champ","La collection"],1,`Le premier.`],
 ["del",`Après <code>replaceOne</code> ?`,["Seuls champs listés","Entièrement remplacé, <code>_id</code> conservé","Dupliqué","Supprimé"],1,`Remplacement complet.`],
-["mod",`Embedding / referencing ?`,["Écriture / lecture","Lecture / écriture","Lecture / lecture","Écriture / écriture"],1,`Embedding = lecture ; referencing = écriture.`],
-["mod",`3 niveaux embedding ?`,["Simple, moyen, complexe","Simple, intermédiaire, avancé","Basique, tableau, agrégation","1, 2, 3"],1,`Simple / intermédiaire / avancé.`],
+["mod",`Embedding / referencing ?`,["Écriture / lecture","Lecture / écriture","Lecture / lecture","Écriture / écriture"],1,`Embedding lecture, referencing écriture.`],
 ["mod",`Taille max document ?`,["1 Mo","16 Mo","100 Mo","Illimitée"],1,`16 Mo.`],
-["mod",`Plusieurs-à-plusieurs ?`,["Embedding","Referencing","Un seul doc","Aucune"],1,`Referencing.`],
-["mod",`<code>find()</code> fait des jointures ?`,["Oui","Non : <code>$lookup</code> ou plusieurs requêtes","Oui avec $in","Seulement findOne"],1,`Non.`],
 
-/* ========== PHP ========== */
 ["phpop",`<code>7 % 2</code> ?`,["1","3","3.5","0"],0,`Reste = 1.`],
-["phpop",`<code>$n</code> pair ?`,["<code>$n % 2 === 0</code>","<code>$n / 2 === 0</code>","<code>$n % 2 === 1</code>","<code>$n ** 2 === 0</code>"],0,`Modulo 2.`],
-["phpop",`<code>==</code> vs <code>===</code> ?`,["Identiques","<code>==</code> valeur ; <code>===</code> valeur + type","<code>===</code> valeur","<code>==</code> strict"],1,`Conversion vs type.`],
+["phpop",`<code>==</code> vs <code>===</code> ?`,["Identiques","== valeur ; === valeur + type","=== valeur","== strict"],1,`Conversion vs type.`],
 ["phpop",`<code>"7" === 7</code> ?`,["true","false","0","Erreur"],1,`Types différents.`],
-["phpop",`<code>null == false</code> puis <code>null === false</code> ?`,["true / true","false / false","true / false","false / true"],2,`Souple vrai, stricte faux.`],
-["phpop",`Piège de <code>==</code> ?`,["<code>\"1e3\" == \"1000\"</code>","<code>5 === \"5\"</code>","<code>1 != 2</code>","<code>true == 1</code>"],0,`Interprétation numérique.`],
-["phpop",`<code>&lt;=&gt;</code> ?`,["true/false","Nombre","-1, 0 ou 1","Max"],2,`Vaisseau spatial.`],
 ["phpop",`<code>$i = 5; echo $i++;</code> ?`,["5","6","0","4"],0,`Post-incrémentation.`],
-["phpop",`<code>$a = 3; $b = $a++ + 2;</code> ?`,["$a=3, $b=5","$a=4, $b=5","$a=4, $b=6","$a=3, $b=6"],1,`Renvoie 3 puis $a = 4.`],
 ["phpop",`<code>A &amp;&amp; B</code>, A faux ?`,["B évalué","B non évalué","Erreur","Échangés"],1,`Court-circuit.`],
 ["phpop",`Falsy ?`,["<code>\"0\"</code>","<code>\"false\"</code>","<code>\"0.0\"</code>","<code>1</code>"],0,`\"0\" est falsy.`],
-["phpop",`<code>2 ** 10</code> ?`,["20","100","1024","512"],2,`1024.`],
-["phpop",`<code>$s = "Bon"; $s .= "jour";</code> ?`,["Bonjour","Bon jour","Erreur","jour"],0,`Concaténation.`],
-["phpop",`Bonne pratique ?`,["<code>==</code>","<code>===</code> par défaut","<code>===</code> pour nombres","Alterner"],1,`<code>===</code>.`],
-["phpop",`<code>intdiv(7, 2)</code> ?`,["3.5","3","4","1"],1,`= 3.`],
-["phpop",`<code>$x = 4; $x *= 3; $x -= 2;</code> ?`,["10","12","6","4"],0,`12 puis 10.`],
 ["phpcond",`Plusieurs conditions vraies ?`,["Tous","Premier","Dernier","Erreur"],1,`Premier seulement.`],
-["phpcond",`Ordre des tests ?`,["Large → restrictif","Restrictif → large","Peu importe","Alpha"],1,`Restrictif d'abord.`],
-["phpcond",`<code>$note = 13.5</code> ?`,["Très bien","Bien","Assez bien","Passable"],2,`≥12 → « Assez bien ».`],
-["phpcond",`<code>switch</code> compare ?`,["Strict","Souple","Aucun","<code>&lt;=&gt;</code>"],1,`<code>==</code>.`],
-["phpcond",`Oubli <code>break</code> ?`,["Erreur","Fall-through","Rien","Arrêt auto"],1,`Tombe dans le suivant.`],
-["phpcond",`Regrouper 2 cases ?`,["<code>case 1 || case 2:</code>","<code>case 1: case 2: ... break;</code>","<code>case [1,2]:</code>","Impossible"],1,`Deux case à la suite.`],
-["phpcond",`<code>match</code> ?`,["Instruction","Expression","<code>==</code>","break"],1,`Expression.`],
-["phpcond",`<code>match</code> compare ?`,["<code>==</code>","<code>===</code>","Aléatoire","Aucun"],1,`Strict.`],
-["phpcond",`<code>match</code> sans cas ni default ?`,["Rien","null","UnhandledMatchError","Erreur syntaxe"],2,`Erreur.`],
-["phpcond",`Intervalles avec <code>match</code> ?`,["<code>match (true) { cond => ..., ... }</code>","<code>match ($n) { > 1 => ... }</code>","Impossible","Avec switch"],0,`<code>match (true)</code>.`],
+["phpcond",`<code>switch</code> compare ?`,["Strict","Souple","Aucun","<code>&lt;=&gt;</code>"],1,`==.`],
+["phpcond",`<code>match</code> compare ?`,["==","===","Aléatoire","Aucun"],1,`===.`],
 ["phpcond",`Ternaire ?`,["<code>cond ? vrai : faux</code>","<code>cond : vrai ? faux</code>","<code>cond ?? val</code>","<code>if...then</code>"],0,`<code>?</code> et <code>:</code>.`],
-["phpcond",`<code>??</code> ?`,["Gauche si non null sinon droite","null toujours","Compare","Concatène"],0,`Coalescence.`],
-["phpcond",`Syntaxe alternative ?`,["<code>if(...): ... endif;</code>","<code>if(...) => ... end;</code>","Impossible","<code>{ }</code>"],0,`Vues.`],
-["phpcond",`Retour anticipé ?`,["Plus rapide","Traiter erreurs d'abord","Supprimer break","Éviter else"],1,`Lisibilité.`],
-["phpcond",`Ternaires imbriqués PHP 8 ?`,["Plus rapides","Interdits sans parenthèses","OK","Recommandés"],1,`Interdits sans parenthèses.`],
-["phpcond",`Inversion ?`,["<code>&amp;&amp;</code>","<code>||</code>","<code>!</code>","<code>==</code>"],2,`<code>!</code>.`],
-["phpcond",`<code>if ($inscrit &amp;&amp; $age >= 18)</code> ?`,["Une seule","Deux vraies","$inscrit faux","Jamais"],1,`Les deux.`],
 
-/* ========== QL ========== */
 ["ql_fond",`Besoins non exprimés ?`,["Spécifiés","Réalisés","Exprimés","Vrais besoins"],3,`Vrais besoins.`],
-["ql_fond",`Objectif SQA ?`,["Moins de code","Livrer vite","Garantir qualité dans coût/délai","Remplacer tests"],2,`Assurance qualité.`],
-["ql_fond",`Éléments « logiciel » ?`,["Code seul","Programmes, procédures, données, documentation","Programmes + tests","Code + BDD"],1,`Selon ISO 24765.`],
 ["ql_fond",`Chaîne causale ?`,["Défaillance → défaut → erreur","Erreur → défaut → défaillance","Défaut → erreur → défaillance","Erreur → défaillance → défaut"],1,`Erreur humaine → défaut code → défaillance.`],
 ["ql_fond",`Deux piliers ?`,["Code, tests","Produit, Processus","Fiabilité, sécurité","Doc, maintenance"],1,`Produit et Processus.`],
-["ql_fond",`Qualité = ?`,["Nb fonctionnalités","Satisfaction besoins explicites + implicites","Vitesse","Taille"],1,`Satisfaction des besoins.`],
-["ql_square",`Objectif SQuaRE ?`,["Remplacer tests","Cadre d'évaluation mesurable","Définir langages","Gérer versions"],1,`Cadre.`],
 ["ql_square",`Nb caractéristiques ISO 25010 ?`,["3","5","8","12"],2,`8.`],
 ["ql_square",`Corriger / améliorer ?`,["Fiabilité","Sécurité","Maintenabilité","Portabilité"],2,`Maintenabilité.`],
-["ql_square",`Hors ISO 25010 ?`,["Fiabilité","Sécurité","Performance","Rentabilité"],3,`Rentabilité.`],
-["ql_metrics",`LOCphy ?`,["Hors commentaires","Toutes","Productives","Méthodes"],1,`Toutes les lignes physiques.`],
 ["ql_metrics",`Formule V(G) ?`,["E + N","E − N + 2","N − E","LOC"],1,`E − N + 2.`],
-["ql_metrics",`V(G) = 4, cas de test ?`,["2","3","4","8"],2,`V(G).`],
-["ql_metrics",`Seuils McCabe ?`,["1-5, 6-10, >10","1-10, 11-20, >20","1-3, 4-6, >6","Aucun"],1,`1-10, 11-20, >20.`],
-["ql_metrics",`WMC ?`,["Nb méthodes","Σ V(G)","Nb attributs","Héritage"],1,`Σ V(G).`],
-["ql_metrics",`Seuils WMC ?`,["≤5, 6-10, >10","≤10, 11-20, >20","≤20, >20","Aucun"],1,`≤10 faible, 11-20 moyen, >20 élevé.`],
-["ql_metrics",`CBO ?`,["Attributs","Classes couplées","Méthodes","Taille"],1,`Couplage.`],
-["ql_metrics",`Seuils CBO ?`,["≤2, 3-5, >5","≤5, 6-10, >10","≤10, >10","Aucun"],1,`≤5, 6-10, >10.`],
+["ql_metrics",`Seuils WMC ?`,["≤5, 6-10, >10","≤10, 11-20, >20","≤20, >20","Aucun"],1,`≤10, 11-20, >20.`],
 ["ql_metrics",`LCOM ?`,["Longueur","P − Q","Attributs","Héritage"],1,`P − Q.`],
-["ql_metrics",`Seuils LCOM ?`,["≤5, >5","≤1 forte, >1 faible","≤10, >10","Aucun"],1,`≤1 forte cohésion.`],
-["ql_metrics",`WMC=5, CBO=2, LCOM=1 ?`,["Mauvaise","Bonne qualité","Couplage excessif","Non testable"],1,`Bonne.`],
-["ql_metrics",`WMC=28, CBO=12, LCOM=5 ?`,["Bon","Refactoriser","Seul WMC élevé","Seul LCOM"],1,`Les trois élevés.`],
-["ql_process",`4 activités SDLC ?`,["Analyse, conception, codage, tests","Spécification, Développement, Validation, Évolution","Planification, Design, Livraison, Maintenance","Étude, codage, tests, déploiement"],1,`Les 4 SDLC.`],
-["ql_process",`Spécification ?`,["Coder","Définir besoins","Tester","Corriger"],1,`« Quoi ? ».`],
 ["ql_process",`Vérification ?`,["Bon produit ?","Conforme aux specs ?","Satisfaction","Compilation"],1,`Specs.`],
-["ql_process",`Validation ?`,["Specs","Satisfaction besoins réels","Compilation","Bugs"],1,`Besoins.`],
 ["ql_process",`3 maintenances ?`,["Corrective, Adaptative, Perfective","Corrective, Préventive, Évolutive","Interne, Externe, Mixte","Simple, Moyenne, Complexe"],0,`Les 3 types.`],
-["ql_process",`Sans changer comportement ?`,["Corrective","Adaptative","Perfective","Aucune"],2,`Perfective.`],
-["ql_process",`Strictement séquentiel ?`,["Incrémental","Cascade","Agile","Intégration"],1,`Cascade.`],
-["ql_process",`Feedback fréquent ?`,["Cascade","Incrémental","Intégration","Aucun"],1,`Incrémental.`],
-["ql_process",`Assemblage de composants ?`,["Cascade","Incrémental","Intégration & Configuration","Agile"],2,`Intégration & Config.`],
-["ql_process",`Plan vs agile ?`,["Identiques","Plan tout prévu, Agile progressif","Plan rapide","Agile rigoureux"],1,`Planification progressive.`],
-["ql_process",`% échecs mauvaises exigences (Chaos) ?`,["10 %","25 %","50 %","75 %"],2,`50 %.`],
-["ql_process",`Non fonctionnel ?`,["Ce que fait","Qualité, perf, sécu","Code","Doc"],1,`Qualité.`],
 
-/* ========== MOBILE ========== */
-["mob_btn",`Action principale (1/écran) ?`,["TextButton","OutlinedButton","ElevatedButton","IconButton"],2,`ElevatedButton.`],
-["mob_btn",`Sans fond ni bordure ?`,["ElevatedButton","OutlinedButton","TextButton","IconButton"],2,`TextButton.`],
-["mob_btn",`Bordure visible, pas de fond ?`,["ElevatedButton","OutlinedButton","TextButton","FloatingActionButton"],1,`OutlinedButton.`],
-["mob_btn",`Icône seule compacte ?`,["TextButton","IconButton","FAB","OutlinedButton"],1,`IconButton.`],
+["mob_btn",`Action principale ?`,["TextButton","OutlinedButton","ElevatedButton","IconButton"],2,`ElevatedButton.`],
 ["mob_btn",`Cercle flottant ?`,["ElevatedButton","IconButton","FloatingActionButton","TextButton"],2,`FAB.`],
-["mob_btn",`Nb FAB par écran ?`,["1","2","3","Illimité"],0,`1 par défaut.`],
-["mob_btn",`Où déclare-t-on le FAB ?`,["build()","Scaffold","main()","MaterialApp"],1,`Scaffold.`],
-["mob_btn",`Ancien widget remplacé par ElevatedButton ?`,["FlatButton","RaisedButton","OutlineButton","IconButton"],1,`RaisedButton.`],
 ["mob_btn",`FlatButton → ?`,["ElevatedButton","TextButton","OutlinedButton","IconButton"],1,`TextButton.`],
-["mob_btn",`<code>onPressed: () {}</code> ?`,["Erreur","Fonction vide","Crée","Désactive"],1,`Ne fait rien.`],
-["mob_btn",`Styliser un bouton ?`,["style: X.styleFrom(...)","color: ...","style: TextStyle(...)","theme: ..."],0,`styleFrom.`],
-["mob_btn",`Effet pilule ?`,["RoundedRectangleBorder","StadiumBorder","CircleBorder","BeveledRectangleBorder"],1,`StadiumBorder.`],
-["mob_btn",`Bordure noire 2px ?`,["shape: BorderSide","side: BorderSide(color: Colors.black, width: 2)","border: Border.all","outline: 2"],1,`<code>side</code>.`],
-["mob_btn",`Plusieurs FAB ?`,["Impossible","Row ou Column","Scaffold multiple","ListView"],1,`Row/Column.`],
-["mob_btn",`<code>floatingActionButtonLocation</code> ?`,["Couleur","Position","Icône","Désactiver"],1,`Position.`],
-["mob_txt",`TextField vs TextFormField ?`,["Identiques","TextFormField valide dans Form","TextField plus récent","TextFormField obsolète"],1,`Validation.`],
 ["mob_txt",`Lire la saisie ?`,["<code>.value</code>","<code>TextEditingController</code>","<code>onChanged</code>","<code>.text</code> direct"],1,`Controller.`],
-["mob_txt",`Champ avec contour ?`,["<code>InputDecoration(border: OutlineInputBorder())</code>","<code>InputDecoration(border: Border.all())</code>","<code>OutlineBorder()</code>","<code>TextField(border: true)</code>"],0,`OutlineInputBorder.`],
-["mob_txt",`label vs hint ?`,["Identiques","label permanent, hint disparaît","label plus petit","hint obligatoire"],1,`label permanent.`],
 ["mob_txt",`Clavier email ?`,["text","emailAddress","number","multiline"],1,`<code>emailAddress</code>.`],
-["mob_txt",`Multi-lignes ?`,["text","number","multiline","emailAddress"],2,`<code>multiline</code>.`],
 ["mob_txt",`Masquer mot de passe ?`,["<code>secure: true</code>","<code>hidden: true</code>","<code>obscureText: true</code>","<code>password: true</code>"],2,`<code>obscureText</code>.`],
-["mob_txt",`Validation ?`,["Validator","<code>Form</code> + <code>GlobalKey&lt;FormState&gt;</code>","TextFormField seul","FormValidator"],1,`Form + clé.`],
-["mob_txt",`<code>validator</code> renvoie ?`,["bool","<code>String?</code>","void","Future"],1,`String? (message ou null).`],
-["mob_txt",`Vider un TextField ?`,["<code>reset()</code>","<code>clear()</code>","<code>text = ''</code>","<code>dispose()</code>"],1,`<code>controller.clear()</code>.`],
-["mob_txt",`<code>prefixIcon</code> ?`,["À droite","Gauche dans le champ","Au-dessus","Remplace label"],1,`Gauche.`],
-["mob_txt",`Limiter 5 lignes ?`,["lines: 5","rows: 5","maxLines: 5","height: 5"],2,`<code>maxLines: 5</code>.`],
 ["mob_wdg",`Centrer ?`,["Container","Align","Center","Padding"],2,`Center.`],
-["mob_wdg",`Espace vertical ?`,["Space","<code>SizedBox(height: N)</code>","Padding","Gap"],1,`SizedBox.`],
-["mob_wdg",`Stateless vs Stateful ?`,["Identiques","Stateless immuable, Stateful mutable","Stateful rapide","Stateless mutable"],1,`Mutable vs immuable.`],
 ["mob_wdg",`Mettre à jour l'UI ?`,["refresh()","update()","setState()","rebuild()"],2,`<code>setState</code>.`],
 ["mob_wdg",`Image asset ?`,["<code>Image.file()</code>","<code>Image.asset()</code>","<code>Image.network()</code>","<code>Image.memory()</code>"],1,`<code>Image.asset</code>.`],
-["mob_wdg",`Image ronde ?`,["CircleImage","ClipOval","RoundedImage","CircularAvatar"],1,`ClipOval.`],
-["mob_wdg",`Compteur +/- ?`,["StatelessWidget","StatefulWidget","InheritedWidget","Provider"],1,`StatefulWidget.`],
-["mob_wdg",`Changer texte bouton ?`,["Stateless","Stateful + setState","Controller","Form"],1,`setState.`],
-["mob_wdg",`Où stocker le texte ?`,["Variable d'état + setState","En dur","Controller","Text"],0,`Variable d'état.`],
 
-/* ========== RÉSEAUX : capacite ========== */
-["res_capacite",`Formule de Shannon ?`,["<code>C = 2W log₂(V)</code>","<code>C = W log₂(1 + S/N)</code>","<code>C = W / S/N</code>","<code>C = 2W</code>"],1,`<code>C = W log₂(1 + S/N)</code> : capacité maximale théorique d'un canal bruité.`],
-["res_capacite",`Formule de Nyquist (débit max binaire) ?`,["<code>D = W log₂(1 + S/N)</code>","<code>D = 2W log₂(V)</code>","<code>D = 2W</code>","<code>D = W/V</code>"],1,`<code>D_max = 2W log₂(V)</code> : débit max d'un canal sans bruit, avec V niveaux.`],
-["res_capacite",`C = 20 Mb/s, W = 3 MHz. S/N ≈ ?`,["10","100","1000","1"],1,`20·10⁶ = 3·10⁶·log₂(1+S/N) → log₂ = 6,667 → 1+S/N ≈ 100 → S/N ≈ 100 (≈ 20 dB).`],
-["res_capacite",`Temps de transmission de 16 Mo sur 16 Mb/s ?`,["8.38 s","16 s","16.3 s","8 s"],0,`16 Mo = 2²⁴ octets = 134 217 728 bits ≈ 134,2 Mb → 134,2 / 16 ≈ 8,38 s (unités binaires pour Mo).`],
-["res_capacite",`Numérisation 8000 Hz × 8 bits → débit ?`,["64 kb/s","8 kb/s","8000 b/s","128 kb/s"],0,`8000 × 8 = 64 000 b/s = 64 kb/s.`],
-["res_capacite",`Puissance dissipée dans R ?`,["<code>P = V/I</code>","<code>P = V²/R</code>","<code>P = R·V</code>","<code>P = I²</code>"],1,`<code>P = V_eff² / R</code>. Ne dépend pas de la fréquence.`],
-["res_capacite",`100 V sur R = 50 Ω → dBm ?`,["≈ 53 dBm","≈ 43 dBm","≈ 23 dBm","≈ 63 dBm"],0,`P = 10000/50 = 200 W = 200 000 mW → 10 log(200 000) ≈ 53 dBm.`],
-["res_capacite",`1 µV sur R = 50 Ω → dBm ?`,["≈ −107 dBm","≈ −87 dBm","≈ −127 dBm","≈ 0 dBm"],0,`P = (10⁻⁶)²/50 = 2·10⁻¹⁴ W = 2·10⁻¹¹ mW → 10 log(2·10⁻¹¹) ≈ −107 dBm.`],
-["res_capacite",`Rapidité de modulation (V niveaux) ?`,["<code>R = D</code>","<code>R = D / log₂(V)</code>","<code>R = D · log₂(V)</code>","<code>R = 2D</code>"],1,`<code>R = D / log₂(V)</code> (bauds).`],
-["res_capacite",`V = 8, D = 2400 b/s → R ?`,["800 bauds","2400 bauds","300 bauds","7200 bauds"],0,`R = 2400 / log₂(8) = 2400 / 3 = 800 bauds.`],
-["res_capacite",`Atténuation d'une ligne se mesure en ?`,["Hertz","Décibels","Bits/s","Bauds"],1,`En décibels (dB).`],
-["res_capacite",`Échantillonnage (Nyquist) ?`,["<code>Fe ≤ f_max</code>","<code>Fe ≥ 2·f_max</code>","<code>Fe = f_max</code>","<code>Fe = 2·f_max/3</code>"],1,`<code>Fe ≥ 2 f_max</code> pour éviter le repliement.`],
-["res_capacite",`Nb échantillons T = 2 s, Te = 0,5 ms ?`,["400","4000","40","40000"],1,`N = T/Te = 2 / 0,5·10⁻³ = 4000.`],
-["res_capacite",`Le débit binaire D est en ?`,["Hertz","Bits/s","Bauds","Volts"],1,`Bits par seconde. La rapidité de modulation R est en bauds.`],
-["res_capacite",`Une voie 200 Hz avec S/N = 2 dB → capacité ?`,["≈ 200 b/s","≈ 274 b/s","≈ 400 b/s","≈ 1200 b/s"],1,`S/N = 10^(2/10) ≈ 1,585. C = 200·log₂(2,585) ≈ 200·1,37 ≈ 274 b/s.`],
-
-/* ========== RÉSEAUX : codage ========== */
-["res_codage",`Quel code a 2 transitions par bit et une composante continue nulle ?`,["NRZ","Manchester (biphasé)","Bipolaire","Miller"],1,`Manchester : une transition au milieu de chaque bit, DC nulle, auto-synchronisant.`],
-["res_codage",`Rapidité de modulation de Manchester ?`,["R = D","R = 2D","R = D/2","R = D²"],1,`Manchester a un moment par demi-bit → <code>R = 2D</code>.`],
-["res_codage",`Rapidité de modulation de NRZ ?`,["R = D","R = 2D","R = D/2","R = D²"],0,`NRZ = un moment par bit → <code>R = D</code>.`],
+["res_capacite",`Formule de Shannon ?`,["<code>C = 2W log₂(V)</code>","<code>C = W log₂(1 + S/N)</code>","<code>C = W / S/N</code>","<code>C = 2W</code>"],1,`<code>C = W log₂(1 + S/N)</code>.`],
+["res_capacite",`Temps de transmission de 16 Mo sur 16 Mb/s ?`,["8.38 s","16 s","16.3 s","8 s"],0,`16 Mo = 2²⁴ octets ≈ 134,2 Mb → 8,38 s.`],
+["res_capacite",`V = 8, D = 2400 b/s → R ?`,["800 bauds","2400 bauds","300 bauds","7200 bauds"],0,`R = 2400/3 = 800 bauds.`],
+["res_capacite",`Atténuation se mesure en ?`,["Hertz","Décibels","Bits/s","Bauds"],1,`Décibels.`],
+["res_capacite",`Nb échantillons T = 2 s, Te = 0,5 ms ?`,["400","4000","40","40000"],1,`N = 2/0,5·10⁻³ = 4000.`],
+["res_codage",`Manchester : rapidité de modulation ?`,["R = D","R = 2D","R = D/2","R = D²"],1,`2 transitions par bit → R = 2D.`],
 ["res_codage",`Code bipolaire : combien de niveaux ?`,["1","2","3","4"],2,`3 niveaux : +V, 0, −V.`],
-["res_codage",`Problème principal du NRZ ?`,["Trop lent","Pas de synchronisation sur longues suites de 0/1","Trop de niveaux","Composante continue"],1,`Longues suites de bits identiques → pas de transition → perte de synchronisation.`],
-["res_codage",`Manchester avec Δ = 10⁻⁸ s (demi-bit) → débit ?`,["10 Mb/s","25 Mb/s","50 Mb/s","100 Mb/s"],2,`T_bit = 2Δ = 2·10⁻⁸ s → D = 1/(2Δ) = 50 Mb/s.`],
-["res_codage",`Code Miller : transitions ?`,["Milieu de chaque bit","Milieu d'un 1 et entre deux 0 consécutifs","Début de chaque bit","Uniquement sur les 1"],1,`Miller : transition au milieu d'un 1 et entre deux 0 consécutifs.`],
-["res_codage",`RZ : particularité ?`,["Pas de retour à zéro","Retour à zéro à chaque demi-période","3 niveaux","Différentiel"],1,`RZ = Return to Zero à chaque demi-période. R = 2D.`],
-["res_codage",`Le code bipolaire alterne entre ?`,["+V et −V uniquement","+V, 0 et −V, avec alternance des impulsions","0 et 1","+2V et −2V"],1,`Impulsions alternées +V / −V, avec 0 pour l'autre symbole.`],
-["res_codage",`Manchester différentiel : avantage ?`,["Plus rapide","Auto-synchronisant sans référence absolue","Moins de transitions","Composante continue"],1,`Auto-synchronisant, basé sur les transitions (pas de polarité absolue nécessaire).`],
-["res_codage",`Exercice 9 : le signal présenté (2 transitions par bit, alternance) est probablement ?`,["RZ unipolaire","NRZ","Bipolaire","Biphasé différentiel"],3,`Signal biphasé différentiel (Manchester différentiel).`],
-["res_codage",`Exercice 9 : rapidité de modulation du signal biphasé ?`,["D/2","2D","D","D²"],1,`Biphasé → 2 moments par bit → R = 2D.`],
-["res_codage",`Code NRZ : rapidité de modulation ?`,["R = D","R = 2D","R = D/2","R = D²"],0,`NRZ : <code>R = D</code>.`],
-
-/* ========== RÉSEAUX : modulation ========== */
-["res_modulation",`Pourquoi moduler un signal ?`,["Pour l'amplifier","Pour réduire les dimensions de l'antenne","Pour le numériser","Pour le crypter"],1,`<code>L = c/(4f)</code> : en augmentant f, on réduit L.`],
-["res_modulation",`Antenne : longueur optimale ?`,["<code>L = λ</code>","<code>L = λ/4</code>","<code>L = λ/2</code>","<code>L = 2λ</code>"],1,`<code>L = λ/4 = c/(4f)</code>.`],
-["res_modulation",`f = 1000 Hz → longueur d'antenne ?`,["25 km","75 km","100 km","300 km"],1,`λ = c/f = 3·10⁸/1000 = 300 km → L = λ/4 = 75 km.`],
-["res_modulation",`f = 1 MHz → longueur d'antenne ?`,["75 m","300 m","1 km","100 m"],0,`λ = 300 m → L = 75 m.`],
-["res_modulation",`AM modifie quel paramètre ?`,["Fréquence","Phase","Amplitude","Longueur d'onde"],2,`AM = modulation d'amplitude.`],
-["res_modulation",`FM modifie ?`,["Amplitude","Fréquence","Phase","Rien"],1,`FM = modulation de fréquence.`],
-["res_modulation",`PM modifie ?`,["Amplitude","Fréquence","Phase","Aucun"],2,`PM = modulation de phase.`],
-["res_modulation",`Modulations numériques ?`,["AM, FM, PM","ASK, FSK, PSK","NRZ, RZ","Manchester"],1,`ASK, FSK, PSK.`],
-["res_modulation",`Signal modulant = ?`,["Haute fréquence","Basse fréquence (message)","Porteuse","Bruit"],1,`BF = signal modulant, HF = porteuse.`],
-["res_modulation",`Porteuse = ?`,["Basse fréquence","Haute fréquence","Signal modulant","CAN"],1,`HF.`],
-["res_modulation",`<code>x(t) = A cos(θ(t))</code> : en AM, on modifie ?`,["θ(t)","A","f(t)","φ(t)"],1,`En AM, c'est l'amplitude A.`],
-["res_modulation",`Rôle du démodulateur ?`,["Moduler","Récupérer le signal modulant","Amplifier","Filtrer"],1,`Récupération du message.`],
-
-/* ========== RÉSEAUX : supports ========== */
+["res_codage",`Manchester avec Δ = 10⁻⁸ s → débit ?`,["10 Mb/s","25 Mb/s","50 Mb/s","100 Mb/s"],2,`T_bit = 2Δ → D = 1/(2Δ) = 50 Mb/s.`],
+["res_modulation",`Pourquoi moduler ?`,["Amplifier","Réduire les dimensions de l'antenne","Numériser","Crypter"],1,`<code>L = c/(4f)</code>.`],
+["res_modulation",`AM modifie ?`,["Fréquence","Phase","Amplitude","Longueur d'onde"],2,`Amplitude.`],
 ["res_supports",`Câble coaxial : impédance ?`,["50 ou 75 Ω","100 Ω","300 Ω","600 Ω"],0,`50 ou 75 Ω.`],
-["res_supports",`Câble coaxial : distance max sans ampli ?`,["100 m","500 m","1 km","10 km"],1,`500 m.`],
-["res_supports",`Paire torsadée : impédance ?`,["50 Ω","75 Ω","100 Ω","300 Ω"],2,`100 Ω.`],
-["res_supports",`Paire torsadée : distance max ?`,["100 m","500 m","1 km","10 km"],0,`100 m.`],
-["res_supports",`Fibre optique : monomode vs multimode ?`,["Monomode = plusieurs modes","Monomode = 1 mode, multimode = plusieurs","Identiques","Aucune"],1,`Monomode : un seul mode de propagation ; multimode : plusieurs.`],
-["res_supports",`Fibre optique : ré-amplification après ?`,["~100 km","~250 km","~1000 km","Jamais"],1,`~250 km (quand P = P₀/10⁵).`],
-["res_supports",`4 grands canaux de transmission ?`,["Filaire, bifilaire, fibre optique, espace libre","Coaxial, fibre, satellite, radio","Cuivre, verre, air, eau","Électrique, optique, radio, satellite"],0,`Filaire, bifilaire, fibre optique, espace libre.`],
-["res_supports",`ETCD ?`,["Equipement Terminal de Conversion Digitale","Equipement de Télécommunication Digitale","Equipement Terminal de Traitement de données","Equipement Terminal de Circuit de Données"],3,`ETCD = Equipement Terminal de Circuit de Données (ex. : modem).`],
-["res_supports",`Bande passante = ?`,["Plage de fréquences transmissibles sans atténuation excessive","Débit binaire max","Nombre de bits","Longueur du câble"],0,`Plage de fréquences.`],
-["res_supports",`Les satellites sont utilisés dans ?`,["Fibre","Espace libre","Coaxial","Paire torsadée"],1,`Espace libre (faisceaux hertziens).`],
-["res_supports",`Bande passante et débit : relation ?`,["Identiques","Débit ≤ capacité selon Shannon/Nyquist","Débit toujours >","Aucune"],1,`Le débit dépend de la BP et du rapport S/N.`],
-["res_supports",`UTP / STP / FTP : concernent ?`,["Fibre","Paire torsadée","Coaxial","Satellite"],1,`Paire torsadée (UTP non blindé, STP/FTP blindé).`]
+["res_supports",`Fibre optique : monomode vs multimode ?`,["Monomode = plusieurs modes","Monomode = 1 mode, multimode = plusieurs","Identiques","Aucune"],1,`Mono = 1, multi = plusieurs.`],
+["res_supports",`ETCD ?`,["Equipement Terminal de Conversion Digitale","Equipement de Télécommunication Digitale","Equipement Terminal de Traitement de données","Equipement Terminal de Circuit de Données"],3,`ETCD = Equipement Terminal de Circuit de Données (ex. : modem).`]
 ];
 
+/* ===================== CARTES ===================== */
 var C=[
-/* Mongo */
 ["find",`Films après 2010`,`db.Films.find({ annee: { $gt: 2010 } })`],
 ["find",`Nolan ou Cameron`,`db.Films.find({ realisateur: { $in: ["Christopher Nolan", "James Cameron"] } })`],
 ["find",`Nolan OU genre SF`,`db.Films.find({ $or: [\n  { realisateur: "Christopher Nolan" },\n  { genre: "Science-fiction" }\n] })`],
 ["regex",`Titres « ar » depuis 2000`,`db.Films.find({ $and: [\n  { annee: { $gt: 2000 } },\n  { titre: /ar/i }\n] })`],
-["regex",`Titres « In... »`,`db.Films.find({ titre: /^In/ })`],
 ["regex",`Étudiants à Agadir`,`db.Etudiants.find({ "adresse.ville": "Agadir" })`],
 ["find",`Note ≥ 8 ET buts ≥ 1 (même match)`,`db.joueurs.find({\n  matchs: { $elemMatch: { note: { $gte: 8 }, buts: { $gte: 1 } } }\n})`],
 ["find",`Tri, skip 1, limit 2`,`db.joueurs.find().sort({ age: 1 }).skip(1).limit(2)`],
 ["tab",`$filter + $map`,`db.joueurs.find({}, { _id: 0, nom: 1,\n  adversaires_note_8: { $map: {\n    input: { $filter: { input: "$matchs", as: "m",\n      cond: { $gte: ["$$m.note", 8] } } },\n    as: "x", in: "$$x.adversaire" } } })`],
-["tab",`$filter + $arrayElemAt`,`db.joueurs.find({}, { _id: 0, nom: 1,\n  premier: { $arrayElemAt: [\n    { $filter: { input: "$matchs", as: "m",\n      cond: { $gte: ["$$m.note", 8] } } }, 0 ] } })`],
 ["upd",`$set prix`,`db.produits.updateOne(\n  { nom: "Souris Gamer" },\n  { $set: { prix: 350 } })`],
-["upd",`$rename sur tous`,`db.joueurs.updateMany({},\n  { $rename: { nationalite: "pays" } })`],
 ["upd",`arrayFilters + $set`,`db.joueurs.updateOne(\n  { nom: "Achraf Hakimi" },\n  { $set: { "matchs.$[m].note": 9.0 } },\n  { arrayFilters: [ { "m.adversaire": "Marseille" } ] })`],
-["del",`replaceOne joueur`,`db.joueurs.replaceOne(\n  { nom: "Sofyan Amrabat" },\n  { nom: "Sofyan Amrabat", club: "Manchester United",\n    nationalite: "Maroc", poste: "Milieu défensif" })`],
-["mod",`Cours suivis par Sara (referencing)`,`var etu = db.Etudiants.findOne({ nom: "Sara" })\ndb.Cours.find({ _id: { $in: etu.cours_ids } })`],
+["del",`replaceOne joueur`,`db.joueurs.replaceOne(\n  { nom: "Sofyan Amrabat" },\n  { nom: "Sofyan Amrabat", club: "Manchester United" })`],
 
-/* PHP */
 ["phpop",`Tester pair`,`$n % 2 === 0`],
-["phpop",`Souple vs stricte`,`"7" == 7        // true\n"7" === 7       // false\nnull == false   // true\nnull === false  // false`],
 ["phpcond",`Mention if/elseif`,`$note = 13.5;\nif ($note >= 16) { $m = "Très bien"; }\nelseif ($note >= 14) { $m = "Bien"; }\nelseif ($note >= 12) { $m = "Assez bien"; }\nelseif ($note >= 10) { $m = "Passable"; }\nelse { $m = "Non validé"; }`],
 ["phpcond",`Mention avec match`,`$m = match (true) {\n  $note >= 16 => "Très bien",\n  $note >= 14 => "Bien",\n  $note >= 10 => "Passable",\n  default     => "Non validé",\n};`],
-["phpcond",`Valeur par défaut`,`$page = $_GET['page'] ?? 1;`],
-["phpcond",`Regrouper 2 cases`,`switch ($jour) {\n  case 6:\n  case 7:\n    $nom = "Week-end";\n    break;\n  default:\n    $nom = "Autre jour";\n}`],
 
-/* QL */
 ["ql_fond",`Chaîne causale`,`Erreur (humaine)\n  → Défaut (dans le code)\n  → Défaillance (observable)`],
-["ql_fond",`Deux piliers`,`1. Produit : fiabilité, sécurité, maintenabilité…\n2. Processus : méthodes, outils, rigueur`],
-["ql_square",`8 caractéristiques ISO 25010`,`Adéquation fonctionnelle, Efficacité de performance,\nCompatibilité, Facilité d'utilisation, Fiabilité,\nSécurité, Maintenabilité, Portabilité`],
 ["ql_metrics",`V(G)`,`V(G) = E − N + 2 = décisions + 1\n1-10 simple, 11-20 modéré, >20 complexe`],
 ["ql_metrics",`WMC, CBO, LCOM`,`WMC  = Σ V(G)              (≤10 faible)\nCBO  = nb classes couplées (≤5 faible)\nLCOM = P − Q               (≤1 forte cohésion)`],
 ["ql_process",`Vérification vs Validation`,`Vérification : produit correctement (specs)\nValidation   : bon produit (besoins réels)`],
-["ql_process",`3 maintenances`,`Corrective   → bugs\nAdaptative   → nouvel environnement\nPerfective   → qualité interne`],
-["ql_process",`4 activités SDLC`,`Spécification → Quoi ?\nDéveloppement → Comment ?\nValidation    → Est-ce bon ?\nÉvolution     → Comment évoluer ?`],
 
-/* Mobile */
 ["mob_btn",`FAB dans Scaffold`,`Scaffold(\n  floatingActionButton: FloatingActionButton(\n    onPressed: () {},\n    child: Icon(Icons.add),\n  ),\n)`],
 ["mob_btn",`ElevatedButton pilule + bordure`,`ElevatedButton(\n  onPressed: () {},\n  child: Text("Click to begin"),\n  style: ElevatedButton.styleFrom(\n    backgroundColor: Colors.yellow,\n    foregroundColor: Colors.black,\n    elevation: 15,\n    shape: StadiumBorder(),\n    side: BorderSide(color: Colors.black, width: 2),\n  ),\n)`],
-["mob_btn",`OutlinedButton.icon`,`OutlinedButton.icon(\n  icon: Icon(Icons.settings),\n  label: Text("Outlined"),\n  onPressed: () {},\n  style: OutlinedButton.styleFrom(\n    backgroundColor: Colors.amber,\n    padding: const EdgeInsets.all(25),\n  ),\n)`],
-["mob_txt",`TextField avec label + icône`,`TextField(\n  decoration: InputDecoration(\n    hintText: "User Name",\n    icon: Icon(Icons.person),\n  ),\n)`],
-["mob_txt",`TextField multi-lignes`,`TextField(\n  keyboardType: TextInputType.multiline,\n  maxLines: 5,\n  decoration: InputDecoration(\n    labelText: "Texte sur plusieurs lignes",\n    icon: Icon(Icons.text_fields),\n  ),\n)`],
 ["mob_txt",`Lire et vider un TextField`,`var ctrl = TextEditingController();\nTextField(controller: ctrl);\n// lire :  ctrl.text\n// vider : ctrl.clear()`],
-["mob_txt",`Form + validation email`,`var formKey = GlobalKey<FormState>();\nForm(\n  key: formKey,\n  child: TextFormField(\n    validator: (val) {\n      if (val!.isEmpty) return "veuillez saisir votre mail";\n      return null;\n    },\n    keyboardType: TextInputType.emailAddress,\n    decoration: InputDecoration(\n      labelText: 'Email',\n      prefixIcon: Icon(Icons.person),\n      border: OutlineInputBorder(),\n    ),\n  ),\n)\nif (formKey.currentState!.validate()) { ... }`],
-["mob_wdg",`Changer texte bouton`,`class _BoutonState extends State<Bouton> {\n  String txt = 'Cliquer ici';\n  @override\n  Widget build(BuildContext context) {\n    return Center(\n      child: ElevatedButton(\n        onPressed: () => setState(() => txt = 'Bouton cliqué !'),\n        child: Text(txt),\n      ),\n    );\n  }\n}`],
-["mob_wdg",`Double compteur (2 FAB)`,`body: Row(\n  mainAxisAlignment: MainAxisAlignment.spaceAround,\n  children: [\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur--),\n      child: Icon(Icons.remove),\n    ),\n    Text('$compteur', style: TextStyle(fontSize: 40)),\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur++),\n      child: Icon(Icons.add),\n    ),\n  ],\n)`],
+["mob_wdg",`Changer texte bouton`,`String txt = 'Cliquer ici';\n// ...\nElevatedButton(\n  onPressed: () => setState(() => txt = 'Bouton cliqué !'),\n  child: Text(txt),\n)`],
 
-/* Réseaux */
-["res_capacite",`Shannon et Nyquist`,`Shannon :  C = W · log₂(1 + S/N)\nNyquist :  D_max = 2W · log₂(V)\nRap. mod : R = D / log₂(V)  (bauds)\nAntenne  : L = c / (4f)`],
-["res_capacite",`Exercice 1 (Shannon)`,`C = 20 Mb/s, W = 3 MHz → S/N ?\n20·10⁶ = 3·10⁶ · log₂(1+S/N)\nlog₂(1+S/N) = 6,667 → 1+S/N ≈ 100\nS/N ≈ 100 (≈ 20 dB)`],
-["res_capacite",`Temps de transmission`,`16 Mo sur 16 Mb/s ?\n16 Mo = 2²⁴ octets = 134 217 728 bits\n134 217 728 / 16·10⁶ ≈ 8,38 s`],
-["res_capacite",`Numérisation son`,`Fe = 8000 Hz, 8 bits/éch. →\nD = 8000 × 8 = 64 000 b/s = 64 kb/s`],
+["res_capacite",`Formules clés`,`Shannon :  C = W · log₂(1 + S/N)\nNyquist :  D_max = 2W · log₂(V)\nRap. mod : R = D / log₂(V)  (bauds)\nAntenne  : L = c / (4f)`],
 ["res_capacite",`dBm (R = 50 Ω)`,`P = V_eff² / R\nV_dBm = 10 log₁₀(P / 1mW)\n\n100 V   → P = 200 W → ≈ +53 dBm\n1 µV    → P = 2·10⁻¹⁴ W → ≈ −107 dBm`],
-["res_capacite",`Rap. modulation avec V niveaux`,`R = D / log₂(V)   (bauds)\nV = 8, D = 2400 → R = 2400/3 = 800 bauds`],
-["res_capacite",`Échantillonnage`,`N = T / Te\nTe = 0,5 ms, T = 2 s → N = 4000\nNyquist : Fe ≥ 2 f_max`],
-["res_codage",`Encoder « 0100111000 » en NRZ`,`Bit 1 = +V, bit 0 = −V\nUn niveau par bit (pas de retour à zéro)\nR = D`],
-["res_codage",`Encoder « 0100111000 » en Manchester`,`Bit 0 : haut→bas (ou bas→haut)\nBit 1 : transition inverse\nUne transition au milieu de chaque bit\nR = 2D`],
 ["res_codage",`Manchester avec Δ = 10⁻⁸ s`,`Δ = 10⁻⁸ s = demi-bit\nT_bit = 2Δ = 2·10⁻⁸ s\nD = 1 / (2Δ) = 50 Mb/s`],
-["res_codage",`Caractéristiques des codes`,`NRZ          : R = D — problème de sync.\nRZ           : R = 2D — retour à zéro\nManchester   : R = 2D — auto-sync., DC nulle\nBipolaire    : R = D — 3 niveaux (+V, 0, −V)\nMiller       : R = D — trans. milieu des 1\n                et entre deux 0`],
+["res_codage",`Caractéristiques des codes`,`NRZ          : R = D — problème de sync.\nRZ           : R = 2D — retour à zéro\nManchester   : R = 2D — auto-sync., DC nulle\nBipolaire    : R = D — 3 niveaux (+V, 0, −V)\nMiller       : R = D`],
 ["res_modulation",`Antenne : calcul`,`L = λ/4 = c/(4f), c = 3·10⁸ m/s\nf = 1000 Hz → λ = 300 km → L = 75 km\nf = 1 MHz   → λ = 300 m  → L = 75 m`],
-["res_modulation",`Modulations analogiques vs numériques`,`Analogiques : AM (amplitude), FM (fréq.),\n              PM (phase)\nNumériques  : ASK, FSK, PSK\nSignal : x(t) = A cos(θ(t))\nAM modifie A ; FM/PM modifient θ(t)`],
-["res_modulation",`Chaîne de communication`,`Source → Capteur → CAN → Codage bande de base\n   → Canal de transmission → Récepteur → Utilisation`],
-["res_supports",`Caractéristiques des supports`,`Coaxial     : 50/75 Ω, 500 m max\nPaire tors. : 100 Ω, 100 m max (UTP/STP/FTP)\nFibre       : monomode (1) / multimode (n)\n              ré-amplification ~250 km\nEspace libre: faisceaux hertziens, satellites`],
-["res_supports",`4 grands canaux`,`Filaire · Bifilaire · Fibre optique · Espace libre\nBande passante = plage de fréquences\n   transmissibles sans atténuation excessive`],
-["res_supports",`ETCD`,`Equipement Terminal de Circuit de Données\n(ex. : modem — convertit le signal pour la ligne)`]
+["res_supports",`Caractéristiques des supports`,`Coaxial     : 50/75 Ω, 500 m max\nPaire tors. : 100 Ω, 100 m max\nFibre       : monomode (1) / multimode (n),\n              ré-amplification ~250 km\nEspace libre: faisceaux hertziens, satellites`]
 ];
 
+/* ===================== EXERCICES ===================== */
+var EX=[
+["find",`Trouver les étudiants d'Agadir`,
+`<p>Collection <code>etudiants</code> : champ <code>ville</code>. Afficher tous les étudiants habitant à <b>Agadir</b>.</p>`,
+`<pre>db.etudiants.find({ ville: "Agadir" })</pre>`],
+["find",`Étudiants de plus de 22 ans`,
+`<p>Collection <code>etudiants</code> : champ <code>age</code> (numérique). Filtrer les étudiants ayant <b>strictement plus de 22 ans</b>.</p>`,
+`<pre>db.etudiants.find({ age: { $gt: 22 } })</pre>
+<p><code>$gt</code> = strictement supérieur. <code>$gte</code> aurait inclus 22.</p>`],
+["find",`Deux filières avec $in`,
+`<p>Collection <code>etudiants</code> : champ <code>filiere</code>. Afficher les étudiants inscrits en <b>Génie Informatique</b> ou <b>Génie Industriel</b>.</p>`,
+`<pre>db.etudiants.find({
+  filiere: { $in: ["Génie Informatique", "Génie Industriel"] }
+})</pre>
+<p><code>$in</code> teste l'appartenance à une liste (OU logique).</p>`],
+["find",`Étudiants ayant passé BD ET Réseaux`,
+`<p>Collection <code>etudiants</code> : <code>examens</code> est un tableau d'objets <code>{ matiere, note, bonus, ... }</code>. Afficher les étudiants ayant passé <b>les deux</b> examens « Bases de données » et « Réseaux ».</p>`,
+`<pre>db.etudiants.find({
+  "examens.matiere": { $all: ["Bases de données", "Réseaux"] }
+})</pre>
+<p><code>$all</code> sur le champ de l'élément (pas sur le tableau entier).</p>`],
+["find",`Étudiants ayant exactement 3 examens`,
+`<p>Collection <code>etudiants</code> : <code>examens</code> est un tableau. Afficher les étudiants ayant <b>exactement 3 examens</b>.</p>`,
+`<pre>db.etudiants.find({ examens: { $size: 3 } })</pre>
+<p><code>$size</code> teste la taille exacte (pas « au moins »).</p>`],
+["find",`Examen avec note ≥ 14 ET bonus ≥ 1`,
+`<p>Collection <code>etudiants</code> : <code>examens</code> est un tableau d'objets. Afficher les étudiants ayant <b>un même examen</b> avec <code>note ≥ 14</code> et <code>bonus ≥ 1</code>.</p>`,
+`<pre>db.etudiants.find({
+  examens: { $elemMatch: { note: { $gte: 14 }, bonus: { $gte: 1 } } }
+})</pre>
+<p><b>Attention</b> : deux conditions pointées (<code>"examens.note"</code> et <code>"examens.bonus"</code>) seraient satisfaites par deux examens différents. <code>$elemMatch</code> impose le même élément.</p>`],
+
+["tab",`Lister les matières de chaque étudiant`,
+`<p>Collection <code>etudiants</code> : <code>examens</code> est un tableau d'objets. Afficher, pour chaque étudiant, le tableau des <b>matières</b> uniquement.</p>`,
+`<pre>db.etudiants.find({}, { _id: 0, nom: 1,
+  matieres: { $map: {
+    input: "$examens", as: "e", in: "$$e.matiere"
+  } }
+})</pre>
+<p><code>$map</code> transforme chaque élément. <code>$$e</code> est la variable d'alias définie par <code>as</code>.</p>`],
+["tab",`Afficher uniquement les examens notés ≥ 14`,
+`<p>Collection <code>etudiants</code>. Afficher le tableau <code>examens</code> <b>filtré</b> aux seuls examens dont la <code>note ≥ 14</code>.</p>`,
+`<pre>db.etudiants.find({}, { _id: 0, nom: 1,
+  bons_examens: { $filter: {
+    input: "$examens", as: "e",
+    cond: { $gte: ["$$e.note", 14] }
+  } }
+})</pre>
+<p><code>$filter</code> garde les éléments qui respectent <code>cond</code>.</p>`],
+["tab",`Premier examen noté ≥ 14`,
+`<p>Collection <code>etudiants</code>. Afficher le <b>premier</b> examen dont la note est ≥ 14 (index 0 du tableau filtré).</p>`,
+`<pre>db.etudiants.find({}, { _id: 0, nom: 1,
+  premier_bon: { $arrayElemAt: [
+    { $filter: { input: "$examens", as: "e",
+      cond: { $gte: ["$$e.note", 14] } } },
+    0
+  ] }
+})</pre>
+<p>Si aucun examen ne passe le filtre, le champ est simplement absent du résultat (pas d'erreur).</p>`],
+["tab",`Deux premiers examens notés ≥ 12`,
+`<p>Collection <code>etudiants</code>. Filtrer les examens notés ≥ 12, puis n'en garder que les <b>deux premiers</b>.</p>`,
+`<pre>db.etudiants.find({}, { _id: 0, nom: 1,
+  deux_premiers: { $slice: [
+    { $filter: { input: "$examens", as: "e",
+      cond: { $gte: ["$$e.note", 12] } } },
+    2
+  ] }
+})</pre>
+<p><code>$slice</code> appliqué à un <code>$filter</code> tronque le tableau filtré.</p>`],
+
+["upd",`Changer le prix de la Souris Gamer`,
+`<p>Collection <code>produits</code>. Mettre le <b>prix</b> du produit « Souris Gamer » à <b>350</b>.</p>`,
+`<pre>db.produits.updateOne(
+  { nom: "Souris Gamer" },
+  { $set: { prix: 350 } }
+)</pre>`],
+["upd",`Augmenter les heures de présence d'un groupe`,
+`<p>Collection <code>etudiants</code> : <code>scolarite.heures_presence</code> est dans un sous-document. Augmenter de <b>10 heures</b> les heures de présence de tous les étudiants en <b>Génie Informatique</b>.</p>`,
+`<pre>db.etudiants.updateMany(
+  { filiere: "Génie Informatique" },
+  { $inc: { "scolarite.heures_presence": 10 } }
+)</pre>
+<p><b>Notation pointée obligatoire</b> pour le sous-document.</p>`],
+["upd",`Supprimer un champ du sous-document`,
+`<p>Collection <code>etudiants</code>. Supprimer le champ <code>scolarite.absences</code> pour tous les étudiants en <b>Génie Électrique</b>.</p>`,
+`<pre>db.etudiants.updateMany(
+  { filiere: "Génie Électrique" },
+  { $unset: { "scolarite.absences": "" } }
+)</pre>
+<p>La valeur passée à <code>$unset</code> est ignorée (on met <code>""</code> par convention).</p>`],
+["upd",`Renommer ville en ville_origine`,
+`<p>Collection <code>etudiants</code>. Renommer le champ <code>ville</code> en <code>ville_origine</code> sur <b>tous</b> les documents.</p>`,
+`<pre>db.etudiants.updateMany(
+  {},
+  { $rename: { ville: "ville_origine" } }
+)</pre>
+<p><code>{}</code> = tous les documents. <code>$rename</code> ne supporte pas <code>arrayFilters</code>.</p>`],
+["upd",`Ajouter un examen à un étudiant`,
+`<p>Collection <code>etudiants</code>. Ajouter à <b>Omar Tazi</b> un examen :
+<code>{ matiere: "Recherche opérationnelle", semestre: "S2", bonus: 1, tp_rendus: 1, note: 16.5 }</code>.</p>`,
+`<pre>db.etudiants.updateOne(
+  { nom: "Omar Tazi" },
+  { $push: { examens: {
+    matiere: "Recherche opérationnelle",
+    semestre: "S2", bonus: 1, tp_rendus: 1, note: 16.5
+  } } }
+)</pre>`],
+["upd",`Retirer les examens de Réseaux`,
+`<p>Collection <code>etudiants</code>. Retirer du tableau <code>examens</code> de <b>Youssef Amrani</b> tous les examens dont la matière est « Réseaux ».</p>`,
+`<pre>db.etudiants.updateOne(
+  { nom: "Youssef Amrani" },
+  { $pull: { examens: { matiere: "Réseaux" } } }
+)</pre>
+<p><code>$pull</code> retire <b>tous</b> les éléments qui correspondent (pas seulement le premier).</p>`],
+["upd",`Modifier la note d'un match précis`,
+`<p>Collection <code>joueurs</code> : <code>matchs</code> est un tableau d'objets. Pour <b>Achraf Hakimi</b>, mettre à <b>9.0</b> la note du match dont l'adversaire est <b>Marseille</b>.</p>`,
+`<pre>db.joueurs.updateOne(
+  { nom: "Achraf Hakimi" },
+  { $set: { "matchs.$[m].note": 9.0 } },
+  { arrayFilters: [ { "m.adversaire": "Marseille" } ] }
+)</pre>
+<p><code>$[m]</code> + <code>arrayFilters</code> = toutes les occurrences qui respectent la condition. L'opérateur <code>$</code> seul ne modifierait que la première.</p>`],
+["upd",`Incrémenter la note des matchs avec but`,
+`<p>Collection <code>joueurs</code>. Incrémenter de <b>0.2</b> la note de <b>tous les matchs</b> où le joueur a marqué <b>au moins 1 but</b>, pour tous les joueurs.</p>`,
+`<pre>db.joueurs.updateMany(
+  {},
+  { $inc: { "matchs.$[m].note": 0.2 } },
+  { arrayFilters: [ { "m.buts": { $gte: 1 } } ] }
+)</pre>`],
+["del",`Remplacer entièrement un document`,
+`<p>Collection <code>joueurs</code>. Remplacer le document de <b>Sofyan Amrabat</b> par :
+<code>{ nom: "Sofyan Amrabat", club: "Manchester United", nationalite: "Maroc", poste: "Milieu défensif" }</code>.</p>`,
+`<pre>db.joueurs.replaceOne(
+  { nom: "Sofyan Amrabat" },
+  { nom: "Sofyan Amrabat", club: "Manchester United",
+    nationalite: "Maroc", poste: "Milieu défensif" }
+)</pre>
+<p><b>Aucun opérateur</b> (<code>$set</code>, <code>$inc</code>…) n'est permis. Tous les champs à garder doivent être réécrits. L'<code>_id</code> est conservé.</p>`],
+
+["phpop",`Évaluer des expressions (1/2)`,
+`<p>Sans exécuter le code, donner la valeur de :</p>
+<ol>
+<li><code>17 % 5</code> puis <code>2 ** 3 + 1</code></li>
+<li><code>$x = 4; $x *= 3; $x -= 2;</code> (valeur finale de <code>$x</code>)</li>
+<li><code>"7" == 7</code> puis <code>"7" === 7</code></li>
+</ol>`,
+`<ol>
+<li><code>17 % 5 = 2</code> (reste de 17 ÷ 5). <code>2 ** 3 + 1 = 8 + 1 = 9</code>.</li>
+<li><code>$x *= 3</code> → 12, puis <code>$x -= 2</code> → <b>10</b>.</li>
+<li><code>"7" == 7</code> → <b>true</b> (comparaison souple, conversion). <code>"7" === 7</code> → <b>false</b> (types différents : string vs int).</li>
+</ol>`],
+["phpop",`Évaluer des expressions (2/2)`,
+`<p>Sans exécuter le code, donner la valeur de :</p>
+<ol>
+<li><code>(10 > 5) &amp;&amp; (3 > 8)</code> puis <code>(10 > 5) || (3 > 8)</code></li>
+<li><code>!(4 <= 4)</code></li>
+<li><code>$a = 3; $b = $a++ + 2;</code> (valeurs de <code>$a</code> et <code>$b</code>)</li>
+</ol>`,
+`<ol>
+<li><code>true &amp;&amp; false = false</code>. <code>true || false = true</code>.</li>
+<li><code>4 <= 4</code> = true ; <code>!true = false</code>.</li>
+<li><code>$a++</code> renvoie 3 (valeur utilisée dans l'addition), puis <code>$a</code> devient 4. Donc <code>$b = 3 + 2 = 5</code> et <b><code>$a = 4</code>, <code>$b = 5</code></b>.</li>
+</ol>`],
+["phpcond",`Attribuer une mention avec if/elseif`,
+`<p>Écrire la chaîne <code>if / elseif / else</code> qui affecte à <code>$mention</code> :</p>
+<ul>
+<li>« Très bien » si <code>$note >= 16</code></li>
+<li>« Bien » si <code>$note >= 14</code></li>
+<li>« Assez bien » si <code>$note >= 12</code></li>
+<li>« Passable » si <code>$note >= 10</code></li>
+<li>« Non validé » sinon</li>
+</ul>
+<p>Pour <code>$note = 13.5</code>, quelle mention est obtenue ?</p>`,
+`<pre>$note = 13.5;
+if ($note >= 16)      { $mention = "Très bien"; }
+elseif ($note >= 14)  { $mention = "Bien"; }
+elseif ($note >= 12)  { $mention = "Assez bien"; }
+elseif ($note >= 10)  { $mention = "Passable"; }
+else                  { $mention = "Non validé"; }
+// → "Assez bien"</pre>
+<p>Ordre <b>essentiel</b> : du plus restrictif au plus large. Si on testait <code>>= 10</code> d'abord, tout le monde serait « Passable ».</p>`],
+["phpcond",`switch : jour de la semaine`,
+`<p>Écrire un <code>switch</code> qui, selon <code>$jour</code> (1 à 7), affecte à <code>$nom</code> :</p>
+<ul>
+<li>1 → Lundi, 2 → Mardi, 3 → Mercredi</li>
+<li>6 et 7 → Week-end (même bloc)</li>
+<li>sinon → Autre jour</li>
+</ul>`,
+`<pre>switch ($jour) {
+  case 1: $nom = "Lundi"; break;
+  case 2: $nom = "Mardi"; break;
+  case 3: $nom = "Mercredi"; break;
+  case 6:
+  case 7: $nom = "Week-end"; break;
+  default: $nom = "Autre jour";
+}</pre>
+<p>Deux <code>case</code> à la suite sans <code>break</code> entre eux = regroupement. <code>break</code> obligatoire pour éviter le fall-through.</p>`],
+["phpcond",`Même chose avec match (PHP 8)`,
+`<p>Reprendre l'exercice précédent en utilisant <code>match</code> (PHP 8). Tester aussi les intervalles de note.</p>`,
+`<pre>$nom = match ($jour) {
+  1 => "Lundi",
+  2 => "Mardi",
+  3 => "Mercredi",
+  6, 7 => "Week-end",
+  default => "Autre jour",
+};
+
+// Tester des intervalles
+$mention = match (true) {
+  $note >= 16 => "Très bien",
+  $note >= 14 => "Bien",
+  $note >= 10 => "Passable",
+  default     => "Non validé",
+};</pre>
+<p><code>match</code> : expression, comparaison <b>stricte</b> (<code>===</code>), pas de <code>break</code>, erreur si aucun cas sans <code>default</code>.</p>`],
+
+["ql_metrics",`Complexité cyclomatique du code GestionClient`,
+`<p>Soit la méthode :</p>
+<pre>public double totalAchat() {
+  double t = 0;
+  for (Commande c : commandes) {
+    t += c.getPrix();
+  }
+  return t;
+}</pre>
+<p>Calculer la complexité cyclomatique <b>V(G)</b> de cette méthode. Combien de cas de test sont nécessaires pour couvrir les décisions ?</p>`,
+`<p><b>V(G)</b> = nombre de décisions + 1. Ici : 1 seule décision (la boucle <code>for</code>).</p>
+<p><b>V(G) = 2</b>.</p>
+<p>Nombre minimal de cas de test pour une couverture des décisions = <b>V(G) = 2</b>.</p>
+<p>Seuils : V(G) ≤ 10 = simple, 11-20 = modéré, > 20 = complexe. Ici → <b>simple</b>.</p>`],
+["ql_metrics",`WMC, CBO, LCOM de GestionClient`,
+`<p>Soit la classe :</p>
+<pre>public class GestionClient {
+  private String nom;
+  private List<Commande> commandes;
+  public String getNom() { ... }
+  public void ajouterCommande(Commande c) { ... }
+  public double totalAchat() { ... } // boucle for
+  public void notifier() {
+    EmailService.envoyer(nom, "Résumé");
+    SMS.envoyer(nom, "OK");
+  }
+}</pre>
+<p>Calculer <b>WMC</b>, <b>CBO</b> et <b>LCOM</b>. Interpréter.</p>`,
+`<p><b>WMC</b> = Σ V(G) = 1 + 1 + 2 + 1 = <b>5</b> → faible (≤ 10).</p>
+<p><b>CBO</b> = EmailService + SMS = <b>2</b> → faible (≤ 5).</p>
+<p><b>LCOM</b> = P − Q. 4 méthodes → 6 paires. Paires sans attribut commun :
+<code>getNom ~ totalAchat</code>, <code>getNom ~ notifier</code>, <code>ajouterCommande ~ notifier</code>, <code>totalAchat ~ notifier</code>, <code>ajouterCommande ~ totalAchat</code> (non : totalAchat utilise commandes, comme ajouterCommande), <code>getNom ~ ajouterCommande</code> (non : nom et commandes ≠).</p>
+<p>Comptons : seules les paires <code>getNom ~ totalAchat</code>, <code>getNom ~ notifier</code>, <code>ajouterCommande ~ notifier</code>, <code>totalAchat ~ notifier</code> n'ont pas d'attribut commun → <b>P = 4</b>. Q = 2 (paires qui partagent un attribut : <code>getNom ~ ajouterCommande</code> ne partagent rien non plus...).</p>
+<p>Selon l'énoncé du cours : <b>LCOM = 5 − 1 = 4</b> → faible cohésion (> 1). Recommandation : envisager de séparer <code>notifier()</code>.</p>`],
+["ql_metrics",`Diagnostic d'une classe`,
+`<p>Un développeur vous montre une classe avec :</p>
+<ul><li>WMC = 28</li><li>CBO = 12</li><li>LCOM = 5</li></ul>
+<p>Évaluer la qualité et proposer des actions.</p>`,
+`<p><b>WMC = 28</b> → &gt; 20 = élevé (complexité excessive).</p>
+<p><b>CBO = 12</b> → &gt; 10 = élevé (couplage excessif).</p>
+<p><b>LCOM = 5</b> → &gt; 1 = faible cohésion.</p>
+<p><b>Diagnostic</b> : la classe concentre trop de responsabilités, dépend de trop d'autres classes, et ses méthodes ne partagent pas les mêmes attributs.</p>
+<p><b>Actions</b> :</p>
+<ul>
+<li>Refactoriser pour réduire la complexité (extraire des méthodes).</li>
+<li>Découpler (interfaces, injection de dépendances).</li>
+<li>Répartir les responsabilités (split en plusieurs classes).</li>
+<li>Renforcer les tests et faire une revue de code.</li>
+</ul>`],
+
+["mob_btn",`Bouton qui change de texte`,
+`<p>Créer une application Flutter avec un <code>ElevatedButton</code> centré. Initialement le texte est <b>« Cliquer ici »</b>. Au clic, le texte devient <b>« Bouton cliqué ! »</b>. Utiliser un <code>StatefulWidget</code> et <code>setState</code>.</p>`,
+`<pre>class Bouton extends StatefulWidget {
+  const Bouton({super.key});
+  @override
+  State&lt;Bouton&gt; createState() =&gt; _BoutonState();
+}
+
+class _BoutonState extends State&lt;Bouton&gt; {
+  String txt = 'Cliquer ici';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Hello Flutter Buttons")),
+      body: Center(
+        child: SizedBox(
+          width: 300, height: 80,
+          child: ElevatedButton(
+            onPressed: () =&gt; setState(() =&gt; txt = 'Bouton cliqué !'),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(txt, style: const TextStyle(fontSize: 25)),
+                const Icon(Icons.add_shopping_cart, size: 30),
+              ],
+            ),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.all(20),
+              backgroundColor: Colors.yellow,
+              foregroundColor: Colors.black,
+              elevation: 15,
+              shadowColor: Colors.yellow,
+              shape: const StadiumBorder(),
+              side: const BorderSide(color: Colors.black, width: 2),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}</pre>`],
+["mob_btn",`Double compteur (+ et -)`,
+`<p>Modifier l'application compteur par défaut pour ajouter un <b>deuxième bouton</b> permettant de <b>décrémenter</b> le compteur. Utiliser un <code>StatefulWidget</code>.</p>`,
+`<pre>class MyApp3 extends StatefulWidget {
+  const MyApp3({super.key});
+  @override
+  State&lt;MyApp3&gt; createState() =&gt; _MyApp3State();
+}
+
+class _MyApp3State extends State&lt;MyApp3&gt; {
+  int compteur = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.red,
+          title: const Text("DOUBLE compteur ;)",
+              style: TextStyle(color: Colors.white)),
+        ),
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            FloatingActionButton(
+              onPressed: () =&gt; setState(() =&gt; compteur--),
+              child: const Icon(Icons.remove),
+            ),
+            Text('$compteur', style: const TextStyle(fontSize: 40)),
+            FloatingActionButton(
+              onPressed: () =&gt; setState(() =&gt; compteur++),
+              child: const Icon(Icons.add),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}</pre>`],
+["mob_txt",`Formulaire de login (email + mot de passe)`,
+`<p>Créer un écran avec :</p>
+<ul>
+<li>Un <code>TextFormField</code> email (validation : non vide, clavier email).</li>
+<li>Un <code>TextFormField</code> mot de passe (<code>obscureText: true</code>).</li>
+<li>Un bouton « Login » qui, si le formulaire est valide, affiche le mail et le mot de passe saisis, puis vide les champs.</li>
+</ul>`,
+`<pre>class MyForm extends StatefulWidget {
+  const MyForm({super.key});
+  @override
+  State&lt;MyForm&gt; createState() =&gt; _MyFormState();
+}
+
+class _MyFormState extends State&lt;MyForm&gt; {
+  var mailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var txt = '';
+  var formKey = GlobalKey&lt;FormState&gt;();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        title: const Text("Login Page"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(100.0),
+        child: Form(
+          key: formKey,
+          child: Column(children: [
+            TextFormField(
+              validator: (val) {
+                if (val!.isEmpty) return "veuillez saisir votre mail";
+                return null;
+              },
+              controller: mailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                labelText: 'Email',
+                prefixIcon: Icon(Icons.person),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextFormField(
+              controller: passwordController,
+              obscureText: true,
+              obscuringCharacter: "*",
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                prefixIcon: Icon(Icons.key),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 50),
+            ElevatedButton(
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  setState(() {
+                    txt = 'Mail: \${mailController.text}, '
+                          'Password: \${passwordController.text}';
+                    mailController.clear();
+                    passwordController.clear();
+                  });
+                } else {
+                  setState(() => txt = "formulaire non valide");
+                }
+              },
+              child: const Text('Login'),
+            ),
+            const SizedBox(height: 20),
+            Text(txt, style: const TextStyle(fontSize: 15)),
+          ]),
+        ),
+      ),
+    );
+  }
+}</pre>`],
+
+["res_capacite",`Shannon : calculer S/N (Exercice 1)`,
+`<p>Une voie possède une capacité de <b>20 Mb/s</b>. La largeur de bande est de <b>3 MHz</b>. Quel doit être le rapport signal/bruit <b>S/N</b> ?</p>`,
+`<p>Formule de Shannon : <code>C = W · log₂(1 + S/N)</code></p>
+<p><code>20·10⁶ = 3·10⁶ · log₂(1 + S/N)</code></p>
+<p><code>log₂(1 + S/N) = 20/3 ≈ 6,667</code></p>
+<p><code>1 + S/N = 2^6,667 ≈ 101</code></p>
+<p><b>S/N ≈ 100</b> (soit ≈ 20 dB).</p>`],
+["res_capacite",`Temps de transmission (Exercice 2)`,
+`<p>Le temps de transmission de <b>16 Mo</b> sur un réseau dont le débit est de <b>16 Mb/s</b> vaut :</p>
+<ul><li>a) 8.38 s</li><li>b) 16 s</li><li>c) 16.3 s</li><li>d) 8 s</li></ul>`,
+`<p>Attention aux unités : <b>Mo</b> = mégaoctet binaire (2²⁰ octets), <b>Mb</b> = mégabit décimal (10⁶ bits).</p>
+<p>16 Mo = 16 × 2²⁰ octets = 16 777 216 octets = 134 217 728 bits.</p>
+<p><code>T = 134 217 728 / 16 000 000 ≈ 8,38 s</code></p>
+<p><b>Réponse : a) 8,38 s</b>.</p>`],
+["res_capacite",`Rapidité de modulation (V = 8)`,
+`<p>Un système transmet à <b>D = 2400 b/s</b> avec des signaux <b>octovalents</b> (V = 8). Quelle est la rapidité de modulation <b>R</b> ?</p>`,
+`<p><code>R = D / log₂(V) = 2400 / log₂(8) = 2400 / 3 = 800 bauds</code></p>
+<p><b>R = 800 bauds</b>.</p>`],
+["res_capacite",`Échantillonnage (Exercice 5)`,
+`<p>La durée d'un enregistrement est de <b>2 s</b>. Déterminer le nombre d'échantillons pris avec une période d'échantillonnage <b>Te = 0,5 ms</b>.</p>`,
+`<p><code>Fe = 1/Te = 1 / 0,5·10⁻³ = 2000 Hz</code></p>
+<p><code>N = T / Te = 2 / 0,5·10⁻³ = 4000</code></p>
+<p>ou <code>N = T × Fe = 2 × 2000 = 4000</code></p>
+<p><b>N = 4000 échantillons</b>.</p>`],
+["res_capacite",`dBm (Exercice 6)`,
+`<p>Niveau en dBm : <code>V_dBm = 10 log₁₀(P / 1mW)</code>. Pour <b>R = 50 Ω</b>, calculer le niveau correspondant à <b>100 V</b> puis <b>1 µV</b>.</p>`,
+`<p>Puissance : <code>P = V_eff² / R</code> (indépendante de la fréquence).</p>
+<p><b>100 V</b> : P = (100)² / 50 = 200 W = 200 000 mW → <code>10 log(200 000) ≈ +53 dBm</code>.</p>
+<p><b>1 µV</b> : P = (10⁻⁶)² / 50 = 2·10⁻¹⁴ W = 2·10⁻¹¹ mW → <code>10 log(2·10⁻¹¹) ≈ −107 dBm</code>.</p>`],
+["res_capacite",`Son numérisé : débit de la ligne (Test n°2)`,
+`<p>On numérise un son à <b>8000 Hz</b> et on le code sur <b>8 bits</b>. Quel doit être le débit de la ligne ?</p>`,
+`<p><code>D = Fe × nb_bits = 8000 × 8 = 64 000 b/s = 64 kb/s</code></p>
+<p><b>Débit = 64 kb/s</b> (c'est le débit de la téléphonie numérisée).</p>`],
+["res_capacite",`Capacité d'une voie téléimprimeur (Test n°2)`,
+`<p>Quelle est la capacité d'une ligne de largeur de bande <b>200 Hz</b> avec un rapport signal/bruit de <b>2 dB</b> ?</p>`,
+`<p>Convertir S/N en linéaire : <code>S/N = 10^(2/10) ≈ 1,585</code>.</p>
+<p><code>C = 200 · log₂(1 + 1,585) = 200 · log₂(2,585)</code></p>
+<p><code>log₂(2,585) ≈ 1,37</code> → <b>C ≈ 274 b/s</b>.</p>`],
+["res_codage",`Encoder 0100111000 en NRZ et Manchester (Exercice 7)`,
+`<p>Représenter la suite binaire <b>0100111000</b> en NRZ et Manchester.</p>`,
+`<p><b>NRZ</b> (convention : 0 = −V, 1 = +V) :</p>
+<pre>Bits :  0   1   0   0   1   1   1   0   0   0
+NRZ  : −V  +V  −V  −V  +V  +V  +V  −V  −V  −V</pre>
+<p>Un niveau constant par bit, pas de retour à zéro. <code>R = D</code>.</p>
+
+<p><b>Manchester</b> (convention : 0 = H→L, 1 = L→H) :</p>
+<pre>Bits   :  0   1   0   0   1   1   1   0   0   0
+Manch. : HL  LH  HL  HL  LH  LH  LH  HL  HL  HL</pre>
+<p>Transition au milieu de chaque bit, DC nulle, auto-synchronisant. <code>R = 2D</code>.</p>`],
+["res_codage",`Manchester avec Δ = 10⁻⁸ s (Exercice 10)`,
+`<p>On observe un signal codé en <b>Manchester</b> avec <b>Δ = 10⁻⁸ s</b> (demi-bit). Donner le <b>débit</b> du support.</p>`,
+`<p>En Manchester, Δ = durée d'un demi-bit. Donc :</p>
+<p><code>T_bit = 2Δ = 2 × 10⁻⁸ s</code></p>
+<p><code>D = 1 / T_bit = 1 / (2 × 10⁻⁸) = 50 × 10⁶</code></p>
+<p><b>D = 50 Mb/s</b>.</p>`],
+["res_modulation",`Antenne : f = 1 kHz vs 1 MHz`,
+`<p>Longueur d'onde <code>λ = c/f</code>, antenne <code>L = λ/4</code>, <code>c = 3·10⁸ m/s</code>. Calculer L pour f = 1 kHz puis f = 1 MHz. Conclure.</p>`,
+`<p><b>f = 1 kHz</b> : λ = 3·10⁸ / 10³ = 300 km → L = 75 km (irréaliste).</p>
+<p><b>f = 1 MHz</b> : λ = 3·10⁸ / 10⁶ = 300 m → L = 75 m (raisonnable).</p>
+<p><b>Conclusion</b> : la modulation permet d'augmenter la fréquence porteuse et donc de réduire les dimensions de l'antenne à des valeurs pratiques.</p>`]
+];
+
+/* ===================== Helpers ===================== */
 var $=function(i){return document.getElementById(i)};
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 function fmt(s){return s.replace(/\[\[(.+?)\]\]/g,"<code>$1</code>")}
@@ -615,7 +934,9 @@ function setMode(m){
   updateModeButtons();
   $("quiz").classList.toggle("hid", m !== "quiz");
   $("cards").classList.toggle("hid", m !== "cards");
+  $("exos").classList.toggle("hid", m !== "exos");
   showFiche();
+  if (m === "exos") buildExos();
 }
 function fillSelect(sel, subj){
   sel.innerHTML = "";
@@ -633,10 +954,12 @@ function setSubject(s){
   updateSubjectButtons();
   fillSelect($("cat"), s);
   fillSelect($("ccat"), s);
+  fillSelect($("ecat"), s);
   showBest();
   buildDeck();
   $("qrun").classList.add("hid");
   $("qsetup").classList.remove("hid");
+  if (app.mode === "exos") buildExos();
   showFiche();
 }
 document.querySelectorAll(".subjects button").forEach(function(b){
@@ -645,6 +968,19 @@ document.querySelectorAll(".subjects button").forEach(function(b){
 document.querySelectorAll("nav.modes button").forEach(function(b){
   b.onclick = function(){ setMode(b.dataset.mode); };
 });
+
+/* Bandeau beta : mémoriser la fermeture */
+(function(){
+  var bar = $("betaBar"), btn = $("betaClose");
+  if (!bar || !btn) return;
+  if (localStorage.getItem("rev-beta-dismissed") === "1"){
+    bar.classList.add("hid");
+  }
+  btn.onclick = function(){
+    bar.classList.add("hid");
+    try { localStorage.setItem("rev-beta-dismissed", "1"); } catch(e){}
+  };
+})();
 
 /* ===== Quiz ===== */
 var run = null;
@@ -762,9 +1098,59 @@ $("prev").onclick = function(){ ci = (ci-1+deck.length) % deck.length; back = fa
 $("shuf").onclick = buildDeck;
 $("ccat").onchange = buildDeck;
 
+/* ===== Exercices ===== */
+var exDeck = [], exI = 0, exReveal = false;
+
+function buildExos(){
+  var subj = app.subject, c = $("ecat").value;
+  exDeck = EX.filter(function(x){
+    if (subjectOf(x[0]) !== subj) return false;
+    if (c === "all") return true;
+    return x[0] === c;
+  });
+  exI = 0; exReveal = false;
+  drawExo();
+}
+function drawExo(){
+  var card = $("excard");
+  if (!exDeck.length){
+    card.innerHTML = '<p class="meta">Pas d\'exercice pour ce thème.</p>';
+    $("ecnt").textContent = "";
+    return;
+  }
+  var x = exDeck[exI];
+  var catLabel = CATS[app.subject][x[0]] || x[0];
+  var h = '<span class="exo-cat">' + esc(catLabel) + '</span>';
+  h += '<h3 class="exo-title">' + esc(x[1]) + '</h3>';
+  h += '<div class="exo-q">' + x[2] + '</div>';
+  if (exReveal){
+    h += '<div class="exo-sol"><h4>Correction</h4>' + x[3] + '</div>';
+    h += '<div class="row" style="margin-top:14px"><button class="btn alt" id="ehide">Masquer la correction</button></div>';
+  } else {
+    h += '<div class="row" style="margin-top:6px"><button class="btn" id="eshow">Voir la correction</button></div>';
+  }
+  card.innerHTML = h;
+  if ($("eshow")) $("eshow").onclick = function(){ exReveal = true; drawExo(); };
+  if ($("ehide")) $("ehide").onclick = function(){ exReveal = false; drawExo(); };
+  $("ecnt").textContent = (exI+1) + " / " + exDeck.length;
+}
+$("ecat").onchange = buildExos;
+$("eshuf").onclick = function(){ exDeck = shuffle(exDeck); exI = 0; exReveal = false; drawExo(); };
+$("eprev").onclick = function(){
+  if (!exDeck.length) return;
+  exI = (exI - 1 + exDeck.length) % exDeck.length;
+  exReveal = false; drawExo();
+};
+$("enext").onclick = function(){
+  if (!exDeck.length) return;
+  exI = (exI + 1) % exDeck.length;
+  exReveal = false; drawExo();
+};
+
 /* ===== Init ===== */
 fillSelect($("cat"), app.subject);
 fillSelect($("ccat"), app.subject);
+fillSelect($("ecat"), app.subject);
 updateSubjectButtons();
 updateModeButtons();
 showBest();
