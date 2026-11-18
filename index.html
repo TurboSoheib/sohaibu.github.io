@@ -678,166 +678,304 @@ $mention = match (true) {
 <li>Renforcer les tests et faire une revue de code.</li>
 </ul>`],
 
-["mob_btn",`Bouton qui change de texte`,
-`<p>Créer une application Flutter avec un <code>ElevatedButton</code> centré. Initialement le texte est <b>« Cliquer ici »</b>. Au clic, le texte devient <b>« Bouton cliqué ! »</b>. Utiliser un <code>StatefulWidget</code> et <code>setState</code>.</p>`,
-`<pre>class Bouton extends StatefulWidget {
+/* ========== MOBILE : boutons ========== */
+["mob_btn", `Quel bouton pour l'action principale ?`,
+`<p>Dans une app de gestion de stock, l'écran principal doit avoir un bouton pour <b>« Ajouter un produit »</b>, qui est l'action la plus importante de l'écran.</p>
+<p>Quel widget utiliser ?</p>
+<ol type="a"><li><code>TextButton</code></li><li><code>OutlinedButton</code></li><li><code>ElevatedButton</code></li><li><code>IconButton</code></li></ol>`,
+`<p><b>Réponse : c) ElevatedButton</b></p>
+<p>Hiérarchie d'importance en Flutter :</p>
+<ul><li><b>ElevatedButton</b> : action principale, 1 seul par écran</li><li><b>OutlinedButton</b> : action importante mais secondaire (bordure sans fond)</li><li><b>TextButton</b> : action tertiaire (sans fond ni bordure)</li><li><b>IconButton</b> : action rapide (icône seule)</li></ul>
+<p>Pour une action <b>principale</b> et <b>unique</b> : ElevatedButton.</p>`],
+
+["mob_btn", `Trouve le bug : le FAB ne s'affiche pas`,
+`<p>Ce <code>FloatingActionButton</code> n'apparaît pas à l'écran. Pourquoi ?</p>
+<pre>Scaffold(
+  body: Column(children: [
+    Text("Bienvenue"),
+    FloatingActionButton(
+      onPressed: () {},
+      child: Icon(Icons.add),
+    ),
+  ]),
+)</pre>`,
+`<p><b>Bug</b> : le FAB doit être passé au paramètre <code>floatingActionButton:</code> du Scaffold, pas placé dans le <code>body</code>.</p>
+<pre>Scaffold(
+  body: Center(child: Text("Bienvenue")),
+  floatingActionButton: FloatingActionButton(
+    onPressed: () {},
+    child: Icon(Icons.add),
+  ),
+)</pre>
+<p>Le Scaffold gère la position du FAB (en bas à droite par défaut). Dans le body, c'est juste un cercle qui ne « flotte » pas au-dessus du contenu.</p>`],
+
+["mob_btn", `Compléter un styleFrom`,
+`<p>Complète le style pour obtenir : fond jaune, forme pilule, bordure noire de 2 px.</p>
+<pre>ElevatedButton(
+  onPressed: () {},
+  child: Text("Cliquer"),
+  style: ElevatedButton.styleFrom(
+    backgroundColor: ___,
+    shape: ___,
+    side: ___,
+  ),
+)</pre>`,
+`<pre>ElevatedButton(
+  onPressed: () {},
+  child: Text("Cliquer"),
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.yellow,
+    shape: StadiumBorder(),
+    side: BorderSide(color: Colors.black, width: 2),
+  ),
+)</pre>
+<p><b>StadiumBorder()</b> = forme pilule (bords complètement arrondis). Pour des coins arrondis classiques : <code>RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))</code>.</p>
+<p><b>BorderSide</b> définit une bordure visible. Sans <code>side</code>, pas de bordure.</p>`],
+
+["mob_btn", `Quels widgets sont obsolètes ?`,
+`<p>Parmi ces anciens widgets, lesquels ont été remplacés ? (plusieurs réponses possibles)</p>
+<ol type="a"><li><code>FlatButton</code> → <code>TextButton</code></li><li><code>RaisedButton</code> → <code>ElevatedButton</code></li><li><code>OutlineButton</code> → <code>OutlinedButton</code></li><li><code>IconButton</code> → <code>IconButtonNew</code></li></ol>`,
+`<p><b>Réponses : a, b, c</b> (les trois premiers sont obsolètes)</p>
+<ul><li><code>FlatButton</code> → <code>TextButton</code></li><li><code>RaisedButton</code> → <code>ElevatedButton</code></li><li><code>OutlineButton</code> → <code>OutlinedButton</code></li></ul>
+<p><code>IconButton</code> n'a pas été remplacé. Chaque ancien widget avait un thème unique (<code>ButtonTheme</code>) ; les nouveaux ont chacun le leur (<code>TextButtonTheme</code>, <code>ElevatedButtonTheme</code>, <code>OutlinedButtonTheme</code>).</p>`],
+
+["mob_btn", `Bouton qui change de texte au clic`,
+`<p>Écris un <code>ElevatedButton</code> centré qui affiche « Cliquer ici », et au clic devient « Bouton cliqué ! ».</p>
+<p>Avant de coder, réponds :</p>
+<ol><li>Quel type de widget pour stocker le texte (qui change) ?</li><li>Quelle méthode appeler pour rafraîchir l'écran ?</li></ol>`,
+`<ol><li>Une <b>variable d'état</b> dans un <code>StatefulWidget</code> : <code>String txt = 'Cliquer ici';</code></li><li><b><code>setState()</code></b> — sans ça, la variable change mais l'UI ne se met pas à jour.</li></ol>
+<pre>class Bouton extends StatefulWidget {
   const Bouton({super.key});
   @override
   State&lt;Bouton&gt; createState() =&gt; _BoutonState();
 }
-
 class _BoutonState extends State&lt;Bouton&gt; {
   String txt = 'Cliquer ici';
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: () => setState(() => txt = 'Bouton cliqué !'),
+        child: Text(txt),
+      ),
+    );
+  }
+}</pre>`],
 
+/* ========== MOBILE : TextFields / formulaires ========== */
+["mob_txt", `TextField ou TextFormField ?`,
+`<p>Tu dois créer un formulaire d'inscription avec validation (champ email obligatoire). Quel widget utiliser ?</p>
+<ol type="a"><li><code>TextField</code> seul</li><li><code>TextFormField</code> dans un <code>Form</code></li><li><code>TextEditingController</code></li><li><code>FormField</code></li></ol>`,
+`<p><b>Réponse : b) TextFormField dans un Form</b></p>
+<ul><li><code>TextField</code> : saisie simple, pas de validation intégrée</li><li><code>TextFormField</code> : accepte un <code>validator</code> (retourne <code>String?</code>) et s'intègre dans un <code>Form</code> pour tout valider d'un coup</li><li><code>TextEditingController</code> : sert à lire/vider, pas à valider</li></ul>
+<p>Le <code>Form</code> doit avoir une <code>GlobalKey&lt;FormState&gt;</code> pour déclencher la validation : <code>formKey.currentState!.validate()</code>.</p>`],
+
+["mob_txt", `Trouve le bug : mot de passe visible`,
+`<p>Ce champ est censé masquer le mot de passe, mais les caractères sont visibles. Pourquoi ?</p>
+<pre>TextFormField(
+  controller: passwordController,
+  decoration: InputDecoration(labelText: 'Password'),
+)</pre>`,
+`<p><b>Bug</b> : il manque <code>obscureText: true</code>.</p>
+<pre>TextFormField(
+  controller: passwordController,
+  obscureText: true,
+  obscuringCharacter: '*',  // optionnel, '•' par défaut
+  decoration: InputDecoration(labelText: 'Password'),
+)</pre>
+<p>Sans <code>obscureText</code>, le texte est affiché en clair. <code>obscuringCharacter</code> change le caractère de remplacement.</p>`],
+
+["mob_txt", `Compléter un champ email`,
+`<p>Complète ce TextFormField pour : clavier email + icône personne à gauche + bordure en contour.</p>
+<pre>TextFormField(
+  ___,
+  decoration: InputDecoration(
+    labelText: 'Email',
+    ___,
+    ___,
+  ),
+)</pre>`,
+`<pre>TextFormField(
+  keyboardType: TextInputType.emailAddress,
+  decoration: InputDecoration(
+    labelText: 'Email',
+    prefixIcon: Icon(Icons.person),
+    border: OutlineInputBorder(),
+  ),
+)</pre>
+<p><b>keyboardType</b> : <code>.emailAddress</code> affiche un clavier avec <code>@</code>. Autres : <code>.number</code>, <code>.multiline</code>, <code>.phone</code>…</p>
+<p><b>prefixIcon</b> : icône <b>à gauche dans</b> le champ. <code>icon</code> (sans prefix) la place <b>à l'extérieur</b>.</p>
+<p><b>OutlineInputBorder</b> : bordure en contour. Sans, le champ n'a qu'un trait en bas.</p>`],
+
+["mob_txt", `Vider un TextField programmatiquement`,
+`<p>Après soumission, comment effacer le contenu d'un <code>TextFormField</code> ? (plusieurs réponses possibles)</p>
+<ol type="a"><li><code>TextField.clear()</code></li><li><code>controller.text = ''</code></li><li><code>controller.clear()</code></li><li><code>setState(() => TextField = null)</code></li></ol>`,
+`<p><b>Réponses : b et c</b></p>
+<pre>// c) avec un TextEditingController attaché
+passwordController.clear();
+// b) équivalent
+passwordController.text = '';</pre>
+<p><b>Prérequis</b> : le TextFormField doit avoir <code>controller: passwordController</code>. Sans controller branché, impossible de vider programmatiquement.</p>
+<p><b>Bonne pratique</b> : appeler <code>dispose()</code> sur les controllers dans <code>State.dispose()</code> pour éviter les fuites.</p>`],
+
+["mob_txt", `Formulaire de login complet`,
+`<p>Écris un formulaire avec :</p>
+<ul><li>Un champ email (validation : non vide)</li><li>Un champ mot de passe (masqué)</li><li>Un bouton « Login » qui valide et affiche les valeurs saisies</li></ul>
+<p>Avant de coder, réponds :</p>
+<ol><li>Quelle classe pour lire la saisie des deux champs ?</li><li>Comment déclencher la validation du formulaire complet ?</li></ol>`,
+`<ol><li><b><code>TextEditingController</code></b> : un par champ. On lit via <code>controller.text</code>.</li><li><b><code>formKey.currentState!.validate()</code></b> : déclenche tous les <code>validator</code> du Form. Renvoie <code>true</code> si tout est OK.</li></ol>
+<pre>var mailCtrl = TextEditingController();
+var passCtrl = TextEditingController();
+var formKey = GlobalKey&lt;FormState&gt;();
+var txt = '';
+
+Form(
+  key: formKey,
+  child: Column(children: [
+    TextFormField(
+      controller: mailCtrl,
+      keyboardType: TextInputType.emailAddress,
+      validator: (v) => v!.isEmpty ? "requis" : null,
+      decoration: InputDecoration(
+        labelText: 'Email',
+        prefixIcon: Icon(Icons.person),
+        border: OutlineInputBorder(),
+      ),
+    ),
+    TextFormField(
+      controller: passCtrl,
+      obscureText: true,
+      decoration: InputDecoration(
+        labelText: 'Password',
+        prefixIcon: Icon(Icons.key),
+        border: OutlineInputBorder(),
+      ),
+    ),
+    ElevatedButton(
+      onPressed: () {
+        if (formKey.currentState!.validate()) {
+          setState(() {
+            txt = 'Mail: \${mailCtrl.text}';
+            mailCtrl.clear();
+            passCtrl.clear();
+          });
+        }
+      },
+      child: Text('Login'),
+    ),
+    Text(txt),
+  ]),
+)</pre>`],
+
+/* ========== MOBILE : widgets / état ========== */
+["mob_wdg", `Espace vertical entre deux widgets`,
+`<p>Comment ajouter un espace vertical de 10 px entre deux widgets d'une Column ?</p>
+<ol type="a"><li><code>Container(height: 10)</code></li><li><code>SizedBox(height: 10)</code></li><li><code>Padding(padding: EdgeInsets.all(10))</code></li><li><code>Text(" ")</code></li></ol>`,
+`<p><b>Réponse : b) SizedBox(height: 10)</b></p>
+<p><code>SizedBox</code> est <b>le widget recommandé</b> pour un espace fixe : léger, sans décoration, sans child.</p>
+<ul><li><code>Container(height: 10)</code> : fonctionne mais plus lourd (accepte déco, padding…)</li><li><code>Padding</code> : ajoute de l'espace autour d'un enfant existant, pas un espace autonome</li><li><code>Text(" ")</code> : imprévisible (taille de police)</li></ul>`],
+
+["mob_wdg", `Trouve le bug : compteur qui ne se met pas à jour`,
+`<p>Ce compteur reste bloqué à 0 malgré les clics. Pourquoi ?</p>
+<pre>class _CompteurState extends State&lt;Compteur&gt; {
+  int n = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Hello Flutter Buttons")),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () { n++; },
+        child: Icon(Icons.add),
+      ),
+      body: Center(child: Text('$n')),
+    );
+  }
+}</pre>`,
+`<p><b>Bug</b> : il manque <code>setState</code>. Sans lui, la variable change mais Flutter ne redessine pas l'écran.</p>
+<pre>onPressed: () => setState(() => n++),</pre>
+<p><b>Règle</b> : dans un <code>StatefulWidget</code>, <b>toute modification d'état qui doit apparaître à l'écran</b> passe par <code>setState(() { ... })</code>.</p>
+<p>En dehors de setState, on peut modifier des variables internes (qui n'influencent pas l'UI), mais pour un compteur affiché, c'est obligatoire.</p>`],
+
+["mob_wdg", `Compléter : image ronde depuis les assets`,
+`<p>Complète le code pour afficher une image ronde qui remplit un carré 200×200.</p>
+<pre>___(                  // widget pour découper en cercle
+  child: Image.___(   // charger depuis les assets
+    "images/pizza.jpg",
+    width: 200,
+    height: 200,
+    fit: ___,         // remplir sans déformer
+  ),
+)</pre>`,
+`<pre>ClipOval(
+  child: Image.asset(
+    "images/pizza.jpg",
+    width: 200,
+    height: 200,
+    fit: BoxFit.cover,
+  ),
+)</pre>
+<p><b>ClipOval</b> : découpe l'enfant en cercle (ou ellipse).</p>
+<p><b>Image.asset</b> : charge depuis les assets. Le chemin doit être déclaré dans <code>pubspec.yaml</code> (section <code>flutter: assets:</code>).</p>
+<p><b>BoxFit.cover</b> : remplit tout en gardant les proportions (recadrage). Alternatives : <code>.contain</code> (entière), <code>.fill</code> (déformée).</p>`],
+
+["mob_wdg", `Double compteur avec deux FAB`,
+`<p>Écris un écran avec 3 éléments alignés horizontalement :</p>
+<ul><li>Un FAB « − » qui décrémente</li><li>Le compteur au milieu</li><li>Un FAB « + » qui incrémente</li></ul>
+<p>Réponds d'abord : comment aligner 3 widgets horizontalement avec espace égal ?</p>`,
+`<p><b>Réponse</b> : un <code>Row</code> avec <code>mainAxisAlignment: MainAxisAlignment.spaceAround</code> (ou <code>spaceEvenly</code>).</p>
+<pre>class _State extends State&lt;MyApp&gt; {
+  int compteur = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          FloatingActionButton(
+            onPressed: () => setState(() => compteur--),
+            child: Icon(Icons.remove),
+          ),
+          Text('$compteur', style: TextStyle(fontSize: 40)),
+          FloatingActionButton(
+            onPressed: () => setState(() => compteur++),
+            child: Icon(Icons.add),
+          ),
+        ],
+      ),
+    );
+  }
+}</pre>
+<p><b>Note</b> : les FAB sont ici dans le <code>body</code> (Row), pas dans <code>floatingActionButton:</code> du Scaffold. C'est volontaire : quand on veut <b>plusieurs FAB</b>, on les place manuellement.</p>`],
+
+["mob_wdg", `Slider d'images en boucle (MyHome.dart)`,
+`<p>On a une liste de 4 images. Un FAB « suivant » doit afficher l'image suivante, puis revenir à la première après la dernière.</p>
+<pre>List&lt;String&gt; images = ["a.jpg", "b.jpg", "c.jpg", "d.jpg"];
+int i = 0;</pre>
+<p>Réponds avant de coder :</p>
+<ol><li>Comment cycler entre les indices 0,1,2,3 sans faire <code>if (i >= 4) i = 0;</code> ?</li><li>Quel widget pour rendre l'image ronde ?</li></ol>`,
+`<ol><li><b>Modulo</b> : <code>i % images.length</code> donne toujours 0,1,2,3,0,1,2,3… Peu importe la valeur de <code>i</code>.</li><li><b><code>ClipOval</code></b> + <code>Image.asset(fit: BoxFit.cover)</code>.</li></ol>
+<pre>class _HomeState extends State&lt;Home&gt; {
+  List&lt;String&gt; images = ["a.jpg", "b.jpg", "c.jpg", "d.jpg"];
+  int i = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => setState(() => i++),
+        child: Icon(Icons.navigate_next),
+      ),
       body: Center(
-        child: SizedBox(
-          width: 300, height: 80,
-          child: ElevatedButton(
-            onPressed: () =&gt; setState(() =&gt; txt = 'Bouton cliqué !'),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(txt, style: const TextStyle(fontSize: 25)),
-                const Icon(Icons.add_shopping_cart, size: 30),
-              ],
-            ),
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.all(20),
-              backgroundColor: Colors.yellow,
-              foregroundColor: Colors.black,
-              elevation: 15,
-              shadowColor: Colors.yellow,
-              shape: const StadiumBorder(),
-              side: const BorderSide(color: Colors.black, width: 2),
-            ),
+        child: ClipOval(
+          child: Image.asset(
+            images[i % images.length],
+            width: 250, height: 250,
+            fit: BoxFit.cover,
           ),
         ),
       ),
     );
   }
-}</pre>`],
-["mob_btn",`Double compteur (+ et -)`,
-`<p>Modifier l'application compteur par défaut pour ajouter un <b>deuxième bouton</b> permettant de <b>décrémenter</b> le compteur. Utiliser un <code>StatefulWidget</code>.</p>`,
-`<pre>class MyApp3 extends StatefulWidget {
-  const MyApp3({super.key});
-  @override
-  State&lt;MyApp3&gt; createState() =&gt; _MyApp3State();
-}
-
-class _MyApp3State extends State&lt;MyApp3&gt; {
-  int compteur = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          title: const Text("DOUBLE compteur ;)",
-              style: TextStyle(color: Colors.white)),
-        ),
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            FloatingActionButton(
-              onPressed: () =&gt; setState(() =&gt; compteur--),
-              child: const Icon(Icons.remove),
-            ),
-            Text('$compteur', style: const TextStyle(fontSize: 40)),
-            FloatingActionButton(
-              onPressed: () =&gt; setState(() =&gt; compteur++),
-              child: const Icon(Icons.add),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}</pre>`],
-["mob_txt",`Formulaire de login (email + mot de passe)`,
-`<p>Créer un écran avec :</p>
-<ul>
-<li>Un <code>TextFormField</code> email (validation : non vide, clavier email).</li>
-<li>Un <code>TextFormField</code> mot de passe (<code>obscureText: true</code>).</li>
-<li>Un bouton « Login » qui, si le formulaire est valide, affiche le mail et le mot de passe saisis, puis vide les champs.</li>
-</ul>`,
-`<pre>class MyForm extends StatefulWidget {
-  const MyForm({super.key});
-  @override
-  State&lt;MyForm&gt; createState() =&gt; _MyFormState();
-}
-
-class _MyFormState extends State&lt;MyForm&gt; {
-  var mailController = TextEditingController();
-  var passwordController = TextEditingController();
-  var txt = '';
-  var formKey = GlobalKey&lt;FormState&gt;();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red,
-        title: const Text("Login Page"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(100.0),
-        child: Form(
-          key: formKey,
-          child: Column(children: [
-            TextFormField(
-              validator: (val) {
-                if (val!.isEmpty) return "veuillez saisir votre mail";
-                return null;
-              },
-              controller: mailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                prefixIcon: Icon(Icons.person),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              controller: passwordController,
-              obscureText: true,
-              obscuringCharacter: "*",
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                prefixIcon: Icon(Icons.key),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 50),
-            ElevatedButton(
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  setState(() {
-                    txt = 'Mail: \${mailController.text}, '
-                          'Password: \${passwordController.text}';
-                    mailController.clear();
-                    passwordController.clear();
-                  });
-                } else {
-                  setState(() => txt = "formulaire non valide");
-                }
-              },
-              child: const Text('Login'),
-            ),
-            const SizedBox(height: 20),
-            Text(txt, style: const TextStyle(fontSize: 15)),
-          ]),
-        ),
-      ),
-    );
-  }
-}</pre>`],
-
+}</pre>
+<p><b>Astuce modulo</b> : très utilisée pour carrousels, sliders, rotations d'images. Évite un <code>if</code> et fonctionne avec n'importe quelle taille de liste.</p>`]
 ["res_capacite",`Shannon : calculer S/N (Exercice 1)`,
 `<p>Une voie possède une capacité de <b>20 Mb/s</b>. La largeur de bande est de <b>3 MHz</b>. Quel doit être le rapport signal/bruit <b>S/N</b> ?</p>`,
 `<p>Formule de Shannon : <code>C = W · log₂(1 + S/N)</code></p>
