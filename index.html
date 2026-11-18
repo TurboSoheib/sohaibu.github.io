@@ -3,58 +3,53 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Réviser MongoDB &amp; PHP</title>
+<title>Réviser MongoDB · PHP · Qualité · Flutter</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:wght@400;600&display=swap">
 <style>
-/* ===== Thème MongoDB (vert) ===== */
-:root{
-  --bg:#f3f6f1; --surface:#fff; --ink:#14231c; --mute:#5a6b61; --line:#d5ddd5;
-  --accent:#0e6b3d; --accent-soft:#dff1e5;
-  --bad:#a8321f; --bad-soft:#f8e1dc; --code:#e9efe8;
-  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
-}
-/* ===== Thème PHP (violet) ===== */
-:root[data-subject="php"]{
-  --bg:#f6f4fc; --surface:#fff; --ink:#1d1830; --mute:#5f5878; --line:#ddd6f0;
-  --accent:#5b3ec7; --accent-soft:#eae2ff;
-  --bad:#a8321f; --bad-soft:#f8e1dc; --code:#ece8f8;
-}
+:root{--bg:#f3f6f1;--surface:#fff;--ink:#14231c;--mute:#5a6b61;--line:#d5ddd5;
+  --accent:#0e6b3d;--accent-soft:#dff1e5;--bad:#a8321f;--bad-soft:#f8e1dc;--code:#e9efe8;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-subject="php"]{--bg:#f6f4fc;--surface:#fff;--ink:#1d1830;--mute:#5f5878;--line:#ddd6f0;
+  --accent:#5b3ec7;--accent-soft:#eae2ff;--bad:#a8321f;--bad-soft:#f8e1dc;--code:#ece8f8}
+:root[data-subject="ql"]{--bg:#fbf6f0;--surface:#fff;--ink:#2a1a10;--mute:#786354;--line:#e8ddd0;
+  --accent:#c2410c;--accent-soft:#ffedd5;--bad:#a8321f;--bad-soft:#f8e1dc;--code:#f4ebe0}
+:root[data-subject="mob"]{--bg:#f0f7fc;--surface:#fff;--ink:#0d1b2a;--mute:#54687a;--line:#d0e0ec;
+  --accent:#0277bd;--accent-soft:#e1f5fe;--bad:#a8321f;--bad-soft:#f8e1dc;--code:#e3f2fd}
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#101a15; --surface:#18261f; --ink:#e6efe8; --mute:#9bb0a3; --line:#2c3d34;
-    --accent:#4fd08a; --accent-soft:#1d3a2b; --bad:#ff8f7a; --bad-soft:#3a1f1a; --code:#22332a;
-  }
-  :root:not([data-theme="light"])[data-subject="php"]{
-    --bg:#14111f; --surface:#1e1a2e; --ink:#e8e4f6; --mute:#a39bc0; --line:#332c4d;
-    --accent:#a78bfa; --accent-soft:#2a2342; --bad:#ff8f7a; --bad-soft:#3a1f1a; --code:#251f3a;
-  }
+  :root:not([data-theme="light"]){--bg:#101a15;--surface:#18261f;--ink:#e6efe8;--mute:#9bb0a3;--line:#2c3d34;
+    --accent:#4fd08a;--accent-soft:#1d3a2b;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#22332a}
+  :root:not([data-theme="light"])[data-subject="php"]{--bg:#14111f;--surface:#1e1a2e;--ink:#e8e4f6;--mute:#a39bc0;--line:#332c4d;
+    --accent:#a78bfa;--accent-soft:#2a2342;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#251f3a}
+  :root:not([data-theme="light"])[data-subject="ql"]{--bg:#1a1410;--surface:#241c14;--ink:#f0e8e0;--mute:#a89888;--line:#3d3128;
+    --accent:#fb923c;--accent-soft:#3b2210;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#2d241a}
+  :root:not([data-theme="light"])[data-subject="mob"]{--bg:#0d1b2a;--surface:#152533;--ink:#e0eaf2;--mute:#8ba3b5;--line:#253745;
+    --accent:#4fc3f7;--accent-soft:#0d3a4d;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#1a2f3f}
 }
-:root[data-theme="dark"]{
-  --bg:#101a15; --surface:#18261f; --ink:#e6efe8; --mute:#9bb0a3; --line:#2c3d34;
-  --accent:#4fd08a; --accent-soft:#1d3a2b; --bad:#ff8f7a; --bad-soft:#3a1f1a; --code:#22332a;
-}
-:root[data-theme="dark"][data-subject="php"]{
-  --bg:#14111f; --surface:#1e1a2e; --ink:#e8e4f6; --mute:#a39bc0; --line:#332c4d;
-  --accent:#a78bfa; --accent-soft:#2a2342; --bad:#ff8f7a; --bad-soft:#3a1f1a; --code:#251f3a;
-}
+:root[data-theme="dark"]{--bg:#101a15;--surface:#18261f;--ink:#e6efe8;--mute:#9bb0a3;--line:#2c3d34;
+  --accent:#4fd08a;--accent-soft:#1d3a2b;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#22332a}
+:root[data-theme="dark"][data-subject="php"]{--bg:#14111f;--surface:#1e1a2e;--ink:#e8e4f6;--mute:#a39bc0;--line:#332c4d;
+  --accent:#a78bfa;--accent-soft:#2a2342;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#251f3a}
+:root[data-theme="dark"][data-subject="ql"]{--bg:#1a1410;--surface:#241c14;--ink:#f0e8e0;--mute:#a89888;--line:#3d3128;
+  --accent:#fb923c;--accent-soft:#3b2210;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#2d241a}
+:root[data-theme="dark"][data-subject="mob"]{--bg:#0d1b2a;--surface:#152533;--ink:#e0eaf2;--mute:#8ba3b5;--line:#253745;
+  --accent:#4fc3f7;--accent-soft:#0d3a4d;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#1a2f3f}
 
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Source Sans 3",system-ui,sans-serif;transition:background .2s,color .2s}
 main{max-width:780px;margin:0 auto;padding:20px 16px 48px}
-h1{font:700 2rem/1.1 "Bricolage Grotesque",system-ui,sans-serif;margin:8px 0 4px}
+h1{font:700 1.9rem/1.1 "Bricolage Grotesque",system-ui,sans-serif;margin:8px 0 4px}
+h3{font:600 1.05rem "Bricolage Grotesque",system-ui,sans-serif;margin:14px 0 6px}
 .sub{color:var(--mute);margin:0 0 18px}
 code{font:.88em "JetBrains Mono",ui-monospace,monospace;background:var(--code);padding:.1em .35em;border-radius:4px}
-pre{font:.85rem/1.5 "JetBrains Mono",ui-monospace,monospace;background:var(--code);padding:12px;border-radius:6px;overflow-x:auto;margin:10px 0 0;white-space:pre}
+pre{font:.83rem/1.5 "JetBrains Mono",ui-monospace,monospace;background:var(--code);padding:12px;border-radius:6px;overflow-x:auto;margin:10px 0 0;white-space:pre}
 
-/* ===== Sélecteur de matière ===== */
-.subjects{display:flex;gap:6px;background:var(--line);padding:4px;border-radius:12px;margin:0 0 16px}
-.subjects button{flex:1;padding:12px;border:0;border-radius:9px;background:transparent;color:var(--mute);
-  font:700 1.05rem "Bricolage Grotesque",sans-serif;cursor:pointer;transition:all .15s}
+.subjects{display:flex;gap:6px;background:var(--line);padding:4px;border-radius:12px;margin:0 0 16px;flex-wrap:wrap}
+.subjects button{flex:1;min-width:80px;padding:11px 6px;border:0;border-radius:9px;background:transparent;color:var(--mute);
+  font:700 .84rem "Bricolage Grotesque",sans-serif;cursor:pointer;transition:all .15s;white-space:normal;line-height:1.2}
 .subjects button[aria-selected="true"]{background:var(--accent);color:var(--bg)}
 .subjects button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
-/* ===== Onglets de mode ===== */
 nav.modes{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:18px}
 nav.modes button{font:600 1rem "Source Sans 3",sans-serif;background:none;border:0;color:var(--mute);
   padding:10px 14px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
@@ -90,12 +85,14 @@ h2:first-child{margin-top:0}
 </head>
 <body>
 <main>
-<h1>Réviser MongoDB &amp; PHP</h1>
+<h1>Réviser MongoDB · PHP · Qualité · Flutter</h1>
 <p class="sub" id="subtitle">NoSQL : lecture, mises à jour, modélisation.</p>
 
 <div class="subjects" role="tablist" aria-label="Matière">
   <button data-subject="mongodb" aria-selected="true">MongoDB</button>
   <button data-subject="php" aria-selected="false">PHP</button>
+  <button data-subject="ql" aria-selected="false">Qualité</button>
+  <button data-subject="mob" aria-selected="false">Technologie mobile</button>
 </div>
 
 <nav class="modes" role="tablist" aria-label="Mode">
@@ -104,7 +101,6 @@ h2:first-child{margin-top:0}
   <button data-mode="fiche" aria-selected="false">Fiche</button>
 </nav>
 
-<!-- ============ QUIZ ============ -->
 <section id="quiz">
   <div id="qsetup" class="card">
     <div class="row"><label for="cat">Thème</label><select id="cat"></select></div>
@@ -114,7 +110,6 @@ h2:first-child{margin-top:0}
   <div id="qrun" class="card hid"></div>
 </section>
 
-<!-- ============ CARTES ============ -->
 <section id="cards" class="hid">
   <div class="row"><label for="ccat">Thème</label><select id="ccat"></select><button class="btn alt" id="shuf">Mélanger</button></div>
   <div class="card flip" id="fc" tabindex="0" role="button" aria-label="Retourner la carte"></div>
@@ -125,28 +120,27 @@ h2:first-child{margin-top:0}
 <section id="fiche-mongodb" class="hid">
 <div class="card">
 <h2>find() : lire les documents</h2>
-<p><code>db.collection.find(query, projection, options)</code> — renvoie un <b>curseur</b> vers les documents (pas directement les documents). Sans argument, retourne tous les documents. Joue le rôle de <code>SELECT … WHERE</code> en SQL.</p>
+<p><code>db.collection.find(query, projection, options)</code> — renvoie un <b>curseur</b> vers les documents. Sans argument, retourne tous les documents.</p>
 <div class="wrap"><table>
 <tr><th>Paramètre</th><th>Rôle</th></tr>
-<tr><td><code>query</code></td><td>Filtre (opérateurs). <code>{}</code> ou omis = tous les documents.</td></tr>
+<tr><td><code>query</code></td><td>Filtre (opérateurs). <code>{}</code> ou omis = tous.</td></tr>
 <tr><td><code>projection</code></td><td>Champs à renvoyer. Omis = tous.</td></tr>
-<tr><td><code>options</code></td><td>Options supplémentaires (comportement, format).</td></tr>
+<tr><td><code>options</code></td><td>Options supplémentaires.</td></tr>
 </table></div>
 
 <h2>Opérateurs de comparaison</h2>
 <div class="wrap"><table>
 <tr><th>Opérateur</th><th>Signification</th></tr>
-<tr><td><code>$eq</code></td><td>Égal à</td></tr>
-<tr><td><code>$ne</code></td><td>Différent de</td></tr>
+<tr><td><code>$eq</code> / <code>$ne</code></td><td>Égal / différent</td></tr>
 <tr><td><code>$gt</code> / <code>$gte</code></td><td>Supérieur (ou égal)</td></tr>
 <tr><td><code>$lt</code> / <code>$lte</code></td><td>Inférieur (ou égal)</td></tr>
-<tr><td><code>$in</code> / <code>$nin</code></td><td>Appartient / n'appartient pas à un tableau</td></tr>
+<tr><td><code>$in</code> / <code>$nin</code></td><td>Dans / hors d'un tableau</td></tr>
 </table></div>
 <pre>db.Films.find({ annee: { $gt: 2010 } })
 db.Films.find({ realisateur: { $in: ["Christopher Nolan", "James Cameron"] } })</pre>
 
 <h2>Combiner des conditions</h2>
-<p>Plusieurs champs dans le même objet = <b>ET implicite</b> (<code>$and</code>). Pour un OU, utiliser <code>$or</code>.</p>
+<p>Plusieurs champs = <b>ET implicite</b> (<code>$and</code>). Pour un OU : <code>$or</code>.</p>
 <pre>db.Films.find({ titre: "Inception", annee: 2010 })       // AND
 db.Films.find({ $or: [
   { realisateur: "Christopher Nolan" },
@@ -160,7 +154,6 @@ db.Films.find({ $or: [
 <tr><td><code>/^In/</code></td><td>Commence par « In »</td></tr>
 <tr><td><code>/ar$/</code></td><td>Finit par « ar »</td></tr>
 <tr><td><code>/a.a/</code></td><td>a + un caractère + a</td></tr>
-<tr><td><code>/Star.*Wars/</code></td><td>Star … Wars (n'importe quelle suite)</td></tr>
 <tr><td><code>/colou?r/</code></td><td>color ou colour</td></tr>
 </table></div>
 <pre>db.Films.find({ $and: [
@@ -168,51 +161,64 @@ db.Films.find({ $or: [
   { titre: /ar/i }
 ] })</pre>
 
-<h2>Sous-documents : notation pointée</h2>
-<p>Pour atteindre un champ imbriqué, on utilise la <b>notation pointée entre guillemets</b> :</p>
+<h2>Sous-documents</h2>
 <pre>db.Etudiants.find({ "adresse.ville": "Agadir" })</pre>
-<p>Attention : <code>{ adresse: { ville: "Agadir" } }</code> exige une correspondance <b>exacte</b> du sous-document entier (tous ses champs), pas seulement <code>ville</code>.</p>
+<p><code>{ adresse: { ville: "Agadir" } }</code> exige une correspondance exacte du sous-document.</p>
 
 <h2>Opérateurs de mise à jour</h2>
 <div class="wrap"><table>
 <tr><th>Opérateur</th><th>Rôle</th><th>arrayFilters</th></tr>
-<tr><td><code>$set</code></td><td>Modifier ou ajouter un champ</td><td>Oui</td></tr>
-<tr><td><code>$inc</code></td><td>Incrémenter ; crée le champ s'il manque</td><td>Oui</td></tr>
+<tr><td><code>$set</code></td><td>Modifier / ajouter</td><td>Oui</td></tr>
+<tr><td><code>$inc</code></td><td>Incrémenter</td><td>Oui</td></tr>
 <tr><td><code>$unset</code></td><td>Supprimer un champ</td><td>Oui</td></tr>
-<tr><td><code>$rename</code></td><td>Renommer un champ</td><td>Non</td></tr>
-<tr><td><code>$push</code></td><td>Ajouter à la fin d'un tableau</td><td>—</td></tr>
-<tr><td><code>$pull</code></td><td>Retirer les éléments qui correspondent</td><td>—</td></tr>
+<tr><td><code>$rename</code></td><td>Renommer</td><td>Non</td></tr>
+<tr><td><code>$push</code></td><td>Ajouter en fin</td><td>—</td></tr>
+<tr><td><code>$pull</code></td><td>Retirer les correspondances</td><td>—</td></tr>
 <tr><td><code>$addToSet</code></td><td>Ajouter sans doublon</td><td>—</td></tr>
 </table></div>
 
-<h2>Tableaux : trois outils</h2>
-<p><code>$</code> positionnel : première occurrence seulement. <code>$[elem]</code> + <code>arrayFilters</code> : toutes les occurrences qui respectent la condition.</p>
+<h2>Tableaux : positionnel</h2>
+<p><code>$</code> = première occurrence. <code>$[elem]</code> + <code>arrayFilters</code> = toutes les occurrences.</p>
 <pre>db.produits.updateMany({},
   { $set: { "avis.$[elem].note": 8 } },
   { arrayFilters: [ { "elem.client": "Amal" } ] })</pre>
 
-<h2>Lire dans un tableau (projection)</h2>
+<h2>Projection : opérateurs de tableau</h2>
 <div class="wrap"><table>
 <tr><th>Opérateur</th><th>Rôle</th></tr>
-<tr><td><code>$filter</code></td><td>Garder les éléments qui respectent <code>cond</code></td></tr>
-<tr><td><code>$map</code></td><td>Transformer chaque élément (extraire un champ)</td></tr>
-<tr><td><code>$arrayElemAt</code></td><td>Élément à un index (0 = premier)</td></tr>
-<tr><td><code>$slice</code></td><td>Limiter à N éléments</td></tr>
-<tr><td><code>$size</code></td><td>Taille du tableau</td></tr>
+<tr><td><code>$filter</code></td><td>Filtrer</td></tr>
+<tr><td><code>$map</code></td><td>Transformer</td></tr>
+<tr><td><code>$reduce</code></td><td>Réduire à une valeur</td></tr>
+<tr><td><code>$arrayElemAt</code></td><td>Élément à un index</td></tr>
+<tr><td><code>$slice</code></td><td>N premiers éléments</td></tr>
+<tr><td><code>$size</code></td><td>Taille</td></tr>
 </table></div>
-<pre>db.joueurs.find({}, { _id: 0, nom: 1,
-  adversaires: { $map: { input: "$matchs", as: "m", in: "$$m.adversaire" } } })</pre>
+<pre>// $filter + $map
+{ $map: {
+  input: { $filter: { input: "$matchs", as: "m",
+    cond: { $gte: ["$$m.note", 8] } } },
+  as: "x", in: "$$x.adversaire" } }</pre>
 
 <h2>Embedding ou referencing ?</h2>
-<p><b>Embedding</b> : lecture rapide, pas de jointure, mais document plus gros (limite 16 Mo) et mises à jour plus lourdes. <b>Referencing</b> : pas de duplication, mises à jour simples, adapté au plusieurs-à-plusieurs, mais plusieurs requêtes ou <code>$lookup</code>.</p>
+<p><b>Embedding = lecture optimisée. Referencing = écriture optimisée.</b></p>
+<p>Embedding : lecture rapide, cohérence, pas de jointure, mais doc plus gros (16 Mo max), duplication, mises à jour lourdes. Referencing : pas de duplication, mises à jour simples, adapté au N-N, mais plusieurs requêtes ou <code>$lookup</code>.</p>
 
-<h2>Pièges classiques</h2>
+<h2>Trois niveaux d'embedding</h2>
 <ul>
-<li>Sous-document : toujours la notation pointée (<code>"adresse.ville"</code>).</li>
-<li>Deux conditions sur le même élément d'un tableau : <code>$elemMatch</code>.</li>
-<li><code>$pull</code> avec condition retire tous les éléments qui correspondent.</li>
-<li><code>replaceOne</code> : aucun opérateur, tous les champs à garder à réécrire, <code>_id</code> conservé.</li>
-<li>Tri, puis <code>skip</code>, puis <code>limit</code>, quel que soit l'ordre d'écriture.</li>
+<li><b>Simple</b> : petit sous-document imbriqué.</li>
+<li><b>Intermédiaire</b> : tableau de sous-documents (un-à-plusieurs).</li>
+<li><b>Avancé</b> : imbrications profondes → <code>$filter</code>, <code>$map</code>, <code>$reduce</code>, <code>$size</code>, <code>$slice</code>, <code>$arrayElemAt</code>.</li>
+</ul>
+
+<h2>Pièges</h2>
+<ul>
+<li>Sous-document : notation pointée <code>"adresse.ville"</code>.</li>
+<li>Deux conditions sur le même élément : <code>$elemMatch</code>.</li>
+<li><code>$all</code> sur <code>"matchs.adversaire"</code>, pas sur le tableau.</li>
+<li><code>$pull</code> retire TOUS les éléments correspondants.</li>
+<li><code>replaceOne</code> : aucun opérateur, tous les champs à réécrire.</li>
+<li>Tri → <code>skip</code> → <code>limit</code>, toujours.</li>
+<li><code>$arrayElemAt</code> sur tableau vide : champ absent (pas d'erreur).</li>
 </ul>
 </div>
 </section>
@@ -221,111 +227,304 @@ db.Films.find({ $or: [
 <section id="fiche-php" class="hid">
 <div class="card">
 <h2>PHP : structures de contrôle</h2>
-<p>Un script PHP s'exécute par défaut de façon <b>séquentielle</b>. Les structures de contrôle modifient cet ordre : les <b>instructions conditionnelles</b> exécutent un bloc seulement si une condition est vraie, les <b>boucles</b> répètent un bloc. Tout repose sur des conditions, construites avec des opérateurs.</p>
+<p>Un script PHP s'exécute par défaut <b>séquentiellement</b>. Les structures de contrôle modifient cet ordre : conditions (si une condition est vraie) et boucles (répétition).</p>
 
 <h2>Les opérateurs</h2>
 <div class="wrap"><table>
-<tr><th>Famille</th><th>Opérateurs</th><th>Rôle</th></tr>
-<tr><td>Arithmétiques</td><td><code>+ - * / % **</code></td><td><code>%</code> = reste, <code>**</code> = puissance</td></tr>
-<tr><td>Affectation</td><td><code>= += -= *= /= .=</code></td><td>Affecter ou combiner</td></tr>
-<tr><td>Incrémentation</td><td><code>++ --</code></td><td>Ajouter / retirer 1</td></tr>
-<tr><td>Comparaison</td><td><code>== === != !== &lt; &gt; &lt;= &gt;= &lt;=&gt;</code></td><td>Produire un booléen</td></tr>
-<tr><td>Logiques</td><td><code>&amp;&amp; || !</code></td><td>Combiner des conditions</td></tr>
+<tr><th>Famille</th><th>Opérateurs</th></tr>
+<tr><td>Arithmétiques</td><td><code>+ - * / % **</code></td></tr>
+<tr><td>Affectation</td><td><code>= += -= *= /= .=</code></td></tr>
+<tr><td>Incrémentation</td><td><code>++ --</code></td></tr>
+<tr><td>Comparaison</td><td><code>== === != !== &lt; &gt; &lt;= &gt;= &lt;=&gt;</code></td></tr>
+<tr><td>Logiques</td><td><code>&amp;&amp; || !</code></td></tr>
 </table></div>
 
-<h2>Comparaison souple vs stricte</h2>
-<p><code>==</code> convertit les types avant de comparer ; <code>===</code> exige la même valeur <b>et</b> le même type.</p>
+<h2>Souple vs stricte</h2>
 <pre>"7" == 7        // true
 "7" === 7       // false
 null == false   // true
 null === false  // false
 "1e3" == "1000" // true (piège !)</pre>
-<p>Règle : utiliser <code>===</code> et <code>!==</code> par défaut, <code>==</code> seulement pour ignorer volontairement le type.</p>
+<p>Règle : <code>===</code> et <code>!==</code> par défaut.</p>
 
-<h2>Incrémentation</h2>
-<p><code>$i++</code> (post) renvoie la valeur actuelle puis incrémente ; <code>++$i</code> (pré) incrémente puis renvoie la nouvelle valeur. Seule sur sa ligne, les deux formes sont équivalentes.</p>
-<pre>$i = 5;
-echo $i++;   // affiche 5, puis $i vaut 6
-echo ++$i;   // affiche 7</pre>
-
-<h2>Valeurs « falsy »</h2>
-<p>Sont considérées comme fausses : <code>false</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>"0"</code>, le tableau vide <code>[]</code> et <code>null</code>. Toutes les autres valeurs sont vraies.</p>
-<p>Évaluation en <b>court-circuit</b> : dans <code>A &amp;&amp; B</code>, si <code>A</code> est faux, <code>B</code> n'est pas évalué ; dans <code>A || B</code>, si <code>A</code> est vrai, <code>B</code> n'est pas évalué.</p>
+<h2>Falsy</h2>
+<p><code>false</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>"0"</code>, <code>[]</code>, <code>null</code>. Court-circuit : <code>A &amp;&amp; B</code> n'évalue pas B si A est faux ; <code>A || B</code> n'évalue pas B si A est vrai.</p>
 
 <h2>if / elseif / else</h2>
 <pre>$note = 13.5;
-if ($note >= 16) {
-  $mention = "Très bien";
-} elseif ($note >= 14) {
-  $mention = "Bien";
-} elseif ($note >= 12) {
-  $mention = "Assez bien";
-} elseif ($note >= 10) {
-  $mention = "Passable";
-} else {
-  $mention = "Non validé";
-}
-// mention : "Assez bien"</pre>
-<p>Les conditions sont testées <b>dans l'ordre</b> : dès qu'une est vraie, son bloc s'exécute et les suivantes sont ignorées. Tester du plus restrictif au plus large. Toujours mettre les accolades.</p>
+if ($note >= 16)      { $m = "Très bien"; }
+elseif ($note >= 14)  { $m = "Bien"; }
+elseif ($note >= 12)  { $m = "Assez bien"; }   // ← ici
+elseif ($note >= 10)  { $m = "Passable"; }
+else                  { $m = "Non validé"; }</pre>
+<p>Tests dans l'ordre, du plus restrictif au plus large.</p>
 
 <h2>switch et match</h2>
 <div class="wrap"><table>
-<tr><th></th><th>switch</th><th>match (PHP ≥ 8.0)</th></tr>
-<tr><td>Nature</td><td>Instruction</td><td>Expression (renvoie une valeur)</td></tr>
-<tr><td>Comparaison</td><td>Souple (<code>==</code>)</td><td>Stricte (<code>===</code>)</td></tr>
-<tr><td>break</td><td>Obligatoire à chaque <code>case</code></td><td>Aucun</td></tr>
-<tr><td>Si aucun cas</td><td>Rien ne se passe (ou <code>default</code>)</td><td>Erreur sans <code>default</code></td></tr>
+<tr><th></th><th>switch</th><th>match (PHP ≥ 8)</th></tr>
+<tr><td>Nature</td><td>Instruction</td><td>Expression</td></tr>
+<tr><td>Comparaison</td><td>Souple</td><td>Stricte</td></tr>
+<tr><td>break</td><td>Obligatoire</td><td>Aucun</td></tr>
 </table></div>
-<pre>// switch : deux valeurs regroupées
-switch ($jour) {
-  case 6:
-  case 7:
-    $nom = "Week-end";
-    break;
-  default:
-    $nom = "Autre jour";
+<pre>switch ($jour) {
+  case 6: case 7: $nom = "Week-end"; break;
+  default: $nom = "Autre jour";
 }
 
-// match : tester des intervalles
 $m = match (true) {
   $note >= 16 => "Très bien",
   $note >= 14 => "Bien",
   default     => "Non validé",
 };</pre>
-<p>Sans <code>break</code>, l'exécution « tombe » dans le <code>case</code> suivant : source d'erreurs fréquente.</p>
 
 <h2>Ternaire et coalescence nulle</h2>
 <pre>$statut = ($age >= 18) ? "majeur" : "mineur";
-$page   = $_GET['page'] ?? 1;   // valeur par défaut</pre>
-<p><code>??</code> renvoie l'opérande de gauche s'il existe et n'est pas <code>null</code>, sinon celui de droite. Les ternaires imbriqués sont interdits sans parenthèses en PHP 8.</p>
+$page   = $_GET['page'] ?? 1;</pre>
 
-<h2>Syntaxe alternative dans une vue</h2>
+<h2>Syntaxe alternative (vues)</h2>
 <pre>&lt;?php if ($connecte): ?&gt;
   &lt;a href="logout.php"&gt;Déconnexion&lt;/a&gt;
 &lt;?php else: ?&gt;
   &lt;a href="login.php"&gt;Connexion&lt;/a&gt;
 &lt;?php endif; ?&gt;</pre>
-<p>Les accolades sont remplacées par <code>:</code> et fermées par <code>endif;</code>, <code>endfor;</code>, <code>endforeach;</code>, <code>endwhile;</code>. Recommandé dans les vues ; préfigure les directives Blade de Laravel.</p>
 
 <h2>Bonnes pratiques</h2>
 <ul>
-<li>Utiliser <code>===</code> par défaut, <code>==</code> seulement pour ignorer volontairement le type.</li>
-<li>Éviter les conditions imbriquées : combiner avec <code>&amp;&amp;</code> / <code>||</code> ou utiliser un retour anticipé (<code>exit</code> / <code>return</code>).</li>
-<li>Toujours mettre les accolades, même pour une seule instruction.</li>
-<li>Préférer <code>match</code> à <code>switch</code> quand on associe une valeur à un résultat.</li>
+<li><code>===</code> par défaut.</li>
+<li>Éviter les imbrications : combiner ou retour anticipé.</li>
+<li>Toujours les accolades.</li>
+<li><code>match</code> pour associer valeur → résultat.</li>
+</ul>
+</div>
+</section>
+
+<!-- ============ FICHE QUALITÉ ============ -->
+<section id="fiche-ql" class="hid">
+<div class="card">
+<h2>Fondamentaux</h2>
+<p><b>Qualité logicielle</b> = degré de satisfaction des besoins <b>explicites et implicites</b> des parties prenantes.</p>
+<p><b>Deux piliers</b> : <b>Produit</b> (fiabilité, sécurité, maintenabilité…) et <b>Processus</b> (méthodes, outils, rigueur).</p>
+
+<h3>Niveaux de besoins</h3>
+<div class="wrap"><table>
+<tr><th>Niveau</th><th>Définition</th></tr>
+<tr><td>Exprimés</td><td>Ce que le client a formulé</td></tr>
+<tr><td>Spécifiés</td><td>Formalisés dans le cahier des charges</td></tr>
+<tr><td>Réalisés</td><td>Effectivement implémentés</td></tr>
+<tr><td><b>Vrais besoins</b></td><td>Attentes réelles, souvent non exprimées</td></tr>
+</table></div>
+
+<h3>Chaîne causale</h3>
+<p><b>Erreur</b> (humaine) → <b>Défaut</b> (dans le code) → <b>Défaillance</b> (observable).</p>
+
+<h2>SQuaRE / ISO 25010</h2>
+<p>8 caractéristiques : Adéquation fonctionnelle, Efficacité de performance, Compatibilité, Facilité d'utilisation, Fiabilité, Sécurité, <b>Maintenabilité</b>, Portabilité.</p>
+<p>La <b>maintenabilité</b> couvre correction (corrective), adaptation (adaptative), amélioration (perfective).</p>
+
+<h2>Métriques</h2>
+<div class="wrap"><table>
+<tr><th>Métrique</th><th>Formule / Seuils</th></tr>
+<tr><td><code>LOCphy</code> / <code>LOCpro</code></td><td>Lignes physiques / productives</td></tr>
+<tr><td><code>V(G)</code></td><td><code>E − N + 2</code> ; 1–10 simple, 11–20 modéré, &gt;20 complexe</td></tr>
+<tr><td><code>WMC</code></td><td>Σ V(G) ; ≤10 faible, 11–20 moyen, &gt;20 élevé</td></tr>
+<tr><td><code>CBO</code></td><td>Classes couplées ; ≤5 faible, 6–10 moyen, &gt;10 élevé</td></tr>
+<tr><td><code>LCOM</code></td><td>P − Q ; ≤1 forte cohésion, &gt;1 faible</td></tr>
+</table></div>
+<p><b>V(G)</b> = nombre minimal de cas de test pour couvrir les décisions.</p>
+
+<h2>Processus SDLC</h2>
+<div class="wrap"><table>
+<tr><th>Activité</th><th>Question</th></tr>
+<tr><td><b>Spécification</b></td><td>« Quoi ? »</td></tr>
+<tr><td><b>Développement</b></td><td>« Comment ? »</td></tr>
+<tr><td><b>Validation</b></td><td>« Est-ce bon ? »</td></tr>
+<tr><td><b>Évolution</b></td><td>« Comment faire évoluer ? »</td></tr>
+</table></div>
+
+<h3>Vérification vs Validation</h3>
+<p><b>Vérification</b> : « Construisons-nous le produit correctement ? » (specs).<br>
+<b>Validation</b> : « Construisons-nous le bon produit ? » (besoins réels).</p>
+
+<h3>3 maintenances</h3>
+<p><b>Corrective</b> (bugs) · <b>Adaptative</b> (environnement) · <b>Perfective</b> (qualité interne, sans changer le comportement).</p>
+
+<h3>Modèles de processus</h3>
+<p><b>Cascade</b> (séquentiel) · <b>Incrémental</b> (feedback client) · <b>Intégration &amp; Configuration</b> (assemblage).</p>
+<p><b>Piloté par plan</b> vs <b>Agile</b>.</p>
+
+<h3>SonarQube</h3>
+<p>Badges : A=info, B=minor, C=major, D=critical, E=blocker. Lire : bugs, vulnérabilités, couverture, duplications, dette technique.</p>
+</div>
+</section>
+
+<!-- ============ FICHE TECHNOLOGIE MOBILE ============ -->
+<section id="fiche-mob" class="hid">
+<div class="card">
+<h2>Flutter : boutons, formulaires et widgets</h2>
+<p>Un <b>Widget</b> est un élément d'interface. Hiérarchie : <code>Object → Widget → StatelessWidget → ButtonStyleButton / IconButton / FloatingActionButton / PopupMenuButton / BackButton</code>.</p>
+
+<h2>Les boutons : hiérarchie d'importance</h2>
+<div class="wrap"><table>
+<tr><th>Bouton</th><th>Importance</th><th>Usage</th></tr>
+<tr><td><code>ElevatedButton</code></td><td>Action principale (1 par écran)</td><td>Enregistrer, Valider</td></tr>
+<tr><td><code>FilledButton</code></td><td>Action importante</td><td>Valider</td></tr>
+<tr><td><code>OutlinedButton</code></td><td>Importante mais secondaire</td><td>Annuler</td></tr>
+<tr><td><code>TextButton</code></td><td>Secondaire, sans fond ni bordure</td><td>Voir plus, dialogs</td></tr>
+<tr><td><code>IconButton</code></td><td>Action rapide (icône seule)</td><td>Favori, partage</td></tr>
+<tr><td><code>FloatingActionButton</code></td><td>Action principale flottante (1 par écran)</td><td>Créer, ajouter</td></tr>
+</table></div>
+
+<h2>Ancien vs nouveau</h2>
+<div class="wrap"><table>
+<tr><th>Ancien (obsolète)</th><th>Nouveau (actif)</th></tr>
+<tr><td><code>FlatButton</code></td><td><code>TextButton</code></td></tr>
+<tr><td><code>RaisedButton</code></td><td><code>ElevatedButton</code></td></tr>
+<tr><td><code>OutlineButton</code></td><td><code>OutlinedButton</code></td></tr>
+</table></div>
+
+<h2>Personnaliser un bouton (styleFrom)</h2>
+<pre>ElevatedButton(
+  onPressed: () {},   // () {} = fonction vide
+  child: Text("Click to begin"),
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.yellow,
+    foregroundColor: Colors.black,
+    elevation: 15,
+    shadowColor: Colors.yellow,
+    padding: EdgeInsets.all(20),
+    shape: StadiumBorder(),          // pilule
+    side: BorderSide(color: Colors.black, width: 2),
+  ),
+)</pre>
+<p><code>StadiumBorder</code> = pilule. <code>RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))</code> = coins arrondis. <code>side</code> = bordure.</p>
+
+<h2>FloatingActionButton (FAB)</h2>
+<ul>
+<li>Cercle flottant, <b>un seul par écran</b> par défaut.</li>
+<li>Actions positives : créer, partager, naviguer.</li>
+<li>Déclaré dans le <code>Scaffold</code> via <code>floatingActionButton:</code>.</li>
+<li><code>floatingActionButtonLocation</code> change la position (ex. <code>centerTop</code>).</li>
+<li>Plusieurs FAB : les mettre dans un <code>Row</code> ou <code>Column</code>.</li>
+</ul>
+<pre>Scaffold(
+  floatingActionButton: FloatingActionButton(
+    backgroundColor: Colors.orange,
+    foregroundColor: Colors.white,
+    onPressed: () { setState(() { compteur++; }); },
+    child: Icon(Icons.add),
+  ),
+  floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+)</pre>
+
+<h2>TextField vs TextFormField</h2>
+<div class="wrap"><table>
+<tr><th></th><th>TextField</th><th>TextFormField</th></tr>
+<tr><td>Usage</td><td>Saisie simple</td><td>Dans un <code>Form</code></td></tr>
+<tr><td>Validation</td><td>Non</td><td>Oui (<code>validator</code>)</td></tr>
+</table></div>
+
+<h2>InputDecoration</h2>
+<div class="wrap"><table>
+<tr><th>Paramètre</th><th>Rôle</th></tr>
+<tr><td><code>labelText</code></td><td>Étiquette permanente</td></tr>
+<tr><td><code>hintText</code></td><td>Texte indicatif (disparaît)</td></tr>
+<tr><td><code>prefixIcon</code></td><td>Icône à gauche, dans le champ</td></tr>
+<tr><td><code>icon</code></td><td>Icône à gauche, hors du champ</td></tr>
+<tr><td><code>border: OutlineInputBorder()</code></td><td>Bordure en contour</td></tr>
+</table></div>
+
+<h2>keyboardType</h2>
+<pre>TextField(keyboardType: TextInputType.emailAddress)          // email
+TextField(keyboardType: TextInputType.multiline, maxLines: 5) // multi-lignes
+TextField(keyboardType: TextInputType.number)                // pavé numérique
+TextField(obscureText: true, obscuringCharacter: "*")        // mot de passe</pre>
+
+<h2>TextEditingController</h2>
+<pre>var ctrl = TextEditingController();
+TextField(controller: ctrl);   // brancher
+String val = ctrl.text;         // lire
+ctrl.clear();                    // vider</pre>
+
+<h2>Form + validation</h2>
+<pre>var formKey = GlobalKey&lt;FormState&gt;();
+
+Form(
+  key: formKey,
+  child: Column(children: [
+    TextFormField(
+      validator: (String? val) {
+        if (val!.isEmpty) return "veuillez saisir votre mail";
+        return null;
+      },
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecoration(
+        labelText: 'Email',
+        prefixIcon: Icon(Icons.person),
+        border: OutlineInputBorder(),
+      ),
+    ),
+  ]),
+)
+
+// Soumettre
+if (formKey.currentState!.validate()) { /* OK */ }</pre>
+
+<h2>StatelessWidget vs StatefulWidget</h2>
+<div class="wrap"><table>
+<tr><th></th><th>StatelessWidget</th><th>StatefulWidget</th></tr>
+<tr><td>État</td><td>Immuable</td><td>Mutable</td></tr>
+<tr><td>Mise à jour</td><td>Non</td><td><code>setState(() { ... })</code></td></tr>
+<tr><td>Usage</td><td>Contenu statique</td><td>Compteur, formulaire, onglets</td></tr>
+</table></div>
+<pre>class Counter extends StatefulWidget {
+  const Counter({super.key});
+  @override
+  State&lt;Counter&gt; createState() =&gt; _CounterState();
+}
+class _CounterState extends State&lt;Counter&gt; {
+  int n = 0;
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () =&gt; setState(() =&gt; n++),
+      child: Text('$n'),
+    );
+  }
+}</pre>
+
+<h2>Widgets de mise en page</h2>
+<div class="wrap"><table>
+<tr><th>Widget</th><th>Rôle</th></tr>
+<tr><td><code>Center</code></td><td>Centrer</td></tr>
+<tr><td><code>Padding</code></td><td>Espacement interne</td></tr>
+<tr><td><code>SizedBox</code></td><td>Espace fixe (<code>SizedBox(height: 10)</code>)</td></tr>
+<tr><td><code>Column</code> / <code>Row</code></td><td>Empiler / aligner</td></tr>
+<tr><td><code>Container</code></td><td>Boîte (taille, couleur, bordure)</td></tr>
+<tr><td><code>ClipOval</code></td><td>Découper en cercle</td></tr>
+<tr><td><code>Image.asset</code></td><td>Image depuis les assets</td></tr>
+</table></div>
+
+<h2>Pièges et bonnes pratiques</h2>
+<ul>
+<li>Un <code>FAB</code> par écran par défaut ; plusieurs seulement via <code>Row</code>/<code>Column</code>.</li>
+<li><code>onPressed: () {}</code> = fonction vide : bouton cliquable mais qui ne fait rien.</li>
+<li><code>TextEditingController</code> doit être branché via <code>controller:</code>.</li>
+<li><code>validator</code> retourne <code>String?</code> : message si invalide, <code>null</code> si valide.</li>
+<li>Pour changer le texte d'un bouton, stocker le texte dans une variable d'état et la modifier via <code>setState</code>.</li>
+<li><code>import 'package:flutter/material.dart';</code> obligatoire.</li>
+<li><code>Image.asset(fit: BoxFit.cover)</code> + <code>ClipOval</code> pour une image ronde.</li>
 </ul>
 </div>
 </section>
 </main>
 
 <script>
-/* ===================== Configuration ===================== */
 var CATS = {
   mongodb: {
     all:"Tout MongoDB",
     find:"Lecture : find et comparaisons",
     regex:"Regex et sous-documents",
-    tab:"Tableaux : $filter, $map, $slice",
+    tab:"Tableaux : $filter, $map, combos",
     upd:"Mises à jour",
     del:"Suppression et replaceOne",
     mod:"Modélisation"
@@ -334,140 +533,252 @@ var CATS = {
     all:"Tout PHP",
     phpop:"Opérateurs et expressions",
     phpcond:"Conditions : if, switch, match"
+  },
+  ql: {
+    all:"Tout Qualité",
+    ql_fond:"Fondamentaux (besoins, SQA)",
+    ql_square:"SQuaRE (ISO 25010)",
+    ql_metrics:"Métriques (LOC, McCabe, CK)",
+    ql_process:"Processus SDLC"
+  },
+  mob: {
+    all:"Tout Mobile (Flutter)",
+    mob_btn:"Boutons",
+    mob_txt:"TextFields et formulaires",
+    mob_wdg:"Widgets et état"
   }
 };
-function subjectOf(tag){ return tag.indexOf("php")===0 ? "php" : "mongodb" }
+function subjectOf(tag){
+  if (tag.indexOf("php")===0) return "php";
+  if (tag.indexOf("ql")===0) return "ql";
+  if (tag.indexOf("mob")===0) return "mob";
+  return "mongodb";
+}
 
-/* ===================== Banque de questions ===================== */
 var Q=[
-/* ----- MongoDB : find + comparaisons (ch3) ----- */
-["find",`Que renvoie réellement <code>find()</code> ?`,["Les documents eux-mêmes","Un curseur pointant vers les documents","Un tableau JavaScript","Un objet JSON"],1,`find() renvoie un curseur vers les documents correspondants, pas directement les documents.`],
-["find",`Dans <code>db.c.find(query, projection, options)</code>, quel paramètre choisit les champs retournés ?`,["query","projection","options","Aucun des trois"],1,`projection spécifie les champs à renvoyer. Pour tout renvoyer, on l'omet.`],
-["find",`Que fait <code>db.Films.find()</code> sans argument ?`,["Erreur de syntaxe","Renvoie tous les documents de la collection","Renvoie le premier document","Renvoie le schéma"],1,`Sans query (ou avec <code>{}</code>), find() retourne tous les documents de la collection.`],
-["find",`Avec <code>find({ titre: "Inception", annee: 2010 })</code>, comment MongoDB combine-t-il ces conditions ?`,["Avec un OU implicite","Avec un ET implicite ($and)","Il n'en garde qu'une","Aléatoirement"],1,`Plusieurs champs dans le même objet de requête = ET logique (équivalent à <code>$and</code>).`],
-["find",`Quel opérateur retourne les documents satisfaisant AU MOINS une des conditions ?`,["$and","$or","$in","$not"],1,`$or retourne les documents qui satisfont au moins une des conditions listées.`],
-["find",`Que fait <code>{ annee: { $gt: 2010 } }</code> ?`,["Année égale à 2010","Année strictement supérieure à 2010","Année inférieure ou égale","Année différente de 2010"],1,`$gt = supérieur à (strict). $gte inclurait 2010.`],
-["find",`Quel opérateur teste l'appartenance à une liste ?`,["$eq","$in","$or","$size"],1,`$in vérifie que la valeur est dans le tableau fourni ; $nin = n'appartient pas.`],
-["find",`Quel opérateur signifie « différent de » ?`,["$neq","$not","$ne","$nin"],2,`$ne = not equal (différent de). $nin = pas dans une liste.`],
-["find",`Dans <code>.sort(…).skip(1).limit(2)</code>, quel est l'ordre d'application ?`,["Selon l'ordre écrit","limit, skip, sort","sort, puis skip, puis limit, toujours","skip, sort, limit"],2,`MongoDB applique toujours le tri, puis skip, puis limit.`],
-["find",`Quel opérateur vérifie qu'un tableau contient toutes les valeurs d'une liste ?`,["[[$in]]","[[$all]]","[[$size]]","[[$elemMatch]]"],1,`[[$all]] exige la présence de toutes les valeurs. [[$in]] se contente d'une seule.`],
-["find",`Que fait <code>{ matchs: { $size: 3 } }</code> ?`,["Trie par 3","Garde les documents dont le tableau a exactement 3 éléments","Limite l'affichage à 3 éléments","Garde les documents ayant au moins 3 éléments"],1,`[[$size]] teste une taille exacte, pas un minimum.`],
-["find",`Pourquoi utiliser [[$elemMatch]] plutôt que deux conditions pointées ?`,["C'est plus rapide","Pour que les deux conditions portent sur le même élément du tableau","Pour trier le tableau","Pour modifier le tableau"],1,`Avec deux conditions pointées, deux éléments différents du tableau peuvent chacun satisfaire une condition. [[$elemMatch]] impose le même élément.`],
-["find",`Omar a <code>absences: 0</code>. Est-il retourné par <code>{ "scolarite.absences": { $exists: true } }</code> ?`,["Non, 0 est faux","Oui, le champ existe","Seulement avec $gt","Ça dépend du type"],1,`[[$exists]] teste la présence du champ, pas sa valeur.`],
+/* ========== MongoDB : find ========== */
+["find",`Que renvoie réellement <code>find()</code> ?`,["Les documents eux-mêmes","Un curseur pointant vers les documents","Un tableau JavaScript","Un objet JSON"],1,`find() renvoie un curseur.`],
+["find",`Que fait <code>db.Films.find()</code> sans argument ?`,["Erreur de syntaxe","Renvoie tous les documents de la collection","Renvoie le premier document","Renvoie le schéma"],1,`Sans query : tous les documents.`],
+["find",`Comment MongoDB combine-t-il deux champs dans le même objet de requête ?`,["OU implicite","ET implicite ($and)","Il n'en garde qu'un","Aléatoirement"],1,`Plusieurs champs = ET logique.`],
+["find",`Quel opérateur retourne les documents satisfaisant AU MOINS une condition ?`,["$and","$or","$in","$not"],1,`$or.`],
+["find",`Que fait <code>{ annee: { $gt: 2010 } }</code> ?`,["Année = 2010","Année > 2010","Année ≤ 2010","Année ≠ 2010"],1,`$gt strict.`],
+["find",`Quel opérateur teste l'appartenance à une liste ?`,["$eq","$in","$or","$size"],1,`$in (ou $nin).`],
+["find",`Ordre d'application de <code>.sort(…).skip(1).limit(2)</code> ?`,["Selon l'ordre écrit","limit, skip, sort","sort, puis skip, puis limit, toujours","skip, sort, limit"],2,`Tri → skip → limit.`],
+["find",`Quel opérateur exige toutes les valeurs d'une liste ?`,["[[$in]]","[[$all]]","[[$size]]","[[$elemMatch]]"],1,`[[$all]].`],
+["find",`Pourquoi utiliser [[$elemMatch]] ?`,["Plus rapide","Pour que les deux conditions portent sur le même élément","Pour trier","Pour modifier"],1,`Sinon, deux éléments différents peuvent satisfaire chacun une condition.`],
+["find",`Omar a <code>absences: 0</code>. Retourné par <code>{ "scolarite.absences": { $exists: true } }</code> ?`,["Non, 0 est faux","Oui, le champ existe","Seulement avec $gt","Ça dépend"],1,`[[$exists]] teste la présence, pas la valeur.`],
 
-/* ----- MongoDB : regex + sous-documents (ch3) ----- */
-["regex",`Que recherche <code>{ titre: /ar/i }</code> ?`,["Les titres égaux à « ar »","Les titres contenant « ar », insensible à la casse","Les titres commençant par « ar »","Les titres finissant par « ar »"],1,`Sans ancrage (^ ou $), le motif est cherché n'importe où. Le modificateur <code>i</code> ignore la casse.`],
-["regex",`Quel motif cible les titres commençant par « In » ?`,["/In$/","/^In/","/In/","/.In./"],1,`<code>^</code> = début de chaîne, <code>$</code> = fin de chaîne.`],
-["regex",`Que fait le <code>?</code> dans <code>/colou?r/</code> ?`,["Rend le « u » obligatoire","Rend le « u » optionnel (color ou colour)","Ancre au début","Insensible à la casse"],1,`<code>?</code> rend l'élément précédent optionnel.`],
-["regex",`La requête <code>{ titre: /ar$/ }</code> correspond-elle à « Avatar » ?`,["Oui, il finit par « ar »","Non, il commence par « A »","Erreur de syntaxe","Dépend de la casse"],0,`« Avatar » se termine par « ar » → correspond.`],
-["regex",`Quel motif cherche « Star … Wars » avec n'importe quoi au milieu ?`,["/StarWars/","/Star.*Wars/","/Star?Wars/","/Star^Wars/"],1,`<code>.*</code> correspond à n'importe quelle suite de caractères.`],
-["regex",`Comment chercher dans le sous-document <code>adresse.ville</code> ?`,["<code>{ adresse: { ville: \"Agadir\" } }</code>","<code>{ \"adresse.ville\": \"Agadir\" }</code>","<code>{ adresse->ville: \"Agadir\" }</code>","<code>{ $ville: \"Agadir\" }</code>"],1,`Notation pointée entre guillemets : <code>\"adresse.ville\"</code>. Avec <code>{ adresse: { ville: "Agadir" } }</code>, MongoDB exige une correspondance exacte du sous-document entier.`],
-["regex",`<code>{ "adresse.ville": "Agadir" }</code> exige :`,["Que la ville contienne « Agadir »","Que la ville soit exactement « Agadir »","Adresse OU ville = Agadir","Que le sous-document ait un seul champ"],1,`Par défaut, c'est une égalité stricte sur le champ ciblé.`],
-["regex",`Pour combiner <code>{ annee: { $gt: 2000 } }</code> et <code>{ titre: /ar/i }</code> :`,["On ne peut pas","Avec <code>$or</code>","Avec <code>$and</code> (ou en les mettant dans le même objet)","Avec <code>$in</code>"],2,`Les deux conditions doivent être vraies : <code>$and</code> implicite si dans le même objet, ou explicite avec <code>$and: [...]</code>.`],
+/* ========== MongoDB : regex ========== */
+["regex",`Que recherche <code>{ titre: /ar/i }</code> ?`,["Titres = « ar »","Titres contenant « ar », insensible à la casse","Titres commençant par « ar »","Titres finissant par « ar »"],1,`Sans ancrage, le motif est cherché n'importe où.`],
+["regex",`Quel motif cible les titres commençant par « In » ?`,["/In$/","/^In/","/In/","/.In./"],1,`<code>^</code> = début.`],
+["regex",`Que fait le <code>?</code> dans <code>/colou?r/</code> ?`,["Rend « u » obligatoire","Rend « u » optionnel","Ancre au début","Insensible à la casse"],1,`Élément précédent optionnel.`],
+["regex",`Comment chercher dans <code>adresse.ville</code> ?`,["<code>{ adresse: { ville: \"Agadir\" } }</code>","<code>{ \"adresse.ville\": \"Agadir\" }</code>","<code>{ adresse->ville: \"Agadir\" }</code>","<code>{ $ville: \"Agadir\" }</code>"],1,`Notation pointée entre guillemets.`],
+["regex",`<code>{ "adresse.ville": "Agadir" }</code> exige :`,["Contient « Agadir »","Exactement « Agadir »","Adresse OU ville","Un seul champ"],1,`Égalité stricte.`],
 
-/* ----- MongoDB : tableaux ----- */
-["tab",`Quel est le rôle de [[$filter]] dans une projection ?`,["Trier un tableau","Garder uniquement les éléments qui respectent une condition","Supprimer des éléments en base","Compter les éléments"],1,`[[$filter]] prend <code>input</code>, <code>as</code> et <code>cond</code>, et ne modifie pas les données stockées.`],
-["tab",`Que fait [[$map]] ?`,["Filtre les documents","Applique une transformation à chaque élément et produit un nouveau tableau","Fusionne deux collections","Renomme un champ"],1,`Comme une boucle : un élément en entrée, un élément transformé en sortie.`],
-["tab",`Dans <code>cond: { $gte: ["$$m.note", 8] }</code>, que représente <code>$$m</code> ?`,["Un champ du document","La variable (alias) de l'élément courant, définie par <code>as</code>","Un opérateur","Le document parent"],1,`Le double <code>$</code> désigne une variable d'alias ; le simple <code>$</code> un champ.`],
-["tab",`Que renvoie <code>{ $arrayElemAt: ["$matchs", 0] }</code> ?`,["Le dernier élément","Le premier élément","La taille","Un tableau vide"],1,`L'index commence à 0.`],
-["tab",`Que renvoie <code>{ $slice: ["$matchs", 2] }</code> ?`,["Les deux derniers éléments","Les deux premiers éléments","Le deuxième élément","Rien"],1,`Sans position de départ, [[$slice]] renvoie les premiers éléments.`],
-["tab",`Que se passe-t-il avec <code>$arrayElemAt</code> sur un tableau filtré vide ?`,["Erreur","Le champ est simplement absent du résultat","Il renvoie 0","Il renvoie null dans tout le document"],1,`Ce n'est pas une erreur.`],
-["tab",`[[$filter]], [[$map]], [[$slice]] dans <code>find()</code> demandent quelle version minimale ?`,["MongoDB 3.2","MongoDB 4.4","MongoDB 6.0","Aucune"],1,`Avant 4.4, il faut passer par <code>aggregate()</code> avec <code>$project</code>.`],
+/* ========== MongoDB : tableaux ========== */
+["tab",`Rôle de [[$filter]] ?`,["Trier","Garder les éléments qui respectent une condition","Supprimer en base","Compter"],1,`Ne modifie pas les données stockées.`],
+["tab",`Que fait [[$map]] ?`,["Filtre","Transforme chaque élément et renvoie un nouveau tableau","Fusionne","Renomme"],1,`Comme une boucle.`],
+["tab",`Que fait [[$reduce]] ?`,["Filtre","Réduit un tableau à une valeur unique (somme, concaténation)","Trie","Compte"],1,`Accumulateur <code>$$value</code>, élément <code>$$this</code>.`],
+["tab",`<code>$$m</code> dans <code>$$m.note</code> ?`,["Champ","Variable d'alias définie par <code>as</code>","Opérateur","Document parent"],1,`Double <code>$</code> = variable.`],
+["tab",`<code>{ $arrayElemAt: ["$matchs", 0] }</code> ?`,["Dernier","Premier","Taille","Vide"],1,`Index 0 = premier.`],
+["tab",`<code>{ $slice: ["$matchs", 2] }</code> ?`,["2 derniers","2 premiers","2ᵉ","Rien"],1,`Premiers éléments.`],
+["tab",`<code>$arrayElemAt</code> sur tableau vide ?`,["Erreur","Champ absent du résultat","0","null partout"],1,`Pas une erreur.`],
+["tab",`Version minimale pour <code>$filter/$map/$slice</code> dans <code>find()</code> ?`,["3.2","4.4","6.0","Aucune"],1,`4.4+ ; sinon <code>aggregate()</code> + <code>$project</code>.`],
 
-/* ----- MongoDB : mises à jour ----- */
-["upd",`<code>$set</code> sur un champ qui n'existe pas :`,["Erreur","Crée le champ","Ne fait rien","Supprime le document"],1,`[[$set]] modifie ou ajoute un champ.`],
-["upd",`<code>$inc: { rating: 1 }</code> sur un document sans <code>rating</code> :`,["Erreur","Crée <code>rating</code> avec la valeur 1","Ne fait rien","Crée <code>rating: null</code>"],1,`Si le champ n'existe pas, il est créé avec la valeur donnée.`],
-["upd",`Quelle est la limite de l'opérateur positionnel <code>$</code> ?`,["Ne marche qu'avec $set","Ne modifie que la première occurrence correspondante du tableau","Ne marche pas avec updateMany","Supprime les doublons"],1,`Pour modifier toutes les occurrences, utiliser <code>$[elem]</code> avec <code>arrayFilters</code>.`],
-["upd",`<code>updateMany({ nom: "Ordinateur Portable" }, { $inc: { "avis.$.note": 1 } })</code> produit une erreur. Pourquoi ?`,["Le filtre ne porte pas sur le tableau avis, donc <code>$</code> ne trouve aucune correspondance","$inc est interdit sur les tableaux","updateMany ne supporte pas $","La collection est vide"],0,`Le <code>$</code> positionnel s'appuie sur la correspondance du filtre dans le tableau. Ici il faut <code>$[elem]</code> et <code>arrayFilters</code>.`],
-["upd",`Quel opérateur n'accepte pas <code>arrayFilters</code> ?`,["$set","$inc","$unset","$rename"],3,`[[$rename]] agit sur la structure du document (noms de champs), pas sur les valeurs d'éléments.`],
-["upd",`Quelle différence entre [[$push]] et [[$addToSet]] ?`,["Aucune","[[$addToSet]] n'ajoute la valeur que si elle n'existe pas déjà","[[$push]] ajoute au début","[[$addToSet]] trie le tableau"],1,`[[$addToSet]] évite les doublons.`],
-["upd",`<code>{ $pull: { avis: { client: "Yassine" } } }</code> fait quoi ?`,["Ajoute un avis","Retire du tableau tous les avis dont le client est Yassine","Retire seulement le premier","Renomme le champ"],1,`[[$pull]] retire tous les éléments qui correspondent, pas seulement le premier.`],
-["upd",`Quelle syntaxe pour supprimer le champ <code>garantie</code> ?`,[`<code>{ $unset: { garantie: "" } }</code>`,"<code>{ $delete: garantie }</code>","<code>{ $set: { garantie: null } }</code>","<code>{ $pull: { garantie: 1 } }</code>"],0,`La valeur passée à [[$unset]] est ignorée ; on met <code>""</code> par convention. <code>$set: null</code> garde le champ.`],
+/* ========== MongoDB : mises à jour ========== */
+["upd",`<code>$set</code> sur champ absent ?`,["Erreur","Crée le champ","Rien","Supprime"],1,`Ajoute.`],
+["upd",`<code>$inc</code> sur champ absent ?`,["Erreur","Crée le champ avec la valeur","Rien","null"],1,`Création avec la valeur donnée.`],
+["upd",`Limite de <code>$</code> positionnel ?`,["$set seulement","Seulement la première occurrence","Pas avec updateMany","Doublons"],1,`Pour toutes : <code>$[elem]</code> + arrayFilters.`],
+["upd",`Opérateur sans <code>arrayFilters</code> ?`,["$set","$inc","$unset","$rename"],3,`[[$rename]] modifie la structure.`],
+["upd",`Différence <code>$push</code> / <code>$addToSet</code> ?`,["Aucune","<code>$addToSet</code> n'ajoute que si absent","<code>$push</code> ajoute au début","<code>$addToSet</code> trie"],1,`Évite les doublons.`],
+["upd",`<code>{ $pull: { avis: { client: "Yassine" } } }</code> ?`,["Ajoute","Retire tous les avis dont client = Yassine","Premier seulement","Renomme"],1,`Tous les éléments correspondants.`],
+["upd",`Syntaxe pour supprimer <code>garantie</code> ?`,[`<code>{ $unset: { garantie: "" } }</code>`,"<code>{ $delete: garantie }</code>","<code>{ $set: { garantie: null } }</code>","<code>{ $pull: { garantie: 1 } }</code>"],0,`La valeur est ignorée.`],
 
-/* ----- MongoDB : suppression / remplacement / modélisation ----- */
-["del",`<code>deleteOne({ nom: "Souris Gamer" })</code> supprime :`,["Tous les documents correspondants","Le premier document correspondant","Le champ nom","La collection"],1,`[[deleteMany]] supprime tous les documents correspondants.`],
-["del",`Que devient un document après <code>replaceOne</code> ?`,["Seuls les champs listés sont modifiés","Il est entièrement remplacé : les champs non réécrits disparaissent, <code>_id</code> est conservé","Il est dupliqué","Il est supprimé"],1,`Aucun opérateur ([[$set]], [[$inc]]…) n'est permis dans <code>replaceOne</code>.`],
-["mod",`Quelle approche optimise la lecture, laquelle optimise l'écriture ?`,["Embedding : écriture ; referencing : lecture","Embedding : lecture ; referencing : écriture","Les deux : lecture","Les deux : écriture"],1,`L'embedding regroupe les données lues ensemble ; le referencing évite la duplication.`],
-["mod",`Quelle est la taille maximale d'un document MongoDB ?`,["1 Mo","16 Mo","100 Mo","Illimitée"],1,`Des documents trop volumineux ralentissent lecture et écriture.`],
-["mod",`Pour une relation plusieurs-à-plusieurs (étudiants et cours), on préfère :`,["L'embedding","Le referencing","Un seul gros document","Aucune des deux"],1,`Chaque entité est stockée une fois, liée par des identifiants (<code>cours_ids</code>).`],
-["mod",`<code>find()</code> fait-il des jointures automatiques entre collections ?`,["Oui, avec _id","Non : plusieurs requêtes, ou <code>$lookup</code> dans une agrégation","Oui, avec $in","Seulement avec findOne"],1,`Chaque <code>find()</code> interroge une seule collection.`],
-["mod",`Différence entre <code>findOne()</code> et <code>find()</code> ?`,["Aucune","<code>findOne()</code> renvoie directement un document ; <code>find()</code> renvoie un curseur","<code>find()</code> renvoie un seul document","<code>findOne()</code> renvoie un tableau"],1,`À privilégier quand on veut un seul document.`],
+/* ========== MongoDB : suppression / modélisation ========== */
+["del",`<code>deleteOne({ nom: "Souris" })</code> ?`,["Tous","Le premier","Le champ","La collection"],1,`<code>deleteMany</code> pour tous.`],
+["del",`Après <code>replaceOne</code> ?`,["Seuls les champs listés","Entièrement remplacé, <code>_id</code> conservé","Dupliqué","Supprimé"],1,`Aucun opérateur autorisé.`],
+["mod",`Embedding = ? ; Referencing = ?`,["Écriture ; lecture","Lecture ; écriture","Lecture ; lecture","Écriture ; écriture"],1,`Embedding = lecture optimisée, referencing = écriture optimisée.`],
+["mod",`3 niveaux d'embedding ?`,["Simple, moyen, complexe","Simple, intermédiaire, avancé","Basique, tableau, agrégation","1, 2, 3"],1,`Simple / intermédiaire / avancé.`],
+["mod",`Taille max d'un document ?`,["1 Mo","16 Mo","100 Mo","Illimitée"],1,`16 Mo.`],
+["mod",`Relation plusieurs-à-plusieurs ?`,["Embedding","Referencing","Un seul doc","Aucune"],1,`Referencing via IDs.`],
+["mod",`<code>find()</code> fait-il des jointures ?`,["Oui","Non : <code>$lookup</code> ou plusieurs requêtes","Oui avec $in","Seulement findOne"],1,`Une seule collection par find().`],
 
-/* ----- PHP : opérateurs ----- */
-["phpop",`Que vaut l'expression <code>7 % 2</code> ?`,["1","3","3.5","0"],0,`L'opérateur <code>%</code> (modulo) donne le reste de la division entière : 7 = 2×3 + 1, donc le reste vaut 1.`],
-["phpop",`Comment tester qu'un entier <code>$n</code> est pair ?`,["<code>$n % 2 === 0</code>","<code>$n / 2 === 0</code>","<code>$n % 2 === 1</code>","<code>$n ** 2 === 0</code>"],0,`Un nombre est pair si le reste de sa division par 2 vaut 0, d'où <code>$n % 2 === 0</code>.`],
-["phpop",`Quelle est la différence entre <code>==</code> et <code>===</code> ?`,["Aucune","<code>==</code> compare seulement la valeur ; <code>===</code> compare valeur ET type","<code>===</code> compare seulement la valeur","<code>==</code> est plus strict"],1,`<code>==</code> effectue une conversion de type avant de comparer ; <code>===</code> exige la même valeur et le même type, sans conversion.`],
-["phpop",`Que vaut <code>"7" === 7</code> ?`,["true","false","0","Une erreur"],1,`La comparaison stricte tient compte du type : une chaîne n'est pas un entier, donc <code>false</code>. En revanche <code>"7" == 7</code> vaut <code>true</code>.`],
-["phpop",`Que valent <code>null == false</code> puis <code>null === false</code> ?`,["true puis true","false puis false","true puis false","false puis true"],2,`En comparaison souple, <code>null</code> est converti et équivaut à <code>false</code> ; la comparaison stricte renvoie <code>false</code> car les types diffèrent.`],
-["phpop",`Quelle expression surprend par son résultat avec <code>==</code> ?`,["<code>\"1e3\" == \"1000\"</code>","<code>5 === \"5\"</code>","<code>1 != 2</code>","<code>true == 1</code>"],0,`Les deux chaînes sont interprétées comme le nombre 1000, donc <code>==</code> renvoie <code>true</code>. C'est le type de piège de la comparaison souple.`],
-["phpop",`Que renvoie l'opérateur <code>&lt;=&gt;</code> (vaisseau spatial) ?`,["true ou false","Un nombre entre les deux opérandes","-1, 0 ou 1","Le plus grand des deux"],2,`<code>&lt;=&gt;</code> renvoie -1 si l'opérande gauche est plus petit, 0 s'ils sont égaux, 1 s'il est plus grand. Utile pour les tris.`],
-["phpop",`Avec <code>$i = 5; echo $i++;</code>, qu'affiche l'<code>echo</code> ?`,["5","6","0","4"],0,`La post-incrémentation renvoie d'abord la valeur actuelle (5), puis augmente <code>$i</code> à 6.`],
-["phpop",`Avec <code>$a = 3; $b = $a++ + 2;</code>, que valent <code>$a</code> et <code>$b</code> ?`,["$a=3, $b=5","$a=4, $b=5","$a=4, $b=6","$a=3, $b=6"],1,`<code>$a++</code> renvoie 3 (utilisé dans l'addition), puis <code>$a</code> devient 4. Donc <code>$b = 3 + 2 = 5</code> et <code>$a = 4</code>.`],
-["phpop",`Dans <code>A &amp;&amp; B</code>, si <code>A</code> est faux, que se passe-t-il ?`,["B est évalué","B n'est pas évalué (court-circuit)","Une erreur","A et B sont échangés"],1,`PHP utilise l'évaluation en court-circuit : dans <code>A &amp;&amp; B</code>, si A est faux, B n'est pas évalué.`],
-["phpop",`Quelle valeur est considérée comme fausse (« falsy ») par PHP ?`,["<code>\"0\"</code>","<code>\"false\"</code>","<code>\"0.0\"</code>","<code>1</code>"],0,`Les valeurs fausses sont : <code>false</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>"0"</code>, <code>[]</code> et <code>null</code>.`],
-["phpop",`Que vaut <code>2 ** 10</code> ?`,["20","100","1024","512"],2,`<code>**</code> est la puissance : 2^10 = 1024.`],
-["phpop",`Que fait <code>$s = "Bon"; $s .= "jour";</code> ?`,["$s vaut \"Bonjour\"","$s vaut \"Bon jour\"","Une erreur","$s vaut \"jour\""],0,`<code>.=</code> est l'affectation combinée de concaténation : elle ajoute la chaîne de droite à la valeur existante.`],
-["phpop",`Quelle règle de bonne pratique pour les comparaisons ?`,["Toujours utiliser <code>==</code>","Toujours utiliser <code>===</code> et <code>!==</code> par défaut","Utiliser <code>===</code> uniquement pour les nombres","Alterner"],1,`La comparaison souple peut produire des résultats surprenants. On préfère <code>===</code> et <code>!==</code>, et on n'utilise <code>==</code> que lorsqu'on veut volontairement ignorer le type.`],
-["phpop",`Que vaut <code>intdiv(7, 2)</code> ?`,["3.5","3","4","1"],1,`<code>intdiv</code> renvoie le quotient entier de la division : 7 ÷ 2 = 3 (reste 1).`],
-["phpop",`Que valent <code>$x = 4; $x *= 3; $x -= 2;</code> à la fin ?`,["10","12","6","4"],0,`<code>$x *= 3</code> donne 12, puis <code>$x -= 2</code> donne 10.`],
+/* ========== PHP ========== */
+["phpop",`<code>7 % 2</code> ?`,["1","3","3.5","0"],0,`Reste = 1.`],
+["phpop",`Tester si <code>$n</code> est pair ?`,["<code>$n % 2 === 0</code>","<code>$n / 2 === 0</code>","<code>$n % 2 === 1</code>","<code>$n ** 2 === 0</code>"],0,`Modulo 2.`],
+["phpop",`<code>==</code> vs <code>===</code> ?`,["Aucune","<code>==</code> valeur ; <code>===</code> valeur + type","<code>===</code> valeur","<code>==</code> plus strict"],1,`Conversion vs type identique.`],
+["phpop",`<code>"7" === 7</code> ?`,["true","false","0","Erreur"],1,`Types différents.`],
+["phpop",`<code>null == false</code> puis <code>null === false</code> ?`,["true / true","false / false","true / false","false / true"],2,`Souple vrai, stricte faux.`],
+["phpop",`Piège de <code>==</code> ?`,["<code>\"1e3\" == \"1000\"</code>","<code>5 === \"5\"</code>","<code>1 != 2</code>","<code>true == 1</code>"],0,`Interprétation numérique.`],
+["phpop",`<code>&lt;=&gt;</code> renvoie ?`,["true/false","Nombre entre","-1, 0 ou 1","Max"],2,`Vaisseau spatial.`],
+["phpop",`<code>$i = 5; echo $i++;</code> affiche ?`,["5","6","0","4"],0,`Post-incrémentation.`],
+["phpop",`<code>$a = 3; $b = $a++ + 2;</code> ?`,["$a=3, $b=5","$a=4, $b=5","$a=4, $b=6","$a=3, $b=6"],1,`Renvoie 3, puis <code>$a</code> = 4.`],
+["phpop",`<code>A &amp;&amp; B</code>, A faux ?`,["B évalué","B non évalué (court-circuit)","Erreur","Échangés"],1,`Court-circuit.`],
+["phpop",`Falsy ?`,["<code>\"0\"</code>","<code>\"false\"</code>","<code>\"0.0\"</code>","<code>1</code>"],0,`Falsy : false, 0, 0.0, "", "0", [], null.`],
+["phpop",`<code>2 ** 10</code> ?`,["20","100","1024","512"],2,`1024.`],
+["phpop",`<code>$s = "Bon"; $s .= "jour";</code> ?`,["\"Bonjour\"","\"Bon jour\"","Erreur","\"jour\""],0,`Concaténation combinée.`],
+["phpop",`Bonne pratique comparaisons ?`,["Toujours <code>==</code>","<code>===</code> et <code>!==</code> par défaut","<code>===</code> pour nombres","Alterner"],1,`<code>==</code> surprend.`],
+["phpop",`<code>intdiv(7, 2)</code> ?`,["3.5","3","4","1"],1,`Quotient entier = 3.`],
+["phpop",`<code>$x = 4; $x *= 3; $x -= 2;</code> ?`,["10","12","6","4"],0,`12 puis 10.`],
 
-/* ----- PHP : conditions ----- */
-["phpcond",`Dans une chaîne <code>if / elseif / else</code>, que se passe-t-il si plusieurs conditions sont vraies ?`,["Tous les blocs s'exécutent","Seul le premier bloc dont la condition est vraie s'exécute","Seul le dernier s'exécute","Une erreur"],1,`Les conditions sont testées dans l'ordre : dès qu'une est vraie, son bloc s'exécute et les suivantes sont ignorées.`],
-["phpcond",`Dans quel ordre écrire les tests d'une chaîne <code>if / elseif</code> ?`,["Du plus large au plus restrictif","Du plus restrictif au plus large","Peu importe","Alphabétique"],1,`Il faut tester du plus restrictif au plus large (par exemple <code>>= 16</code> avant <code>>= 10</code>), sinon les cas larges « avalent » les cas précis.`],
-["phpcond",`Avec <code>$note = 13.5</code>, quelle mention affiche la chaîne <code>if / elseif</code> du cours ?`,["Très bien","Bien","Assez bien","Passable"],2,`13.5 >= 16 ? non. >= 14 ? non. >= 12 ? oui → « Assez bien ». Les tests sont évalués dans l'ordre.`],
-["phpcond",`Quelle comparaison utilise <code>switch</code> ?`,["Stricte (<code>===</code>)","Souple (<code>==</code>)","Aucune","Une comparaison par <code>&lt;=&gt;</code>"],1,`<code>switch</code> effectue une comparaison souple (<code>==</code>) entre l'expression et chaque <code>case</code>.`],
-["phpcond",`Que se passe-t-il si on oublie <code>break</code> dans un <code>switch</code> ?`,["Erreur fatale","L'exécution « tombe » dans le <code>case</code> suivant","Rien, ce n'est pas obligatoire","Le <code>switch</code> s'arrête tout seul"],1,`Sans <code>break</code>, l'exécution continue dans le <code>case</code> suivant : source d'erreurs fréquente.`],
-["phpcond",`Comment regrouper deux valeurs dans un <code>switch</code> ?`,["<code>case 1 || case 2:</code>","<code>case 1: case 2: ... break;</code>","<code>case [1,2]:</code>","On ne peut pas"],1,`On écrit deux <code>case</code> à la suite sans <code>break</code> entre eux, puis un seul bloc et un seul <code>break</code>.`],
-["phpcond",`Quelle est la particularité de <code>match</code> (PHP 8) ?`,["C'est une instruction comme <code>switch</code>","C'est une expression qui renvoie une valeur","Elle utilise <code>==</code>","Elle exige <code>break</code>"],1,`<code>match</code> est une expression : elle renvoie une valeur qu'on peut affecter à une variable. Elle n'a pas besoin de <code>break</code>.`],
-["phpcond",`Quelle comparaison utilise <code>match</code> ?`,["Souple (<code>==</code>)","Stricte (<code>===</code>)","Aléatoire","Aucune"],1,`<code>match</code> utilise la comparaison stricte (<code>===</code>), contrairement à <code>switch</code>.`],
-["phpcond",`Que fait <code>match</code> si aucun cas ne correspond et qu'il n'y a pas de <code>default</code> ?`,["Rien","Renvoie <code>null</code>","Déclenche une <code>UnhandledMatchError</code>","Une erreur de syntaxe"],2,`Contrairement à <code>switch</code>, <code>match</code> déclenche une <code>UnhandledMatchError</code> si aucun cas ne correspond et qu'aucun <code>default</code> n'est fourni.`],
-["phpcond",`Comment tester des intervalles avec <code>match</code> ?`,["<code>match (true) { $note >= 16 => ..., ... }</code>","<code>match ($note) { > 16 => ... }</code>","Impossible","Avec <code>switch</code> seulement"],0,`On utilise <code>match (true)</code> et on écrit les conditions comme valeurs de gauche : <code>$note >= 16 => "Très bien"</code>.`],
-["phpcond",`Quelle est la syntaxe de l'opérateur ternaire ?`,["<code>condition ? valeur_si_vrai : valeur_si_faux</code>","<code>condition : valeur_si_vrai ? valeur_si_faux</code>","<code>condition ?? valeur</code>","<code>if condition then ... else ...</code>"],0,`L'opérateur ternaire s'écrit <code>condition ? valeur_si_vrai : valeur_si_faux</code> et produit une valeur.`],
-["phpcond",`Que fait l'opérateur <code>??</code> (coalescence nulle) ?`,["Renvoie l'opérande de gauche s'il existe et n'est pas <code>null</code>, sinon celui de droite","Renvoie toujours <code>null</code>","Compare deux valeurs","Concatène deux chaînes"],0,`<code>$page = $_GET['page'] ?? 1;</code> : si la clé n'existe pas ou vaut <code>null</code>, on obtient 1.`],
-["phpcond",`Quelle est la syntaxe alternative de <code>if</code> adaptée au HTML ?`,["<code>if (...): ... endif;</code>","<code>if (...) => ... end;</code>","On ne peut pas mélanger HTML et PHP","<code>if (...) { }</code> en HTML"],0,`Dans une vue, on remplace les accolades par <code>:</code> et on ferme avec <code>endif;</code>.`],
-["phpcond",`Que permet le « retour anticipé » ?`,["D'exécuter le code plus vite","De traiter d'abord les cas d'erreur (avec <code>exit</code> ou <code>return</code>) pour éviter des <code>if</code> imbriqués","De supprimer des <code>break</code>","D'éviter <code>else</code>"],1,`On traite d'abord les cas d'erreur et on arrête le script ou la fonction, puis on écrit le cas normal sans imbrication.`],
-["phpcond",`Que se passe-t-il avec des ternaires imbriqués en PHP 8 ?`,["Ils sont plus rapides","Ils sont interdits sans parenthèses","Ils fonctionnent comme en PHP 7","Ils sont recommandés"],1,`Les ternaires imbriqués sont illisibles ; PHP 8 les interdit sans parenthèses explicites.`],
-["phpcond",`Quel opérateur logique inverse une condition ?`,["<code>&amp;&amp;</code>","<code>||</code>","<code>!</code>","<code>==</code>"],2,`L'opérateur NON <code>!</code> inverse la valeur d'une condition : <code>!$connecte</code> est vrai si <code>$connecte</code> est faux.`],
-["phpcond",`Dans <code>if ($inscrit &amp;&amp; $age >= 18)</code>, quand le bloc s'exécute-t-il ?`,["Si l'une des deux conditions est vraie","Si les deux conditions sont vraies","Si <code>$inscrit</code> est faux","Jamais"],1,`<code>&amp;&amp;</code> (ET logique) exige que les deux conditions soient vraies.`]
+/* ========== PHP : conditions ========== */
+["phpcond",`Plusieurs conditions vraies en <code>if/elseif</code> ?`,["Tous les blocs","Seul le premier","Seul le dernier","Erreur"],1,`Dès qu'une est vraie, les autres sont ignorées.`],
+["phpcond",`Ordre des tests ?`,["Large → restrictif","Restrictif → large","Peu importe","Alphabétique"],1,`Restrictif d'abord.`],
+["phpcond",`<code>$note = 13.5</code>, mention ?`,["Très bien","Bien","Assez bien","Passable"],2,`>= 12 → « Assez bien ».`],
+["phpcond",`<code>switch</code> utilise quelle comparaison ?`,["Stricte","Souple","Aucune","<code>&lt;=&gt;</code>"],1,`<code>==</code> souple.`],
+["phpcond",`Oubli de <code>break</code> dans <code>switch</code> ?`,["Erreur fatale","Tombe dans le case suivant","Rien","Arrêt auto"],1,`Fall-through.`],
+["phpcond",`Regrouper deux valeurs en <code>switch</code> ?`,["<code>case 1 || case 2:</code>","<code>case 1: case 2: ... break;</code>","<code>case [1,2]:</code>","Impossible"],1,`Deux case à la suite.`],
+["phpcond",`Particularité de <code>match</code> ?`,["Instruction","Expression qui renvoie une valeur","Utilise <code>==</code>","Exige <code>break</code>"],1,`Expression.`],
+["phpcond",`<code>match</code> utilise ?`,["<code>==</code>","<code>===</code>","Aléatoire","Aucune"],1,`Stricte.`],
+["phpcond",`<code>match</code> sans cas ni <code>default</code> ?`,["Rien","null","<code>UnhandledMatchError</code>","Erreur syntaxe"],2,`Erreur.`],
+["phpcond",`Intervalles avec <code>match</code> ?`,["<code>match (true) { $note >= 16 => ..., ... }</code>","<code>match ($note) { > 16 => ... }</code>","Impossible","Avec switch"],0,`<code>match (true)</code>.`],
+["phpcond",`Syntaxe du ternaire ?`,["<code>cond ? vrai : faux</code>","<code>cond : vrai ? faux</code>","<code>cond ?? val</code>","<code>if...then...</code>"],0,`<code>cond ? vrai : faux</code>.`],
+["phpcond",`<code>??</code> ?`,["Gauche si non null sinon droite","null toujours","Compare","Concatène"],0,`Coalescence nulle.`],
+["phpcond",`Syntaxe alternative <code>if</code> ?`,["<code>if(...): ... endif;</code>","<code>if(...) => ... end;</code>","Impossible","<code>if(...) { }</code>"],0,`Recommandé dans les vues.`],
+["phpcond",`Retour anticipé ?`,["Plus rapide","Traiter les erreurs d'abord pour éviter des <code>if</code> imbriqués","Supprimer break","Éviter else"],1,`Lisibilité.`],
+["phpcond",`Ternaires imbriqués en PHP 8 ?`,["Plus rapides","Interdits sans parenthèses","Fonctionnent","Recommandés"],1,`Interdits sans parenthèses.`],
+["phpcond",`Opérateur d'inversion ?`,["<code>&amp;&amp;</code>","<code>||</code>","<code>!</code>","<code>==</code>"],2,`<code>!</code>.`],
+["phpcond",`<code>if ($inscrit &amp;&amp; $age >= 18)</code> ?`,["Une seule suffit","Les deux vraies","$inscrit faux","Jamais"],1,`ET logique.`],
+
+/* ========== QL : fondamentaux ========== */
+["ql_fond",`Niveau de besoins non exprimés ?`,["Spécifiés","Réalisés","Exprimés","Vrais besoins"],3,`Vrais besoins = attentes réelles non exprimées.`],
+["ql_fond",`Objectif SQA ?`,["Moins de lignes","Livrer plus vite","Garantir objectivement que le logiciel répond aux exigences","Remplacer les tests"],2,`Assurance qualité.`],
+["ql_fond",`Éléments du « logiciel » (ISO 24765) ?`,["Code source seul","Programmes, procédures, données et documentation","Programmes et tests","Code + BDD"],1,`Programmes, procédures, données, doc.`],
+["ql_fond",`Chaîne causale ?`,["Défaillance → défaut → erreur","Erreur → défaut → défaillance","Défaut → erreur → défaillance","Erreur → défaillance → défaut"],1,`Erreur humaine → défaut code → défaillance observable.`],
+["ql_fond",`Deux piliers de la qualité ?`,["Code et tests","Produit et Processus","Fiabilité et sécurité","Doc et maintenance"],1,`Produit et Processus.`],
+["ql_fond",`Définition qualité logicielle ?`,["Nombre de fonctionnalités","Degré de satisfaction des besoins explicites et implicites","Vitesse d'exécution","Taille du code"],1,`Satisfaction des besoins.`],
+
+/* ========== QL : SQuaRE ========== */
+["ql_square",`Objectif SQuaRE ?`,["Remplacer les tests","Fournir un cadre pour évaluer la qualité via des caractéristiques mesurables","Définir les langages","Gérer les versions"],1,`Cadre d'évaluation.`],
+["ql_square",`Combien de caractéristiques ISO 25010 ?`,["3","5","8","12"],2,`8.`],
+["ql_square",`Caractéristique « corriger / améliorer » ?`,["Fiabilité","Sécurité","Maintenabilité","Portabilité"],2,`Maintenabilité.`],
+["ql_square",`Hors ISO 25010 ?`,["Fiabilité","Sécurité","Performance","Rentabilité"],3,`La rentabilité n'en fait pas partie.`],
+
+/* ========== QL : métriques ========== */
+["ql_metrics",`LOCphy ?`,["Lignes hors commentaires","Toutes les lignes physiques","Lignes productives","Méthodes"],1,`Toutes les lignes.`],
+["ql_metrics",`Formule V(G) ?`,["E + N","E − N + 2 (ou décisions + 1)","N − E","LOC"],1,`E − N + 2.`],
+["ql_metrics",`V(G) = 4. Combien de cas de test minimum ?`,["2","3","4","8"],2,`V(G) = nombre minimal.`],
+["ql_metrics",`Seuils McCabe ?`,["1-5, 6-10, >10","1-10, 11-20, >20","1-3, 4-6, >6","Aucun"],1,`1-10 simple, 11-20 modéré, >20 complexe.`],
+["ql_metrics",`WMC ?`,["Nb de méthodes","Σ V(G) des méthodes","Nb d'attributs","Profondeur d'héritage"],1,`Somme des complexités.`],
+["ql_metrics",`Seuils WMC ?`,["≤5, 6-10, >10","≤10, 11-20, >20","≤20, >20","Aucun"],1,`≤10 faible, 11-20 moyen, >20 élevé.`],
+["ql_metrics",`CBO ?`,["Attributs","Classes externes couplées","Méthodes","Taille"],1,`Couplage externe.`],
+["ql_metrics",`Seuils CBO ?`,["≤2, 3-5, >5","≤5, 6-10, >10","≤10, >10","Aucun"],1,`≤5 faible, 6-10 moyen, >10 élevé.`],
+["ql_metrics",`LCOM ?`,["Longueur","P − Q (paires sans attribut commun)","Attributs","Héritage"],1,`P − Q (ramené à 0 si négatif).`],
+["ql_metrics",`Seuils LCOM ?`,["≤5, >5","≤1 forte, >1 faible","≤10, >10","Aucun"],1,`≤1 forte cohésion, >1 faible.`],
+["ql_metrics",`WMC=5, CBO=2, LCOM=1 → qualité ?`,["Mauvaise","Bonne (faible complexité, faible couplage, forte cohésion)","Couplage excessif","Non testable"],1,`Bonne qualité.`],
+["ql_metrics",`WMC=28, CBO=12, LCOM=5 ?`,["Tout bon","WMC, CBO et LCOM élevés : refactoriser","Seul WMC élevé","Seul LCOM élevé"],1,`Refactoriser, découpler, revoir la cohésion.`],
+
+/* ========== QL : processus ========== */
+["ql_process",`4 activités SDLC ?`,["Analyse, conception, codage, tests","Spécification, Développement, Validation, Évolution","Planification, Design, Livraison, Maintenance","Étude, codage, tests, déploiement"],1,`4 activités du SDLC.`],
+["ql_process",`Spécification = ?`,["Écrire le code","Définir ce que le système doit faire","Tester","Corriger"],1,`« Quoi ? ».`],
+["ql_process",`Vérification = ?`,["Bon produit ?","Produit correctement (specs) ?","Satisfaction client","Compilation"],1,`Conformité aux specs.`],
+["ql_process",`Validation = ?`,["Conformité specs","Satisfaction des besoins réels","Compilation","Absence de bugs"],1,`Besoin réel.`],
+["ql_process",`3 types de maintenance ?`,["Corrective, Adaptative, Perfective","Corrective, Préventive, Évolutive","Interne, Externe, Mixte","Simple, Moyenne, Complexe"],0,`Corrective / Adaptative / Perfective.`],
+["ql_process",`Maintenance sans changement de comportement ?`,["Corrective","Adaptative","Perfective","Aucune"],2,`Perfective = qualité interne.`],
+["ql_process",`Modèle strictement séquentiel ?`,["Incrémental","Cascade (Royce, 1970)","Agile","Intégration"],1,`Cascade.`],
+["ql_process",`Modèle avec feedback client fréquent ?`,["Cascade","Développement Incrémental","Intégration","Aucun"],1,`Incrémental.`],
+["ql_process",`Modèle assemblant des composants existants ?`,["Cascade","Incrémental","Intégration & Configuration","Agile"],2,`Intégration & Config.`],
+["ql_process",`Piloté par plan vs agile ?`,["Identiques","Plan = tout planifié ; Agile = progressif","Plan plus rapide","Agile plus rigoureux"],1,`Planification progressive.`],
+["ql_process",`% échecs dus aux mauvaises exigences (Chaos) ?`,["10 %","25 %","50 %","75 %"],2,`50 %.`],
+["ql_process",`Exigences non fonctionnelles ?`,["Ce que fait le système","Qualité, performance, sécurité","Code source","Doc"],1,`Qualité, perf, sécurité.`],
+
+/* ========== MOBILE : boutons ========== */
+["mob_btn",`Quel bouton pour l'action la plus importante (1 seul par écran) ?`,["TextButton","OutlinedButton","ElevatedButton","IconButton"],2,`ElevatedButton.`],
+["mob_btn",`Quel bouton sans fond ni bordure par défaut ?`,["ElevatedButton","OutlinedButton","TextButton","IconButton"],2,`TextButton : action secondaire.`],
+["mob_btn",`Quel bouton a une bordure visible mais pas de fond par défaut ?`,["ElevatedButton","OutlinedButton","TextButton","FloatingActionButton"],1,`OutlinedButton : entre Elevated et Text en importance.`],
+["mob_btn",`Quel bouton est une icône seule compacte ?`,["TextButton","IconButton","FloatingActionButton","OutlinedButton"],1,`IconButton : actions rapides.`],
+["mob_btn",`Quel bouton est un cercle flottant ?`,["ElevatedButton","IconButton","FloatingActionButton","TextButton"],2,`FAB.`],
+["mob_btn",`Combien de FAB par écran par défaut ?`,["1","2","3","Illimité"],0,`1 par défaut.`],
+["mob_btn",`Où déclare-t-on le FAB ?`,["Dans build()","Dans le Scaffold","Dans main()","Dans MaterialApp"],1,`Dans le Scaffold via <code>floatingActionButton:</code>.`],
+["mob_btn",`Ancien widget remplacé par ElevatedButton ?`,["FlatButton","RaisedButton","OutlineButton","IconButton"],1,`RaisedButton → ElevatedButton.`],
+["mob_btn",`FlatButton (obsolète) → ?`,["ElevatedButton","TextButton","OutlinedButton","IconButton"],1,`TextButton.`],
+["mob_btn",`<code>onPressed: () {}</code> ?`,["Erreur","Fonction vide : ne fait rien","Crée un bouton","Désactive"],1,`Cliquable mais ne fait rien.`],
+["mob_btn",`Comment styliser un bouton ?`,["style: ElevatedButton.styleFrom(...)","color: ...","style: TextStyle(...)","theme: ..."],0,`<code>styleFrom</code> (backgroundColor, foregroundColor, elevation, shape, side, padding, shadowColor).`],
+["mob_btn",`Quel shape donne un effet pilule ?`,["RoundedRectangleBorder","StadiumBorder","CircleBorder","BeveledRectangleBorder"],1,`StadiumBorder.`],
+["mob_btn",`Ajouter une bordure noire 2px à un bouton ?`,["shape: BorderSide(...)","side: BorderSide(color: Colors.black, width: 2)","border: Border.all(...)","outline: 2"],1,`Le paramètre <code>side</code>.`],
+["mob_btn",`Plusieurs FAB sur un écran ?`,["Impossible","Dans un Row ou Column","Dans un Scaffold multiple","Avec ListView"],1,`Comme l'exercice du double compteur.`],
+["mob_btn",`À quoi sert <code>floatingActionButtonLocation</code> ?`,["Couleur","Position du FAB","Icône","Désactiver"],1,`Position (centerTop, endFloat…).`],
+
+/* ========== MOBILE : TextFields ========== */
+["mob_txt",`TextField vs TextFormField ?`,["Identiques","TextFormField s'utilise dans un Form pour valider","TextField plus récent","TextFormField obsolète"],1,`TextFormField = validation.`],
+["mob_txt",`Comment lire la saisie ?`,["<code>.value</code>","Avec un <code>TextEditingController</code>","<code>onChanged</code> seul","<code>.text</code> directement"],1,`<code>controller.text</code>.`],
+["mob_txt",`Décoration d'un champ avec contour ?`,["<code>InputDecoration(border: OutlineInputBorder())</code>","<code>InputDecoration(border: Border.all())</code>","<code>OutlineBorder()</code>","<code>TextField(border: true)</code>"],0,`<code>OutlineInputBorder()</code>.`],
+["mob_txt",`<code>labelText</code> vs <code>hintText</code> ?`,["Identiques","label permanent, hint disparaît","label plus petit","hint obligatoire"],1,`label = étiquette, hint = indicatif.`],
+["mob_txt",`<code>keyboardType</code> pour un email ?`,["text","emailAddress","number","multiline"],1,`<code>TextInputType.emailAddress</code>.`],
+["mob_txt",`<code>keyboardType</code> pour multi-lignes ?`,["text","number","multiline","emailAddress"],2,`<code>TextInputType.multiline</code> (+ maxLines).`],
+["mob_txt",`Masquer un mot de passe ?`,["<code>secure: true</code>","<code>hidden: true</code>","<code>obscureText: true</code>","<code>password: true</code>"],2,`<code>obscureText</code> (+ <code>obscuringCharacter</code>).`],
+["mob_txt",`Widget pour la validation ?`,["Validator","<code>Form</code> + <code>GlobalKey&lt;FormState&gt;</code>","TextFormField seul","FormValidator"],1,`<code>formKey.currentState!.validate()</code>.`],
+["mob_txt",`Le <code>validator</code> renvoie ?`,["bool","<code>String?</code> (message ou null)","void","Future"],1,`Message si invalide, null si valide.`],
+["mob_txt",`Vider un TextField ?`,["<code>reset()</code>","<code>clear()</code>","<code>text = ''</code>","<code>dispose()</code>"],1,`<code>controller.clear()</code>.`],
+["mob_txt",`<code>prefixIcon</code> ?`,["À droite","À gauche, dans le champ","Au-dessus","Remplace le label"],1,`Dans le champ, à gauche.`],
+["mob_txt",`Limiter à 5 lignes visibles ?`,["lines: 5","rows: 5","maxLines: 5","height: 5"],2,`<code>maxLines: 5</code>.`],
+
+/* ========== MOBILE : widgets / état ========== */
+["mob_wdg",`Centrer son enfant ?`,["Container","Align","Center","Padding"],2,`Center.`],
+["mob_wdg",`Ajouter un espace vertical ?`,["Space","<code>SizedBox(height: N)</code>","Padding","Gap"],1,`SizedBox.`],
+["mob_wdg",`Stateless vs Stateful ?`,["Identiques","Stateless immuable, Stateful mutable avec <code>setState()</code>","Stateful plus rapide","Stateless peut être modifié"],1,`setState déclenche un rebuild.`],
+["mob_wdg",`Mettre à jour l'UI dans un StatefulWidget ?`,["refresh()","update()","setState()","rebuild()"],2,`<code>setState(() { ... })</code>.`],
+["mob_wdg",`Image depuis les assets ?`,["<code>Image.file()</code>","<code>Image.asset()</code>","<code>Image.network()</code>","<code>Image.memory()</code>"],1,`<code>Image.asset('images/...')</code>.`],
+["mob_wdg",`Image ronde ?`,["CircleImage","ClipOval","RoundedImage","CircularAvatar"],1,`ClipOval.`],
+["mob_wdg",`Compteur +/- : quel widget ?`,["StatelessWidget","StatefulWidget","InheritedWidget","Provider"],1,`État mutable → StatefulWidget.`],
+["mob_wdg",`Exercice « Cliquer ici » → « Bouton cliqué ! » ?`,["Stateless","Stateful + setState()","TextEditingController","Form"],1,`Changer l'état → setState.`],
+["mob_wdg",`Où stocker le texte du bouton dans l'exercice ?`,["Variable d'état modifiée par setState","En dur","Dans un controller","Dans un Text"],0,`Variable d'état + setState.`]
 ];
 
-/* ===================== Cartes ===================== */
 var C=[
+/* Mongo */
 ["find",`Tous les films après 2010`,`db.Films.find({ annee: { $gt: 2010 } })`],
-["find",`Inception (2010) — deux conditions`,`db.Films.find({ titre: "Inception", annee: 2010 })`],
 ["find",`Réalisateur Nolan OU Cameron`,`db.Films.find({ realisateur: { $in: ["Christopher Nolan", "James Cameron"] } })`],
-["find",`Films de Nolan OU de genre Science-fiction`,`db.Films.find({ $or: [\n  { realisateur: "Christopher Nolan" },\n  { genre: "Science-fiction" }\n] })`],
+["find",`Films de Nolan OU de genre SF`,`db.Films.find({ $or: [\n  { realisateur: "Christopher Nolan" },\n  { genre: "Science-fiction" }\n] })`],
 ["regex",`Titres contenant « ar » depuis 2000`,`db.Films.find({ $and: [\n  { annee: { $gt: 2000 } },\n  { titre: /ar/i }\n] })`],
 ["regex",`Titres commençant par « In »`,`db.Films.find({ titre: /^In/ })`],
-["regex",`Titres finissant par « ar »`,`db.Films.find({ titre: /ar$/ })`],
-["regex",`Étudiants habitant à Agadir (sous-document)`,`db.Etudiants.find({ "adresse.ville": "Agadir" })`],
-["tab",`Lister les matières de chaque étudiant`,`db.etudiants.find({}, { _id: 0, nom: 1,\n  matieres: { $map: { input: "$examens", as: "e", in: "$$e.matiere" } } })`],
-["tab",`Afficher uniquement le client Amal de chaque produit`,`db.Produits.find({}, { _id: 0, nom: 1,\n  clients_filtres: { $filter: { input: "$clients", as: "c",\n    cond: { $eq: ["$$c.nom", "Amal"] } } } })`],
-["find",`Étudiants avec une note ≥ 15 en Réseaux (même examen)`,`db.Etudiants.find({\n  resultats: { $elemMatch: { module: "Réseaux", note: { $gte: 15 } } }\n})`],
-["upd",`Mettre le prix de « Souris Gamer » à 350`,`db.produits.updateOne(\n  { nom: "Souris Gamer" },\n  { $set: { prix: 350 } })`],
-["upd",`Mettre à 8 la note de tous les avis d'Amal`,`db.produit.updateMany({},\n  { $set: { "avis.$[elem].note": 8 } },\n  { arrayFilters: [ { "elem.client": "Amal" } ] })`],
-["upd",`Ajouter « promotion » au tableau tags de la Souris Gamer`,`db.produit1.updateOne(\n  { nom: "Souris Gamer" },\n  { $push: { tags: "promotion" } })`],
-["upd",`Supprimer l'avis de Yassine du tableau avis`,`db.produits.updateOne(\n  { nom: "Ordinateur Portable" },\n  { $pull: { avis: { client: "Yassine" } } })`],
-["upd",`Renommer le champ categorie en typeProduit`,`db.produit1.updateMany({},\n  { $rename: { categorie: "typeProduit" } })`],
-["upd",`Augmenter de 5 le stock de la Souris Gamer`,`db.produits.updateOne(\n  { nom: "Souris Gamer" },\n  { $inc: { stock: 5 } })`],
-["del",`Supprimer tous les produits de la catégorie Accessoire`,`db.produit1.deleteMany({ categorie: "Accessoire" })`],
-["mod",`Trouver les cours suivis par Sara (referencing)`,`var etu = db.Etudiants.findOne({ nom: "Sara" })\ndb.Cours.find({ _id: { $in: etu.cours_ids } })`],
+["regex",`Étudiants à Agadir (sous-doc)`,`db.Etudiants.find({ "adresse.ville": "Agadir" })`],
+["find",`Matchs note ≥ 8 ET buts ≥ 1 (même match)`,`db.joueurs.find({\n  matchs: { $elemMatch: { note: { $gte: 8 }, buts: { $gte: 1 } } }\n})`],
+["find",`Tri croissant, skip 1, limit 2`,`db.joueurs.find().sort({ age: 1 }).skip(1).limit(2)`],
+["tab",`$filter + $map : adversaires notés ≥ 8`,`db.joueurs.find({}, { _id: 0, nom: 1,\n  adversaires_note_8: { $map: {\n    input: { $filter: { input: "$matchs", as: "m",\n      cond: { $gte: ["$$m.note", 8] } } },\n    as: "x", in: "$$x.adversaire" } } })`],
+["tab",`$filter + $arrayElemAt : premier match ≥ 8`,`db.joueurs.find({}, { _id: 0, nom: 1,\n  premier_match_sup_8: { $arrayElemAt: [\n    { $filter: { input: "$matchs", as: "m",\n      cond: { $gte: ["$$m.note", 8] } } }, 0 ] } })`],
+["tab",`$filter + $slice : 2 premiers matchs ≥ 7.5`,`db.joueurs.find({}, { _id: 0, nom: 1,\n  deux_matchs: { $slice: [\n    { $filter: { input: "$matchs", as: "m",\n      cond: { $gte: ["$$m.note", 7.5] } } }, 2 ] } })`],
+["upd",`$set sur Souris Gamer`,`db.produits.updateOne(\n  { nom: "Souris Gamer" },\n  { $set: { prix: 350 } })`],
+["upd",`arrayFilters + $set sur un match`,`db.joueurs.updateOne(\n  { nom: "Achraf Hakimi" },\n  { $set: { "matchs.$[m].note": 9.0 } },\n  { arrayFilters: [ { "m.adversaire": "Marseille" } ] })`],
+["upd",`$rename sur tous`,`db.joueurs.updateMany({},\n  { $rename: { nationalite: "pays" } })`],
+["upd",`$push sur tags`,`db.produit1.updateOne(\n  { nom: "Souris Gamer" },\n  { $push: { tags: "promotion" } })`],
+["upd",`$pull sur avis`,`db.produits.updateOne(\n  { nom: "Ordinateur Portable" },\n  { $pull: { avis: { client: "Yassine" } } })`],
+["del",`replaceOne sur un joueur`,`db.joueurs.replaceOne(\n  { nom: "Sofyan Amrabat" },\n  { nom: "Sofyan Amrabat", club: "Manchester United",\n    nationalite: "Maroc", poste: "Milieu défensif" })`],
+["mod",`Cours suivis par Sara (referencing)`,`var etu = db.Etudiants.findOne({ nom: "Sara" })\ndb.Cours.find({ _id: { $in: etu.cours_ids } })`],
 
-/* ----- PHP ----- */
-["phpop",`Tester si un entier $n est pair`,`$n % 2 === 0`],
-["phpop",`Post-incrémentation vs pré-incrémentation`,`$i = 5;\necho $i++;   // 5, puis $i = 6\necho ++$i;   // 7`],
-["phpop",`Valeurs « falsy » en PHP`,`false, 0, 0.0, "", "0", [] et null`],
-["phpop",`Opérateur vaisseau spatial`,`$a <=> $b   // -1, 0 ou 1`],
-["phpop",`Comparaison souple vs stricte`,`"7" == 7        // true\n"7" === 7       // false\nnull == false   // true\nnull === false  // false\n"1e3" == "1000" // true (piège !)`],
-["phpcond",`Attribuer une mention avec if / elseif`,`$note = 13.5;\nif ($note >= 16) { $m = "Très bien"; }\nelseif ($note >= 14) { $m = "Bien"; }\nelseif ($note >= 12) { $m = "Assez bien"; }\nelseif ($note >= 10) { $m = "Passable"; }\nelse { $m = "Non validé"; }`],
-["phpcond",`Même chose avec match (PHP 8)`,`$m = match (true) {\n  $note >= 16 => "Très bien",\n  $note >= 14 => "Bien",\n  $note >= 10 => "Passable",\n  default     => "Non validé",\n};`],
-["phpcond",`Valeur par défaut avec la coalescence nulle`,`$page = $_GET['page'] ?? 1;`],
-["phpcond",`Regrouper deux valeurs dans un switch`,`switch ($jour) {\n  case 6:\n  case 7:\n    $nom = "Week-end";\n    break;\n  default:\n    $nom = "Autre jour";\n}`],
-["phpcond",`Ternaire`,`$statut = ($age >= 18) ? "majeur" : "mineur";`],
-["phpcond",`Syntaxe alternative dans une vue`,`<?php if ($connecte): ?>\n  <a href="logout.php">Déconnexion</a>\n<?php else: ?>\n  <a href="login.php">Connexion</a>\n<?php endif; ?>`]
+/* PHP */
+["phpop",`Tester si $n est pair`,`$n % 2 === 0`],
+["phpop",`Souple vs stricte`,`"7" == 7        // true\n"7" === 7       // false\nnull == false   // true\nnull === false  // false`],
+["phpcond",`Mention avec if/elseif`,`$note = 13.5;\nif ($note >= 16) { $m = "Très bien"; }\nelseif ($note >= 14) { $m = "Bien"; }\nelseif ($note >= 12) { $m = "Assez bien"; }\nelseif ($note >= 10) { $m = "Passable"; }\nelse { $m = "Non validé"; }`],
+["phpcond",`Mention avec match (PHP 8)`,`$m = match (true) {\n  $note >= 16 => "Très bien",\n  $note >= 14 => "Bien",\n  $note >= 10 => "Passable",\n  default     => "Non validé",\n};`],
+["phpcond",`Valeur par défaut`,`$page = $_GET['page'] ?? 1;`],
+["phpcond",`Regrouper deux cases`,`switch ($jour) {\n  case 6:\n  case 7:\n    $nom = "Week-end";\n    break;\n  default:\n    $nom = "Autre jour";\n}`],
+
+/* QL */
+["ql_fond",`Chaîne causale`,`Erreur (humaine)\n  → Défaut (dans le code)\n  → Défaillance (observable en exécution)`],
+["ql_fond",`Deux piliers`,`1. Produit : fiabilité, sécurité, maintenabilité…\n2. Processus : méthodes, outils, rigueur`],
+["ql_square",`8 caractéristiques ISO 25010`,`Adéquation fonctionnelle, Efficacité de performance,\nCompatibilité, Facilité d'utilisation, Fiabilité,\nSécurité, Maintenabilité, Portabilité`],
+["ql_metrics",`V(G)`,`V(G) = E − N + 2 = décisions + 1\n1-10 simple, 11-20 modéré, >20 complexe`],
+["ql_metrics",`WMC, CBO, LCOM`,`WMC  = Σ V(G) des méthodes   (≤10 faible)\nCBO  = nb classes couplées    (≤5 faible)\nLCOM = P − Q                  (≤1 forte cohésion)`],
+["ql_process",`Vérification vs Validation`,`Vérification : produit correctement (specs)\nValidation   : bon produit (besoins réels)`],
+["ql_process",`3 types de maintenance`,`Corrective   → bugs\nAdaptative   → nouvel environnement\nPerfective   → qualité interne (sans changer le comportement)`],
+["ql_process",`4 activités SDLC`,`Spécification → Quoi ?\nDéveloppement → Comment ?\nValidation    → Est-ce bon ?\nÉvolution     → Comment évoluer ?`],
+
+/* Mobile */
+["mob_btn",`FAB dans un Scaffold`,`Scaffold(\n  floatingActionButton: FloatingActionButton(\n    onPressed: () {},\n    child: Icon(Icons.add),\n  ),\n)`],
+["mob_btn",`ElevatedButton pilule + bordure`,`ElevatedButton(\n  onPressed: () {},\n  child: Text("Click to begin"),\n  style: ElevatedButton.styleFrom(\n    backgroundColor: Colors.yellow,\n    foregroundColor: Colors.black,\n    elevation: 15,\n    shape: StadiumBorder(),\n    side: BorderSide(color: Colors.black, width: 2),\n  ),\n)`],
+["mob_btn",`OutlinedButton avec icône`,`OutlinedButton.icon(\n  icon: Icon(Icons.settings),\n  label: Text("Outlined"),\n  onPressed: () {},\n  style: OutlinedButton.styleFrom(\n    backgroundColor: Colors.amber,\n    padding: const EdgeInsets.all(25),\n  ),\n)`],
+["mob_btn",`TextButton`,`TextButton(\n  onPressed: () {},\n  child: Text("Annuler"),\n)`],
+["mob_btn",`IconButton`,`IconButton(\n  icon: Icon(Icons.volume_up, color: Colors.blue),\n  tooltip: 'Increase volume by 10',\n  onPressed: () {},\n)`],
+["mob_txt",`TextField avec label + icône`,`TextField(\n  decoration: InputDecoration(\n    hintText: "User Name",\n    icon: Icon(Icons.person),\n  ),\n)`],
+["mob_txt",`TextField multi-lignes`,`TextField(\n  keyboardType: TextInputType.multiline,\n  maxLines: 5,\n  decoration: InputDecoration(\n    labelText: "Texte sur plusieurs lignes",\n    hintText: "multiple",\n    icon: Icon(Icons.text_fields),\n  ),\n)`],
+["mob_txt",`Lire et vider un TextField`,`var ctrl = TextEditingController();\nTextField(controller: ctrl);\n// lire :  ctrl.text\n// vider : ctrl.clear()`],
+["mob_txt",`Form + validation email`,`var formKey = GlobalKey<FormState>();\nForm(\n  key: formKey,\n  child: TextFormField(\n    validator: (val) {\n      if (val!.isEmpty) return "veuillez saisir votre mail";\n      return null;\n    },\n    keyboardType: TextInputType.emailAddress,\n    decoration: InputDecoration(\n      labelText: 'Email',\n      prefixIcon: Icon(Icons.person),\n      border: OutlineInputBorder(),\n    ),\n  ),\n)\n// Soumettre :\nif (formKey.currentState!.validate()) { ... }`],
+["mob_wdg",`Counter avec setState`,`class Counter extends StatefulWidget {\n  const Counter({super.key});\n  @override\n  State<Counter> createState() => _CounterState();\n}\nclass _CounterState extends State<Counter> {\n  int n = 0;\n  @override\n  Widget build(BuildContext context) {\n    return Scaffold(\n      floatingActionButton: FloatingActionButton(\n        onPressed: () => setState(() => n++),\n        child: Icon(Icons.add),\n      ),\n      body: Center(child: Text('$n', style: TextStyle(fontSize: 40))),\n    );\n  }\n}`],
+["mob_wdg",`Changer le texte d'un bouton au clic`,`class Bouton extends StatefulWidget {\n  const Bouton({super.key});\n  @override\n  State<Bouton> createState() => _BoutonState();\n}\nclass _BoutonState extends State<Bouton> {\n  String txt = 'Cliquer ici';\n  @override\n  Widget build(BuildContext context) {\n    return Center(\n      child: ElevatedButton(\n        onPressed: () => setState(() => txt = 'Bouton cliqué !'),\n        child: Text(txt),\n      ),\n    );\n  }\n}`],
+["mob_wdg",`Double compteur (2 FAB)`,`body: Row(\n  mainAxisAlignment: MainAxisAlignment.spaceAround,\n  children: [\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur--),\n      child: Icon(Icons.remove),\n    ),\n    Text('$compteur', style: TextStyle(fontSize: 40)),\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur++),\n      child: Icon(Icons.add),\n    ),\n  ],\n)`]
 ];
 
-/* ===================== Helpers ===================== */
 var $=function(i){return document.getElementById(i)};
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 function fmt(s){return s.replace(/\[\[(.+?)\]\]/g,"<code>$1</code>")}
@@ -476,10 +787,14 @@ function load(k){try{return JSON.parse(localStorage.getItem(k))||{}}catch(e){ret
 function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
 function bestKey(subj,cat){return "rev-best-"+subj+"-"+cat}
 
-/* ===================== État global ===================== */
 var app = { subject:"mongodb", mode:"quiz" };
+var SUBTITLES = {
+  mongodb:"NoSQL : lecture, mises à jour, modélisation.",
+  php:"PHP : opérateurs, conditions et structures de contrôle.",
+  ql:"Qualité logicielle : besoins, SQuaRE, métriques, processus.",
+  mob:"Flutter : boutons, formulaires et widgets."
+};
 
-/* ===================== Navigation ===================== */
 function updateSubjectButtons(){
   document.querySelectorAll(".subjects button").forEach(function(b){
     b.setAttribute("aria-selected", b.dataset.subject === app.subject);
@@ -490,13 +805,17 @@ function updateModeButtons(){
     b.setAttribute("aria-selected", b.dataset.mode === app.mode);
   });
 }
+function showFiche(){
+  ["mongodb","php","ql","mob"].forEach(function(s){
+    $("fiche-"+s).classList.toggle("hid", !(app.mode === "fiche" && app.subject === s));
+  });
+}
 function setMode(m){
   app.mode = m;
   updateModeButtons();
   $("quiz").classList.toggle("hid", m !== "quiz");
   $("cards").classList.toggle("hid", m !== "cards");
-  $("fiche-mongodb").classList.toggle("hid", !(m === "fiche" && app.subject === "mongodb"));
-  $("fiche-php").classList.toggle("hid", !(m === "fiche" && app.subject === "php"));
+  showFiche();
 }
 function fillSelect(sel, subj){
   sel.innerHTML = "";
@@ -510,20 +829,15 @@ function fillSelect(sel, subj){
 function setSubject(s){
   app.subject = s;
   document.documentElement.dataset.subject = s;
-  $("subtitle").textContent = (s === "mongodb")
-    ? "NoSQL : lecture, mises à jour, modélisation."
-    : "PHP : opérateurs, conditions et structures de contrôle.";
+  $("subtitle").textContent = SUBTITLES[s];
   updateSubjectButtons();
   fillSelect($("cat"), s);
   fillSelect($("ccat"), s);
   showBest();
   buildDeck();
-  /* reset du quiz */
   $("qrun").classList.add("hid");
   $("qsetup").classList.remove("hid");
-  /* rafraîchir les fiches */
-  $("fiche-mongodb").classList.toggle("hid", !(app.mode === "fiche" && s === "mongodb"));
-  $("fiche-php").classList.toggle("hid", !(app.mode === "fiche" && s === "php"));
+  showFiche();
 }
 document.querySelectorAll(".subjects button").forEach(function(b){
   b.onclick = function(){ if (b.dataset.subject !== app.subject) setSubject(b.dataset.subject); };
@@ -532,7 +846,7 @@ document.querySelectorAll("nav.modes button").forEach(function(b){
   b.onclick = function(){ setMode(b.dataset.mode); };
 });
 
-/* ===================== Quiz ===================== */
+/* ===== Quiz ===== */
 var run = null;
 function showBest(){
   var k = bestKey(app.subject, $("cat").value);
@@ -610,7 +924,7 @@ function end(){
   };
 }
 
-/* ===================== Cartes ===================== */
+/* ===== Cartes ===== */
 var deck = [], ci = 0, back = false;
 function buildDeck(){
   var subj = app.subject, c = $("ccat").value, out = [];
@@ -648,7 +962,7 @@ $("prev").onclick = function(){ ci = (ci-1+deck.length) % deck.length; back = fa
 $("shuf").onclick = buildDeck;
 $("ccat").onchange = buildDeck;
 
-/* ===================== Init ===================== */
+/* ===== Init ===== */
 fillSelect($("cat"), app.subject);
 fillSelect($("ccat"), app.subject);
 updateSubjectButtons();
