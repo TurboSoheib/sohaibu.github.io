@@ -56,25 +56,45 @@ h3{font:600 1.05rem "Bricolage Grotesque",system-ui,sans-serif;margin:14px 0 6px
 code{font:.88em "JetBrains Mono",ui-monospace,monospace;background:var(--code);padding:.1em .35em;border-radius:4px}
 pre{font:.83rem/1.5 "JetBrains Mono",ui-monospace,monospace;background:var(--code);padding:12px;border-radius:6px;overflow-x:auto;margin:10px 0 0;white-space:pre}
 
-.beta{
-  display:flex; gap:10px; align-items:flex-start;
-  background:var(--accent-soft); border:1px solid var(--line);
-  border-left:4px solid var(--accent);
-  border-radius:8px; padding:10px 12px; margin:0 0 16px;
-  font-size:.9rem; line-height:1.45; color:var(--ink);
-}
-.beta .beta-ico{ font-size:1.1rem; line-height:1.2; }
-.beta .beta-txt{ flex:1; }
-.beta b{ color:var(--accent); }
-.beta a{ color:var(--accent); font-weight:700; text-decoration:none; white-space:nowrap; }
-.beta a:hover{ text-decoration:underline; }
-.beta .beta-close{
-  background:none; border:0; color:var(--mute); cursor:pointer;
-  font:700 1.1rem/1 sans-serif; padding:0 2px; align-self:flex-start;
-}
-.beta .beta-close:hover{ color:var(--accent); }
-.beta.hid{ display:none; }
+/* Topbar */
+.topbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;
+  background:var(--accent-soft);color:var(--accent);
+  font:600 .88rem "Source Sans 3",sans-serif;border:1px solid var(--line);cursor:pointer;
+  text-decoration:none;transition:all .15s}
+.chip:hover{background:var(--accent);color:var(--bg)}
+.chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
+/* Bandeau beta */
+.beta{display:flex;gap:10px;align-items:flex-start;background:var(--accent-soft);border:1px solid var(--line);
+  border-left:4px solid var(--accent);border-radius:8px;padding:10px 12px;margin:0 0 16px;
+  font-size:.9rem;line-height:1.45;color:var(--ink)}
+.beta .beta-ico{font-size:1.1rem;line-height:1.2}
+.beta .beta-txt{flex:1}
+.beta a{color:var(--accent);font-weight:700;text-decoration:none;white-space:nowrap}
+.beta a:hover{text-decoration:underline}
+.beta .beta-close{background:none;border:0;color:var(--mute);cursor:pointer;
+  font:700 1.1rem/1 sans-serif;padding:0 2px;align-self:flex-start}
+.beta .beta-close:hover{color:var(--accent)}
+.beta.hid{display:none}
+
+/* Modal updates */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;
+  align-items:center;justify-content:center;z-index:1000;padding:16px;overflow-y:auto}
+.modal-overlay.hid{display:none}
+.modal{background:var(--surface);border-radius:14px;padding:24px 22px 18px;
+  max-width:520px;width:100%;max-height:85vh;overflow-y:auto;position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);border:1px solid var(--line)}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:0;
+  font:700 1.15rem sans-serif;color:var(--mute);cursor:pointer;padding:4px 8px;line-height:1}
+.modal-close:hover{color:var(--accent)}
+.modal h2{font:700 1.3rem "Bricolage Grotesque",sans-serif;margin:0 0 4px;color:var(--accent)}
+.modal .meta{margin-bottom:14px}
+.modal ul{margin:8px 0 16px;padding-left:22px}
+.modal li{margin-bottom:8px;font-size:.94rem;line-height:1.5}
+.modal .btn{margin-top:4px}
+
+/* Subjects + modes */
 .subjects{display:flex;gap:4px;background:var(--line);padding:4px;border-radius:12px;margin:0 0 16px;flex-wrap:wrap}
 .subjects button{flex:1;min-width:70px;padding:10px 4px;border:0;border-radius:9px;background:transparent;color:var(--mute);
   font:700 .78rem "Bricolage Grotesque",sans-serif;cursor:pointer;transition:all .15s;white-space:normal;line-height:1.15}
@@ -85,6 +105,7 @@ nav.modes{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom
 nav.modes button{font:600 1rem "Source Sans 3",sans-serif;background:none;border:0;color:var(--mute);
   padding:10px 14px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
 nav.modes button[aria-selected="true"]{color:var(--accent);border-color:var(--accent)}
+nav.modes button.hid{display:none}
 
 button:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
@@ -119,10 +140,29 @@ h2:first-child{margin-top:0}
 .exo-q{background:var(--code);border-left:4px solid var(--mute);padding:12px 14px;border-radius:0 6px 6px 0;margin:10px 0 14px}
 .exo-sol{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 14px;border-radius:0 6px 6px 0;margin-top:14px}
 .exo-sol h4{margin:0 0 8px;font:700 1rem "Bricolage Grotesque",sans-serif;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
+
+/* Exam */
+.exam-part{margin:14px 0;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--surface)}
+.exam-part summary{cursor:pointer;font:700 1.05rem "Bricolage Grotesque",sans-serif;
+  color:var(--accent);list-style:none;padding:4px 0;display:flex;align-items:center;gap:6px}
+.exam-part summary::-webkit-details-marker{display:none}
+.exam-part summary::after{content:"▾";margin-left:auto;color:var(--mute);transition:transform .2s;font-size:.9rem}
+.exam-part[open] summary::after{transform:rotate(180deg)}
+.exam-questions{padding-left:22px;margin:10px 0 12px}
+.exam-questions li{margin-bottom:8px;line-height:1.5}
+.exam-corr{margin-top:12px;padding:12px 14px;border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 6px 6px 0}
+.exam-corr h4{margin:0 0 8px;font:700 .95rem "Bricolage Grotesque",sans-serif;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
+.exam-corr ol{padding-left:22px;margin:0}
+.exam-corr li{margin-bottom:8px;line-height:1.5}
 </style>
 </head>
 <body>
 <main>
+<div class="topbar">
+  <button class="chip" id="updatesBtn" type="button">📋 Mises à jour</button>
+  <a class="chip" href="https://instagram.com/lawtati_" target="_blank" rel="noopener">📷 @lawtati_</a>
+</div>
+
 <h1>Réviser</h1>
 <p class="sub" id="subtitle">NoSQL : lecture, mises à jour, modélisation.</p>
 
@@ -144,6 +184,7 @@ h2:first-child{margin-top:0}
   <button data-mode="quiz" aria-selected="true">Quiz</button>
   <button data-mode="cards" aria-selected="false">Cartes</button>
   <button data-mode="exos" aria-selected="false">Exercices</button>
+  <button data-mode="exam" aria-selected="false" id="examTab" class="hid">Examen blanc</button>
   <button data-mode="fiche" aria-selected="false">Fiche</button>
 </nav>
 
@@ -168,7 +209,11 @@ h2:first-child{margin-top:0}
   <div class="row" style="margin-top:14px"><button class="btn alt" id="eprev">Précédent</button><button class="btn alt" id="enext">Suivant</button><span class="meta" id="ecnt"></span></div>
 </section>
 
-<!-- ============ FICHE MONGODB ============ -->
+<section id="exam" class="hid">
+  <div class="card" id="examcard"></div>
+</section>
+
+<!-- FICHE MONGODB -->
 <section id="fiche-mongodb" class="hid">
 <div class="card">
 <h2>find()</h2>
@@ -190,7 +235,7 @@ h2:first-child{margin-top:0}
 </div>
 </section>
 
-<!-- ============ FICHE PHP ============ -->
+<!-- FICHE PHP -->
 <section id="fiche-php" class="hid">
 <div class="card">
 <h2>Opérateurs PHP</h2>
@@ -214,7 +259,7 @@ else                  { $m = "Non validé"; }</pre>
 </div>
 </section>
 
-<!-- ============ FICHE QUALITÉ ============ -->
+<!-- FICHE QUALITÉ -->
 <section id="fiche-ql" class="hid">
 <div class="card">
 <h2>Fondamentaux</h2>
@@ -239,7 +284,7 @@ else                  { $m = "Non validé"; }</pre>
 </div>
 </section>
 
-<!-- ============ FICHE MOBILE ============ -->
+<!-- FICHE MOBILE -->
 <section id="fiche-mob" class="hid">
 <div class="card">
 <h2>Boutons Flutter</h2>
@@ -258,7 +303,7 @@ else                  { $m = "Non validé"; }</pre>
 </div>
 </section>
 
-<!-- ============ FICHE RÉSEAUX ============ -->
+<!-- FICHE RÉSEAUX -->
 <section id="fiche-res" class="hid">
 <div class="card">
 <h2>Formules</h2>
@@ -283,6 +328,25 @@ else                  { $m = "Non validé"; }</pre>
 </section>
 </main>
 
+<!-- MODAL UPDATES -->
+<div class="modal-overlay hid" id="updatesModal">
+  <div class="modal">
+    <button class="modal-close" id="updatesClose" aria-label="Fermer">✕</button>
+    <h2>📋 Mises à jour</h2>
+    <p class="meta">Version actuelle — 19 novembre 2026</p>
+    <ul>
+      <li>✅ 5 matières : MongoDB, PHP, Qualité logicielle, Mobile (Flutter), Réseaux</li>
+      <li>✅ 4 onglets sur chaque matière : Quiz · Cartes · Exercices · Fiche</li>
+      <li>✅ <b>13 nouveaux exercices</b> ajoutés (MongoDB +3, PHP +5, Qualité +4, Réseaux +4), avec QCM, « trouve le bug » et complétion</li>
+      <li>✅ Correction WMC/LCOM de Qualité <b>refaite</b> (formule clarifiée)</li>
+      <li>✅ <b>Onglet Examen blanc</b> pour MongoDB, Qualité et Réseaux (avec correction révélable par partie)</li>
+      <li>✅ Bandeau bêta avec contact WhatsApp</li>
+      <li>❌ Playlist Spotify retirée (allégeait trop la page)</li>
+    </ul>
+    <button class="btn" id="updatesOk" type="button">J'ai compris ✓</button>
+  </div>
+</div>
+
 <script>
 var CATS = {
   mongodb:{all:"Tout MongoDB",find:"Lecture : find et comparaisons",regex:"Regex et sous-documents",tab:"Tableaux : $filter, $map, combos",upd:"Mises à jour",del:"Suppression et replaceOne",mod:"Modélisation"},
@@ -299,7 +363,7 @@ function subjectOf(tag){
   return "mongodb";
 }
 
-/* ===================== QUIZ ===================== */
+/* ===================== QUIZ (inchangé, abrégé ici pour la taille) ===================== */
 var Q=[
 ["find",`Que renvoie <code>find()</code> ?`,["Les documents","Un curseur","Un tableau","Un JSON"],1,`Un curseur.`],
 ["find",`Que fait <code>find()</code> sans argument ?`,["Erreur","Tous les documents","Le premier","Le schéma"],1,`Tous les documents.`],
@@ -414,630 +478,561 @@ var C=[
 
 /* ===================== EXERCICES ===================== */
 var EX=[
-["find",`Trouver les étudiants d'Agadir`,
-`<p>Collection <code>etudiants</code> : champ <code>ville</code>. Afficher tous les étudiants habitant à <b>Agadir</b>.</p>`,
-`<pre>db.etudiants.find({ ville: "Agadir" })</pre>`],
-["find",`Étudiants de plus de 22 ans`,
-`<p>Collection <code>etudiants</code> : champ <code>age</code> (numérique). Filtrer les étudiants ayant <b>strictement plus de 22 ans</b>.</p>`,
-`<pre>db.etudiants.find({ age: { $gt: 22 } })</pre>
-<p><code>$gt</code> = strictement supérieur. <code>$gte</code> aurait inclus 22.</p>`],
-["find",`Deux filières avec $in`,
-`<p>Collection <code>etudiants</code> : champ <code>filiere</code>. Afficher les étudiants inscrits en <b>Génie Informatique</b> ou <b>Génie Industriel</b>.</p>`,
-`<pre>db.etudiants.find({
-  filiere: { $in: ["Génie Informatique", "Génie Industriel"] }
-})</pre>
-<p><code>$in</code> teste l'appartenance à une liste (OU logique).</p>`],
-["find",`Étudiants ayant passé BD ET Réseaux`,
-`<p>Collection <code>etudiants</code> : <code>examens</code> est un tableau d'objets <code>{ matiere, note, bonus, ... }</code>. Afficher les étudiants ayant passé <b>les deux</b> examens « Bases de données » et « Réseaux ».</p>`,
-`<pre>db.etudiants.find({
-  "examens.matiere": { $all: ["Bases de données", "Réseaux"] }
-})</pre>
-<p><code>$all</code> sur le champ de l'élément (pas sur le tableau entier).</p>`],
-["find",`Étudiants ayant exactement 3 examens`,
-`<p>Collection <code>etudiants</code> : <code>examens</code> est un tableau. Afficher les étudiants ayant <b>exactement 3 examens</b>.</p>`,
-`<pre>db.etudiants.find({ examens: { $size: 3 } })</pre>
-<p><code>$size</code> teste la taille exacte (pas « au moins »).</p>`],
-["find",`Examen avec note ≥ 14 ET bonus ≥ 1`,
-`<p>Collection <code>etudiants</code> : <code>examens</code> est un tableau d'objets. Afficher les étudiants ayant <b>un même examen</b> avec <code>note ≥ 14</code> et <code>bonus ≥ 1</code>.</p>`,
-`<pre>db.etudiants.find({
+/* MongoDB existants */
+["find",`Trouver les étudiants d'Agadir`,`<p>Collection <code>etudiants</code> : champ <code>ville</code>. Afficher tous les étudiants habitant à <b>Agadir</b>.</p>`,`<pre>db.etudiants.find({ ville: "Agadir" })</pre>`],
+["find",`Étudiants de plus de 22 ans`,`<p>Collection <code>etudiants</code> : champ <code>age</code>. Filtrer les étudiants ayant <b>strictement plus de 22 ans</b>.</p>`,`<pre>db.etudiants.find({ age: { $gt: 22 } })</pre><p><code>$gt</code> = strictement supérieur.</p>`],
+["find",`Deux filières avec $in`,`<p>Afficher les étudiants en <b>Génie Informatique</b> ou <b>Génie Industriel</b>.</p>`,`<pre>db.etudiants.find({\n  filiere: { $in: ["Génie Informatique", "Génie Industriel"] }\n})</pre>`],
+["find",`Étudiants ayant passé BD ET Réseaux`,`<p>Étudiants ayant passé <b>les deux</b> examens « Bases de données » et « Réseaux ».</p>`,`<pre>db.etudiants.find({\n  "examens.matiere": { $all: ["Bases de données", "Réseaux"] }\n})</pre>`],
+["find",`Étudiants ayant exactement 3 examens`,`<p>Étudiants ayant <b>exactement 3 examens</b>.</p>`,`<pre>db.etudiants.find({ examens: { $size: 3 } })</pre>`],
+["find",`Examen avec note ≥ 14 ET bonus ≥ 1`,`<p>Étudiants ayant <b>un même examen</b> avec <code>note ≥ 14</code> et <code>bonus ≥ 1</code>.</p>`,`<pre>db.etudiants.find({\n  examens: { $elemMatch: { note: { $gte: 14 }, bonus: { $gte: 1 } } }\n})</pre>`],
+["tab",`Lister les matières de chaque étudiant`,`<p>Tableau des <b>matières</b> uniquement.</p>`,`<pre>db.etudiants.find({}, { _id: 0, nom: 1,\n  matieres: { $map: {\n    input: "$examens", as: "e", in: "$$e.matiere"\n  } }\n})</pre>`],
+["tab",`Afficher uniquement les examens notés ≥ 14`,`<p>Tableau <code>examens</code> filtré aux <code>note ≥ 14</code>.</p>`,`<pre>db.etudiants.find({}, { _id: 0, nom: 1,\n  bons_examens: { $filter: {\n    input: "$examens", as: "e",\n    cond: { $gte: ["$$e.note", 14] }\n  } }\n})</pre>`],
+["tab",`Premier examen noté ≥ 14`,`<p>Premier examen dont la note est ≥ 14.</p>`,`<pre>db.etudiants.find({}, { _id: 0, nom: 1,\n  premier_bon: { $arrayElemAt: [\n    { $filter: { input: "$examens", as: "e",\n      cond: { $gte: ["$$e.note", 14] } } },\n    0\n  ] }\n})</pre>`],
+["tab",`Deux premiers examens notés ≥ 12`,`<p>Filtrer les examens ≥ 12, garder les deux premiers.</p>`,`<pre>db.etudiants.find({}, { _id: 0, nom: 1,\n  deux_premiers: { $slice: [\n    { $filter: { input: "$examens", as: "e",\n      cond: { $gte: ["$$e.note", 12] } } },\n    2\n  ] }\n})</pre>`],
+["upd",`Changer le prix de la Souris Gamer`,`<p>Prix de « Souris Gamer » à <b>350</b>.</p>`,`<pre>db.produits.updateOne(\n  { nom: "Souris Gamer" },\n  { $set: { prix: 350 } }\n)</pre>`],
+["upd",`Augmenter les heures de présence d'un groupe`,`<p>+10 heures de présence pour tous les GI.</p>`,`<pre>db.etudiants.updateMany(\n  { filiere: "Génie Informatique" },\n  { $inc: { "scolarite.heures_presence": 10 } }\n)</pre>`],
+["upd",`Supprimer un champ du sous-document`,`<p>Supprimer <code>scolarite.absences</code> pour les GE.</p>`,`<pre>db.etudiants.updateMany(\n  { filiere: "Génie Électrique" },\n  { $unset: { "scolarite.absences": "" } }\n)</pre>`],
+["upd",`Renommer ville en ville_origine`,`<p>Renommer <code>ville</code> en <code>ville_origine</code> partout.</p>`,`<pre>db.etudiants.updateMany(\n  {},\n  { $rename: { ville: "ville_origine" } }\n)</pre>`],
+["upd",`Ajouter un examen à un étudiant`,`<p>Ajouter à <b>Omar Tazi</b> un examen complet.</p>`,`<pre>db.etudiants.updateOne(\n  { nom: "Omar Tazi" },\n  { $push: { examens: {\n    matiere: "Recherche opérationnelle",\n    semestre: "S2", bonus: 1, tp_rendus: 1, note: 16.5\n  } } }\n)</pre>`],
+["upd",`Retirer les examens de Réseaux`,`<p>Retirer du tableau <code>examens</code> de <b>Youssef Amrani</b> les examens de « Réseaux ».</p>`,`<pre>db.etudiants.updateOne(\n  { nom: "Youssef Amrani" },\n  { $pull: { examens: { matiere: "Réseaux" } } }\n)</pre>`],
+["upd",`Modifier la note d'un match précis`,`<p>Pour <b>Achraf Hakimi</b>, mettre à <b>9.0</b> la note du match contre Marseille.</p>`,`<pre>db.joueurs.updateOne(\n  { nom: "Achraf Hakimi" },\n  { $set: { "matchs.$[m].note": 9.0 } },\n  { arrayFilters: [ { "m.adversaire": "Marseille" } ] }\n)</pre>`],
+["upd",`Incrémenter la note des matchs avec but`,`<p>+0.2 sur la note de tous les matchs avec ≥ 1 but.</p>`,`<pre>db.joueurs.updateMany(\n  {},\n  { $inc: { "matchs.$[m].note": 0.2 } },\n  { arrayFilters: [ { "m.buts": { $gte: 1 } } ] }\n)</pre>`],
+["del",`Remplacer entièrement un document`,`<p>Remplacer le document de <b>Sofyan Amrabat</b> (tous les champs à réécrire).</p>`,`<pre>db.joueurs.replaceOne(\n  { nom: "Sofyan Amrabat" },\n  { nom: "Sofyan Amrabat", club: "Manchester United",\n    nationalite: "Maroc", poste: "Milieu défensif" }\n)</pre>`],
+
+/* MongoDB nouveaux */
+["find",`Trouve le bug : $elemMatch oublié`,
+`<p>Cette requête doit retourner les étudiants ayant <b>un même examen</b> avec <code>note ≥ 14</code> ET <code>bonus ≥ 1</code>. Elle retourne pourtant des étudiants qui n'ont aucun examen avec ces deux conditions réunies. Pourquoi ?</p>
+<pre>db.etudiants.find({
+  "examens.note": { $gte: 14 },
+  "examens.bonus": { $gte: 1 }
+})</pre>`,
+`<p><b>Bug</b> : deux conditions pointées sur <code>examens</code> sont satisfaites par <b>n'importe quel élément</b> du tableau. Un examen A peut avoir <code>note ≥ 14</code>, un examen B peut avoir <code>bonus ≥ 1</code> — la requête passe.</p>
+<pre>db.etudiants.find({
   examens: { $elemMatch: { note: { $gte: 14 }, bonus: { $gte: 1 } } }
 })</pre>
-<p><b>Attention</b> : deux conditions pointées (<code>"examens.note"</code> et <code>"examens.bonus"</code>) seraient satisfaites par deux examens différents. <code>$elemMatch</code> impose le même élément.</p>`],
+<p><code>$elemMatch</code> impose qu'<b>un même élément</b> respecte toutes les conditions.</p>`],
 
-["tab",`Lister les matières de chaque étudiant`,
-`<p>Collection <code>etudiants</code> : <code>examens</code> est un tableau d'objets. Afficher, pour chaque étudiant, le tableau des <b>matières</b> uniquement.</p>`,
-`<pre>db.etudiants.find({}, { _id: 0, nom: 1,
-  matieres: { $map: {
-    input: "$examens", as: "e", in: "$$e.matiere"
-  } }
-})</pre>
-<p><code>$map</code> transforme chaque élément. <code>$$e</code> est la variable d'alias définie par <code>as</code>.</p>`],
-["tab",`Afficher uniquement les examens notés ≥ 14`,
-`<p>Collection <code>etudiants</code>. Afficher le tableau <code>examens</code> <b>filtré</b> aux seuls examens dont la <code>note ≥ 14</code>.</p>`,
-`<pre>db.etudiants.find({}, { _id: 0, nom: 1,
-  bons_examens: { $filter: {
-    input: "$examens", as: "e",
-    cond: { $gte: ["$$e.note", 14] }
-  } }
-})</pre>
-<p><code>$filter</code> garde les éléments qui respectent <code>cond</code>.</p>`],
-["tab",`Premier examen noté ≥ 14`,
-`<p>Collection <code>etudiants</code>. Afficher le <b>premier</b> examen dont la note est ≥ 14 (index 0 du tableau filtré).</p>`,
-`<pre>db.etudiants.find({}, { _id: 0, nom: 1,
-  premier_bon: { $arrayElemAt: [
-    { $filter: { input: "$examens", as: "e",
-      cond: { $gte: ["$$e.note", 14] } } },
-    0
-  ] }
-})</pre>
-<p>Si aucun examen ne passe le filtre, le champ est simplement absent du résultat (pas d'erreur).</p>`],
-["tab",`Deux premiers examens notés ≥ 12`,
-`<p>Collection <code>etudiants</code>. Filtrer les examens notés ≥ 12, puis n'en garder que les <b>deux premiers</b>.</p>`,
-`<pre>db.etudiants.find({}, { _id: 0, nom: 1,
-  deux_premiers: { $slice: [
-    { $filter: { input: "$examens", as: "e",
-      cond: { $gte: ["$$e.note", 12] } } },
-    2
-  ] }
-})</pre>
-<p><code>$slice</code> appliqué à un <code>$filter</code> tronque le tableau filtré.</p>`],
-
-["upd",`Changer le prix de la Souris Gamer`,
-`<p>Collection <code>produits</code>. Mettre le <b>prix</b> du produit « Souris Gamer » à <b>350</b>.</p>`,
-`<pre>db.produits.updateOne(
-  { nom: "Souris Gamer" },
-  { $set: { prix: 350 } }
-)</pre>`],
-["upd",`Augmenter les heures de présence d'un groupe`,
-`<p>Collection <code>etudiants</code> : <code>scolarite.heures_presence</code> est dans un sous-document. Augmenter de <b>10 heures</b> les heures de présence de tous les étudiants en <b>Génie Informatique</b>.</p>`,
-`<pre>db.etudiants.updateMany(
-  { filiere: "Génie Informatique" },
-  { $inc: { "scolarite.heures_presence": 10 } }
-)</pre>
-<p><b>Notation pointée obligatoire</b> pour le sous-document.</p>`],
-["upd",`Supprimer un champ du sous-document`,
-`<p>Collection <code>etudiants</code>. Supprimer le champ <code>scolarite.absences</code> pour tous les étudiants en <b>Génie Électrique</b>.</p>`,
-`<pre>db.etudiants.updateMany(
-  { filiere: "Génie Électrique" },
-  { $unset: { "scolarite.absences": "" } }
-)</pre>
-<p>La valeur passée à <code>$unset</code> est ignorée (on met <code>""</code> par convention).</p>`],
-["upd",`Renommer ville en ville_origine`,
-`<p>Collection <code>etudiants</code>. Renommer le champ <code>ville</code> en <code>ville_origine</code> sur <b>tous</b> les documents.</p>`,
-`<pre>db.etudiants.updateMany(
-  {},
-  { $rename: { ville: "ville_origine" } }
-)</pre>
-<p><code>{}</code> = tous les documents. <code>$rename</code> ne supporte pas <code>arrayFilters</code>.</p>`],
-["upd",`Ajouter un examen à un étudiant`,
-`<p>Collection <code>etudiants</code>. Ajouter à <b>Omar Tazi</b> un examen :
-<code>{ matiere: "Recherche opérationnelle", semestre: "S2", bonus: 1, tp_rendus: 1, note: 16.5 }</code>.</p>`,
-`<pre>db.etudiants.updateOne(
-  { nom: "Omar Tazi" },
-  { $push: { examens: {
-    matiere: "Recherche opérationnelle",
-    semestre: "S2", bonus: 1, tp_rendus: 1, note: 16.5
-  } } }
-)</pre>`],
-["upd",`Retirer les examens de Réseaux`,
-`<p>Collection <code>etudiants</code>. Retirer du tableau <code>examens</code> de <b>Youssef Amrani</b> tous les examens dont la matière est « Réseaux ».</p>`,
-`<pre>db.etudiants.updateOne(
-  { nom: "Youssef Amrani" },
-  { $pull: { examens: { matiere: "Réseaux" } } }
-)</pre>
-<p><code>$pull</code> retire <b>tous</b> les éléments qui correspondent (pas seulement le premier).</p>`],
-["upd",`Modifier la note d'un match précis`,
-`<p>Collection <code>joueurs</code> : <code>matchs</code> est un tableau d'objets. Pour <b>Achraf Hakimi</b>, mettre à <b>9.0</b> la note du match dont l'adversaire est <b>Marseille</b>.</p>`,
-`<pre>db.joueurs.updateOne(
-  { nom: "Achraf Hakimi" },
-  { $set: { "matchs.$[m].note": 9.0 } },
-  { arrayFilters: [ { "m.adversaire": "Marseille" } ] }
-)</pre>
-<p><code>$[m]</code> + <code>arrayFilters</code> = toutes les occurrences qui respectent la condition. L'opérateur <code>$</code> seul ne modifierait que la première.</p>`],
-["upd",`Incrémenter la note des matchs avec but`,
-`<p>Collection <code>joueurs</code>. Incrémenter de <b>0.2</b> la note de <b>tous les matchs</b> où le joueur a marqué <b>au moins 1 but</b>, pour tous les joueurs.</p>`,
-`<pre>db.joueurs.updateMany(
-  {},
-  { $inc: { "matchs.$[m].note": 0.2 } },
-  { arrayFilters: [ { "m.buts": { $gte: 1 } } ] }
-)</pre>`],
-["del",`Remplacer entièrement un document`,
-`<p>Collection <code>joueurs</code>. Remplacer le document de <b>Sofyan Amrabat</b> par :
-<code>{ nom: "Sofyan Amrabat", club: "Manchester United", nationalite: "Maroc", poste: "Milieu défensif" }</code>.</p>`,
-`<pre>db.joueurs.replaceOne(
-  { nom: "Sofyan Amrabat" },
-  { nom: "Sofyan Amrabat", club: "Manchester United",
-    nationalite: "Maroc", poste: "Milieu défensif" }
-)</pre>
-<p><b>Aucun opérateur</b> (<code>$set</code>, <code>$inc</code>…) n'est permis. Tous les champs à garder doivent être réécrits. L'<code>_id</code> est conservé.</p>`],
-
-["phpop",`Évaluer des expressions (1/2)`,
-`<p>Sans exécuter le code, donner la valeur de :</p>
-<ol>
-<li><code>17 % 5</code> puis <code>2 ** 3 + 1</code></li>
-<li><code>$x = 4; $x *= 3; $x -= 2;</code> (valeur finale de <code>$x</code>)</li>
-<li><code>"7" == 7</code> puis <code>"7" === 7</code></li>
-</ol>`,
-`<ol>
-<li><code>17 % 5 = 2</code> (reste de 17 ÷ 5). <code>2 ** 3 + 1 = 8 + 1 = 9</code>.</li>
-<li><code>$x *= 3</code> → 12, puis <code>$x -= 2</code> → <b>10</b>.</li>
-<li><code>"7" == 7</code> → <b>true</b> (comparaison souple, conversion). <code>"7" === 7</code> → <b>false</b> (types différents : string vs int).</li>
-</ol>`],
-["phpop",`Évaluer des expressions (2/2)`,
-`<p>Sans exécuter le code, donner la valeur de :</p>
-<ol>
-<li><code>(10 > 5) &amp;&amp; (3 > 8)</code> puis <code>(10 > 5) || (3 > 8)</code></li>
-<li><code>!(4 <= 4)</code></li>
-<li><code>$a = 3; $b = $a++ + 2;</code> (valeurs de <code>$a</code> et <code>$b</code>)</li>
-</ol>`,
-`<ol>
-<li><code>true &amp;&amp; false = false</code>. <code>true || false = true</code>.</li>
-<li><code>4 <= 4</code> = true ; <code>!true = false</code>.</li>
-<li><code>$a++</code> renvoie 3 (valeur utilisée dans l'addition), puis <code>$a</code> devient 4. Donc <code>$b = 3 + 2 = 5</code> et <b><code>$a = 4</code>, <code>$b = 5</code></b>.</li>
-</ol>`],
-["phpcond",`Attribuer une mention avec if/elseif`,
-`<p>Écrire la chaîne <code>if / elseif / else</code> qui affecte à <code>$mention</code> :</p>
+["tab",`Trouve le bug : $elemMatch et $filter confondus`,
+`<p>On veut filtrer le tableau <code>examens</code> pour ne garder que les examens notés ≥ 14. Ce code fait-il le travail ?</p>
+<pre>db.etudiants.find({
+  examens: { $gte: 14 }
+})</pre>`,
+`<p><b>Bug</b> : cette requête compare le <b>tableau</b> <code>examens</code> (des objets !) à <code>14</code>, ce qui ne filtre rien de cohérent.</p>
+<p><b>Deux besoins différents</b> :</p>
 <ul>
-<li>« Très bien » si <code>$note >= 16</code></li>
-<li>« Bien » si <code>$note >= 14</code></li>
-<li>« Assez bien » si <code>$note >= 12</code></li>
-<li>« Passable » si <code>$note >= 10</code></li>
-<li>« Non validé » sinon</li>
+<li><b>Filtrer les documents</b> (garder les étudiants ayant un examen ≥ 14) → <code>$elemMatch</code> dans le filtre</li>
+<li><b>Filtrer le tableau dans la projection</b> (afficher uniquement les examens ≥ 14) → <code>$filter</code></li>
 </ul>
-<p>Pour <code>$note = 13.5</code>, quelle mention est obtenue ?</p>`,
-`<pre>$note = 13.5;
-if ($note >= 16)      { $mention = "Très bien"; }
-elseif ($note >= 14)  { $mention = "Bien"; }
-elseif ($note >= 12)  { $mention = "Assez bien"; }
-elseif ($note >= 10)  { $mention = "Passable"; }
-else                  { $mention = "Non validé"; }
-// → "Assez bien"</pre>
-<p>Ordre <b>essentiel</b> : du plus restrictif au plus large. Si on testait <code>>= 10</code> d'abord, tout le monde serait « Passable ».</p>`],
-["phpcond",`switch : jour de la semaine`,
-`<p>Écrire un <code>switch</code> qui, selon <code>$jour</code> (1 à 7), affecte à <code>$nom</code> :</p>
-<ul>
-<li>1 → Lundi, 2 → Mardi, 3 → Mercredi</li>
-<li>6 et 7 → Week-end (même bloc)</li>
-<li>sinon → Autre jour</li>
-</ul>`,
-`<pre>switch ($jour) {
+<pre>// 1. Filtrer les documents
+db.etudiants.find({
+  examens: { $elemMatch: { note: { $gte: 14 } } }
+})
+
+// 2. Filtrer le tableau dans la projection
+db.etudiants.find({}, {
+  _id: 0, nom: 1,
+  bons: { $filter: { input: "$examens", as: "e",
+    cond: { $gte: ["$$e.note", 14] } } }
+})</pre>
+<p><b>$elemMatch</b> filtre les <b>documents</b> ; <b>$filter</b> filtre le <b>tableau</b> dans la projection.</p>`],
+
+["find",`QCM : ordre d'application`,
+`<p>Dans <code>db.c.find().sort({ age: 1 }).skip(2).limit(3)</code>, quel est l'ordre d'application par MongoDB ?</p>
+<ol type="a"><li>skip → limit → sort</li><li>sort → limit → skip</li><li>sort → skip → limit</li><li>L'ordre d'écriture</li></ol>`,
+`<p><b>Réponse : c) sort → skip → limit</b></p>
+<p>MongoDB applique <b>toujours</b> : 1) sort, 2) skip, 3) limit.</p>
+<p>Quel que soit l'ordre d'écriture. <code>.skip(2).limit(3).sort({age: 1})</code> donne le même résultat : les opérateurs sont déclaratifs, pas séquentiels.</p>`],
+
+/* PHP existants */
+["phpop",`Évaluer des expressions (1/2)`,`<p>Sans exécuter : <code>17 % 5</code>, <code>2 ** 3 + 1</code>, <code>$x = 4; $x *= 3; $x -= 2;</code>, <code>"7" == 7</code>, <code>"7" === 7</code>.</p>`,`<ol><li><code>17 % 5 = 2</code>. <code>2 ** 3 + 1 = 9</code>.</li><li><code>$x</code> final = <b>10</b> (12 puis 10).</li><li><code>"7" == 7</code> → <b>true</b> ; <code>"7" === 7</code> → <b>false</b>.</li></ol>`],
+["phpop",`Évaluer des expressions (2/2)`,`<p>Sans exécuter : <code>(10 &gt; 5) &amp;&amp; (3 &gt; 8)</code>, <code>(10 &gt; 5) || (3 &gt; 8)</code>, <code>!(4 &lt;= 4)</code>, <code>$a = 3; $b = $a++ + 2;</code>.</p>`,`<ol><li><code>true &amp;&amp; false = false</code>. <code>true || false = true</code>.</li><li><code>4 &lt;= 4</code> = true ; <code>!true = false</code>.</li><li><code>$a = 4</code>, <code>$b = 5</code> (post-incrémentation renvoie 3, puis <code>$a</code> devient 4).</li></ol>`],
+["phpcond",`Attribuer une mention avec if/elseif`,`<p>Écrire la chaîne <code>if / elseif / else</code> pour : « Très bien » ≥16, « Bien » ≥14, « Assez bien » ≥12, « Passable » ≥10, « Non validé » sinon. Pour <code>$note = 13.5</code>, quelle mention ?</p>`,`<pre>$note = 13.5;
+if ($note >= 16)      { $m = "Très bien"; }
+elseif ($note >= 14)  { $m = "Bien"; }
+elseif ($note >= 12)  { $m = "Assez bien"; }
+elseif ($note >= 10)  { $m = "Passable"; }
+else                  { $m = "Non validé"; }
+// → "Assez bien"</pre><p>Tests du plus restrictif au plus large.</p>`],
+["phpcond",`switch : jour de la semaine`,`<p>Switch qui associe 1→Lundi, 2→Mardi, 3→Mercredi, 6 et 7→Week-end, sinon→Autre jour.</p>`,`<pre>switch ($jour) {
   case 1: $nom = "Lundi"; break;
   case 2: $nom = "Mardi"; break;
   case 3: $nom = "Mercredi"; break;
   case 6:
   case 7: $nom = "Week-end"; break;
   default: $nom = "Autre jour";
-}</pre>
-<p>Deux <code>case</code> à la suite sans <code>break</code> entre eux = regroupement. <code>break</code> obligatoire pour éviter le fall-through.</p>`],
-["phpcond",`Même chose avec match (PHP 8)`,
-`<p>Reprendre l'exercice précédent en utilisant <code>match</code> (PHP 8). Tester aussi les intervalles de note.</p>`,
-`<pre>$nom = match ($jour) {
-  1 => "Lundi",
-  2 => "Mardi",
-  3 => "Mercredi",
+}</pre><p>Deux <code>case</code> à la suite = regroupement.</p>`],
+["phpcond",`Même chose avec match (PHP 8)`,`<p>Reprendre en <code>match</code>, tester aussi les intervalles.</p>`,`<pre>$nom = match ($jour) {
+  1 => "Lundi", 2 => "Mardi", 3 => "Mercredi",
   6, 7 => "Week-end",
   default => "Autre jour",
 };
 
-// Tester des intervalles
 $mention = match (true) {
   $note >= 16 => "Très bien",
   $note >= 14 => "Bien",
   $note >= 10 => "Passable",
   default     => "Non validé",
-};</pre>
-<p><code>match</code> : expression, comparaison <b>stricte</b> (<code>===</code>), pas de <code>break</code>, erreur si aucun cas sans <code>default</code>.</p>`],
+};</pre><p><code>match</code> : comparaison stricte, pas de break, erreur si aucun cas sans default.</p>`],
 
-["ql_metrics",`Complexité cyclomatique du code GestionClient`,
-`<p>Soit la méthode :</p>
-<pre>public double totalAchat() {
-  double t = 0;
-  for (Commande c : commandes) {
-    t += c.getPrix();
-  }
-  return t;
-}</pre>
-<p>Calculer la complexité cyclomatique <b>V(G)</b> de cette méthode. Combien de cas de test sont nécessaires pour couvrir les décisions ?</p>`,
-`<p><b>V(G)</b> = nombre de décisions + 1. Ici : 1 seule décision (la boucle <code>for</code>).</p>
-<p><b>V(G) = 2</b>.</p>
-<p>Nombre minimal de cas de test pour une couverture des décisions = <b>V(G) = 2</b>.</p>
-<p>Seuils : V(G) ≤ 10 = simple, 11-20 = modéré, > 20 = complexe. Ici → <b>simple</b>.</p>`],
-["ql_metrics",`WMC, CBO, LCOM de GestionClient`,
-`<p>Soit la classe :</p>
-<pre>public class GestionClient {
-  private String nom;
-  private List<Commande> commandes;
-  public String getNom() { ... }
-  public void ajouterCommande(Commande c) { ... }
-  public double totalAchat() { ... } // boucle for
-  public void notifier() {
-    EmailService.envoyer(nom, "Résumé");
-    SMS.envoyer(nom, "OK");
-  }
-}</pre>
-<p>Calculer <b>WMC</b>, <b>CBO</b> et <b>LCOM</b>. Interpréter.</p>`,
-`<p><b>WMC</b> = Σ V(G) = 1 + 1 + 2 + 1 = <b>5</b> → faible (≤ 10).</p>
-<p><b>CBO</b> = EmailService + SMS = <b>2</b> → faible (≤ 5).</p>
-<p><b>LCOM</b> = P − Q. 4 méthodes → 6 paires. Paires sans attribut commun :
-<code>getNom ~ totalAchat</code>, <code>getNom ~ notifier</code>, <code>ajouterCommande ~ notifier</code>, <code>totalAchat ~ notifier</code>, <code>ajouterCommande ~ totalAchat</code> (non : totalAchat utilise commandes, comme ajouterCommande), <code>getNom ~ ajouterCommande</code> (non : nom et commandes ≠).</p>
-<p>Comptons : seules les paires <code>getNom ~ totalAchat</code>, <code>getNom ~ notifier</code>, <code>ajouterCommande ~ notifier</code>, <code>totalAchat ~ notifier</code> n'ont pas d'attribut commun → <b>P = 4</b>. Q = 2 (paires qui partagent un attribut : <code>getNom ~ ajouterCommande</code> ne partagent rien non plus...).</p>
-<p>Selon l'énoncé du cours : <b>LCOM = 5 − 1 = 4</b> → faible cohésion (> 1). Recommandation : envisager de séparer <code>notifier()</code>.</p>`],
-["ql_metrics",`Diagnostic d'une classe`,
-`<p>Un développeur vous montre une classe avec :</p>
-<ul><li>WMC = 28</li><li>CBO = 12</li><li>LCOM = 5</li></ul>
-<p>Évaluer la qualité et proposer des actions.</p>`,
-`<p><b>WMC = 28</b> → &gt; 20 = élevé (complexité excessive).</p>
-<p><b>CBO = 12</b> → &gt; 10 = élevé (couplage excessif).</p>
-<p><b>LCOM = 5</b> → &gt; 1 = faible cohésion.</p>
-<p><b>Diagnostic</b> : la classe concentre trop de responsabilités, dépend de trop d'autres classes, et ses méthodes ne partagent pas les mêmes attributs.</p>
-<p><b>Actions</b> :</p>
-<ul>
-<li>Refactoriser pour réduire la complexité (extraire des méthodes).</li>
-<li>Découpler (interfaces, injection de dépendances).</li>
-<li>Répartir les responsabilités (split en plusieurs classes).</li>
-<li>Renforcer les tests et faire une revue de code.</li>
-</ul>`],
-
-/* ========== MOBILE : boutons ========== */
-["mob_btn", `Quel bouton pour l'action principale ?`,
-`<p>Dans une app de gestion de stock, l'écran principal doit avoir un bouton pour <b>« Ajouter un produit »</b>, qui est l'action la plus importante de l'écran.</p>
-<p>Quel widget utiliser ?</p>
-<ol type="a"><li><code>TextButton</code></li><li><code>OutlinedButton</code></li><li><code>ElevatedButton</code></li><li><code>IconButton</code></li></ol>`,
-`<p><b>Réponse : c) ElevatedButton</b></p>
-<p>Hiérarchie d'importance en Flutter :</p>
-<ul><li><b>ElevatedButton</b> : action principale, 1 seul par écran</li><li><b>OutlinedButton</b> : action importante mais secondaire (bordure sans fond)</li><li><b>TextButton</b> : action tertiaire (sans fond ni bordure)</li><li><b>IconButton</b> : action rapide (icône seule)</li></ul>
-<p>Pour une action <b>principale</b> et <b>unique</b> : ElevatedButton.</p>`],
-
-["mob_btn", `Trouve le bug : le FAB ne s'affiche pas`,
-`<p>Ce <code>FloatingActionButton</code> n'apparaît pas à l'écran. Pourquoi ?</p>
-<pre>Scaffold(
-  body: Column(children: [
-    Text("Bienvenue"),
-    FloatingActionButton(
-      onPressed: () {},
-      child: Icon(Icons.add),
-    ),
-  ]),
-)</pre>`,
-`<p><b>Bug</b> : le FAB doit être passé au paramètre <code>floatingActionButton:</code> du Scaffold, pas placé dans le <code>body</code>.</p>
-<pre>Scaffold(
-  body: Center(child: Text("Bienvenue")),
-  floatingActionButton: FloatingActionButton(
-    onPressed: () {},
-    child: Icon(Icons.add),
-  ),
-)</pre>
-<p>Le Scaffold gère la position du FAB (en bas à droite par défaut). Dans le body, c'est juste un cercle qui ne « flotte » pas au-dessus du contenu.</p>`],
-
-["mob_btn", `Compléter un styleFrom`,
-`<p>Complète le style pour obtenir : fond jaune, forme pilule, bordure noire de 2 px.</p>
-<pre>ElevatedButton(
-  onPressed: () {},
-  child: Text("Cliquer"),
-  style: ElevatedButton.styleFrom(
-    backgroundColor: ___,
-    shape: ___,
-    side: ___,
-  ),
-)</pre>`,
-`<pre>ElevatedButton(
-  onPressed: () {},
-  child: Text("Cliquer"),
-  style: ElevatedButton.styleFrom(
-    backgroundColor: Colors.yellow,
-    shape: StadiumBorder(),
-    side: BorderSide(color: Colors.black, width: 2),
-  ),
-)</pre>
-<p><b>StadiumBorder()</b> = forme pilule (bords complètement arrondis). Pour des coins arrondis classiques : <code>RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))</code>.</p>
-<p><b>BorderSide</b> définit une bordure visible. Sans <code>side</code>, pas de bordure.</p>`],
-
-["mob_btn", `Quels widgets sont obsolètes ?`,
-`<p>Parmi ces anciens widgets, lesquels ont été remplacés ? (plusieurs réponses possibles)</p>
-<ol type="a"><li><code>FlatButton</code> → <code>TextButton</code></li><li><code>RaisedButton</code> → <code>ElevatedButton</code></li><li><code>OutlineButton</code> → <code>OutlinedButton</code></li><li><code>IconButton</code> → <code>IconButtonNew</code></li></ol>`,
-`<p><b>Réponses : a, b, c</b> (les trois premiers sont obsolètes)</p>
-<ul><li><code>FlatButton</code> → <code>TextButton</code></li><li><code>RaisedButton</code> → <code>ElevatedButton</code></li><li><code>OutlineButton</code> → <code>OutlinedButton</code></li></ul>
-<p><code>IconButton</code> n'a pas été remplacé. Chaque ancien widget avait un thème unique (<code>ButtonTheme</code>) ; les nouveaux ont chacun le leur (<code>TextButtonTheme</code>, <code>ElevatedButtonTheme</code>, <code>OutlinedButtonTheme</code>).</p>`],
-
-["mob_btn", `Bouton qui change de texte au clic`,
-`<p>Écris un <code>ElevatedButton</code> centré qui affiche « Cliquer ici », et au clic devient « Bouton cliqué ! ».</p>
-<p>Avant de coder, réponds :</p>
-<ol><li>Quel type de widget pour stocker le texte (qui change) ?</li><li>Quelle méthode appeler pour rafraîchir l'écran ?</li></ol>`,
-`<ol><li>Une <b>variable d'état</b> dans un <code>StatefulWidget</code> : <code>String txt = 'Cliquer ici';</code></li><li><b><code>setState()</code></b> — sans ça, la variable change mais l'UI ne se met pas à jour.</li></ol>
-<pre>class Bouton extends StatefulWidget {
-  const Bouton({super.key});
-  @override
-  State&lt;Bouton&gt; createState() =&gt; _BoutonState();
-}
-class _BoutonState extends State&lt;Bouton&gt; {
-  String txt = 'Cliquer ici';
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () => setState(() => txt = 'Bouton cliqué !'),
-        child: Text(txt),
-      ),
-    );
-  }
-}</pre>`],
-
-/* ========== MOBILE : TextFields / formulaires ========== */
-["mob_txt", `TextField ou TextFormField ?`,
-`<p>Tu dois créer un formulaire d'inscription avec validation (champ email obligatoire). Quel widget utiliser ?</p>
-<ol type="a"><li><code>TextField</code> seul</li><li><code>TextFormField</code> dans un <code>Form</code></li><li><code>TextEditingController</code></li><li><code>FormField</code></li></ol>`,
-`<p><b>Réponse : b) TextFormField dans un Form</b></p>
-<ul><li><code>TextField</code> : saisie simple, pas de validation intégrée</li><li><code>TextFormField</code> : accepte un <code>validator</code> (retourne <code>String?</code>) et s'intègre dans un <code>Form</code> pour tout valider d'un coup</li><li><code>TextEditingController</code> : sert à lire/vider, pas à valider</li></ul>
-<p>Le <code>Form</code> doit avoir une <code>GlobalKey&lt;FormState&gt;</code> pour déclencher la validation : <code>formKey.currentState!.validate()</code>.</p>`],
-
-["mob_txt", `Trouve le bug : mot de passe visible`,
-`<p>Ce champ est censé masquer le mot de passe, mais les caractères sont visibles. Pourquoi ?</p>
-<pre>TextFormField(
-  controller: passwordController,
-  decoration: InputDecoration(labelText: 'Password'),
-)</pre>`,
-`<p><b>Bug</b> : il manque <code>obscureText: true</code>.</p>
-<pre>TextFormField(
-  controller: passwordController,
-  obscureText: true,
-  obscuringCharacter: '*',  // optionnel, '•' par défaut
-  decoration: InputDecoration(labelText: 'Password'),
-)</pre>
-<p>Sans <code>obscureText</code>, le texte est affiché en clair. <code>obscuringCharacter</code> change le caractère de remplacement.</p>`],
-
-["mob_txt", `Compléter un champ email`,
-`<p>Complète ce TextFormField pour : clavier email + icône personne à gauche + bordure en contour.</p>
-<pre>TextFormField(
-  ___,
-  decoration: InputDecoration(
-    labelText: 'Email',
-    ___,
-    ___,
-  ),
-)</pre>`,
-`<pre>TextFormField(
-  keyboardType: TextInputType.emailAddress,
-  decoration: InputDecoration(
-    labelText: 'Email',
-    prefixIcon: Icon(Icons.person),
-    border: OutlineInputBorder(),
-  ),
-)</pre>
-<p><b>keyboardType</b> : <code>.emailAddress</code> affiche un clavier avec <code>@</code>. Autres : <code>.number</code>, <code>.multiline</code>, <code>.phone</code>…</p>
-<p><b>prefixIcon</b> : icône <b>à gauche dans</b> le champ. <code>icon</code> (sans prefix) la place <b>à l'extérieur</b>.</p>
-<p><b>OutlineInputBorder</b> : bordure en contour. Sans, le champ n'a qu'un trait en bas.</p>`],
-
-["mob_txt", `Vider un TextField programmatiquement`,
-`<p>Après soumission, comment effacer le contenu d'un <code>TextFormField</code> ? (plusieurs réponses possibles)</p>
-<ol type="a"><li><code>TextField.clear()</code></li><li><code>controller.text = ''</code></li><li><code>controller.clear()</code></li><li><code>setState(() => TextField = null)</code></li></ol>`,
-`<p><b>Réponses : b et c</b></p>
-<pre>// c) avec un TextEditingController attaché
-passwordController.clear();
-// b) équivalent
-passwordController.text = '';</pre>
-<p><b>Prérequis</b> : le TextFormField doit avoir <code>controller: passwordController</code>. Sans controller branché, impossible de vider programmatiquement.</p>
-<p><b>Bonne pratique</b> : appeler <code>dispose()</code> sur les controllers dans <code>State.dispose()</code> pour éviter les fuites.</p>`],
-
-["mob_txt", `Formulaire de login complet`,
-`<p>Écris un formulaire avec :</p>
-<ul><li>Un champ email (validation : non vide)</li><li>Un champ mot de passe (masqué)</li><li>Un bouton « Login » qui valide et affiche les valeurs saisies</li></ul>
-<p>Avant de coder, réponds :</p>
-<ol><li>Quelle classe pour lire la saisie des deux champs ?</li><li>Comment déclencher la validation du formulaire complet ?</li></ol>`,
-`<ol><li><b><code>TextEditingController</code></b> : un par champ. On lit via <code>controller.text</code>.</li><li><b><code>formKey.currentState!.validate()</code></b> : déclenche tous les <code>validator</code> du Form. Renvoie <code>true</code> si tout est OK.</li></ol>
-<pre>var mailCtrl = TextEditingController();
-var passCtrl = TextEditingController();
-var formKey = GlobalKey&lt;FormState&gt;();
-var txt = '';
-
-Form(
-  key: formKey,
-  child: Column(children: [
-    TextFormField(
-      controller: mailCtrl,
-      keyboardType: TextInputType.emailAddress,
-      validator: (v) => v!.isEmpty ? "requis" : null,
-      decoration: InputDecoration(
-        labelText: 'Email',
-        prefixIcon: Icon(Icons.person),
-        border: OutlineInputBorder(),
-      ),
-    ),
-    TextFormField(
-      controller: passCtrl,
-      obscureText: true,
-      decoration: InputDecoration(
-        labelText: 'Password',
-        prefixIcon: Icon(Icons.key),
-        border: OutlineInputBorder(),
-      ),
-    ),
-    ElevatedButton(
-      onPressed: () {
-        if (formKey.currentState!.validate()) {
-          setState(() {
-            txt = 'Mail: \${mailCtrl.text}';
-            mailCtrl.clear();
-            passCtrl.clear();
-          });
-        }
-      },
-      child: Text('Login'),
-    ),
-    Text(txt),
-  ]),
-)</pre>`],
-
-/* ========== MOBILE : widgets / état ========== */
-["mob_wdg", `Espace vertical entre deux widgets`,
-`<p>Comment ajouter un espace vertical de 10 px entre deux widgets d'une Column ?</p>
-<ol type="a"><li><code>Container(height: 10)</code></li><li><code>SizedBox(height: 10)</code></li><li><code>Padding(padding: EdgeInsets.all(10))</code></li><li><code>Text(" ")</code></li></ol>`,
-`<p><b>Réponse : b) SizedBox(height: 10)</b></p>
-<p><code>SizedBox</code> est <b>le widget recommandé</b> pour un espace fixe : léger, sans décoration, sans child.</p>
-<ul><li><code>Container(height: 10)</code> : fonctionne mais plus lourd (accepte déco, padding…)</li><li><code>Padding</code> : ajoute de l'espace autour d'un enfant existant, pas un espace autonome</li><li><code>Text(" ")</code> : imprévisible (taille de police)</li></ul>`],
-
-["mob_wdg", `Trouve le bug : compteur qui ne se met pas à jour`,
-`<p>Ce compteur reste bloqué à 0 malgré les clics. Pourquoi ?</p>
-<pre>class _CompteurState extends State&lt;Compteur&gt; {
-  int n = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () { n++; },
-        child: Icon(Icons.add),
-      ),
-      body: Center(child: Text('$n')),
-    );
-  }
+/* PHP nouveaux */
+["phpop",`Trouve le bug : comparaison piégeuse`,
+`<p>Ce code doit afficher « majeur » si l'âge est ≥ 18, mais affiche « majeur » pour <code>$age = "18 ans"</code>. Pourquoi ?</p>
+<pre>if ($age >= 18) {
+    echo "majeur";
+} else {
+    echo "mineur";
 }</pre>`,
-`<p><b>Bug</b> : il manque <code>setState</code>. Sans lui, la variable change mais Flutter ne redessine pas l'écran.</p>
-<pre>onPressed: () => setState(() => n++),</pre>
-<p><b>Règle</b> : dans un <code>StatefulWidget</code>, <b>toute modification d'état qui doit apparaître à l'écran</b> passe par <code>setState(() { ... })</code>.</p>
-<p>En dehors de setState, on peut modifier des variables internes (qui n'influencent pas l'UI), mais pour un compteur affiché, c'est obligatoire.</p>`],
+`<p><b>Bug</b> : <code>"18 ans"</code> est comparé à <code>18</code> via <code>&gt;=</code>, qui fait une conversion numérique. PHP lit <code>"18 ans"</code> comme <code>18</code> et retourne <code>true</code>.</p>
+<pre>// Solution : caster explicitement
+$age = (int) $age;
+if ($age >= 18) { echo "majeur"; }</pre>
+<p><b>Règle</b> : ne jamais comparer une chaîne à un nombre sans caster.</p>`],
 
-["mob_wdg", `Compléter : image ronde depuis les assets`,
-`<p>Complète le code pour afficher une image ronde qui remplit un carré 200×200.</p>
-<pre>___(                  // widget pour découper en cercle
-  child: Image.___(   // charger depuis les assets
-    "images/pizza.jpg",
-    width: 200,
-    height: 200,
-    fit: ___,         // remplir sans déformer
-  ),
-)</pre>`,
-`<pre>ClipOval(
-  child: Image.asset(
-    "images/pizza.jpg",
-    width: 200,
-    height: 200,
-    fit: BoxFit.cover,
-  ),
-)</pre>
-<p><b>ClipOval</b> : découpe l'enfant en cercle (ou ellipse).</p>
-<p><b>Image.asset</b> : charge depuis les assets. Le chemin doit être déclaré dans <code>pubspec.yaml</code> (section <code>flutter: assets:</code>).</p>
-<p><b>BoxFit.cover</b> : remplit tout en gardant les proportions (recadrage). Alternatives : <code>.contain</code> (entière), <code>.fill</code> (déformée).</p>`],
+["phpop",`QCM : quelles valeurs sont falsy ?`,
+`<p>Parmi ces valeurs, lesquelles sont <b>falsy</b> en PHP ? (plusieurs réponses)</p>
+<ol type="a"><li><code>0</code></li><li><code>"0"</code></li><li><code>[]</code></li><li><code>"false"</code></li><li><code>null</code></li></ol>`,
+`<p><b>Réponses : a, b, c, e</b></p>
+<p>Falsy en PHP : <code>false</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>"0"</code>, <code>[]</code>, <code>null</code>.</p>
+<p><b>Piège</b> : <code>"false"</code> (chaîne) est <b>truthy</b> car non vide et ≠ <code>"0"</code>. En revanche <code>"0"</code> est <b>falsy</b>.</p>`],
 
-["mob_wdg", `Double compteur avec deux FAB`,
-`<p>Écris un écran avec 3 éléments alignés horizontalement :</p>
-<ul><li>Un FAB « − » qui décrémente</li><li>Le compteur au milieu</li><li>Un FAB « + » qui incrémente</li></ul>
-<p>Réponds d'abord : comment aligner 3 widgets horizontalement avec espace égal ?</p>`,
-`<p><b>Réponse</b> : un <code>Row</code> avec <code>mainAxisAlignment: MainAxisAlignment.spaceAround</code> (ou <code>spaceEvenly</code>).</p>
-<pre>class _State extends State&lt;MyApp&gt; {
-  int compteur = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          FloatingActionButton(
-            onPressed: () => setState(() => compteur--),
-            child: Icon(Icons.remove),
-          ),
-          Text('$compteur', style: TextStyle(fontSize: 40)),
-          FloatingActionButton(
-            onPressed: () => setState(() => compteur++),
-            child: Icon(Icons.add),
-          ),
-        ],
-      ),
-    );
-  }
-}</pre>
-<p><b>Note</b> : les FAB sont ici dans le <code>body</code> (Row), pas dans <code>floatingActionButton:</code> du Scaffold. C'est volontaire : quand on veut <b>plusieurs FAB</b>, on les place manuellement.</p>`],
+["phpcond",`Compléter la syntaxe alternative`,
+`<p>Réécris ce <code>if / else</code> en <b>syntaxe alternative</b> (fichier de vue).</p>
+<pre>&lt;?php if ($connecte) { ?&gt;
+  &lt;a href="logout.php"&gt;Déconnexion&lt;/a&gt;
+&lt;?php } else { ?&gt;
+  &lt;a href="login.php"&gt;Connexion&lt;/a&gt;
+&lt;?php } ?&gt;</pre>`,
+`<pre>&lt;?php if ($connecte): ?&gt;
+  &lt;a href="logout.php"&gt;Déconnexion&lt;/a&gt;
+&lt;?php else: ?&gt;
+  &lt;a href="login.php"&gt;Connexion&lt;/a&gt;
+&lt;?php endif; ?&gt;</pre>
+<p>Les accolades <code>{ }</code> deviennent <code>:</code> et <code>endif;</code> (ou <code>endfor;</code>, <code>endforeach;</code>, <code>endwhile;</code>). Recommandé dans les vues : moins de bruit visuel.</p>`],
 
-["mob_wdg", `Slider d'images en boucle (MyHome.dart)`,
-`<p>On a une liste de 4 images. Un FAB « suivant » doit afficher l'image suivante, puis revenir à la première après la dernière.</p>
-<pre>List&lt;String&gt; images = ["a.jpg", "b.jpg", "c.jpg", "d.jpg"];
-int i = 0;</pre>
-<p>Réponds avant de coder :</p>
-<ol><li>Comment cycler entre les indices 0,1,2,3 sans faire <code>if (i >= 4) i = 0;</code> ?</li><li>Quel widget pour rendre l'image ronde ?</li></ol>`,
-`<ol><li><b>Modulo</b> : <code>i % images.length</code> donne toujours 0,1,2,3,0,1,2,3… Peu importe la valeur de <code>i</code>.</li><li><b><code>ClipOval</code></b> + <code>Image.asset(fit: BoxFit.cover)</code>.</li></ol>
-<pre>class _HomeState extends State&lt;Home&gt; {
-  List&lt;String&gt; images = ["a.jpg", "b.jpg", "c.jpg", "d.jpg"];
-  int i = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => setState(() => i++),
-        child: Icon(Icons.navigate_next),
-      ),
-      body: Center(
-        child: ClipOval(
-          child: Image.asset(
-            images[i % images.length],
-            width: 250, height: 250,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
-}</pre>
-<p><b>Astuce modulo</b> : très utilisée pour carrousels, sliders, rotations d'images. Évite un <code>if</code> et fonctionne avec n'importe quelle taille de liste.</p>`],
+["phpcond",`Trouve le bug : match sans default`,
+`<p>Ce code doit retourner la mention. Que se passe-t-il pour <code>$note = 8</code> ?</p>
+<pre>$m = match (true) {
+  $note >= 16 => "Très bien",
+  $note >= 14 => "Bien",
+  $note >= 10 => "Passable",
+};</pre>`,
+`<p><b>Bug</b> : <code>match</code> déclenche une <b><code>UnhandledMatchError</code></b> si aucun cas ne correspond et qu'il n'y a pas de <code>default</code>.</p>
+<pre>$m = match (true) {
+  $note >= 16 => "Très bien",
+  $note >= 14 => "Bien",
+  $note >= 10 => "Passable",
+  default     => "Non validé",   // ← indispensable
+};</pre>
+<p>Contrairement à <code>switch</code> qui ne fait rien si aucun cas ne correspond, <code>match</code> <b>plante</b>.</p>`],
 
-["res_capacite",`Shannon : calculer S/N (Exercice 1)`,
-`<p>Une voie possède une capacité de <b>20 Mb/s</b>. La largeur de bande est de <b>3 MHz</b>. Quel doit être le rapport signal/bruit <b>S/N</b> ?</p>`,
-`<p>Formule de Shannon : <code>C = W · log₂(1 + S/N)</code></p>
-<p><code>20·10⁶ = 3·10⁶ · log₂(1 + S/N)</code></p>
-<p><code>log₂(1 + S/N) = 20/3 ≈ 6,667</code></p>
-<p><code>1 + S/N = 2^6,667 ≈ 101</code></p>
-<p><b>S/N ≈ 100</b> (soit ≈ 20 dB).</p>`],
-["res_capacite",`Temps de transmission (Exercice 2)`,
-`<p>Le temps de transmission de <b>16 Mo</b> sur un réseau dont le débit est de <b>16 Mb/s</b> vaut :</p>
-<ul><li>a) 8.38 s</li><li>b) 16 s</li><li>c) 16.3 s</li><li>d) 8 s</li></ul>`,
-`<p>Attention aux unités : <b>Mo</b> = mégaoctet binaire (2²⁰ octets), <b>Mb</b> = mégabit décimal (10⁶ bits).</p>
-<p>16 Mo = 16 × 2²⁰ octets = 16 777 216 octets = 134 217 728 bits.</p>
-<p><code>T = 134 217 728 / 16 000 000 ≈ 8,38 s</code></p>
-<p><b>Réponse : a) 8,38 s</b>.</p>`],
-["res_capacite",`Rapidité de modulation (V = 8)`,
-`<p>Un système transmet à <b>D = 2400 b/s</b> avec des signaux <b>octovalents</b> (V = 8). Quelle est la rapidité de modulation <b>R</b> ?</p>`,
-`<p><code>R = D / log₂(V) = 2400 / log₂(8) = 2400 / 3 = 800 bauds</code></p>
-<p><b>R = 800 bauds</b>.</p>`],
-["res_capacite",`Échantillonnage (Exercice 5)`,
-`<p>La durée d'un enregistrement est de <b>2 s</b>. Déterminer le nombre d'échantillons pris avec une période d'échantillonnage <b>Te = 0,5 ms</b>.</p>`,
-`<p><code>Fe = 1/Te = 1 / 0,5·10⁻³ = 2000 Hz</code></p>
-<p><code>N = T / Te = 2 / 0,5·10⁻³ = 4000</code></p>
-<p>ou <code>N = T × Fe = 2 × 2000 = 4000</code></p>
-<p><b>N = 4000 échantillons</b>.</p>`],
-["res_capacite",`dBm (Exercice 6)`,
-`<p>Niveau en dBm : <code>V_dBm = 10 log₁₀(P / 1mW)</code>. Pour <b>R = 50 Ω</b>, calculer le niveau correspondant à <b>100 V</b> puis <b>1 µV</b>.</p>`,
-`<p>Puissance : <code>P = V_eff² / R</code> (indépendante de la fréquence).</p>
-<p><b>100 V</b> : P = (100)² / 50 = 200 W = 200 000 mW → <code>10 log(200 000) ≈ +53 dBm</code>.</p>
-<p><b>1 µV</b> : P = (10⁻⁶)² / 50 = 2·10⁻¹⁴ W = 2·10⁻¹¹ mW → <code>10 log(2·10⁻¹¹) ≈ −107 dBm</code>.</p>`],
-["res_capacite",`Son numérisé : débit de la ligne (Test n°2)`,
-`<p>On numérise un son à <b>8000 Hz</b> et on le code sur <b>8 bits</b>. Quel doit être le débit de la ligne ?</p>`,
-`<p><code>D = Fe × nb_bits = 8000 × 8 = 64 000 b/s = 64 kb/s</code></p>
-<p><b>Débit = 64 kb/s</b> (c'est le débit de la téléphonie numérisée).</p>`],
-["res_capacite",`Capacité d'une voie téléimprimeur (Test n°2)`,
-`<p>Quelle est la capacité d'une ligne de largeur de bande <b>200 Hz</b> avec un rapport signal/bruit de <b>2 dB</b> ?</p>`,
-`<p>Convertir S/N en linéaire : <code>S/N = 10^(2/10) ≈ 1,585</code>.</p>
-<p><code>C = 200 · log₂(1 + 1,585) = 200 · log₂(2,585)</code></p>
-<p><code>log₂(2,585) ≈ 1,37</code> → <b>C ≈ 274 b/s</b>.</p>`],
-["res_codage",`Encoder 0100111000 en NRZ et Manchester (Exercice 7)`,
-`<p>Représenter la suite binaire <b>0100111000</b> en NRZ et Manchester.</p>`,
-`<p><b>NRZ</b> (convention : 0 = −V, 1 = +V) :</p>
-<pre>Bits :  0   1   0   0   1   1   1   0   0   0
-NRZ  : −V  +V  −V  −V  +V  +V  +V  −V  −V  −V</pre>
-<p>Un niveau constant par bit, pas de retour à zéro. <code>R = D</code>.</p>
+["phpcond",`Compléter : ternaire et ??`,
+`<p>Complète : <code>$statut</code> = "adulte" si <code>$age &gt;= 18</code>, sinon "mineur". <code>$page</code> = valeur de <code>$_GET['page']</code> ou 1 par défaut.</p>
+<pre>$statut = ___;
+$page = ___;</pre>`,
+`<pre>$statut = ($age >= 18) ? "adulte" : "mineur";
+$page   = $_GET['page'] ?? 1;</pre>
+<p><b>Ternaire</b> : <code>condition ? valeur_si_vrai : valeur_si_faux</code>. Produit une valeur.</p>
+<p><b>Coalescence nulle <code>??</code></b> : renvoie l'opérande de gauche s'il existe et n'est pas <code>null</code>, sinon celui de droite. Ne fait <b>pas</b> de conversion de type (contrairement à <code>?:</code>).</p>`],
 
-<p><b>Manchester</b> (convention : 0 = H→L, 1 = L→H) :</p>
-<pre>Bits   :  0   1   0   0   1   1   1   0   0   0
-Manch. : HL  LH  HL  HL  LH  LH  LH  HL  HL  HL</pre>
-<p>Transition au milieu de chaque bit, DC nulle, auto-synchronisant. <code>R = 2D</code>.</p>`],
-["res_codage",`Manchester avec Δ = 10⁻⁸ s (Exercice 10)`,
-`<p>On observe un signal codé en <b>Manchester</b> avec <b>Δ = 10⁻⁸ s</b> (demi-bit). Donner le <b>débit</b> du support.</p>`,
-`<p>En Manchester, Δ = durée d'un demi-bit. Donc :</p>
-<p><code>T_bit = 2Δ = 2 × 10⁻⁸ s</code></p>
-<p><code>D = 1 / T_bit = 1 / (2 × 10⁻⁸) = 50 × 10⁶</code></p>
-<p><b>D = 50 Mb/s</b>.</p>`],
-["res_modulation",`Antenne : f = 1 kHz vs 1 MHz`,
-`<p>Longueur d'onde <code>λ = c/f</code>, antenne <code>L = λ/4</code>, <code>c = 3·10⁸ m/s</code>. Calculer L pour f = 1 kHz puis f = 1 MHz. Conclure.</p>`,
-`<p><b>f = 1 kHz</b> : λ = 3·10⁸ / 10³ = 300 km → L = 75 km (irréaliste).</p>
-<p><b>f = 1 MHz</b> : λ = 3·10⁸ / 10⁶ = 300 m → L = 75 m (raisonnable).</p>
-<p><b>Conclusion</b> : la modulation permet d'augmenter la fréquence porteuse et donc de réduire les dimensions de l'antenne à des valeurs pratiques.</p>`]
+/* Qualité existants (1er et 3e) */
+["ql_metrics",`Complexité cyclomatique du code GestionClient`,`<p>Méthode <code>totalAchat()</code> avec une boucle <code>for</code>. Calculer V(G) et le nombre minimal de cas de test.</p>`,`<p>V(G) = décisions + 1 = 1 + 1 = <b>2</b> (une seule décision : la boucle for).</p><p>Cas de test minimum = <b>V(G) = 2</b>. Seuils : ≤10 simple → <b>simple</b>.</p>`],
+["ql_metrics",`Diagnostic d'une classe`,`<p>Une classe avec WMC = 28, CBO = 12, LCOM = 5. Évaluer et proposer des actions.</p>`,`<p>WMC 28 &gt; 20 = élevé. CBO 12 &gt; 10 = élevé. LCOM 5 &gt; 1 = faible cohésion.</p><p><b>Actions</b> : refactoriser (extraire des méthodes), découpler (interfaces, injection), répartir les responsabilités, renforcer les tests, revue de code.</p>`],
+
+/* Qualité : WMC/CBO/LCOM corrigé */
+["ql_metrics",`WMC, CBO, LCOM : calcul guidé`,
+`<p>Classe <code>GestionClient</code> : 2 attributs (<code>nom</code>, <code>commandes</code>), 4 méthodes :</p>
+<ul>
+<li><code>getNom()</code> : utilise <code>nom</code></li>
+<li><code>ajouterCommande(c)</code> : utilise <code>commandes</code></li>
+<li><code>totalAchat()</code> : utilise <code>commandes</code> (boucle for)</li>
+<li><code>notifier()</code> : utilise <code>EmailService</code> et <code>SMS</code> (classes externes)</li>
+</ul>
+<p>Calculer WMC, CBO, LCOM et interpréter.</p>`,
+`<p><b>WMC</b> = Σ V(G). Chaque méthode vaut 1 sauf <code>totalAchat()</code> (boucle for → 2).</p>
+<p>WMC = 1 + 1 + 2 + 1 = <b>5</b> → faible (≤ 10).</p>
+<p><b>CBO</b> = nombre de classes externes utilisées = EmailService + SMS = <b>2</b> → faible (≤ 5).</p>
+<p><b>LCOM</b> = P − Q (ramené à 0 si négatif) :</p>
+<ul>
+<li><b>P</b> = nb de paires de méthodes qui <b>ne partagent aucun attribut</b></li>
+<li><b>Q</b> = nb de paires qui <b>partagent au moins un attribut</b></li>
+<li>4 méthodes → C(4,2) = <b>6 paires</b> au total</li>
+</ul>
+<table><tr><th>Paire</th><th>Attribut commun ?</th></tr>
+<tr><td>getNom / ajouterCommande</td><td>Non</td></tr>
+<tr><td>getNom / totalAchat</td><td>Non</td></tr>
+<tr><td>getNom / notifier</td><td>Non</td></tr>
+<tr><td>ajouterCommande / totalAchat</td><td><b>Oui</b> (commandes)</td></tr>
+<tr><td>ajouterCommande / notifier</td><td>Non</td></tr>
+<tr><td>totalAchat / notifier</td><td>Non</td></tr>
+</table>
+<p>P = 5, Q = 1 → <b>LCOM = 5 − 1 = 4</b> → &gt; 1 → faible cohésion.</p>
+<p><b>Interprétation</b> : <code>notifier()</code> n'utilise aucun attribut → manque de cohésion. Recommandation : extraire <code>notifier()</code> dans une classe <code>NotificationService</code>.</p>`],
+
+/* Qualité nouveaux */
+["ql_metrics",`LOCphy vs LOCpro`,
+`<p>Fragment Java :</p>
+<pre>public double totalAchat() {     // 1
+    double t = 0;                 // 2
+    // boucle sur les commandes   // 3
+    for (Commande c : commandes) {// 4
+        t += c.getPrix();         // 5
+    }                             // 6
+    return t;                     // 7
+}                                 // 8</pre>
+<p>Calculer LOCphy et LOCpro.</p>`,
+`<p><b>LOCphy</b> (toutes les lignes) = <b>8</b>.</p>
+<p><b>LOCpro</b> (hors commentaires et accolades seules) :</p>
+<ul><li>Ligne 2 : <code>double t = 0;</code> ✓</li><li>Ligne 3 : commentaire ✗</li><li>Ligne 4 : <code>for (...)</code> ✓</li><li>Ligne 5 : <code>t += ...</code> ✓</li><li>Ligne 7 : <code>return t;</code> ✓</li></ul>
+<p><b>LOCpro = 4</b>. Le ratio 4/8 (50 %) indique beaucoup de bruit (commentaires, accolades).</p>`],
+
+["ql_fond",`QCM : niveaux de besoins`,
+`<p>Le client demande « une appli de gestion de stock ». Il ne précise pas qu'il veut du <b>multi-utilisateur</b>. Ce besoin est :</p>
+<ol type="a"><li>Exprimé</li><li>Spécifié</li><li>Réalisé</li><li>Vrai besoin (implicite)</li></ol>`,
+`<p><b>Réponse : d) Vrai besoin (implicite)</b></p>
+<p>4 niveaux : <b>exprimés</b> (ce que le client dit), <b>spécifiés</b> (formalisés), <b>réalisés</b> (implémentés), <b>vrais besoins</b> (attentes réelles, souvent non formulées).</p>
+<p>La qualité, c'est de satisfaire aussi les vrais besoins. Le multi-utilisateur est tellement évident que le client ne le formule pas — mais il rejettera l'appli s'il est absent.</p>`],
+
+["ql_process",`SonarQube : lire un rapport`,
+`<p>Rapport SonarQube : 22 Bugs (badge C), 7 Vulnerabilities (badge E), 90.5 % Coverage, 6.8 % Duplications.</p>
+<p>Que peut-on dire ? (plusieurs réponses)</p>
+<ol type="a"><li>~13 000 tests unitaires</li><li>Couverture &gt; 90 %</li><li>Moins de 7 % non couvert</li><li>Au moins une vulnérabilité bloquante</li></ol>`,
+`<p><b>Réponses : b et d</b></p>
+<ul>
+<li>a. ❌ — Le rapport ne dit pas 13 000 tests (autre indicateur).</li>
+<li>b. ✅ — Coverage 90.5 % &gt; 90 %.</li>
+<li>c. ❌ — 100 − 90.5 = <b>9.5 %</b> non couvert, &gt; 7 %.</li>
+<li>d. ✅ — Badge <b>E</b> = Blocker.</li>
+</ul>
+<p><b>Badges</b> : A=info, B=minor, C=major, D=critical, <b>E=blocker</b>.</p>`],
+
+["ql_process",`Type de maintenance`,
+`<p>Associe chaque action à son type :</p>
+<ol>
+<li>Corriger un calcul erroné dans <code>totalFinal()</code></li>
+<li>Migrer de Java 8 à Java 17</li>
+<li>Refactoriser une méthode de 200 lignes en 5 méthodes de 40 lignes</li>
+</ol>
+<p>Types : <b>corrective</b>, <b>adaptative</b>, <b>perfective</b>.</p>`,
+`<ol>
+<li>Corriger un bug → <b>corrective</b></li>
+<li>Nouvel environnement → <b>adaptative</b></li>
+<li>Améliorer la structure sans changer le comportement → <b>perfective</b></li>
+</ol>
+<p>La <b>perfective</b> est directement liée à ISO 25010 (maintenabilité).</p>`],
+
+/* Mobile : les 15 nouveaux (déjà en place, abrégés) */
+["mob_btn",`Quel bouton pour l'action principale ?`,`<p>Écran de gestion de stock : bouton pour « Ajouter un produit ». Quel widget ?</p><ol type="a"><li>TextButton</li><li>OutlinedButton</li><li>ElevatedButton</li><li>IconButton</li></ol>`,`<p><b>Réponse : c) ElevatedButton</b></p><p>Hiérarchie : Elevated (principale) → Outlined (importante secondaire) → Text (tertiaire) → Icon (rapide).</p>`],
+["mob_btn",`Trouve le bug : le FAB ne s'affiche pas`,`<p>Ce FAB n'apparaît pas. Pourquoi ?</p><pre>Scaffold(\n  body: Column(children: [\n    Text("Bienvenue"),\n    FloatingActionButton(onPressed: () {}, child: Icon(Icons.add)),\n  ]),\n)</pre>`,`<p><b>Bug</b> : le FAB doit être passé à <code>floatingActionButton:</code> du Scaffold, pas dans le <code>body</code>.</p><pre>Scaffold(\n  body: Center(child: Text("Bienvenue")),\n  floatingActionButton: FloatingActionButton(\n    onPressed: () {}, child: Icon(Icons.add),\n  ),\n)</pre>`],
+["mob_btn",`Compléter un styleFrom`,`<p>Complète : fond jaune, forme pilule, bordure noire 2 px.</p><pre>ElevatedButton(\n  onPressed: () {},\n  child: Text("Cliquer"),\n  style: ElevatedButton.styleFrom(\n    backgroundColor: ___,\n    shape: ___,\n    side: ___,\n  ),\n)</pre>`,`<pre>ElevatedButton(\n  onPressed: () {},\n  child: Text("Cliquer"),\n  style: ElevatedButton.styleFrom(\n    backgroundColor: Colors.yellow,\n    shape: StadiumBorder(),\n    side: BorderSide(color: Colors.black, width: 2),\n  ),\n)</pre><p><b>StadiumBorder</b> = pilule. Pour coins arrondis : <code>RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))</code>.</p>`],
+["mob_btn",`Quels widgets sont obsolètes ?`,`<p>Lesquels ont été remplacés ? (plusieurs réponses)</p><ol type="a"><li><code>FlatButton</code></li><li><code>RaisedButton</code></li><li><code>OutlineButton</code></li><li><code>IconButton</code></li></ol>`,`<p><b>Réponses : a, b, c</b></p><ul><li>FlatButton → TextButton</li><li>RaisedButton → ElevatedButton</li><li>OutlineButton → OutlinedButton</li></ul><p><code>IconButton</code> n'a pas été remplacé.</p>`],
+["mob_btn",`Bouton qui change de texte au clic`,`<p>Écris un ElevatedButton qui affiche « Cliquer ici » puis « Bouton cliqué ! ». Avant de coder : quel type de widget ? quelle méthode pour rafraîchir ?</p>`,`<ol><li>Variable d'état dans un <code>StatefulWidget</code> : <code>String txt = 'Cliquer ici';</code></li><li><b><code>setState()</code></b> — sans ça, l'UI ne se met pas à jour.</li></ol><pre>class _BoutonState extends State&lt;Bouton&gt; {\n  String txt = 'Cliquer ici';\n  @override\n  Widget build(BuildContext context) {\n    return Center(\n      child: ElevatedButton(\n        onPressed: () => setState(() => txt = 'Bouton cliqué !'),\n        child: Text(txt),\n      ),\n    );\n  }\n}</pre>`],
+["mob_txt",`TextField ou TextFormField ?`,`<p>Formulaire d'inscription avec validation email obligatoire. Quel widget ?</p><ol type="a"><li>TextField seul</li><li>TextFormField dans un Form</li><li>TextEditingController</li><li>FormField</li></ol>`,`<p><b>Réponse : b) TextFormField dans un Form</b></p><p><code>TextFormField</code> accepte un <code>validator</code>. Le Form doit avoir une <code>GlobalKey&lt;FormState&gt;</code> pour déclencher : <code>formKey.currentState!.validate()</code>.</p>`],
+["mob_txt",`Trouve le bug : mot de passe visible`,`<p>Ce champ devrait masquer le mot de passe, mais les caractères sont visibles. Pourquoi ?</p><pre>TextFormField(\n  controller: passwordController,\n  decoration: InputDecoration(labelText: 'Password'),\n)</pre>`,`<p><b>Bug</b> : il manque <code>obscureText: true</code>.</p><pre>TextFormField(\n  controller: passwordController,\n  obscureText: true,\n  obscuringCharacter: '*',\n  decoration: InputDecoration(labelText: 'Password'),\n)</pre>`],
+["mob_txt",`Compléter un champ email`,`<p>Complète : clavier email + icône personne à gauche + bordure contour.</p><pre>TextFormField(\n  ___,\n  decoration: InputDecoration(\n    labelText: 'Email',\n    ___,\n    ___,\n  ),\n)</pre>`,`<pre>TextFormField(\n  keyboardType: TextInputType.emailAddress,\n  decoration: InputDecoration(\n    labelText: 'Email',\n    prefixIcon: Icon(Icons.person),\n    border: OutlineInputBorder(),\n  ),\n)</pre><p><code>prefixIcon</code> = icône dans le champ ; <code>icon</code> = à l'extérieur.</p>`],
+["mob_txt",`Vider un TextField programmatiquement`,`<p>Après soumission, comment effacer un TextFormField ? (plusieurs réponses)</p><ol type="a"><li><code>TextField.clear()</code></li><li><code>controller.text = ''</code></li><li><code>controller.clear()</code></li><li><code>setState(() => TextField = null)</code></li></ol>`,`<p><b>Réponses : b et c</b></p><pre>passwordController.clear();\n// équivalent\npasswordController.text = '';</pre><p>Le TextFormField doit avoir <code>controller: passwordController</code> branché. <b>Bonne pratique</b> : <code>dispose()</code> les controllers.</p>`],
+["mob_txt",`Formulaire de login complet`,`<p>Écris un formulaire avec email (validator non vide), mot de passe masqué, bouton Login qui valide et affiche. Avant : quelle classe pour lire la saisie ? comment déclencher la validation ?</p>`,`<ol><li><b><code>TextEditingController</code></b> : un par champ. Lecture via <code>controller.text</code>.</li><li><b><code>formKey.currentState!.validate()</code></b> : déclenche tous les validator du Form.</li></ol><pre>var mailCtrl = TextEditingController();\nvar passCtrl = TextEditingController();\nvar formKey = GlobalKey&lt;FormState&gt;();\n\nForm(\n  key: formKey,\n  child: Column(children: [\n    TextFormField(\n      controller: mailCtrl,\n      keyboardType: TextInputType.emailAddress,\n      validator: (v) => v!.isEmpty ? "requis" : null,\n    ),\n    TextFormField(\n      controller: passCtrl,\n      obscureText: true,\n    ),\n    ElevatedButton(\n      onPressed: () {\n        if (formKey.currentState!.validate()) {\n          setState(() => txt = 'Mail: \${mailCtrl.text}');\n          mailCtrl.clear(); passCtrl.clear();\n        }\n      },\n      child: Text('Login'),\n    ),\n  ]),\n)</pre>`],
+["mob_wdg",`Espace vertical entre deux widgets`,`<p>Espace vertical de 10 px dans une Column ?</p><ol type="a"><li>Container(height: 10)</li><li>SizedBox(height: 10)</li><li>Padding(padding: EdgeInsets.all(10))</li><li>Text(" ")</li></ol>`,`<p><b>Réponse : b) SizedBox(height: 10)</b></p><p>SizedBox est <b>le widget recommandé</b> pour un espace fixe : léger, sans décoration. Container est plus lourd, Padding ajoute de l'espace autour d'un enfant existant.</p>`],
+["mob_wdg",`Trouve le bug : compteur qui ne se met pas à jour`,`<p>Ce compteur reste à 0 malgré les clics. Pourquoi ?</p><pre>onPressed: () { n++; },</pre>`,`<p><b>Bug</b> : il manque <code>setState</code>.</p><pre>onPressed: () => setState(() => n++),</pre><p>Sans setState, la variable change mais Flutter ne redessine pas l'écran.</p>`],
+["mob_wdg",`Compléter : image ronde depuis les assets`,`<p>Complète pour afficher une image ronde qui remplit un carré 200×200.</p><pre>___(\n  child: Image.___(\n    "images/pizza.jpg",\n    width: 200, height: 200, fit: ___,\n  ),\n)</pre>`,`<pre>ClipOval(\n  child: Image.asset(\n    "images/pizza.jpg",\n    width: 200, height: 200,\n    fit: BoxFit.cover,\n  ),\n)</pre><p><b>ClipOval</b> = découpe en cercle. <b>Image.asset</b> = depuis les assets. <b>BoxFit.cover</b> = remplit sans déformer.</p>`],
+["mob_wdg",`Double compteur avec deux FAB`,`<p>Écran avec FAB « − », compteur, FAB « + ». Comment aligner les 3 horizontalement avec espace égal ?</p>`,`<p><b>Réponse</b> : <code>Row</code> + <code>mainAxisAlignment: MainAxisAlignment.spaceAround</code>.</p><pre>Row(\n  mainAxisAlignment: MainAxisAlignment.spaceAround,\n  children: [\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur--),\n      child: Icon(Icons.remove),\n    ),\n    Text('$compteur', style: TextStyle(fontSize: 40)),\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur++),\n      child: Icon(Icons.add),\n    ),\n  ],\n)</pre>`],
+["mob_wdg",`Slider d'images en boucle`,`<p>4 images, un FAB « suivant » cycle et revient à la 1ʳᵉ après la dernière. Avant : comment cycler sans <code>if</code> ? quel widget pour image ronde ?</p>`,`<ol><li><b>Modulo</b> : <code>i % images.length</code> donne 0,1,2,3,0,1… Peu importe <code>i</code>.</li><li><b>ClipOval</b> + <code>Image.asset(fit: BoxFit.cover)</code>.</li></ol><pre>body: Center(\n  child: ClipOval(\n    child: Image.asset(\n      images[i % images.length],\n      width: 250, height: 250,\n      fit: BoxFit.cover,\n    ),\n  ),\n)</pre>`],
+
+/* Réseaux existants */
+["res_capacite",`Shannon : calculer S/N (Exercice 1)`,`<p>C = 20 Mb/s, W = 3 MHz. S/N ?</p>`,`<p><code>20·10⁶ = 3·10⁶ · log₂(1 + S/N)</code></p><p><code>log₂(1 + S/N) = 6,667</code></p><p><code>1 + S/N ≈ 101</code> → <b>S/N ≈ 100</b> (≈ 20 dB).</p>`],
+["res_capacite",`Temps de transmission (Exercice 2)`,`<p>16 Mo sur 16 Mb/s : a) 8.38 s b) 16 s c) 16.3 s d) 8 s</p>`,`<p><b>Réponse : a) 8.38 s</b></p><p>16 Mo = 2²⁴ octets × 8 = 134 217 728 bits. T = 134,2 / 16 ≈ 8,38 s.</p>`],
+["res_capacite",`Rapidité de modulation (V = 8)`,`<p>D = 2400 b/s, V = 8. R ?</p>`,`<p><code>R = 2400 / log₂(8) = 800 bauds</code>.</p>`],
+["res_capacite",`Échantillonnage (Exercice 5)`,`<p>T = 2 s, Te = 0,5 ms. Nombre d'échantillons ?</p>`,`<p><code>N = T / Te = 2 / 0,5·10⁻³ = 4000</code>.</p>`],
+["res_capacite",`dBm (Exercice 6)`,`<p>R = 50 Ω. Niveau de 100 V puis 1 µV ?</p>`,`<p>100 V : P = 200 W = 200 000 mW → <b>≈ +53 dBm</b>.</p><p>1 µV : P = 2·10⁻¹⁴ W → <b>≈ −107 dBm</b>.</p>`],
+["res_capacite",`Son numérisé : débit (Test n°2)`,`<p>8000 Hz × 8 bits. Débit ?</p>`,`<p><code>D = 8000 × 8 = 64 kb/s</code>.</p>`],
+["res_capacite",`Capacité téléimprimeur (Test n°2)`,`<p>W = 200 Hz, S/N = 2 dB. Capacité ?</p>`,`<p>S/N = 10^(2/10) ≈ 1,585. C = 200 × log₂(2,585) ≈ 200 × 1,37 ≈ <b>274 b/s</b>.</p>`],
+["res_codage",`Encoder 0100111000 en NRZ et Manchester (Exercice 7)`,`<p>Suite 0100111000 en NRZ et Manchester.</p>`,`<p><b>NRZ</b> (0 = −V, 1 = +V) : −V +V −V −V +V +V +V −V −V −V.</p><p><b>Manchester</b> (0 = H→L, 1 = L→H) : HL LH HL HL LH LH LH HL HL HL.</p>`],
+["res_codage",`Manchester avec Δ = 10⁻⁸ s (Exercice 10)`,`<p>Manchester, Δ = 10⁻⁸ s. Débit ?</p>`,`<p>T_bit = 2Δ = 2·10⁻⁸ s → <b>D = 50 Mb/s</b>.</p>`],
+["res_modulation",`Antenne : f = 1 kHz vs 1 MHz`,`<p>L = c/(4f), c = 3·10⁸ m/s. L pour 1 kHz puis 1 MHz ?</p>`,`<p>1 kHz : λ = 300 km → L = 75 km (irréaliste).</p><p>1 MHz : λ = 300 m → L = 75 m (raisonnable).</p><p>La modulation réduit les dimensions d'antenne.</p>`],
+
+/* Réseaux nouveaux */
+["res_capacite",`Piège Mo / Mb : temps de transmission`,
+`<p>Fichier de <b>10 Mo</b> sur ligne à <b>100 Mb/s</b>. Combien de temps ?</p>
+<ol type="a"><li>0,1 s</li><li>0,84 s</li><li>1 s</li><li>10 s</li></ol>`,
+`<p><b>Réponse : b) 0,84 s</b></p>
+<p><b>Piège classique</b> :</p>
+<ul><li><b>Mo</b> (mégaoctet) = 2²⁰ octets = 1 048 576 octets = <b>8 388 608 bits</b></li><li><b>Mb</b> (mégabit) = 10⁶ bits</li></ul>
+<p>10 Mo = 10 × 8 388 608 = <b>83 886 080 bits</b>.</p>
+<p>T = 83 886 080 / 100 000 000 ≈ <b>0,84 s</b>.</p>
+<p>Si on avait confondu Mo et Mb : 10 / 100 = 0,1 s → réponse a (fausse).</p>
+<p><b>Règle</b> : toujours convertir en bits avant de diviser par le débit.</p>`],
+
+["res_codage",`Décoder un signal Manchester`,
+`<p>Signal Manchester (0 = H→L, 1 = L→H). Séquence de demi-périodes :</p>
+<pre>H L | L H | H L | H L | L H | L H</pre>
+<p>Quelle est la séquence binaire ?</p>`,
+`<p><b>Séquence : 0 1 0 0 1 1</b></p>
+<table><tr><th>Demi-périodes</th><th>Transition</th><th>Bit</th></tr>
+<tr><td>H L</td><td>Haut→Bas</td><td>0</td></tr>
+<tr><td>L H</td><td>Bas→Haut</td><td>1</td></tr>
+<tr><td>H L</td><td>Haut→Bas</td><td>0</td></tr>
+<tr><td>H L</td><td>Haut→Bas</td><td>0</td></tr>
+<tr><td>L H</td><td>Bas→Haut</td><td>1</td></tr>
+<tr><td>L H</td><td>Bas→Haut</td><td>1</td></tr></table>
+<p><b>Astuce</b> : en Manchester, chaque bit a <b>une transition au milieu</b>. On regarde le sens de la transition. Toujours vérifier la convention.</p>`],
+
+["res_modulation",`QCM : types de modulation`,
+`<p>Quel type de modulation modifie la <b>fréquence</b> de la porteuse ?</p>
+<ol type="a"><li>AM (amplitude)</li><li>FM (fréquence)</li><li>PM (phase)</li><li>NRZ</li></ol>`,
+`<p><b>Réponse : b) FM</b></p>
+<ul><li><b>AM</b> : <code>A</code> varie</li><li><b>FM</b> : la fréquence varie (dans θ(t))</li><li><b>PM</b> : la phase varie (dans θ(t))</li><li><b>NRZ</b> : codage en bande de base, <b>pas une modulation</b></li></ul>
+<p>Signal modulé : <code>x(t) = A cos(θ(t))</code>. AM agit sur A, FM/PM sur θ(t).</p>
+<p><b>Numériques</b> : ASK, FSK, PSK.</p>`],
+
+["res_supports",`Choisir un support selon le contexte`,
+`<p>Associe chaque situation au support le plus adapté :</p>
+<ol>
+<li>Réseau local dans un bureau (max 100 m, débit moyen)</li>
+<li>Liaison entre deux bâtiments à 800 m, haut débit</li>
+<li>Liaison intercontinentale, très haut débit</li>
+</ol>
+<p>Supports : <b>paire torsadée</b>, <b>câble coaxial</b>, <b>fibre optique</b>.</p>`,
+`<ol>
+<li><b>Réseau local bureau</b> → <b>paire torsadée</b> (UTP/STP, 100 Ω, 100 m max)</li>
+<li><b>800 m haut débit</b> → <b>câble coaxial</b> (50/75 Ω, 500 m sans ampli, extensible)</li>
+<li><b>Intercontinental</b> → <b>fibre optique</b> (monomode, ré-amplification ~250 km)</li>
+</ol>
+<p><b>Récap</b> : coaxial 50/75 Ω 500 m · paire 100 Ω 100 m · fibre mono/multimode ~250 km.</p>`]
 ];
+
+/* ===================== EXAMENS BLANCS ===================== */
+var EXAMS = {
+  mongodb: {
+    title: "Examen blanc — MongoDB",
+    intro: "Test 2 (collection etudiants). Champs : nom, filiere, ville, age, scolarite.heures_presence, scolarite.absences, examens[] {matiere, semestre, bonus, tp_rendus, note}. 31 questions.",
+    parts: [
+      {
+        title: "Partie 1 — find() et opérateurs (13 questions)",
+        questions: [
+          "Afficher tous les documents.",
+          "Afficher uniquement nom, filiere, ville (_id exclu).",
+          "Filtrer sur ville = \"Agadir\".",
+          "Filtrer sur age &gt; 22.",
+          "Filtrer sur filiere IN [\"Génie Informatique\", \"Génie Industriel\"].",
+          "Étudiants ayant passé les examens « Bases de données » ET « Réseaux » (utiliser $all).",
+          "Étudiants ayant exactement 3 examens (utiliser $size).",
+          "Étudiants ayant un examen avec note ≥ 14 ET bonus ≥ 1 (utiliser $elemMatch).",
+          "Étudiants dont le champ scolarite.absences existe (utiliser $exists).",
+          "Étudiants ayant passé « Bases de données » ET « Réseaux », ET ayant une note ≥ 14 dans l'un des deux (utiliser $all + $elemMatch).",
+          "Étudiants de ville IN [\"Agadir\", \"Marrakech\"], ET ayant un examen avec note ≥ 15 (utiliser $in + $elemMatch).",
+          "Trier par age décroissant.",
+          "Trier par age croissant, ignorer le premier, garder deux."
+        ],
+        corrections: [
+          "<code>db.etudiants.find()</code>",
+          "<code>db.etudiants.find({}, { _id: 0, nom: 1, filiere: 1, ville: 1 })</code>",
+          "<code>db.etudiants.find({ ville: \"Agadir\" })</code>",
+          "<code>db.etudiants.find({ age: { $gt: 22 } })</code>",
+          "<code>db.etudiants.find({ filiere: { $in: [\"Génie Informatique\", \"Génie Industriel\"] } })</code>",
+          "<code>db.etudiants.find({ \"examens.matiere\": { $all: [\"Bases de données\", \"Réseaux\"] } })</code>",
+          "<code>db.etudiants.find({ examens: { $size: 3 } })</code>",
+          "<code>db.etudiants.find({ examens: { $elemMatch: { note: { $gte: 14 }, bonus: { $gte: 1 } } } })</code>",
+          "<code>db.etudiants.find({ \"scolarite.absences\": { $exists: true } })</code>",
+          "<code>db.etudiants.find({ \"examens.matiere\": { $all: [\"Bases de données\", \"Réseaux\"] }, examens: { $elemMatch: { matiere: { $in: [\"Bases de données\", \"Réseaux\"] }, note: { $gte: 14 } } } })</code>",
+          "<code>db.etudiants.find({ ville: { $in: [\"Agadir\", \"Marrakech\"] }, examens: { $elemMatch: { note: { $gte: 15 } } } })</code>",
+          "<code>db.etudiants.find().sort({ age: -1 })</code>",
+          "<code>db.etudiants.find().sort({ age: 1 }).skip(1).limit(2)</code>"
+        ]
+      },
+      {
+        title: "Partie 2 — Opérateurs de tableaux (8 questions)",
+        questions: [
+          "Afficher uniquement les examens notés ≥ 14 dans un champ examens_filtres ($filter).",
+          "Extraire le tableau des matières dans un champ matieres ($map).",
+          "Afficher le premier examen dans un champ premier_examen ($arrayElemAt).",
+          "Afficher les deux premiers examens dans un champ deux_premiers ($slice).",
+          "Afficher les matières des examens notés ≥ 14 ($filter + $map).",
+          "Afficher le premier examen noté ≥ 14 ($filter + $arrayElemAt).",
+          "Afficher la première matière parmi les examens avec bonus ≥ 1 ($filter + $map + $arrayElemAt).",
+          "Afficher les deux premiers examens notés ≥ 12 ($filter + $slice)."
+        ],
+        corrections: [
+          "<code>db.etudiants.find({}, { _id: 0, nom: 1, examens_filtres: { $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 14] } } } })</code>",
+          "<code>db.etudiants.find({}, { _id: 0, nom: 1, matieres: { $map: { input: \"$examens\", as: \"e\", in: \"$$e.matiere\" } } })</code>",
+          "<code>db.etudiants.find({}, { _id: 0, nom: 1, premier_examen: { $arrayElemAt: [\"$examens\", 0] } })</code>",
+          "<code>db.etudiants.find({}, { _id: 0, nom: 1, deux_premiers: { $slice: [\"$examens\", 2] } })</code>",
+          "<code>db.etudiants.find({}, { _id: 0, nom: 1, matieres_note_14: { $map: { input: { $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 14] } } }, as: \"x\", in: \"$$x.matiere\" } } })</code>",
+          "<code>db.etudiants.find({}, { _id: 0, nom: 1, premier_note_sup_14: { $arrayElemAt: [{ $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 14] } } }, 0] } })</code>",
+          "<code>db.etudiants.find({}, { _id: 0, nom: 1, premiere_matiere_bonus: { $arrayElemAt: [{ $map: { input: { $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.bonus\", 1] } } }, as: \"x\", in: \"$$x.matiere\" } }, 0] } })</code>",
+          "<code>db.etudiants.find({}, { _id: 0, nom: 1, deux_examens: { $slice: [{ $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 12] } } }, 2] } })</code>"
+        ]
+      },
+      {
+        title: "Partie 3 — Mises à jour (10 questions)",
+        questions: [
+          "Mettre l'âge de Salma Idrissi à 22.",
+          "Augmenter de 10 les heures de présence de tous les étudiants en Génie Informatique.",
+          "Supprimer le champ scolarite.heures_presence pour tous les étudiants en Génie Électrique.",
+          "Renommer ville en ville_origine sur tous les documents.",
+          "Ajouter à Omar Tazi un examen { matiere: \"Recherche opérationnelle\", semestre: \"S2\", bonus: 1, tp_rendus: 1, note: 16.5 }.",
+          "Retirer du tableau examens de Youssef Amrani tous les examens dont la matière est « Réseaux ».",
+          "Ajouter à Salma Idrissi la certification « Cisco CCNA » (sans doublon).",
+          "Mettre à 18 la note de l'examen de « Bases de données » de Salma Idrissi (arrayFilters).",
+          "Incrémenter de 0.5 la note de tous les examens avec bonus ≥ 1, pour tous les étudiants (arrayFilters).",
+          "Remplacer entièrement le document d'Imane Benali par { nom: \"Imane Benali\", filiere: \"Génie Civil\", ville: \"Agadir\", option: \"Bâtiment et travaux publics\" }."
+        ],
+        corrections: [
+          "<code>db.etudiants.updateOne({ nom: \"Salma Idrissi\" }, { $set: { age: 22 } })</code>",
+          "<code>db.etudiants.updateMany({ filiere: \"Génie Informatique\" }, { $inc: { \"scolarite.heures_presence\": 10 } })</code>",
+          "<code>db.etudiants.updateMany({ filiere: \"Génie Électrique\" }, { $unset: { \"scolarite.heures_presence\": \"\" } })</code>",
+          "<code>db.etudiants.updateMany({}, { $rename: { ville: \"ville_origine\" } })</code>",
+          "<code>db.etudiants.updateOne({ nom: \"Omar Tazi\" }, { $push: { examens: { matiere: \"Recherche opérationnelle\", semestre: \"S2\", bonus: 1, tp_rendus: 1, note: 16.5 } } })</code>",
+          "<code>db.etudiants.updateOne({ nom: \"Youssef Amrani\" }, { $pull: { examens: { matiere: \"Réseaux\" } } })</code>",
+          "<code>db.etudiants.updateOne({ nom: \"Salma Idrissi\" }, { $addToSet: { certifications: \"Cisco CCNA\" } })</code>",
+          "<code>db.etudiants.updateOne({ nom: \"Salma Idrissi\" }, { $set: { \"examens.$[e].note\": 18 } }, { arrayFilters: [ { \"e.matiere\": \"Bases de données\" } ] })</code>",
+          "<code>db.etudiants.updateMany({}, { $inc: { \"examens.$[e].note\": 0.5 } }, { arrayFilters: [ { \"e.bonus\": { $gte: 1 } } ] })</code>",
+          "<code>db.etudiants.replaceOne({ nom: \"Imane Benali\" }, { nom: \"Imane Benali\", filiere: \"Génie Civil\", ville: \"Agadir\", option: \"Bâtiment et travaux publics\" })</code>"
+        ]
+      }
+    ]
+  },
+  ql: {
+    title: "Examen blanc — Qualité du Logiciel",
+    intro: "INF4011 · Examen intra blanc · 2025-2026 · Dr. Aimad QAZDAR. Partie 1 : questions de cours. Partie 2 : étude de cas.",
+    parts: [
+      {
+        title: "Partie 1 — Exercice 1 : QCM (2 questions)",
+        questions: [
+          "Quel niveau de besoins correspond aux attentes réelles mais non exprimées par le client ?<br>a) Spécifiés · b) Réalisés · c) Exprimés · d) Vrais besoins",
+          "Quel est l'objectif principal de l'Assurance Qualité Logicielle (SQA) ?<br>a) Réduire le nombre de lignes de code<br>b) Accélérer la livraison<br>c) Garantir objectivement que le logiciel répond aux exigences, dans les contraintes de coût et de délai<br>d) Remplacer les tests manuels"
+        ],
+        corrections: [
+          "<b>d) Vrais besoins</b> — attentes réelles, souvent non formulées.",
+          "<b>c)</b> Garantir objectivement que le logiciel répond aux exigences, dans les contraintes de coût et de délai."
+        ]
+      },
+      {
+        title: "Partie 1 — Exercice 2 : concepts de base (3 questions)",
+        questions: [
+          "Selon ISO/IEC/IEEE 24765:2017, quels éléments constituent le « logiciel » ?",
+          "Expliquer la chaîne causale erreur → défaut → défaillance. Donner un exemple.",
+          "Quels sont les deux piliers de la qualité logicielle ?"
+        ],
+        corrections: [
+          "Programmes, procédures, données et documentation.",
+          "Erreur (humaine) → Défaut (dans le code/conception) → Défaillance (observable en exécution).<br><b>Exemple</b> : oubli d'un cas (erreur) → division par zéro non gérée (défaut) → crash de l'application (défaillance).",
+          "<b>Produit</b> (fiabilité, sécurité, maintenabilité…) et <b>Processus</b> (méthodes, outils, rigueur du développement)."
+        ]
+      },
+      {
+        title: "Partie 1 — Exercice 3 : SQuaRE / ISO 25010 (3 questions)",
+        questions: [
+          "Quel est l'objectif principal du modèle SQuaRE ?",
+          "Citer 3 caractéristiques de qualité ISO 25010.",
+          "Parmi les caractéristiques ISO 25010, laquelle couvre la capacité à corriger ou améliorer un logiciel ? Justifier."
+        ],
+        corrections: [
+          "Fournir un cadre pour évaluer la qualité logicielle via des caractéristiques mesurables : Qualité ≈ f(attributs).",
+          "Au choix parmi : adéquation fonctionnelle, efficacité de performance, compatibilité, facilité d'utilisation, fiabilité, sécurité, maintenabilité, portabilité.",
+          "La <b>Maintenabilité</b>. Elle couvre la correction (corrective), l'adaptation (adaptative) et l'amélioration (perfective) — donc la capacité à faire évoluer le logiciel."
+        ]
+      },
+      {
+        title: "Partie 2 — Exercice 1 : LOC & complexité cyclomatique",
+        questions: [
+          "Soit la méthode totalAchat() : { double t = 0; for (Commande c : commandes) { t += c.getPrix(); } return t; }. Calculer LOCphy et LOCpro.",
+          "Calculer la complexité cyclomatique V(G) de cette méthode.",
+          "Quel est le nombre minimal de cas de test pour couvrir les décisions ?",
+          "Le code est-il facile à tester/maintenir ? Pourquoi ?"
+        ],
+        corrections: [
+          "<b>LOCphy</b> : compter toutes les lignes (avec accolades, blancs et commentaires) ≈ 7. <b>LOCpro</b> : lignes productives (instructions seules) ≈ 4.",
+          "V(G) = nombre de décisions + 1 = 1 (la boucle for) + 1 = <b>2</b>. Ou E − N + 2.",
+          "<b>V(G) = 2</b> cas de test minimum pour la couverture des décisions.",
+          "Oui : V(G) = 2 &lt; 10 (simple). Méthode courte et lisible, facile à tester et à maintenir."
+        ]
+      },
+      {
+        title: "Partie 2 — Exercice 2 : métriques CK (WMC, CBO, LCOM)",
+        questions: [
+          "Classe GestionClient : nom, commandes, getNom(), ajouterCommande(), totalAchat() (boucle for), notifier() (EmailService + SMS). Calculer WMC.",
+          "Calculer CBO.",
+          "Analyser la cohésion : combien de paires de méthodes ont une intersection d'attributs vide ? En déduire LCOM.",
+          "Interpréter les métriques (WMC=5, CBO=2, LCOM=4)."
+        ],
+        corrections: [
+          "<b>WMC</b> = 1 + 1 + 2 + 1 = <b>5</b>.",
+          "<b>CBO</b> = EmailService + SMS = <b>2</b>.",
+          "4 méthodes → C(4,2) = 6 paires. Paires sans attribut commun : (getNom, ajouterCommande), (getNom, totalAchat), (getNom, notifier), (ajouterCommande, notifier), (totalAchat, notifier) = 5 paires (P=5). Paires avec attribut commun : (ajouterCommande, totalAchat) via commandes = 1 paire (Q=1). <b>LCOM = P − Q = 5 − 1 = 4</b>.",
+          "WMC = 5 (faible, ≤10). CBO = 2 (faible, ≤5). LCOM = 4 (&gt; 1 → faible cohésion). Recommandation : extraire <code>notifier()</code> qui n'utilise aucun attribut (manque de cohésion)."
+        ]
+      },
+      {
+        title: "Partie 2 — Exercice 3 : synthèse (WMC=28, CBO=12, LCOM=5)",
+        questions: [
+          "Évaluer la qualité de cette classe.",
+          "Que conseiller à l'équipe ? (Refactorisation ? Revue de code ? Tests ?) Justifier."
+        ],
+        corrections: [
+          "WMC = 28 &gt; 20 → élevé (complexité excessive). CBO = 12 &gt; 10 → élevé (couplage excessif). LCOM = 5 &gt; 1 → faible cohésion. Les 3 métriques sont au-dessus des seuils.",
+          "Refactorisation pour réduire la complexité (extraire des méthodes). Découplage (interfaces, injection). Répartition des responsabilités (split en plusieurs classes). Renforcer les tests. Revue de code."
+        ]
+      },
+      {
+        title: "Partie 2 — Exercice 4 : SonarQube",
+        questions: [
+          "Rapport SonarQube : 22 bugs (badge C), 7 vulnérabilités (badge E), 90.5 % coverage, 6.8 % duplications. Quelles affirmations sont correctes ?<br>A) ~13 000 tests unitaires<br>B) Couverture &gt; 90 %<br>C) Moins de 7 % non couvert<br>D) Au moins une vulnérabilité bloquante<br>E) Au moins un bug critique"
+        ],
+        corrections: [
+          "<b>A. Vrai</b> (~13k tests). <b>B. Vrai</b> (90.5 % &gt; 90 %). <b>C. Faux</b> (100 − 90.5 = 9.5 % &gt; 7 %). <b>D. Vrai</b> (badge E = blocker). <b>E. Faux</b> (badge C = major, pas critical)."
+        ]
+      }
+    ]
+  },
+  res: {
+    title: "Examen blanc — Réseaux et Télécoms",
+    intro: "INF4031 · Test n°2 · QCM + exercices.",
+    parts: [
+      {
+        title: "QCM (4 questions)",
+        questions: [
+          "L'atténuation d'une ligne de transmission se mesure en :<br>a) Hertz · b) Décibels · c) Bits par seconde · d) Bauds",
+          "Un signal composite est décomposé en f, 3f, 5f, 7f et 11f. La bande passante est [5f, 13f]. Combien de signaux sinusoïdaux élémentaires sont détectés à l'arrivée ?",
+          "Que signifie ETCD ?<br>a) Equipement Terminal de Conversion Digitale<br>b) Equipement de Télécommunication Digitale<br>c) Equipement Terminal de Traitement de données<br>d) Equipement Terminal de Circuit de Données",
+          "Donner un exemple d'un système de transmission qui joue le rôle d'un ETCD."
+        ],
+        corrections: [
+          "<b>b) Décibels.</b>",
+          "<b>3 signaux</b> : 5f, 7f et 11f sont dans la bande [5f, 13f]. (3f et f sont en dehors.)",
+          "<b>d) Equipement Terminal de Circuit de Données.</b>",
+          "Le <b>modem</b> (modulateur-démodulateur) : il convertit le signal numérique du terminal en un signal adapté à la ligne."
+        ]
+      },
+      {
+        title: "Exercice 1 — Son numérisé",
+        questions: [
+          "On désire transporter un son sur une voie de transmission. Le son est numérisé à 8000 Hz et codé sur 8 bits. Quel doit être le débit de la ligne utilisée ?"
+        ],
+        corrections: [
+          "<code>D = Fe × nb_bits = 8000 × 8 = 64 000 b/s = 64 kb/s</code>. (C'est le débit de la téléphonie numérisée.)"
+        ]
+      },
+      {
+        title: "Exercice 2 — Capacité d'une ligne",
+        questions: [
+          "Quelle est la capacité d'une ligne pour téléimprimeur de largeur de bande 200 Hz et de rapport signal/bruit de 2 dB ?"
+        ],
+        corrections: [
+          "Convertir S/N en linéaire : <code>S/N = 10^(2/10) ≈ 1,585</code>. Puis <code>C = 200 × log₂(1 + 1,585) = 200 × log₂(2,585) ≈ 200 × 1,37 ≈ 274 b/s</code>."
+        ]
+      },
+      {
+        title: "Exercice 3 — Chaîne de communication",
+        questions: [
+          "À partir du schéma {Process → Capteur → CAN → Codage en bande de base → Canal de transmission}, expliquez le rôle de chaque bloc."
+        ],
+        corrections: [
+          "<b>Process</b> : le phénomène physique à mesurer (pression, température, niveau…). <b>Capteur</b> : convertit la grandeur physique en signal électrique analogique. <b>CAN</b> (Convertisseur Analogique-Numérique) : numérise le signal (échantillonnage + quantification + codage). <b>Codage en bande de base</b> : transforme les bits en signal électrique adapté au canal (NRZ, Manchester…). <b>Canal de transmission</b> : support physique (câble, fibre, air)."
+        ]
+      }
+    ]
+  }
+};
+var EXAM_SUBJECTS = ["mongodb", "ql", "res"];
 
 /* ===================== Helpers ===================== */
 var $=function(i){return document.getElementById(i)};
@@ -1057,6 +1052,33 @@ var SUBTITLES = {
   res:"Réseaux et Télécoms : codage, capacité, modulation, supports."
 };
 
+/* Updates modal */
+var UPDATES_VERSION = "v1.2-2026-11-19";
+function showUpdates(){$("updatesModal").classList.remove("hid")}
+function hideUpdates(){
+  $("updatesModal").classList.add("hid");
+  try{localStorage.setItem("rev-updates-version",UPDATES_VERSION)}catch(e){}
+}
+(function(){
+  var seen=null;
+  try{seen=localStorage.getItem("rev-updates-version")}catch(e){}
+  if(seen!==UPDATES_VERSION) showUpdates();
+})();
+$("updatesClose").onclick=hideUpdates;
+$("updatesOk").onclick=hideUpdates;
+$("updatesBtn").onclick=showUpdates;
+
+/* Beta banner */
+(function(){
+  var bar=$("betaBar"),btn=$("betaClose");
+  if(!bar||!btn)return;
+  if(localStorage.getItem("rev-beta-dismissed")==="1") bar.classList.add("hid");
+  btn.onclick=function(){
+    bar.classList.add("hid");
+    try{localStorage.setItem("rev-beta-dismissed","1")}catch(e){}
+  };
+})();
+
 function updateSubjectButtons(){
   document.querySelectorAll(".subjects button").forEach(function(b){
     b.setAttribute("aria-selected", b.dataset.subject === app.subject);
@@ -1072,14 +1094,21 @@ function showFiche(){
     $("fiche-"+s).classList.toggle("hid", !(app.mode === "fiche" && app.subject === s));
   });
 }
+function updateExamTab(){
+  var has = EXAM_SUBJECTS.indexOf(app.subject) >= 0;
+  $("examTab").classList.toggle("hid", !has);
+  if (!has && app.mode === "exam") setMode("quiz");
+}
 function setMode(m){
   app.mode = m;
   updateModeButtons();
   $("quiz").classList.toggle("hid", m !== "quiz");
   $("cards").classList.toggle("hid", m !== "cards");
   $("exos").classList.toggle("hid", m !== "exos");
+  $("exam").classList.toggle("hid", m !== "exam");
   showFiche();
   if (m === "exos") buildExos();
+  if (m === "exam") buildExam();
 }
 function fillSelect(sel, subj){
   sel.innerHTML = "";
@@ -1095,6 +1124,7 @@ function setSubject(s){
   document.documentElement.dataset.subject = s;
   $("subtitle").textContent = SUBTITLES[s];
   updateSubjectButtons();
+  updateExamTab();
   fillSelect($("cat"), s);
   fillSelect($("ccat"), s);
   fillSelect($("ecat"), s);
@@ -1103,6 +1133,7 @@ function setSubject(s){
   $("qrun").classList.add("hid");
   $("qsetup").classList.remove("hid");
   if (app.mode === "exos") buildExos();
+  if (app.mode === "exam") buildExam();
   showFiche();
 }
 document.querySelectorAll(".subjects button").forEach(function(b){
@@ -1112,20 +1143,7 @@ document.querySelectorAll("nav.modes button").forEach(function(b){
   b.onclick = function(){ setMode(b.dataset.mode); };
 });
 
-/* Bandeau beta : mémoriser la fermeture */
-(function(){
-  var bar = $("betaBar"), btn = $("betaClose");
-  if (!bar || !btn) return;
-  if (localStorage.getItem("rev-beta-dismissed") === "1"){
-    bar.classList.add("hid");
-  }
-  btn.onclick = function(){
-    bar.classList.add("hid");
-    try { localStorage.setItem("rev-beta-dismissed", "1"); } catch(e){}
-  };
-})();
-
-/* ===== Quiz ===== */
+/* Quiz */
 var run = null;
 function showBest(){
   var k = bestKey(app.subject, $("cat").value);
@@ -1133,7 +1151,6 @@ function showBest(){
   $("best").textContent = (b && b.n) ? "Meilleur score : " + b.s + " / " + b.n : "Pas encore de score pour ce thème.";
 }
 $("cat").onchange = showBest;
-
 function pool(cat){
   return Q.filter(function(q){
     if (subjectOf(q[0]) !== app.subject) return false;
@@ -1148,7 +1165,6 @@ function start(list, cat){
   ask();
 }
 $("go").onclick = function(){ start(pool($("cat").value), $("cat").value); };
-
 function ask(){
   var q = run.list[run.i], n = run.list.length;
   var order = shuffle([0,1,2,3]);
@@ -1203,7 +1219,7 @@ function end(){
   };
 }
 
-/* ===== Cartes ===== */
+/* Cartes */
 var deck = [], ci = 0, back = false;
 function buildDeck(){
   var subj = app.subject, c = $("ccat").value, out = [];
@@ -1241,9 +1257,8 @@ $("prev").onclick = function(){ ci = (ci-1+deck.length) % deck.length; back = fa
 $("shuf").onclick = buildDeck;
 $("ccat").onchange = buildDeck;
 
-/* ===== Exercices ===== */
+/* Exercices */
 var exDeck = [], exI = 0, exReveal = false;
-
 function buildExos(){
   var subj = app.subject, c = $("ecat").value;
   exDeck = EX.filter(function(x){
@@ -1290,12 +1305,48 @@ $("enext").onclick = function(){
   exReveal = false; drawExo();
 };
 
-/* ===== Init ===== */
+/* Examen blanc */
+function buildExam(){
+  var card = $("examcard");
+  var exam = EXAMS[app.subject];
+  if (!exam){
+    card.innerHTML = "<p class='meta'>Pas d'examen blanc disponible pour cette matière.</p>";
+    return;
+  }
+  var h = '<h2 style="margin-top:0">' + exam.title + '</h2>';
+  h += '<p class="meta">' + exam.intro + '</p>';
+  exam.parts.forEach(function(part, pi){
+    h += '<details class="exam-part" open>';
+    h += '<summary>' + part.title + '</summary>';
+    h += '<ol class="exam-questions">';
+    part.questions.forEach(function(q){ h += '<li>' + q + '</li>'; });
+    h += '</ol>';
+    h += '<button class="btn alt" data-part="' + pi + '" type="button">Voir la correction de cette partie</button>';
+    h += '<div class="exam-corr hid" id="exam-corr-' + pi + '">';
+    h += '<h4>Correction</h4><ol>';
+    part.corrections.forEach(function(c){ h += '<li>' + c + '</li>'; });
+    h += '</ol></div>';
+    h += '</details>';
+  });
+  card.innerHTML = h;
+  document.querySelectorAll("#examcard button[data-part]").forEach(function(b){
+    b.onclick = function(){
+      var corr = $("exam-corr-" + b.dataset.part);
+      corr.classList.toggle("hid");
+      b.textContent = corr.classList.contains("hid")
+        ? "Voir la correction de cette partie"
+        : "Masquer la correction";
+    };
+  });
+}
+
+/* Init */
 fillSelect($("cat"), app.subject);
 fillSelect($("ccat"), app.subject);
 fillSelect($("ecat"), app.subject);
 updateSubjectButtons();
 updateModeButtons();
+updateExamTab();
 showBest();
 buildDeck();
 setMode("quiz");
