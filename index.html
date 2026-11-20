@@ -556,94 +556,607 @@ db.users.dropIndex({ email: 1 })</pre>
 
 <section id="fiche-php" class="hid">
 <div class="card">
-<h2>Opérateurs PHP</h2>
-<p><code>==</code> compare valeur (conversion), <code>===</code> valeur + type. Falsy : false, 0, 0.0, "", "0", [], null. Court-circuit sur <code>&amp;&amp;</code> / <code>||</code>.</p>
-<h2>if / elseif / else</h2>
+<h2>Syntaxe de base & Variables</h2>
+<p>Le code PHP s'insère dans un fichier <code>.php</code> entre les balises <code>&lt;?php</code> et <code>?&gt;</code> (ou <code>&lt;?= $var ?&gt;</code> pour un echo court).</p>
+<pre>$nom = "Amal";       // string
+$age = 25;           // int
+$prix = 19.99;       // float
+$estActif = true;    // bool
+$sansValeur = null;  // null
+$tableau = [1, 2, 3]; // array (voir plus bas)
+
+// Concaténation
+echo "Bonjour " . $nom;
+echo "Bonjour $nom"; // interpolation (guillemets doubles uniquement)</pre>
+
+<h2>Opérateurs</h2>
+<div class="wrap"><table>
+<tr><th>Famille</th><th>Opérateurs</th><th>Exemples</th></tr>
+<tr><td>Arithmétiques</td><td><code>+ - * / % **</code></td><td><code>7 % 2 = 1</code> ; <code>2 ** 10 = 1024</code></td></tr>
+<tr><td>Affectation</td><td><code>= += -= *= /= .=</code></td><td><code>$x += 5</code> ; <code>$s .= "jour"</code></td></tr>
+<tr><td>Incrémentation</td><td><code>++ --</code></td><td><code>$i++</code> (post) ; <code>++$i</code> (pré)</td></tr>
+<tr><td>Comparaison</td><td><code>== === != !== &lt; &gt; &lt;= &gt;= &lt;=&gt;</code></td><td><code>"7" == 7</code> (vrai) ; <code>"7" === 7</code> (faux)</td></tr>
+<tr><td>Logiques</td><td><code>&amp;&amp; || !</code> (ou <code>and or not</code>)</td><td><code>if ($a &amp;&amp; $b)</code></td></tr>
+</table></div>
+<p><b>Falsy (valeurs fausses)</b> : <code>false</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>"0"</code>, <code>[]</code>, <code>null</code>. Tout le reste est vrai.<br>
+<b>Court-circuit</b> : <code>A &amp;&amp; B</code> ne teste pas B si A est faux ; <code>A || B</code> ne teste pas B si A est vrai.</p>
+
+<h2>Conditions</h2>
+<h3>if / elseif / else</h3>
 <pre>$note = 13.5;
 if ($note >= 16)      { $m = "Très bien"; }
 elseif ($note >= 14)  { $m = "Bien"; }
 elseif ($note >= 12)  { $m = "Assez bien"; }
 elseif ($note >= 10)  { $m = "Passable"; }
-else                  { $m = "Non validé"; }</pre>
-<h2>switch / match</h2>
+else                  { $m = "Non validé"; }
+// Toujours tester du plus restrictif au plus large.</pre>
+
+<h3>switch</h3>
+<pre>switch ($jour) {
+  case 1: $nom = "Lundi"; break;   // break obligatoire !
+  case 2: $nom = "Mardi"; break;
+  case 6:
+  case 7: $nom = "Week-end"; break; // cases regroupés
+  default: $nom = "Autre jour";
+}</pre>
+<p><code>switch</code> utilise une comparaison <b>souple</b> (<code>==</code>).</p>
+
+<h3>match (PHP 8+)</h3>
+<pre>$nom = match ($jour) {
+  1 => "Lundi",
+  2 => "Mardi",
+  6, 7 => "Week-end",
+  default => "Autre jour",
+};
+
+// Tester des intervalles
+$mention = match (true) {
+  $note >= 16 => "Très bien",
+  $note >= 14 => "Bien",
+  default     => "Non validé",
+};</pre>
+<p><code>match</code> est une <b>expression</b> (renvoie une valeur), utilise <b>===</b>, pas de break. Erreur <code>UnhandledMatchError</code> si aucun cas ne correspond et qu'il n'y a pas de <code>default</code>.</p>
+
+<h3>Ternaire et Coalescence nulle</h3>
+<pre>$statut = ($age >= 18) ? "majeur" : "mineur";
+$page   = $_GET['page'] ?? 1;  // ?? : valeur par défaut si null ou non définie</pre>
+<p>Les ternaires imbriqués sans parenthèses sont interdits en PHP 8.</p>
+
+<h2>Boucles</h2>
+<pre>// for (classique)
+for ($i = 0; $i &lt; 10; $i++) {
+  echo $i;
+}
+
+// while
+$i = 0;
+while ($i &lt; 5) {
+  echo $i;
+  $i++;
+}
+
+// do...while (exécute au moins une fois)
+do {
+  echo "Test";
+} while ($condition);
+
+// foreach (parcours de tableau)
+$fruits = ["pomme", "banane", "cerise"];
+foreach ($fruits as $fruit) {
+  echo $fruit;
+}
+
+// foreach avec clé => valeur
+$ages = ["Amal" => 25, "Sara" => 22];
+foreach ($ages as $nom => $age) {
+  echo "$nom a $age ans";
+}</pre>
+
+<h2>Tableaux</h2>
+<h3>Indexés</h3>
+<pre>$nombres = [10, 20, 30];
+echo $nombres[0];        // 10
+$nombres[] = 40;         // ajouter à la fin
+count($nombres);         // 4</pre>
+
+<h3>Associatifs</h3>
+<pre>$etudiant = [
+  "nom" => "Omar",
+  "age" => 22,
+  "ville" => "Agadir"
+];
+echo $etudiant["nom"];   // Omar
+$etudiant["age"] = 23;   // modification
+unset($etudiant["ville"]); // suppression</pre>
+
+<h3>Fonctions de tableau utiles</h3>
 <div class="wrap"><table>
-<tr><th></th><th>switch</th><th>match (PHP 8)</th></tr>
-<tr><td>Nature</td><td>Instruction</td><td>Expression</td></tr>
-<tr><td>Comparaison</td><td>Souple</td><td>Stricte</td></tr>
-<tr><td>break</td><td>Obligatoire</td><td>Aucun</td></tr>
+<tr><th>Fonction</th><th>Effet</th></tr>
+<tr><td><code>count()</code></td><td>Taille du tableau</td></tr>
+<tr><td><code>array_push()</code> / <code>[]</code></td><td>Ajouter à la fin</td></tr>
+<tr><td><code>array_pop()</code></td><td>Retirer et retourner le dernier</td></tr>
+<tr><td><code>array_shift()</code></td><td>Retirer et retourner le premier</td></tr>
+<tr><td><code>sort()</code> / <code>rsort()</code></td><td>Trier (indexé)</td></tr>
+<tr><td><code>ksort()</code> / <code>asort()</code></td><td>Trier par clé / par valeur (associatif)</td></tr>
+<tr><td><code>array_keys()</code> / <code>array_values()</code></td><td>Récupérer les clés / valeurs</td></tr>
+<tr><td><code>array_merge()</code></td><td>Fusionner</td></tr>
+<tr><td><code>array_filter()</code></td><td>Filtrer avec un callback</td></tr>
+<tr><td><code>array_map()</code></td><td>Transformer avec un callback</td></tr>
+<tr><td><code>in_array()</code></td><td>Vérifier l'appartenance</td></tr>
+<tr><td><code>implode()</code> / <code>explode()</code></td><td>Tableau → string / String → tableau</td></tr>
 </table></div>
-<h2>Ternaire, <code>??</code>, syntaxe alternative</h2>
-<p><code>$x = ($a) ? "v" : "f";</code> — <code>$p = $_GET['p'] ?? 1;</code> — <code>if(...): ... endif;</code> dans les vues.</p>
+
+<h2>Fonctions</h2>
+<pre>function additionner($a, $b) {
+  return $a + $b;
+}
+
+// Paramètres par défaut
+function saluer($nom = "inconnu") {
+  return "Bonjour $nom";
+}
+
+// Type hinting (PHP 7+)
+function moyenne(array $notes): float {
+  return array_sum($notes) / count($notes);
+}
+
+// Appel
+echo additionner(2, 3);      // 5
+echo moyenne([10, 15, 20]);  // 15.0</pre>
+
+<h2>Superglobales & Formulaires</h2>
+<div class="wrap"><table>
+<tr><th>Variable</th><th>Contenu</th></tr>
+<tr><td><code>$_GET</code></td><td>Paramètres d'URL (<code>page.php?id=3</code>)</td></tr>
+<tr><td><code>$_POST</code></td><td>Données de formulaire méthode POST</td></tr>
+<tr><td><code>$_SESSION</code></td><td>Données de session (après <code>session_start()</code>)</td></tr>
+<tr><td><code>$_COOKIE</code></td><td>Cookies</td></tr>
+<tr><td><code>$_FILES</code></td><td>Fichiers uploadés</td></tr>
+<tr><td><code>$_SERVER</code></td><td>Infos serveur (méthode, URL, IP…)</td></tr>
+</table></div>
+
+<h3>Formulaire HTML → PHP</h3>
+<pre>&lt;form method="POST" action="traitement.php"&gt;
+  &lt;input type="text" name="email"&gt;
+  &lt;input type="password" name="mdp"&gt;
+  &lt;button type="submit"&gt;Envoyer&lt;/button&gt;
+&lt;/form&gt;</pre>
+<pre>// traitement.php
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  $email = $_POST['email'] ?? '';
+  $mdp   = $_POST['mdp'] ?? '';
+  // Toujours vérifier et échapper les entrées !
+  if (empty($email) || empty($mdp)) {
+    echo "Champs obligatoires";
+  }
+}</pre>
+
+<h2>Sessions & Cookies</h2>
+<pre>// Démarrer une session (en haut du fichier)
+session_start();
+
+// Stocker
+$_SESSION['user_id'] = 42;
+
+// Lire
+if (isset($_SESSION['user_id'])) {
+  echo "Connecté";
+}
+
+// Détruire
+session_destroy();
+
+// Cookie (durée en secondes)
+setcookie("theme", "dark", time() + 3600, "/");
+echo $_COOKIE['theme'] ?? "light";</pre>
+
+<h2>Inclusion de fichiers</h2>
+<pre>include 'header.php';         // warning si absent
+include_once 'config.php';    // une seule fois
+require 'db.php';             // erreur fatale si absent
+require_once 'functions.php'; // recommandé pour les libs</pre>
+<p><code>require</code> est obligatoire pour le code vital (BDD, config), <code>include</code> pour les fragments optionnels (header, footer).</p>
+
+<h2>POO (Programmation Orientée Objet)</h2>
+<pre>class Etudiant {
+  // Propriétés
+  public string $nom;
+  private int $age;
+  protected string $ville;
+
+  // Constructeur
+  public function __construct($nom, $age, $ville) {
+    $this->nom = $nom;
+    $this->age = $age;
+    $this->ville = $ville;
+  }
+
+  // Méthode publique
+  public function getAge(): int {
+    return $this->age;
+  }
+
+  // Méthode protégée (héritage uniquement)
+  protected function description(): string {
+    return "$this->nom ($this->age ans)";
+  }
+}
+
+// Instanciation
+$e = new Etudiant("Amal", 25, "Agadir");
+echo $e->getAge();</pre>
+
+<h3>Visibilité</h3>
+<div class="wrap"><table>
+<tr><th>Modificateur</th><th>Accès</th></tr>
+<tr><td><code>public</code></td><td>Partout</td></tr>
+<tr><td><code>protected</code></td><td>Classe + classes filles</td></tr>
+<tr><td><code>private</code></td><td>Classe uniquement</td></tr>
+</table></div>
+
+<h3>Héritage & Interface</h3>
+<pre>class EtudiantInfo extends Etudiant {
+  public function __construct($nom, $age, $ville) {
+    parent::__construct($nom, $age, $ville);
+  }
+}
+
+interface Enseignable {
+  public function enseigner(): void;
+}
+
+class Prof implements Enseignable {
+  public function enseigner(): void {
+    echo "Cours...";
+  }
+}</pre>
+
+<h2>Gestion des erreurs (try / catch)</h2>
+<pre>try {
+  $pdo = new PDO("mysql:host=localhost;dbname=test", "user", "pwd");
+} catch (PDOException $e) {
+  echo "Erreur BDD : " . $e->getMessage();
+}
+
+// Lancer une exception
+if ($age &lt; 0) {
+  throw new InvalidArgumentException("Âge invalide");
+}</pre>
+
+<h2>Sécurité (bonnes pratiques)</h2>
+<ul>
+<li><b>Ne jamais</b> faire confiance aux entrées utilisateur (<code>$_GET</code>, <code>$_POST</code>).</li>
+<li><b>Échapper</b> les sorties HTML avec <code>htmlspecialchars()</code> pour éviter les XSS : <code>echo htmlspecialchars($nom);</code></li>
+<li><b>Requêtes préparées</b> avec PDO pour les injections SQL : <code>$stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");</code></li>
+<li><b>Mots de passe</b> : utiliser <code>password_hash()</code> et <code>password_verify()</code>.</li>
+<li><b>CSRF</b> : ajouter un token dans les formulaires.</li>
+</ul>
+
+<h2>Syntaxe alternative (pour les vues)</h2>
+<p>Quand on mélange beaucoup de HTML et un peu de PHP, on remplace les accolades par <code>:</code> et on ferme avec un mot-clé <code>end...</code>.</p>
+<pre>&lt;?php if ($connecte): ?&gt;
+  &lt;a href="logout.php"&gt;Déconnexion&lt;/a&gt;
+&lt;?php else: ?&gt;
+  &lt;a href="login.php"&gt;Connexion&lt;/a&gt;
+&lt;?php endif; ?&gt;
+
+&lt;?php foreach ($articles as $a): ?&gt;
+  &lt;h3&gt;&lt;?= $a['titre'] ?&gt;&lt;/h3&gt;
+&lt;?php endforeach; ?&gt;</pre>
+<p>Recommandé dans les vues. Préfigure les directives Blade de Laravel : <code>@if</code>, <code>@else</code>, <code>@foreach</code>, <code>@endforeach</code>, etc.</p>
+
+<h2>Pièges classiques</h2>
+<ul>
+<li><b>Comparaison</b> : <code>==</code> est piégeux (<code>"1e3" == "1000"</code> → true). Toujours privilégier <code>===</code>.</li>
+<li><b>Chaîne vide vs "0"</b> : <code>empty("0")</code> renvoie vrai, ce qui surprend souvent.</li>
+<li><b>Concaténation</b> : ne pas utiliser <code>+</code> pour les chaînes (utiliser <code>.</code>).</li>
+<li><b>Tableaux</b> : <code>array_merge()</code> réindexe les clés numériques, <code>+</code> ne les réindexe pas (garde les valeurs à gauche).</li>
+<li><b>Variable non définie</b> : en PHP 8, c'est un <i>Warning</i>. Toujours utiliser <code>isset()</code> ou <code>??</code>.</li>
+<li><b>Modification dans une boucle foreach</b> : <code>foreach ($tab as $val)</code> travaille sur une copie. Pour modifier, utiliser <code>foreach ($tab as &amp;$val)</code> puis <code>unset($val)</code> après la boucle.</li>
+<li><b>Sessions</b> : <code>session_start()</code> doit être appelé avant tout envoi de contenu HTML.</li>
+</ul>
 </div>
 </section>
 
 <section id="fiche-ql" class="hid">
 <div class="card">
-<h2>Fondamentaux</h2>
-<p>Qualité = satisfaction des besoins explicites + implicites. 2 piliers : <b>Produit</b>, <b>Processus</b>. Chaîne causale : <b>erreur</b> → <b>défaut</b> → <b>défaillance</b>.</p>
-<h2>SQuaRE / ISO 25010</h2>
-<p>8 caractéristiques : adéquation fonctionnelle, efficacité de performance, compatibilité, facilité d'utilisation, fiabilité, sécurité, maintenabilité, portabilité.</p>
-<h2>Métriques</h2>
+<h2>Fondamentaux de la qualité</h2>
+<p><b>Définition :</b> Le degré auquel un produit logiciel satisfait les besoins <b>explicites</b> et <b>implicites</b> des parties prenantes dans des conditions spécifiées.</p>
+<p><b>2 piliers :</b></p>
+<ul>
+<li><b>Produit :</b> fiabilité, sécurité, maintenabilité…</li>
+<li><b>Processus :</b> méthodes, outils, rigueur du développement.</li>
+</ul>
+<p><b>Modèle de qualité :</b> relier attributs mesurables et qualité perçue : <code>Qualité ≈ f(attributs)</code>.</p>
+
+<h3>Les 4 niveaux de besoins</h3>
 <div class="wrap"><table>
-<tr><th>Métrique</th><th>Formule / Seuil</th></tr>
-<tr><td><code>V(G)</code></td><td>E − N + 2 ; 1-10 simple, 11-20 modéré, &gt;20 complexe</td></tr>
-<tr><td><code>WMC</code></td><td>Σ V(G) ; ≤10 faible, 11-20 moyen, &gt;20 élevé</td></tr>
-<tr><td><code>CBO</code></td><td>Classes couplées ; ≤5 faible, 6-10 moyen, &gt;10 élevé</td></tr>
-<tr><td><code>LCOM</code></td><td>P − Q ; ≤1 forte cohésion, &gt;1 faible</td></tr>
+<tr><th>Niveau</th><th>Définition</th></tr>
+<tr><td>Exprimés</td><td>Ce que le client a formulé</td></tr>
+<tr><td>Spécifiés</td><td>Formalisés dans le cahier des charges</td></tr>
+<tr><td>Réalisés</td><td>Effectivement implémentés</td></tr>
+<tr><td><b>Vrais besoins</b></td><td>Attentes réelles, souvent <b>non exprimées</b></td></tr>
 </table></div>
-<h2>SDLC</h2>
-<p><b>Spécification</b> · <b>Développement</b> · <b>Validation</b> · <b>Évolution</b>. <b>Vérification</b> = specs, <b>Validation</b> = client.</p>
-<p><b>Maintenances</b> : corrective / adaptative / perfective. <b>Modèles</b> : cascade, incrémental, intégration &amp; config.</p>
-<h2>SonarQube</h2>
-<p>Badges : A=info, B=minor, C=major, D=critical, E=blocker.</p>
+
+<h3>Chaîne causale</h3>
+<p><b>Erreur</b> (humaine) → <b>Défaut</b> (dans le code/conception) → <b>Défaillance</b> (observable en exécution).</p>
+<p><i>Exemple :</b> oubli d'un cas → division par zéro non gérée → crash de l'application.</i></p>
+
+<h2>Modèle SQuaRE (ISO/IEC 25010)</h2>
+<p>Fournit un cadre pour évaluer la qualité via 8 caractéristiques mesurables :</p>
+<div class="wrap"><table>
+<tr><th>Caractéristique</th><th>Rôle</th></tr>
+<tr><td>Adéquation fonctionnelle</td><td>Fait ce qui est demandé</td></tr>
+<tr><td>Efficacité de performance</td><td>Temps de réponse, ressources</td></tr>
+<tr><td>Compatibilité</td><td>Coexiste avec d'autres systèmes</td></tr>
+<tr><td>Facilité d'utilisation</td><td>Apprentissage, ergonomie</td></tr>
+<tr><td>Fiabilité</td><td>Fonctionne sans défaillance</td></tr>
+<tr><td>Sécurité</td><td>Confidentialité, intégrité</td></tr>
+<tr><td><b>Maintenabilité</b></td><td><b>Capacité à corriger / améliorer</b></td></tr>
+<tr><td>Portabilité</td><td>Changement d'environnement</td></tr>
+</table></div>
+<p>La <b>maintenabilité</b> couvre la correction (corrective), l'adaptation (adaptative) et l'amélioration (perfective).</p>
+
+<h2>Métriques de code</h2>
+<div class="wrap"><table>
+<tr><th>Métrique</th><th>Définition</th><th>Seuils</th></tr>
+<tr><td><code>LOCphy</code></td><td>Lignes physiques (avec blancs et commentaires)</td><td>—</td></tr>
+<tr><td><code>LOCpro</code></td><td>Lignes productives (instructions seules)</td><td>—</td></tr>
+<tr><td><code>V(G)</code> McCabe</td><td><code>E − N + 2</code> ou nombre de décisions + 1</td><td>1–10 simple, 11–20 modéré, &gt;20 complexe</td></tr>
+<tr><td><code>WMC</code></td><td>Σ V(G) des méthodes</td><td>≤10 faible, 11–20 moyen, &gt;20 élevé</td></tr>
+<tr><td><code>CBO</code></td><td>Nb de classes externes couplées</td><td>≤5 faible, 6–10 moyen, &gt;10 élevé</td></tr>
+<tr><td><code>LCOM</code></td><td>Paires de méthodes sans attribut commun (P − Q)</td><td>≤1 forte cohésion, &gt;1 faible cohésion</td></tr>
+</table></div>
+<p><b>V(G)</b> = nombre minimal de cas de test pour couvrir toutes les décisions.</p>
+
+<h3>Exemple du contrôle (WMC/CBO/LCOM)</h3>
+<pre>Classe GestionClient :
+  getNom()          → V(G) = 1 (utilise nom)
+  ajouterCommande() → V(G) = 1 (utilise commandes)
+  totalAchat()      → V(G) = 2 (boucle for sur commandes)
+  notifier()        → V(G) = 1 (utilise EmailService + SMS)
+
+WMC   = 1 + 1 + 2 + 1 = 5           → faible (≤10)
+CBO   = EmailService + SMS = 2      → faible (≤5)
+LCOM  = P − Q = 5 − 1 = 4           → faible cohésion (&gt;1)</pre>
+
+<h3>Diagnostic d'une classe</h3>
+<div class="wrap"><table>
+<tr><th>Valeur</th><th>Interprétation</th></tr>
+<tr><td>WMC = 28</td><td>&gt; 20 → trop complexe</td></tr>
+<tr><td>CBO = 12</td><td>&gt; 10 → couplage excessif</td></tr>
+<tr><td>LCOM = 5</td><td>&gt; 1 → faible cohésion</td></tr>
+</table></div>
+<p><b>Recommandations :</b> refactoriser pour réduire la complexité, découpler (interfaces, injection), revoir la cohésion (split si nécessaire), renforcer les tests et faire une revue de code.</p>
+
+<h2>Processus de développement (SDLC)</h2>
+<div class="wrap"><table>
+<tr><th>Activité</th><th>Question</th><th>Contenu</th></tr>
+<tr><td><b>Spécification</b></td><td>« Quoi ? »</td><td>Besoins fonctionnels + non fonctionnels, cahier des charges, user stories</td></tr>
+<tr><td><b>Développement</b></td><td>« Comment ? »</td><td>Conception + codage, architecture, code source</td></tr>
+<tr><td><b>Validation</b></td><td>« Est-ce bon ? »</td><td>Vérifier + tester, plans de test, démo client</td></tr>
+<tr><td><b>Évolution</b></td><td>« Comment faire évoluer ? »</td><td>Maintenance, correctifs, nouvelles versions</td></tr>
+</table></div>
+
+<h3>Vérification vs Validation</h3>
+<div class="wrap"><table>
+<tr><th></th><th>Question</th><th>Objet</th></tr>
+<tr><td><b>Vérification</b></td><td>« Construisons-nous le produit correctement ? »</td><td>Conformité aux spécifications</td></tr>
+<tr><td><b>Validation</b></td><td>« Construisons-nous le bon produit ? »</td><td>Satisfaction des besoins réels du client</td></tr>
+</table></div>
+
+<h3>Trois types de maintenance</h3>
+<div class="wrap"><table>
+<tr><th>Type</th><th>But</th><th>Exemple</th></tr>
+<tr><td>Corrective</td><td>Corriger des bugs</td><td>Fixer un calcul erroné</td></tr>
+<tr><td>Adaptative</td><td>S'adapter à un nouvel environnement</td><td>Java 8 → Java 17</td></tr>
+<tr><td><b>Perfective</b></td><td>Améliorer la qualité interne (sans changer le comportement)</td><td>Refactoriser, extraire une méthode</td></tr>
+</table></div>
+
+<h3>Modèles de processus</h3>
+<div class="wrap"><table>
+<tr><th>Modèle</th><th>Caractéristique</th></tr>
+<tr><td><b>Cascade</b> (Royce, 1970)</td><td>Séquentiel, piloté par plan, documentation exhaustive</td></tr>
+<tr><td><b>Incrémental</b></td><td>Construction par incréments fonctionnels, feedback client fréquent</td></tr>
+<tr><td><b>Intégration &amp; Configuration</b></td><td>Assemblage de composants existants (COTS, frameworks)</td></tr>
+</table></div>
+<p><b>Piloté par plan</b> vs <b>Agile</b> : le premier planifie tout à l'avance, le second adapte la planification à l'évolution des besoins.</p>
+
+<h3>SonarQube — lire un rapport</h3>
+<div class="wrap"><table>
+<tr><th>Indicateur</th><th>Lecture</th></tr>
+<tr><td>22 bugs (badge C)</td><td>Bugs <b>majeurs</b> (pas critiques)</td></tr>
+<tr><td>7 vulnérabilités (badge E)</td><td>Vulnérabilités <b>bloquantes</b> (critiques)</td></tr>
+<tr><td>90.5 % coverage</td><td>&gt; 90 % → bon (mais 9.5 % non couvert &gt; 7 %)</td></tr>
+<tr><td>13k unit tests</td><td>≈ 13 000 tests unitaires</td></tr>
+<tr><td>6.8 % duplications</td><td>&lt; 7 % → acceptable</td></tr>
+</table></div>
+<p>Badges : <b>A</b> = info, <b>B</b> = minor, <b>C</b> = major, <b>D</b> = critical, <b>E</b> = blocker.</p>
 </div>
 </section>
 
 <section id="fiche-mob" class="hid">
 <div class="card">
-<h2>Boutons Flutter</h2>
+<h2>Structure d'un projet Flutter</h2>
+<p>Un projet Flutter s'articule autour de fichiers <code>.dart</code>. Le point d'entrée est <code>main.dart</code> avec la fonction <code>main()</code> qui lance <code>runApp()</code>.</p>
+<pre>import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp()); // Lance l'application
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Mon App',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const MyHomePage(), // Page d'accueil
+    );
+  }
+}</pre>
+<p><b>MaterialApp</b> : enveloppe l'application (thème, routes, titre).<br>
+<b>Scaffold</b> : structure de base d'un écran (AppBar, body, FAB, drawer).</p>
+
+<h2>Les Boutons</h2>
 <div class="wrap"><table>
-<tr><th>Bouton</th><th>Usage</th></tr>
-<tr><td><code>ElevatedButton</code></td><td>Action principale (1/écran)</td></tr>
-<tr><td><code>OutlinedButton</code></td><td>Action importante secondaire</td></tr>
-<tr><td><code>TextButton</code></td><td>Action secondaire (sans fond)</td></tr>
-<tr><td><code>IconButton</code></td><td>Icône seule</td></tr>
-<tr><td><code>FloatingActionButton</code></td><td>Cercle flottant (1/écran)</td></tr>
+<tr><th>Bouton</th><th>Usage</th><th>Ancien nom</th></tr>
+<tr><td><code>ElevatedButton</code></td><td>Action principale (1 par écran)</td><td>RaisedButton</td></tr>
+<tr><td><code>OutlinedButton</code></td><td>Action importante secondaire</td><td>OutlineButton</td></tr>
+<tr><td><code>TextButton</code></td><td>Action tertiaire (sans fond)</td><td>FlatButton</td></tr>
+<tr><td><code>IconButton</code></td><td>Icône seule (compact)</td><td>—</td></tr>
+<tr><td><code>FloatingActionButton</code></td><td>Cercle flottant (1/écran)</td><td>—</td></tr>
 </table></div>
-<h2>TextField / TextFormField</h2>
-<p><code>TextFormField</code> dans un <code>Form</code> + <code>GlobalKey&lt;FormState&gt;</code> pour la validation. <code>TextEditingController</code> pour lire/vider. <code>keyboardType</code> adapte le clavier. <code>obscureText</code> masque.</p>
-<h2>Widgets / État</h2>
-<p><code>StatelessWidget</code> vs <code>StatefulWidget</code> (<code>setState(() {...})</code>).</p>
+<pre>ElevatedButton(
+  onPressed: () {},
+  child: Text("Cliquer"),
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.yellow,
+    foregroundColor: Colors.black,
+    shape: StadiumBorder(), // forme pilule
+    side: BorderSide(color: Colors.black, width: 2), // bordure
+  ),
+)</pre>
+
+<h2>TextFields et Formulaires</h2>
+<p><b>TextField</b> : saisie simple.<br><b>TextFormField</b> : dans un <code>Form</code>, permet la validation.</p>
+<pre>Form(
+  key: formKey, // GlobalKey<FormState>
+  child: Column(children: [
+    TextFormField(
+      controller: mailCtrl,
+      keyboardType: TextInputType.emailAddress,
+      validator: (val) {
+        if (val!.isEmpty) return "Champ requis";
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: 'Email',
+        prefixIcon: Icon(Icons.person),
+        border: OutlineInputBorder(),
+      ),
+    ),
+  ]),
+)</pre>
+<p><b>Validation :</b> <code>if (formKey.currentState!.validate()) { ... }</code>.</p>
+<p><b>Masquer un mot de passe :</b> <code>obscureText: true</code>.</p>
+<p><b>Lire/Vider :</b> utiliser un <code>TextEditingController</code> (<code>ctrl.text</code>, <code>ctrl.clear()</code>).</p>
+
+<h2>Widgets de mise en page</h2>
+<div class="wrap"><table>
+<tr><th>Widget</th><th>Rôle</th></tr>
+<tr><td><code>Center</code></td><td>Centre son enfant</td></tr>
+<tr><td><code>Padding</code></td><td>Espacement interne</td></tr>
+<tr><td><code>SizedBox</code></td><td>Espace fixe (<code>height: 10</code>, <code>width: 50</code>)</td></tr>
+<tr><td><code>Container</code></td><td>Boîte avec déco (couleur, bordure, marge)</td></tr>
+<tr><td><code>Row</code> / <code>Column</code></td><td>Alignement horizontal / vertical</td></tr>
+<tr><td><code>ClipOval</code></td><td>Découpe en cercle (image ronde)</td></tr>
+</table></div>
+
+<h2>Gestion de l'état (State)</h2>
+<div class="wrap"><table>
+<tr><th></th><th>StatelessWidget</th><th>StatefulWidget</th></tr>
+<tr><td>État</td><td>Immuable</td><td>Mutable</td></tr>
+<tr><td>Mise à jour</td><td>Non (rebuild auto)</td><td><code>setState(() { ... })</code></td></tr>
+<tr><td>Usage</td><td>Affichage simple</td><td>Compteur, formulaire, onglets</td></tr>
+</table></div>
+<pre>class Compteur extends StatefulWidget {
+  @override
+  State<Compteur> createState() => _CompteurState();
+}
+class _CompteurState extends State<Compteur> {
+  int n = 0;
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () => setState(() => n++),
+      child: Text('$n'),
+    );
+  }
+}</pre>
+<p><b>Règle :</b> toute modification d'une variable qui doit apparaître à l'écran passe par <code>setState()</code>.</p>
+
+<h2>Images et Assets</h2>
+<p>Pour utiliser une image locale, l'ajouter dans <code>pubspec.yaml</code> sous <code>flutter: assets:</code>.</p>
+<pre>ClipOval(
+  child: Image.asset(
+    "images/pizza.jpg",
+    width: 200, height: 200,
+    fit: BoxFit.cover, // remplit sans déformer
+  ),
+)</pre>
 </div>
 </section>
 
 <section id="fiche-res" class="hid">
 <div class="card">
-<h2>Formules</h2>
+<h2>Formules clés</h2>
 <div class="wrap"><table>
 <tr><th>Formule</th><th>Expression</th></tr>
-<tr><td>Capacité (Shannon)</td><td><code>C = W · log₂(1 + S/N)</code></td></tr>
-<tr><td>Nyquist</td><td><code>D_max = 2W · log₂(V)</code></td></tr>
-<tr><td>Rapidité de modulation</td><td><code>R = D / log₂(V)</code></td></tr>
+<tr><td>Capacité (Shannon)</td><td><code>C = W · log₂(1 + S/N)</code> (bits/s)</td></tr>
+<tr><td>Nyquist (débit max)</td><td><code>D_max = 2W · log₂(V)</code> (bits/s)</td></tr>
+<tr><td>Rapidité de modulation</td><td><code>R = D / log₂(V)</code> (bauds)</td></tr>
 <tr><td>Temps de transmission</td><td><code>T = Volume / Débit</code></td></tr>
 <tr><td>Échantillonnage</td><td><code>Fe ≥ 2 f_max</code> ; <code>N = T / Te</code></td></tr>
 <tr><td>Niveau dBm</td><td><code>P(dBm) = 10 log₁₀(P / 1mW)</code></td></tr>
-<tr><td>Puissance</td><td><code>P = V_eff² / R</code></td></tr>
-<tr><td>Antenne</td><td><code>L = c/(4f)</code></td></tr>
+<tr><td>Puissance (résistance)</td><td><code>P = V_eff² / R</code></td></tr>
+<tr><td>Longueur d'antenne</td><td><code>L = c / (4f)</code></td></tr>
 </table></div>
+<p><b>Unités :</b> 1 Mo (mégaoctet binaire) = 2²⁰ octets = 8 388 608 bits. 1 Mb (mégabit) = 10⁶ bits.<br>
+<b>dB :</b> atténuation mesurée en décibels. <b>S/N en dB</b> → <code>10^(dB/10)</code> pour revenir au rapport linéaire.</p>
+
 <h2>Codage en bande de base</h2>
-<p>NRZ (R=D), RZ (R=2D), Manchester (R=2D, DC nulle), bipolaire (3 niveaux), Miller (R=D).</p>
+<div class="wrap"><table>
+<tr><th>Code</th><th>Caractéristique</th><th>Rapidité R</th></tr>
+<tr><td><b>NRZ</b></td><td>Pas de retour à zéro (problème de synchro sur longues suites)</td><td>R = D</td></tr>
+<tr><td><b>RZ</b></td><td>Retour à zéro à chaque demi-période</td><td>R = 2D</td></tr>
+<tr><td><b>Manchester (biphasé)</b></td><td>Transition au milieu du bit, auto-synchronisant, DC nulle</td><td>R = 2D</td></tr>
+<tr><td><b>Manchester diff.</b></td><td>Basé sur les transitions (pas de polarité absolue)</td><td>R = 2D</td></tr>
+<tr><td><b>Bipolaire</b></td><td>3 niveaux (+V, 0, −V), alternance des impulsions</td><td>R = D</td></tr>
+<tr><td><b>Miller</b></td><td>Transition au milieu d'un 1 et entre deux 0</td><td>R = D</td></tr>
+</table></div>
+<pre>// Exemple Manchester avec Δ = 10⁻⁸ s (demi-bit)
+T_bit = 2Δ = 2×10⁻⁸ s
+D = 1 / T_bit = 50 Mb/s</pre>
+
 <h2>Modulation</h2>
-<p>AM (amplitude), FM (fréquence), PM (phase). Numériques : ASK, FSK, PSK.</p>
-<h2>Supports</h2>
-<p>Coaxial (50/75 Ω, 500 m), paire torsadée (100 Ω, 100 m), fibre (mono/multimode, ~250 km), espace libre (satellites).</p>
+<p><b>Pourquoi moduler ?</b> Réduire la taille de l'antenne : <code>L = λ/4 = c/(4f)</code>. En augmentant f, on réduit L.</p>
+<div class="wrap"><table>
+<tr><th>Type</th><th>Paramètre modifié</th><th>Exemple</th></tr>
+<tr><td><b>AM</b> (analogique)</td><td>Amplitude A</td><td>Radio AM</td></tr>
+<tr><td><b>FM</b> (analogique)</td><td>Fréquence (dans θ)</td><td>Radio FM</td></tr>
+<tr><td><b>PM</b> (analogique)</td><td>Phase (dans θ)</td><td>—</td></tr>
+<tr><td><b>ASK</b> (numérique)</td><td>Amplitude</td><td>—</td></tr>
+<tr><td><b>FSK</b> (numérique)</td><td>Fréquence</td><td>—</td></tr>
+<tr><td><b>PSK</b> (numérique)</td><td>Phase</td><td>Wi-Fi, Bluetooth</td></tr>
+</table></div>
+<p>Signal modulé : <code>x(t) = A cos(θ(t))</code>.</p>
+
+<h2>Supports de transmission</h2>
+<div class="wrap"><table>
+<tr><th>Support</th><th>Caractéristiques</th></tr>
+<tr><td><b>Câble coaxial</b></td><td>Impédance 50 ou 75 Ω ; distance max ~500 m sans ampli</td></tr>
+<tr><td><b>Paire torsadée</b></td><td>Impédance 100 Ω ; distance max ~100 m ; UTP / STP / FTP</td></tr>
+<tr><td><b>Fibre optique</b></td><td>Monomode (1 mode) / multimode (plusieurs) ; ré-amplification ~250 km</td></tr>
+<tr><td><b>Espace libre</b></td><td>Faisceaux hertziens, satellites</td></tr>
+</table></div>
+
+<h2>Chaîne de communication</h2>
+<pre>Source → Capteur → CAN → Codage bande de base
+   → Canal de transmission → Récepteur → Utilisation
+
+Numérisation son : Fe=8000 Hz × 8 bits = 64 kb/s
+ETCD = Equipement Terminal de Circuit de Données (ex: modem)</pre>
 </div>
 </section>
 
 <section id="fiche-ia" class="hid">
 <div class="card">
 <h2>Apprentissage non-supervisé</h2>
-<p>Données <b>ni classées, ni étiquetées</b>. L'algorithme découvre la structure seul. Exemples : clustering, détection d'anomalies, réduction de dimension.</p>
+<p>Données <b>ni classées, ni étiquetées</b>. L'algorithme découvre la structure seul (clustering, réduction de dimension, détection d'anomalies).</p>
+
 <h2>K-means : les 4 étapes</h2>
 <ol>
 <li><b>Initialiser</b> k centroïdes aléatoires</li>
@@ -651,15 +1164,18 @@ else                  { $m = "Non validé"; }</pre>
 <li><b>Mettre à jour</b> chaque centroïde = moyenne des points du cluster</li>
 <li><b>Répéter</b> jusqu'à convergence (centroïdes stables) ou max d'itérations</li>
 </ol>
-<h2>Inertie</h2>
+
+<h3>Inertie</h3>
 <p><code>Inertie = Σ ||xi − centroïde(xi)||²</code>. Mesure la compacité : plus faible = mieux.</p>
-<h2>Avantages / Inconvénients</h2>
+
+<h3>Avantages / Inconvénients</h3>
 <div class="wrap"><table>
 <tr><th>Avantages</th><th>Inconvénients</th></tr>
 <tr><td>Simple à implémenter</td><td>Sensible aux outliers</td></tr>
 <tr><td>Rapide (petits/moyens)</td><td>Nécessite de fixer k</td></tr>
 <tr><td>Bien sur données compactes</td><td>Minimum local (init.)</td></tr>
 </table></div>
+
 <h2>Variantes</h2>
 <ul>
 <li><b>K-medoids</b> : utilise la médiane (ou un point représentatif) au lieu de la moyenne → robuste aux outliers.</li>
@@ -667,19 +1183,22 @@ else                  { $m = "Non validé"; }</pre>
 <li><b>Mini-batch K-means</b> : sous-échantillons → rapide sur grands ensembles.</li>
 <li><b>DBSCAN</b> : clustering par densité, adapté aux formes complexes.</li>
 </ul>
-<h2>Méthode du coude (elbow)</h2>
+
+<h3>Méthode du coude (elbow)</h3>
 <ol>
 <li>Tester K-means pour k = 1, 2, 3…</li>
 <li>Calculer l'inertie pour chaque k</li>
 <li>Tracer k (x) vs inertie (y)</li>
 <li>Le <b>coude</b> = point où l'inertie chute beaucoup moins → k optimal</li>
 </ol>
-<h2>Applications</h2>
+
+<h3>Applications</h3>
 <p>Segmentation de marché, compression d'image, analyse de texte (docs similaires), détection d'anomalies.</p>
 
 <h2>Agents intelligents</h2>
 <h3>PEAS</h3>
 <p><b>P</b>erformance (critère de succès) · <b>E</b>nvironnement · <b>A</b>ctuateurs (actions) · <b>S</b>ensors (perceptions).</p>
+
 <h3>Caractériser un environnement</h3>
 <div class="wrap"><table>
 <tr><th>Axe</th><th>Valeurs</th></tr>
@@ -689,6 +1208,7 @@ else                  { $m = "Non validé"; }</pre>
 <tr><td>Évolution</td><td>Statique / dynamique</td></tr>
 <tr><td>Valeurs</td><td>Discret / continu</td></tr>
 </table></div>
+
 <h3>Types d'agents</h3>
 <ul>
 <li><b>Réflexe simple</b> : règle condition-action</li>
@@ -697,6 +1217,7 @@ else                  { $m = "Non validé"; }</pre>
 <li><b>Basé sur l'utilité</b> : pondère plusieurs critères</li>
 <li><b>Apprenant</b> : améliore ses performances par l'expérience</li>
 </ul>
+
 <h3>Agent rationnel ≠ omniscient</h3>
 <p><b>Rationnel</b> : maximise la performance attendue avec les infos disponibles. <b>Omniscient</b> : connaît l'état réel complet et toutes les conséquences (idéal inatteignable).</p>
 </div>
