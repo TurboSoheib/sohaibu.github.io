@@ -226,22 +226,331 @@ h2:first-child{margin-top:0}
 
 <section id="fiche-mongodb" class="hid">
 <div class="card">
-<h2>find()</h2>
-<p><code>find(query, projection, options)</code> — renvoie un <b>curseur</b>.</p>
+<h2>Shell mongosh : commandes de base</h2>
+<pre>show dbs              // liste des bases
+use maBase            // sélectionne (ou crée) une base
+show collections      // liste les collections
+db.maColl.drop()      // supprime la collection
+db.dropDatabase()     // supprime la base
+db.maColl.countDocuments({})  // nombre de documents
+db.maColl.stats()     // stats de la collection
+exit                  // quitter le shell</pre>
+
+<h2>CRUD — Create</h2>
+<pre>db.users.insertOne({ nom: "Amal", age: 25 })
+db.users.insertMany([
+  { nom: "Sara", age: 22 },
+  { nom: "Omar", age: 28 }
+])</pre>
+<p>Si <code>_id</code> n'est pas fourni, MongoDB en génère un <b>ObjectId</b> automatiquement (unique, basé sur le timestamp + machine + compteur).</p>
+
+<h2>CRUD — Read : find() et findOne()</h2>
+<div class="wrap"><table>
+<tr><th>Méthode</th><th>Retour</th></tr>
+<tr><td><code>find()</code></td><td><b>Curseur</b> vers les documents (à itérer)</td></tr>
+<tr><td><code>findOne()</code></td><td><b>Un seul document</b> (le premier correspondant)</td></tr>
+</table></div>
+<pre>db.Films.find()                        // tous les documents
+db.Films.find().count()                // nb de résultats
+db.Films.findOne({ titre: "Inception" })  // 1 seul doc
+db.Films.find().forEach(printjson)     // itérer un curseur</pre>
+
+<h2>Projection : choisir les champs</h2>
+<div class="wrap"><table>
+<tr><th>Syntaxe</th><th>Effet</th></tr>
+<tr><td><code>{ champ: 1 }</code></td><td><b>Inclusion</b> — ne renvoie que ce champ (+ <code>_id</code> par défaut)</td></tr>
+<tr><td><code>{ _id: 0 }</code></td><td><b>Exclusion</b> de <code>_id</code></td></tr>
+<tr><td><code>{ champ: 0 }</code></td><td>Exclusion d'un champ</td></tr>
+</table></div>
+<p>⚠ On ne peut pas mélanger inclusion et exclusion (sauf <code>_id</code>).</p>
+<pre>db.Films.find({}, { titre: 1, note: 1, _id: 0 })   // inclusion
+db.Films.find({}, { avis: 0 })                     // exclusion</pre>
+
+<h2>Tri, skip, limit</h2>
+<pre>db.Films.find().sort({ note: -1 })        // -1 = décroissant
+db.Films.find().sort({ annee: 1, note: -1 })  // multi-critères
+db.Films.find().sort({ age: 1 }).skip(10).limit(5)</pre>
+<p><b>Ordre d'application TOUJOURS :</b> <code>sort</code> → <code>skip</code> → <code>limit</code>, quel que soit l'ordre d'écriture.</p>
+
+<h2>Opérateurs de comparaison</h2>
 <div class="wrap"><table>
 <tr><th>Opérateur</th><th>Signification</th></tr>
 <tr><td><code>$eq</code> / <code>$ne</code></td><td>Égal / différent</td></tr>
-<tr><td><code>$gt</code> / <code>$gte</code> / <code>$lt</code> / <code>$lte</code></td><td>Comparaisons</td></tr>
+<tr><td><code>$gt</code> / <code>$gte</code></td><td>Supérieur (ou égal)</td></tr>
+<tr><td><code>$lt</code> / <code>$lte</code></td><td>Inférieur (ou égal)</td></tr>
 <tr><td><code>$in</code> / <code>$nin</code></td><td>Dans / hors d'un tableau</td></tr>
-<tr><td><code>$all</code> / <code>$size</code> / <code>$elemMatch</code></td><td>Tableaux</td></tr>
 </table></div>
-<p>Plusieurs champs = <b>ET implicite</b>. <code>$or</code> pour le OU. Notation pointée <code>"adresse.ville"</code> pour les sous-docs.</p>
-<h2>Mises à jour</h2>
-<p><code>$set</code>, <code>$inc</code>, <code>$unset</code>, <code>$rename</code>, <code>$push</code>, <code>$pull</code>, <code>$addToSet</code>. <code>$[elem]</code> + <code>arrayFilters</code> pour toutes les occurrences. <code>replaceOne</code> remplace tout (sauf <code>_id</code>).</p>
-<h2>Projection</h2>
-<p><code>$filter</code>, <code>$map</code>, <code>$reduce</code>, <code>$arrayElemAt</code>, <code>$slice</code>, <code>$size</code> — MongoDB 4.4+.</p>
-<h2>Modélisation</h2>
-<p><b>Embedding</b> = lecture optimisée (16 Mo max). <b>Referencing</b> = écriture optimisée. 3 niveaux d'embedding : simple / intermédiaire / avancé.</p>
+<pre>db.Films.find({ annee: { $gt: 2010 } })
+db.Films.find({ realisateur: { $in: ["Nolan", "Cameron"] } })</pre>
+
+<h2>Opérateurs logiques</h2>
+<div class="wrap"><table>
+<tr><th>Opérateur</th><th>Effet</th></tr>
+<tr><td><code>$and</code></td><td>Toutes les conditions vraies (implicite si même objet)</td></tr>
+<tr><td><code>$or</code></td><td>Au moins une vraie</td></tr>
+<tr><td><code>$not</code></td><td>Inverse une condition</td></tr>
+<tr><td><code>$nor</code></td><td>Aucune condition vraie</td></tr>
+</table></div>
+<pre>db.Films.find({ titre: "Inception", annee: 2010 })       // AND implicite
+db.Films.find({ $or: [
+  { realisateur: "Christopher Nolan" },
+  { genre: "Science-fiction" }
+] })</pre>
+
+<h2>Opérateurs sur les tableaux</h2>
+<div class="wrap"><table>
+<tr><th>Opérateur</th><th>Effet</th></tr>
+<tr><td><code>$all</code></td><td>Le tableau contient <b>toutes</b> les valeurs listées</td></tr>
+<tr><td><code>$size</code></td><td>Le tableau a <b>exactement</b> N éléments</td></tr>
+<tr><td><code>$elemMatch</code></td><td><b>Un même élément</b> respecte plusieurs conditions</td></tr>
+</table></div>
+<pre>db.Etudiants.find({ "examens.matiere": { $all: ["BD", "Réseaux"] } })
+db.Etudiants.find({ examens: { $size: 3 } })
+db.Etudiants.find({ examens: { $elemMatch: { note: { $gte: 14 }, bonus: 1 } } })</pre>
+
+<h2>Opérateurs d'existence et de type</h2>
+<div class="wrap"><table>
+<tr><th>Opérateur</th><th>Effet</th></tr>
+<tr><td><code>$exists</code></td><td>Le champ existe (même si valeur 0 ou null)</td></tr>
+<tr><td><code>$type</code></td><td>Le champ est d'un type donné (<code>"string"</code>, <code>"int"</code>…)</td></tr>
+</table></div>
+<pre>db.Etudiants.find({ "scolarite.absences": { $exists: true } })
+db.Etudiants.find({ age: { $type: "int" } })</pre>
+
+<h2>Sous-documents : notation pointée</h2>
+<pre>db.Etudiants.find({ "adresse.ville": "Agadir" })</pre>
+<p>⚠ <code>{ adresse: { ville: "Agadir" } }</code> exige une correspondance <b>exacte</b> du sous-document entier (tous ses champs, dans le même ordre).</p>
+
+<h2>Expressions régulières</h2>
+<div class="wrap"><table>
+<tr><th>Motif</th><th>Effet</th></tr>
+<tr><td><code>/star/i</code></td><td>Contient « star », insensible casse</td></tr>
+<tr><td><code>/^In/</code></td><td>Commence par « In »</td></tr>
+<tr><td><code>/ar$/</code></td><td>Finit par « ar »</td></tr>
+<tr><td><code>/a.a/</code></td><td>a + 1 caractère + a</td></tr>
+<tr><td><code>/colou?r/</code></td><td>color ou colour</td></tr>
+</table></div>
+<pre>db.Films.find({ $and: [
+  { annee: { $gt: 2000 } },
+  { titre: /ar/i }
+] })</pre>
+<p>Alternative explicite : <code>{ titre: { $regex: "ar", $options: "i" } }</code>.</p>
+
+<h2>Recherche full-text ($text)</h2>
+<pre>// 1. Créer un index texte
+db.Articles.createIndex({ contenu: "text", titre: "text" })
+
+// 2. Rechercher
+db.Articles.find({ $text: { $search: "mongodb cluster" } })
+db.Articles.find({ $text: { $search: "\"exact phrase\"" } })</pre>
+
+<h2>CRUD — Update</h2>
+<div class="wrap"><table>
+<tr><th>Méthode</th><th>Effet</th></tr>
+<tr><td><code>updateOne(filter, update)</code></td><td>Modifie <b>1</b> document</td></tr>
+<tr><td><code>updateMany(filter, update)</code></td><td>Modifie <b>tous</b> les documents correspondants</td></tr>
+<tr><td><code>replaceOne(filter, doc)</code></td><td><b>Remplace entièrement</b> le document (sauf <code>_id</code>)</td></tr>
+</table></div>
+<p>⚠ <code>replaceOne</code> : aucun opérateur (<code>$set</code>, <code>$inc</code>…) autorisé. Tous les champs à garder doivent être réécrits.</p>
+
+<h3>Opérateurs de mise à jour</h3>
+<div class="wrap"><table>
+<tr><th>Opérateur</th><th>Rôle</th><th>arrayFilters</th></tr>
+<tr><td><code>$set</code></td><td>Modifier ou ajouter un champ</td><td>Oui</td></tr>
+<tr><td><code>$unset</code></td><td>Supprimer un champ</td><td>Oui</td></tr>
+<tr><td><code>$inc</code></td><td>Incrémenter (crée si absent)</td><td>Oui</td></tr>
+<tr><td><code>$mul</code></td><td>Multiplier</td><td>Oui</td></tr>
+<tr><td><code>$min</code> / <code>$max</code></td><td>Met à jour seulement si la nouvelle valeur est plus petite / grande</td><td>Oui</td></tr>
+<tr><td><code>$rename</code></td><td>Renommer un champ</td><td>Non</td></tr>
+<tr><td><code>$currentDate</code></td><td>Met la date courante</td><td>Oui</td></tr>
+<tr><td><code>$push</code></td><td>Ajouter à la fin d'un tableau</td><td>—</td></tr>
+<tr><td><code>$addToSet</code></td><td>Ajouter sans doublon</td><td>—</td></tr>
+<tr><td><code>$pop</code></td><td>Retirer le premier (−1) ou dernier (1) élément</td><td>—</td></tr>
+<tr><td><code>$pull</code></td><td>Retirer tous les éléments correspondants</td><td>—</td></tr>
+<tr><td><code>$pullAll</code></td><td>Retirer toutes les valeurs d'une liste</td><td>—</td></tr>
+</table></div>
+
+<h3>Exemples</h3>
+<pre>// $set
+db.produits.updateOne(
+  { nom: "Souris Gamer" },
+  { $set: { prix: 350 } }
+)
+
+// $inc — crée le champ s'il n'existe pas
+db.joueurs.updateMany(
+  { club: "PSG" },
+  { $inc: { "performance.minutes_jouees": 100 } }
+)
+
+// $unset — la valeur est ignorée
+db.joueurs.updateMany(
+  { club: "Al-Hilal" },
+  { $unset: { "performance.minutes_jouees": "" } }
+)
+
+// $rename — tous les documents
+db.joueurs.updateMany({}, { $rename: { nationalite: "pays" } })
+
+// $push — ajouter un objet à un tableau
+db.joueurs.updateOne(
+  { nom: "Haaland" },
+  { $push: { matchs: { adversaire: "Tottenham", note: 8.4 } } }
+)
+
+// $pull — retirer tous les éléments correspondants
+db.joueurs.updateOne(
+  { nom: "Mbappé" },
+  { $pull: { matchs: { adversaire: "Lens" } } }
+)</pre>
+
+<h3>Modifier un tableau : $ / $[elem] / arrayFilters</h3>
+<div class="wrap"><table>
+<tr><th>Outil</th><th>Portée</th></tr>
+<tr><td><code>$</code> (positionnel)</td><td><b>1ʳᵉ</b> occurrence correspondante</td></tr>
+<tr><td><code>$[elem]</code> + <code>arrayFilters</code></td><td><b>Toutes</b> les occurrences qui respectent la condition</td></tr>
+<tr><td><code>$[]</code> (all positional)</td><td><b>Toutes</b> les occurrences (sans filtre)</td></tr>
+</table></div>
+<pre>// $ : seulement la première
+db.joueurs.updateOne(
+  { nom: "Hakimi", "matchs.adversaire": "Marseille" },
+  { $set: { "matchs.$.note": 9.0 } }
+)
+
+// $[elem] + arrayFilters : toutes les correspondances
+db.joueurs.updateOne(
+  { nom: "Hakimi" },
+  { $set: { "matchs.$[m].note": 9.0 } },
+  { arrayFilters: [ { "m.adversaire": "Marseille" } ] }
+)
+
+// $inc sur toutes les occurrences avec bonus >= 1
+db.etudiants.updateMany(
+  {},
+  { $inc: { "examens.$[e].note": 0.5 } },
+  { arrayFilters: [ { "e.bonus": { $gte: 1 } } ] }
+)</pre>
+
+<h2>CRUD — Delete</h2>
+<div class="wrap"><table>
+<tr><th>Méthode</th><th>Effet</th></tr>
+<tr><td><code>deleteOne(filter)</code></td><td>Supprime <b>1</b> document</td></tr>
+<tr><td><code>deleteMany(filter)</code></td><td>Supprime <b>tous</b> les documents correspondants</td></tr>
+<tr><td><code>deleteMany({})</code></td><td>Vide la collection</td></tr>
+</table></div>
+<pre>db.produits.deleteOne({ nom: "Souris" })
+db.produits.deleteMany({ categorie: "Accessoire" })
+db.produits.deleteMany({})</pre>
+
+<h2>Projection : opérateurs de tableau</h2>
+<div class="wrap"><table>
+<tr><th>Opérateur</th><th>Rôle</th></tr>
+<tr><td><code>$filter</code></td><td>Garder les éléments qui respectent <code>cond</code></td></tr>
+<tr><td><code>$map</code></td><td>Transformer chaque élément</td></tr>
+<tr><td><code>$reduce</code></td><td>Réduire le tableau à une valeur (somme, concat…)</td></tr>
+<tr><td><code>$arrayElemAt</code></td><td>Élément à un index</td></tr>
+<tr><td><code>$slice</code></td><td>N premiers éléments</td></tr>
+<tr><td><code>$size</code></td><td>Taille</td></tr>
+<tr><td><code>$concatArrays</code></td><td>Concaténer deux tableaux</td></tr>
+</table></div>
+<p><b>Version minimale :</b> MongoDB 4.4+. Avant, il faut passer par <code>aggregate()</code> + <code>$project</code>.</p>
+<pre>// $filter + $map : extraire un champ des éléments filtrés
+db.joueurs.find({}, { _id: 0, nom: 1,
+  adversaires_note_8: { $map: {
+    input: { $filter: { input: "$matchs", as: "m",
+      cond: { $gte: ["$$m.note", 8] } } },
+    as: "x", in: "$$x.adversaire" } } })
+
+// $filter + $arrayElemAt : premier élément filtré
+db.joueurs.find({}, { _id: 0, nom: 1,
+  premier: { $arrayElemAt: [
+    { $filter: { input: "$matchs", as: "m",
+      cond: { $gte: ["$$m.note", 8] } } }, 0 ] } })</pre>
+<p><b>Notation :</b> <code>$$m</code> = variable d'alias (<code>as</code>), <code>$matchs</code> = champ.</p>
+
+<h2>Pipeline d'agrégation</h2>
+<pre>db.commandes.aggregate([
+  { $match:   { statut: "payée" } },          // filtre
+  { $group:   { _id: "$client", total: { $sum: "$montant" } } },  // regroupe
+  { $sort:    { total: -1 } },                // tri
+  { $limit:   10 },                            // top 10
+  { $project: { _id: 0, client: "$_id", total: 1 } }  // projection
+])</pre>
+<div class="wrap"><table>
+<tr><th>Étape</th><th>Rôle</th></tr>
+<tr><td><code>$match</code></td><td>Filtrer (comme <code>find</code>)</td></tr>
+<tr><td><code>$group</code></td><td>Regrouper + calculer (<code>$sum</code>, <code>$avg</code>, <code>$min</code>, <code>$max</code>, <code>$push</code>…)</td></tr>
+<tr><td><code>$project</code></td><td>Choisir / transformer les champs</td></tr>
+<tr><td><code>$sort</code> / <code>$skip</code> / <code>$limit</code></td><td>Tri, pagination</td></tr>
+<tr><td><code>$lookup</code></td><td>Jointure avec une autre collection</td></tr>
+<tr><td><code>$unwind</code></td><td>Déplier un tableau en documents</td></tr>
+<tr><td><code>$count</code></td><td>Compter</td></tr>
+</table></div>
+
+<h3>$lookup (jointure)</h3>
+<pre>db.commandes.aggregate([
+  { $lookup: {
+    from: "clients",            // collection à joindre
+    localField: "client_id",    // champ local
+    foreignField: "_id",        // champ étranger
+    as: "client"                // nom du tableau résultat
+  }}
+])</pre>
+
+<h2>Embedding ou referencing ?</h2>
+<p><b>Embedding = lecture optimisée. Referencing = écriture optimisée.</b></p>
+<div class="wrap"><table>
+<tr><th></th><th>Embedding</th><th>Referencing</th></tr>
+<tr><td>Avantages</td><td>Lecture rapide, cohérence, pas de jointure</td><td>Pas de duplication, mises à jour simples</td></tr>
+<tr><td>Inconvénients</td><td>Doc plus gros (16 Mo max), duplication, MAJ lourdes</td><td>Plusieurs requêtes ou <code>$lookup</code></td></tr>
+<tr><td>Quand</td><td>Un-à-peu, données lues ensemble</td><td>Un-à-plusieurs, plusieurs-à-plusieurs</td></tr>
+</table></div>
+
+<h3>Trois niveaux d'embedding</h3>
+<ul>
+<li><b>Simple</b> : petit sous-document imbriqué directement.</li>
+<li><b>Intermédiaire</b> : tableau de sous-documents (un-à-plusieurs).</li>
+<li><b>Avancé</b> : documents profondément imbriqués → opérateurs <code>$filter</code>, <code>$map</code>, <code>$reduce</code>, <code>$size</code>, <code>$slice</code>, <code>$arrayElemAt</code>.</li>
+</ul>
+
+<h2>Types de données</h2>
+<div class="wrap"><table>
+<tr><th>Type</th><th>Exemple</th></tr>
+<tr><td>String</td><td><code>"texte"</code></td></tr>
+<tr><td>Int / Long / Double</td><td><code>42</code>, <code>NumberLong("42")</code>, <code>3.14</code></td></tr>
+<tr><td>Boolean</td><td><code>true</code> / <code>false</code></td></tr>
+<tr><td>Date</td><td><code>ISODate("2026-11-20")</code></td></tr>
+<tr><td>ObjectId</td><td><code>ObjectId("...")</code> — généré par MongoDB</td></tr>
+<tr><td>Array</td><td><code>[1, 2, "trois"]</code></td></tr>
+<tr><td>Embedded document</td><td><code>{ nom: "Amal", age: 25 }</code></td></tr>
+<tr><td>Null</td><td><code>null</code></td></tr>
+</table></div>
+
+<h2>Index</h2>
+<pre>// Créer un index (accélère les requêtes)
+db.users.createIndex({ email: 1 })       // croissant
+db.users.createIndex({ nom: 1, age: -1 }) // composé
+db.users.createIndex({ email: 1 }, { unique: true })
+db.users.createIndex({ contenu: "text" }) // full-text
+
+// Voir / supprimer
+db.users.getIndexes()
+db.users.dropIndex({ email: 1 })</pre>
+<p><b>Règle :</b> un index rend les lectures plus rapides mais les écritures plus lentes (il faut maintenir l'index). À créer sur les champs souvent filtrés / triés.</p>
+
+<h2>Pièges classiques</h2>
+<ul>
+<li><b>Sous-document :</b> toujours la notation pointée <code>"adresse.ville"</code>.</li>
+<li><b>Deux conditions sur le même élément :</b> <code>$elemMatch</code> (sinon deux éléments différents peuvent satisfaire chacun une condition).</li>
+<li><b><code>$all</code> :</b> sur le champ de l'élément (<code>"examens.matiere"</code>), pas sur le tableau entier.</li>
+<li><b><code>$pull</code> :</b> retire TOUS les éléments correspondants.</li>
+<li><b><code>replaceOne</code> :</b> aucun opérateur, tous les champs à garder réécrits, <code>_id</code> conservé.</li>
+<li><b>Ordre d'application :</b> <code>sort</code> → <code>skip</code> → <code>limit</code>, toujours.</li>
+<li><b>Projection :</b> <code>$filter</code>, <code>$map</code>, <code>$slice</code>, <code>$arrayElemAt</code> dans <code>find()</code> demandent MongoDB 4.4+.</li>
+<li><b><code>$arrayElemAt</code> sur tableau vide :</b> champ absent du résultat (pas une erreur).</li>
+<li><b>Flottants :</b> <code>9.1 + 0.2</code> peut s'afficher <code>9.299999999999999</code>. C'est normal.</li>
+<li><b>Index :</b> ne pas abuser — chaque index ralentit les écritures.</li>
+</ul>
 </div>
 </section>
 
