@@ -9,7 +9,7 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 </script>
-<title>Réviser — 5 matières</title>
+<title>Réviser — 6 matières</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=JetBrains+Mono:wght@400;600&family=Source+Sans+3:wght@400;600&display=swap">
 <style>
 :root{--bg:#f3f6f1;--surface:#fff;--ink:#14231c;--mute:#5a6b61;--line:#d5ddd5;
@@ -23,6 +23,8 @@
   --accent:#0277bd;--accent-soft:#e1f5fe;--bad:#a8321f;--bad-soft:#f8e1dc;--code:#e3f2fd}
 :root[data-subject="res"]{--bg:#eef7f6;--surface:#fff;--ink:#062f33;--mute:#4a6b6e;--line:#c8e0de;
   --accent:#00838f;--accent-soft:#e0f7fa;--bad:#a8321f;--bad-soft:#f8e1dc;--code:#e0f2f1}
+:root[data-subject="ia"]{--bg:#fdf2f8;--surface:#fff;--ink:#2a0a1e;--mute:#6b5a63;--line:#f4d4e4;
+  --accent:#be123c;--accent-soft:#ffe4e6;--bad:#a8321f;--bad-soft:#f8e1dc;--code:#fce7f3}
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){--bg:#101a15;--surface:#18261f;--ink:#e6efe8;--mute:#9bb0a3;--line:#2c3d34;
     --accent:#4fd08a;--accent-soft:#1d3a2b;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#22332a}
@@ -34,6 +36,8 @@
     --accent:#4fc3f7;--accent-soft:#0d3a4d;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#1a2f3f}
   :root:not([data-theme="light"])[data-subject="res"]{--bg:#0a1e20;--surface:#112c2f;--ink:#dff5f3;--mute:#80a9ac;--line:#1e3d40;
     --accent:#4dd0e1;--accent-soft:#0d3a3f;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#0e2a2e}
+  :root:not([data-theme="light"])[data-subject="ia"]{--bg:#1a0a12;--surface:#2a1522;--ink:#f8e4ee;--mute:#a88b9b;--line:#3d2838;
+    --accent:#fb7185;--accent-soft:#4c0519;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#2d1828}
 }
 :root[data-theme="dark"]{--bg:#101a15;--surface:#18261f;--ink:#e6efe8;--mute:#9bb0a3;--line:#2c3d34;
   --accent:#4fd08a;--accent-soft:#1d3a2b;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#22332a}
@@ -45,6 +49,8 @@
   --accent:#4fc3f7;--accent-soft:#0d3a4d;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#1a2f3f}
 :root[data-theme="dark"][data-subject="res"]{--bg:#0a1e20;--surface:#112c2f;--ink:#dff5f3;--mute:#80a9ac;--line:#1e3d40;
   --accent:#4dd0e1;--accent-soft:#0d3a3f;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#0e2a2e}
+:root[data-theme="dark"][data-subject="ia"]{--bg:#1a0a12;--surface:#2a1522;--ink:#f8e4ee;--mute:#a88b9b;--line:#3d2838;
+  --accent:#fb7185;--accent-soft:#4c0519;--bad:#ff8f7a;--bad-soft:#3a1f1a;--code:#2d1828}
 
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
@@ -56,7 +62,6 @@ h3{font:600 1.05rem "Bricolage Grotesque",system-ui,sans-serif;margin:14px 0 6px
 code{font:.88em "JetBrains Mono",ui-monospace,monospace;background:var(--code);padding:.1em .35em;border-radius:4px}
 pre{font:.83rem/1.5 "JetBrains Mono",ui-monospace,monospace;background:var(--code);padding:12px;border-radius:6px;overflow-x:auto;margin:10px 0 0;white-space:pre}
 
-/* Topbar */
 .topbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;
   background:var(--accent-soft);color:var(--accent);
@@ -65,20 +70,6 @@ pre{font:.83rem/1.5 "JetBrains Mono",ui-monospace,monospace;background:var(--cod
 .chip:hover{background:var(--accent);color:var(--bg)}
 .chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
-/* Bandeau beta */
-.beta{display:flex;gap:10px;align-items:flex-start;background:var(--accent-soft);border:1px solid var(--line);
-  border-left:4px solid var(--accent);border-radius:8px;padding:10px 12px;margin:0 0 16px;
-  font-size:.9rem;line-height:1.45;color:var(--ink)}
-.beta .beta-ico{font-size:1.1rem;line-height:1.2}
-.beta .beta-txt{flex:1}
-.beta a{color:var(--accent);font-weight:700;text-decoration:none;white-space:nowrap}
-.beta a:hover{text-decoration:underline}
-.beta .beta-close{background:none;border:0;color:var(--mute);cursor:pointer;
-  font:700 1.1rem/1 sans-serif;padding:0 2px;align-self:flex-start}
-.beta .beta-close:hover{color:var(--accent)}
-.beta.hid{display:none}
-
-/* Modal updates */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;
   align-items:center;justify-content:center;z-index:1000;padding:16px;overflow-y:auto}
 .modal-overlay.hid{display:none}
@@ -93,11 +84,12 @@ pre{font:.83rem/1.5 "JetBrains Mono",ui-monospace,monospace;background:var(--cod
 .modal ul{margin:8px 0 16px;padding-left:22px}
 .modal li{margin-bottom:8px;font-size:.94rem;line-height:1.5}
 .modal .btn{margin-top:4px}
+.modal .beta-note{margin:12px 0 0;padding:10px 12px;background:var(--accent-soft);border-left:3px solid var(--accent);
+  border-radius:0 6px 6px 0;font-size:.88rem;line-height:1.45}
 
-/* Subjects + modes */
 .subjects{display:flex;gap:4px;background:var(--line);padding:4px;border-radius:12px;margin:0 0 16px;flex-wrap:wrap}
-.subjects button{flex:1;min-width:70px;padding:10px 4px;border:0;border-radius:9px;background:transparent;color:var(--mute);
-  font:700 .78rem "Bricolage Grotesque",sans-serif;cursor:pointer;transition:all .15s;white-space:normal;line-height:1.15}
+.subjects button{flex:1;min-width:60px;padding:10px 4px;border:0;border-radius:9px;background:transparent;color:var(--mute);
+  font:700 .74rem "Bricolage Grotesque",sans-serif;cursor:pointer;transition:all .15s;white-space:normal;line-height:1.15}
 .subjects button[aria-selected="true"]{background:var(--accent);color:var(--bg)}
 .subjects button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
@@ -141,7 +133,6 @@ h2:first-child{margin-top:0}
 .exo-sol{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 14px;border-radius:0 6px 6px 0;margin-top:14px}
 .exo-sol h4{margin:0 0 8px;font:700 1rem "Bricolage Grotesque",sans-serif;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
 
-/* Exam */
 .exam-part{margin:14px 0;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--surface)}
 .exam-part summary{cursor:pointer;font:700 1.05rem "Bricolage Grotesque",sans-serif;
   color:var(--accent);list-style:none;padding:4px 0;display:flex;align-items:center;gap:6px}
@@ -154,6 +145,28 @@ h2:first-child{margin-top:0}
 .exam-corr h4{margin:0 0 8px;font:700 .95rem "Bricolage Grotesque",sans-serif;color:var(--accent);text-transform:uppercase;letter-spacing:.03em}
 .exam-corr ol{padding-left:22px;margin:0}
 .exam-corr li{margin-bottom:8px;line-height:1.5}
+/* Style pour le chip actif dans la topbar (comme les onglets) */
+.chip[aria-selected="true"]{
+  background:var(--accent);
+  color:var(--bg);
+  border-color:var(--accent);
+}
+
+/* Planning / Emploi du temps */
+.plan-legend{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 18px;font-size:.88rem;color:var(--mute)}
+.plan-legend span{display:inline-flex;align-items:center;gap:6px}
+.plan-legend i{width:14px;height:14px;border-radius:3px;display:inline-block;border:2px solid}
+.plan-day{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.plan-day h4{font:700 1.05rem "Bricolage Grotesque",sans-serif;margin:0 0 12px;color:var(--accent)}
+.plan-exam{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:8px;margin-bottom:8px;border-left:4px solid}
+.plan-exam:last-child{margin-bottom:0}
+.plan-exam .time{font:600 .86rem "JetBrains Mono",monospace;white-space:nowrap;min-width:110px;color:var(--mute)}
+.plan-exam .info{flex:1}
+.plan-exam .name{font-weight:600;display:block;margin-bottom:2px}
+.plan-exam .type{font-size:.82rem;color:var(--mute)}
+.plan-exam.ecrit{background:var(--bad-soft);border-color:var(--bad)}
+.plan-exam.moodle{background:var(--accent-soft);border-color:var(--accent)}
+.plan-exam.oral{background:var(--code);border-color:var(--mute)}
 </style>
 </head>
 <body>
@@ -161,16 +174,12 @@ h2:first-child{margin-top:0}
 <div class="topbar">
   <button class="chip" id="updatesBtn" type="button">📋 Mises à jour</button>
   <a class="chip" href="https://instagram.com/lawtati_" target="_blank" rel="noopener">📷 @lawtati_</a>
+  <a class="chip" href="https://wa.me/212780119465" target="_blank" rel="noopener">💬 WhatsApp</a>
+  <button class="chip" id="planningBtn" type="button" data-mode="planning">📅 Planning</button>
 </div>
 
 <h1>Réviser</h1>
 <p class="sub" id="subtitle">NoSQL : lecture, mises à jour, modélisation.</p>
-
-<div class="beta" id="betaBar">
-  <span class="beta-ico">🚧</span>
-  <span class="beta-txt">site en beta pas parfait, si vous rencontrez des bugs ou que vous avez des suggestions de truc a rajouter envoyez moi un msg sur whatsapp :P <a href="https://wa.me/212780119465" target="_blank" rel="noopener">+212780119465</a></span>
-  <button class="beta-close" id="betaClose" aria-label="Fermer le bandeau" title="Fermer">✕</button>
-</div>
 
 <div class="subjects" role="tablist" aria-label="Matière">
   <button data-subject="mongodb" aria-selected="true">MongoDB</button>
@@ -178,6 +187,7 @@ h2:first-child{margin-top:0}
   <button data-subject="ql" aria-selected="false">Qualité</button>
   <button data-subject="mob" aria-selected="false">Mobile</button>
   <button data-subject="res" aria-selected="false">Réseaux</button>
+  <button data-subject="ia" aria-selected="false">IA</button>
 </div>
 
 <nav class="modes" role="tablist" aria-label="Mode">
@@ -209,11 +219,11 @@ h2:first-child{margin-top:0}
   <div class="row" style="margin-top:14px"><button class="btn alt" id="eprev">Précédent</button><button class="btn alt" id="enext">Suivant</button><span class="meta" id="ecnt"></span></div>
 </section>
 
-<section id="exam" class="hid">
-  <div class="card" id="examcard"></div>
+<section id="exam" class="hid"><div class="card" id="examcard"></div></section>
+<section id="planning" class="hid">
+  <div class="card" id="plancard"></div>
 </section>
 
-<!-- FICHE MONGODB -->
 <section id="fiche-mongodb" class="hid">
 <div class="card">
 <h2>find()</h2>
@@ -235,7 +245,6 @@ h2:first-child{margin-top:0}
 </div>
 </section>
 
-<!-- FICHE PHP -->
 <section id="fiche-php" class="hid">
 <div class="card">
 <h2>Opérateurs PHP</h2>
@@ -259,7 +268,6 @@ else                  { $m = "Non validé"; }</pre>
 </div>
 </section>
 
-<!-- FICHE QUALITÉ -->
 <section id="fiche-ql" class="hid">
 <div class="card">
 <h2>Fondamentaux</h2>
@@ -275,35 +283,31 @@ else                  { $m = "Non validé"; }</pre>
 <tr><td><code>LCOM</code></td><td>P − Q ; ≤1 forte cohésion, &gt;1 faible</td></tr>
 </table></div>
 <h2>SDLC</h2>
-<p><b>Spécification</b> (Quoi ?) · <b>Développement</b> (Comment ?) · <b>Validation</b> (Est-ce bon ?) · <b>Évolution</b> (Comment évoluer ?).</p>
-<p><b>Vérification</b> = conforme aux specs. <b>Validation</b> = satisfait le client.</p>
-<p><b>Maintenances</b> : corrective / adaptative / perfective.</p>
-<p><b>Modèles</b> : cascade (séquentiel) · incrémental · intégration &amp; configuration. <b>Piloté par plan</b> vs <b>agile</b>.</p>
+<p><b>Spécification</b> · <b>Développement</b> · <b>Validation</b> · <b>Évolution</b>. <b>Vérification</b> = specs, <b>Validation</b> = client.</p>
+<p><b>Maintenances</b> : corrective / adaptative / perfective. <b>Modèles</b> : cascade, incrémental, intégration &amp; config.</p>
 <h2>SonarQube</h2>
-<p>Badges : A=info, B=minor, C=major, D=critical, E=blocker. Lire bugs, vulnérabilités, couverture, duplications.</p>
+<p>Badges : A=info, B=minor, C=major, D=critical, E=blocker.</p>
 </div>
 </section>
 
-<!-- FICHE MOBILE -->
 <section id="fiche-mob" class="hid">
 <div class="card">
 <h2>Boutons Flutter</h2>
 <div class="wrap"><table>
 <tr><th>Bouton</th><th>Usage</th></tr>
 <tr><td><code>ElevatedButton</code></td><td>Action principale (1/écran)</td></tr>
-<tr><td><code>OutlinedButton</code></td><td>Action importante mais secondaire</td></tr>
+<tr><td><code>OutlinedButton</code></td><td>Action importante secondaire</td></tr>
 <tr><td><code>TextButton</code></td><td>Action secondaire (sans fond)</td></tr>
-<tr><td><code>IconButton</code></td><td>Icône seule (compact)</td></tr>
-<tr><td><code>FloatingActionButton</code></td><td>Cercle flottant, 1/écran</td></tr>
+<tr><td><code>IconButton</code></td><td>Icône seule</td></tr>
+<tr><td><code>FloatingActionButton</code></td><td>Cercle flottant (1/écran)</td></tr>
 </table></div>
 <h2>TextField / TextFormField</h2>
-<p><code>TextFormField</code> dans un <code>Form</code> + <code>GlobalKey&lt;FormState&gt;</code> pour la validation. <code>TextEditingController</code> pour lire/vider. <code>keyboardType</code> adapte le clavier. <code>obscureText</code> masque le mot de passe.</p>
+<p><code>TextFormField</code> dans un <code>Form</code> + <code>GlobalKey&lt;FormState&gt;</code> pour la validation. <code>TextEditingController</code> pour lire/vider. <code>keyboardType</code> adapte le clavier. <code>obscureText</code> masque.</p>
 <h2>Widgets / État</h2>
-<p><code>StatelessWidget</code> (immuable) vs <code>StatefulWidget</code> (mutable, <code>setState(() {...})</code>).</p>
+<p><code>StatelessWidget</code> vs <code>StatefulWidget</code> (<code>setState(() {...})</code>).</p>
 </div>
 </section>
 
-<!-- FICHE RÉSEAUX -->
 <section id="fiche-res" class="hid">
 <div class="card">
 <h2>Formules</h2>
@@ -311,7 +315,7 @@ else                  { $m = "Non validé"; }</pre>
 <tr><th>Formule</th><th>Expression</th></tr>
 <tr><td>Capacité (Shannon)</td><td><code>C = W · log₂(1 + S/N)</code></td></tr>
 <tr><td>Nyquist</td><td><code>D_max = 2W · log₂(V)</code></td></tr>
-<tr><td>Rapidité de modulation</td><td><code>R = D / log₂(V)</code> (bauds)</td></tr>
+<tr><td>Rapidité de modulation</td><td><code>R = D / log₂(V)</code></td></tr>
 <tr><td>Temps de transmission</td><td><code>T = Volume / Débit</code></td></tr>
 <tr><td>Échantillonnage</td><td><code>Fe ≥ 2 f_max</code> ; <code>N = T / Te</code></td></tr>
 <tr><td>Niveau dBm</td><td><code>P(dBm) = 10 log₁₀(P / 1mW)</code></td></tr>
@@ -326,23 +330,86 @@ else                  { $m = "Non validé"; }</pre>
 <p>Coaxial (50/75 Ω, 500 m), paire torsadée (100 Ω, 100 m), fibre (mono/multimode, ~250 km), espace libre (satellites).</p>
 </div>
 </section>
+
+<section id="fiche-ia" class="hid">
+<div class="card">
+<h2>Apprentissage non-supervisé</h2>
+<p>Données <b>ni classées, ni étiquetées</b>. L'algorithme découvre la structure seul. Exemples : clustering, détection d'anomalies, réduction de dimension.</p>
+<h2>K-means : les 4 étapes</h2>
+<ol>
+<li><b>Initialiser</b> k centroïdes aléatoires</li>
+<li><b>Assigner</b> chaque point au centroïde le plus proche (distance euclidienne en général)</li>
+<li><b>Mettre à jour</b> chaque centroïde = moyenne des points du cluster</li>
+<li><b>Répéter</b> jusqu'à convergence (centroïdes stables) ou max d'itérations</li>
+</ol>
+<h2>Inertie</h2>
+<p><code>Inertie = Σ ||xi − centroïde(xi)||²</code>. Mesure la compacité : plus faible = mieux.</p>
+<h2>Avantages / Inconvénients</h2>
+<div class="wrap"><table>
+<tr><th>Avantages</th><th>Inconvénients</th></tr>
+<tr><td>Simple à implémenter</td><td>Sensible aux outliers</td></tr>
+<tr><td>Rapide (petits/moyens)</td><td>Nécessite de fixer k</td></tr>
+<tr><td>Bien sur données compactes</td><td>Minimum local (init.)</td></tr>
+</table></div>
+<h2>Variantes</h2>
+<ul>
+<li><b>K-medoids</b> : utilise la médiane (ou un point représentatif) au lieu de la moyenne → robuste aux outliers.</li>
+<li><b>K-means++</b> : initialisation intelligente. 1er centre aléatoire, puis chaque nouveau centre tiré avec probabilité ∝ D(x)². Réduit les mauvaises initialisations.</li>
+<li><b>Mini-batch K-means</b> : sous-échantillons → rapide sur grands ensembles.</li>
+<li><b>DBSCAN</b> : clustering par densité, adapté aux formes complexes.</li>
+</ul>
+<h2>Méthode du coude (elbow)</h2>
+<ol>
+<li>Tester K-means pour k = 1, 2, 3…</li>
+<li>Calculer l'inertie pour chaque k</li>
+<li>Tracer k (x) vs inertie (y)</li>
+<li>Le <b>coude</b> = point où l'inertie chute beaucoup moins → k optimal</li>
+</ol>
+<h2>Applications</h2>
+<p>Segmentation de marché, compression d'image, analyse de texte (docs similaires), détection d'anomalies.</p>
+
+<h2>Agents intelligents</h2>
+<h3>PEAS</h3>
+<p><b>P</b>erformance (critère de succès) · <b>E</b>nvironnement · <b>A</b>ctuateurs (actions) · <b>S</b>ensors (perceptions).</p>
+<h3>Caractériser un environnement</h3>
+<div class="wrap"><table>
+<tr><th>Axe</th><th>Valeurs</th></tr>
+<tr><td>Observabilité</td><td>Complètement / partiellement observable</td></tr>
+<tr><td>Déterminisme</td><td>Déterministe / stochastique</td></tr>
+<tr><td>Structure</td><td>Épisodique / séquentiel</td></tr>
+<tr><td>Évolution</td><td>Statique / dynamique</td></tr>
+<tr><td>Valeurs</td><td>Discret / continu</td></tr>
+</table></div>
+<h3>Types d'agents</h3>
+<ul>
+<li><b>Réflexe simple</b> : règle condition-action</li>
+<li><b>Réflexe avec état interne</b> : mémorise l'historique</li>
+<li><b>Basé sur des buts</b> : cherche à atteindre un but</li>
+<li><b>Basé sur l'utilité</b> : pondère plusieurs critères</li>
+<li><b>Apprenant</b> : améliore ses performances par l'expérience</li>
+</ul>
+<h3>Agent rationnel ≠ omniscient</h3>
+<p><b>Rationnel</b> : maximise la performance attendue avec les infos disponibles. <b>Omniscient</b> : connaît l'état réel complet et toutes les conséquences (idéal inatteignable).</p>
+</div>
+</section>
 </main>
 
-<!-- MODAL UPDATES -->
 <div class="modal-overlay hid" id="updatesModal">
   <div class="modal">
     <button class="modal-close" id="updatesClose" aria-label="Fermer">✕</button>
     <h2>📋 Mises à jour</h2>
-    <p class="meta">Version actuelle — 19 novembre 2026</p>
+    <p class="meta">Version — 19 novembre 2026</p>
     <ul>
-      <li>✅ 5 matières : MongoDB, PHP, Qualité logicielle, Mobile (Flutter), Réseaux</li>
-      <li>✅ 4 onglets sur chaque matière : Quiz · Cartes · Exercices · Fiche</li>
-      <li>✅ <b>13 nouveaux exercices</b> ajoutés (MongoDB +3, PHP +5, Qualité +4, Réseaux +4), avec QCM, « trouve le bug » et complétion</li>
-      <li>✅ Correction WMC/LCOM de Qualité <b>refaite</b> (formule clarifiée)</li>
-      <li>✅ <b>Onglet Examen blanc</b> pour MongoDB, Qualité et Réseaux (avec correction révélable par partie)</li>
-      <li>✅ Bandeau bêta avec contact WhatsApp</li>
-      <li>❌ Playlist Spotify retirée (allégeait trop la page)</li>
+      <li>✅ <b>Nouvelle matière IA</b> : K-means, variantes, méthode du coude, agents intelligents (PEAS, environnements, types)</li>
+      <li>✅ 6 matières au total : MongoDB, PHP, Qualité, Mobile, Réseaux, IA</li>
+      <li>✅ <b>WhatsApp</b> ajouté dans la barre du haut (à côté d'Instagram)</li>
+      <li>✅ <b>Examen blanc</b> disponible pour MongoDB, Qualité, Réseaux et IA</li>
+      <li>✅ 13 exercices ajoutés (QCM, trouve-le-bug, complétion) sur MongoDB, PHP, Qualité, Réseaux</li>
+      <li>✅ Correction WMC/LCOM de Qualité refaite</li>
+      <li>✅ Lien Instagram <b>@lawtati_</b> en haut</li>
+      <li>❌ Playlist Spotify retirée</li>
     </ul>
+    <p class="beta-note">🚧 <b>Site en bêta</b> — pas parfait. Bugs ou suggestions ? Envoie un message sur WhatsApp : <a href="https://wa.me/212780119465" target="_blank" rel="noopener" style="color:var(--accent);font-weight:700">+212 780 119 465</a></p>
     <button class="btn" id="updatesOk" type="button">J'ai compris ✓</button>
   </div>
 </div>
@@ -353,51 +420,42 @@ var CATS = {
   php:{all:"Tout PHP",phpop:"Opérateurs et expressions",phpcond:"Conditions : if, switch, match"},
   ql:{all:"Tout Qualité",ql_fond:"Fondamentaux",ql_square:"SQuaRE (ISO 25010)",ql_metrics:"Métriques (LOC, McCabe, CK)",ql_process:"Processus SDLC"},
   mob:{all:"Tout Mobile",mob_btn:"Boutons",mob_txt:"TextFields et formulaires",mob_wdg:"Widgets et état"},
-  res:{all:"Tout Réseaux",res_codage:"Codage en bande de base",res_capacite:"Capacité, débits, théorèmes",res_modulation:"Modulation et porteuse",res_supports:"Supports de transmission"}
+  res:{all:"Tout Réseaux",res_codage:"Codage en bande de base",res_capacite:"Capacité, débits, théorèmes",res_modulation:"Modulation et porteuse",res_supports:"Supports de transmission"},
+  ia:{all:"Toute l'IA",ia_fond:"Apprentissage non-supervisé",ia_kmeans:"K-means classique",ia_var:"Variantes (K-medoids, ++, Mini-batch, DBSCAN)",ia_elbow:"Inertie et méthode du coude",ia_agents:"Agents intelligents"}
 };
 function subjectOf(tag){
   if (tag.indexOf("php")===0) return "php";
   if (tag.indexOf("ql")===0) return "ql";
   if (tag.indexOf("mob")===0) return "mob";
   if (tag.indexOf("res")===0) return "res";
+  if (tag.indexOf("ia")===0) return "ia";
   return "mongodb";
 }
 
-/* ===================== QUIZ (inchangé, abrégé ici pour la taille) ===================== */
+/* QUIZ */
 var Q=[
 ["find",`Que renvoie <code>find()</code> ?`,["Les documents","Un curseur","Un tableau","Un JSON"],1,`Un curseur.`],
-["find",`Que fait <code>find()</code> sans argument ?`,["Erreur","Tous les documents","Le premier","Le schéma"],1,`Tous les documents.`],
 ["find",`Deux champs dans le même objet = ?`,["OU","ET implicite","Un seul","Aléatoire"],1,`ET implicite.`],
 ["find",`Opérateur pour AU MOINS une condition ?`,["$and","$or","$in","$not"],1,`$or.`],
-["find",`<code>{ annee: { $gt: 2010 } }</code> ?`,["= 2010","&gt; 2010","≤ 2010","≠ 2010"],1,`$gt strict.`],
-["find",`Appartenance à une liste ?`,["$eq","$in","$or","$size"],1,`$in.`],
 ["find",`Ordre de <code>.sort().skip(1).limit(2)</code> ?`,["Écriture","limit, skip, sort","sort, skip, limit","skip, sort, limit"],2,`Tri → skip → limit.`],
 ["find",`Toutes les valeurs d'une liste ?`,["[[$in]]","[[$all]]","[[$size]]","[[$elemMatch]]"],1,`[[$all]].`],
 ["find",`Pourquoi [[$elemMatch]] ?`,["Rapide","Même élément du tableau","Trier","Modifier"],1,`Même élément.`],
 ["regex",`<code>/ar/i</code> ?`,["= ar","Contient ar, insensible casse","Commence","Finit"],1,`Insensible casse.`],
-["regex",`Commence par « In » ?`,["/In$/","/^In/","/In/","/.In./"],1,`<code>^</code>.`],
-["regex",`Sous-doc <code>adresse.ville</code> ?`,["<code>{ adresse: { ville: \"X\" } }</code>","<code>{ \"adresse.ville\": \"X\" }</code>","<code>{ adresse->ville: \"X\" }</code>","<code>{ $ville: \"X\" }</code>"],1,`Notation pointée entre guillemets.`],
+["regex",`Sous-doc <code>adresse.ville</code> ?`,["<code>{ adresse: { ville: \"X\" } }</code>","<code>{ \"adresse.ville\": \"X\" }</code>","<code>{ adresse->ville: \"X\" }</code>","<code>{ $ville: \"X\" }</code>"],1,`Notation pointée.`],
 ["tab",`[[$filter]] ?`,["Trier","Garder si cond","Supprimer","Compter"],1,`Ne modifie pas les données.`],
 ["tab",`[[$map]] ?`,["Filtre","Transforme","Fusionne","Renomme"],1,`Comme une boucle.`],
 ["tab",`[[$reduce]] ?`,["Filtre","Réduit à une valeur","Trie","Compte"],1,`Accumulateur.`],
-["tab",`<code>$$m</code> ?`,["Champ","Variable d'alias","Opérateur","Parent"],1,`Double <code>$</code> = variable.`],
-["tab",`<code>$arrayElemAt[..., 0]</code> ?`,["Dernier","Premier","Taille","Vide"],1,`Premier.`],
 ["tab",`<code>$arrayElemAt</code> sur tableau vide ?`,["Erreur","Champ absent","0","null"],1,`Champ absent.`],
 ["upd",`<code>$set</code> sur champ absent ?`,["Erreur","Crée","Rien","Supprime"],1,`Crée.`],
-["upd",`<code>$inc</code> sur champ absent ?`,["Erreur","Crée avec valeur","Rien","null"],1,`Crée.`],
-["upd",`<code>$</code> positionnel limite ?`,["$set seulement","1ʳᵉ occurrence seulement","Pas updateMany","Doublons"],1,`Première seulement.`],
 ["upd",`Sans <code>arrayFilters</code> ?`,["$set","$inc","$unset","$rename"],3,`$rename agit sur la structure.`],
-["upd",`<code>$push</code> vs <code>$addToSet</code> ?`,["Identiques","addToSet évite doublons","push au début","addToSet trie"],1,`addToSet sans doublon.`],
-["del",`<code>deleteOne</code> ?`,["Tous","Le premier","Le champ","La collection"],1,`Le premier.`],
+["upd",`<code>$push</code> vs <code>$addToSet</code> ?`,["Identiques","addToSet évite doublons","push au début","addToSet trie"],1,`Sans doublon.`],
 ["del",`Après <code>replaceOne</code> ?`,["Seuls champs listés","Entièrement remplacé, <code>_id</code> conservé","Dupliqué","Supprimé"],1,`Remplacement complet.`],
-["mod",`Embedding / referencing ?`,["Écriture / lecture","Lecture / écriture","Lecture / lecture","Écriture / écriture"],1,`Embedding lecture, referencing écriture.`],
+["mod",`Embedding / referencing ?`,["Écriture / lecture","Lecture / écriture","Lecture / lecture","Écriture / écriture"],1,`Embedding lecture.`],
 ["mod",`Taille max document ?`,["1 Mo","16 Mo","100 Mo","Illimitée"],1,`16 Mo.`],
 
 ["phpop",`<code>7 % 2</code> ?`,["1","3","3.5","0"],0,`Reste = 1.`],
 ["phpop",`<code>==</code> vs <code>===</code> ?`,["Identiques","== valeur ; === valeur + type","=== valeur","== strict"],1,`Conversion vs type.`],
-["phpop",`<code>"7" === 7</code> ?`,["true","false","0","Erreur"],1,`Types différents.`],
 ["phpop",`<code>$i = 5; echo $i++;</code> ?`,["5","6","0","4"],0,`Post-incrémentation.`],
-["phpop",`<code>A &amp;&amp; B</code>, A faux ?`,["B évalué","B non évalué","Erreur","Échangés"],1,`Court-circuit.`],
 ["phpop",`Falsy ?`,["<code>\"0\"</code>","<code>\"false\"</code>","<code>\"0.0\"</code>","<code>1</code>"],0,`\"0\" est falsy.`],
 ["phpcond",`Plusieurs conditions vraies ?`,["Tous","Premier","Dernier","Erreur"],1,`Premier seulement.`],
 ["phpcond",`<code>switch</code> compare ?`,["Strict","Souple","Aucun","<code>&lt;=&gt;</code>"],1,`==.`],
@@ -406,41 +464,56 @@ var Q=[
 
 ["ql_fond",`Besoins non exprimés ?`,["Spécifiés","Réalisés","Exprimés","Vrais besoins"],3,`Vrais besoins.`],
 ["ql_fond",`Chaîne causale ?`,["Défaillance → défaut → erreur","Erreur → défaut → défaillance","Défaut → erreur → défaillance","Erreur → défaillance → défaut"],1,`Erreur humaine → défaut code → défaillance.`],
-["ql_fond",`Deux piliers ?`,["Code, tests","Produit, Processus","Fiabilité, sécurité","Doc, maintenance"],1,`Produit et Processus.`],
 ["ql_square",`Nb caractéristiques ISO 25010 ?`,["3","5","8","12"],2,`8.`],
-["ql_square",`Corriger / améliorer ?`,["Fiabilité","Sécurité","Maintenabilité","Portabilité"],2,`Maintenabilité.`],
 ["ql_metrics",`Formule V(G) ?`,["E + N","E − N + 2","N − E","LOC"],1,`E − N + 2.`],
 ["ql_metrics",`Seuils WMC ?`,["≤5, 6-10, >10","≤10, 11-20, >20","≤20, >20","Aucun"],1,`≤10, 11-20, >20.`],
-["ql_metrics",`LCOM ?`,["Longueur","P − Q","Attributs","Héritage"],1,`P − Q.`],
-["ql_process",`Vérification ?`,["Bon produit ?","Conforme aux specs ?","Satisfaction","Compilation"],1,`Specs.`],
 ["ql_process",`3 maintenances ?`,["Corrective, Adaptative, Perfective","Corrective, Préventive, Évolutive","Interne, Externe, Mixte","Simple, Moyenne, Complexe"],0,`Les 3 types.`],
 
 ["mob_btn",`Action principale ?`,["TextButton","OutlinedButton","ElevatedButton","IconButton"],2,`ElevatedButton.`],
 ["mob_btn",`Cercle flottant ?`,["ElevatedButton","IconButton","FloatingActionButton","TextButton"],2,`FAB.`],
-["mob_btn",`FlatButton → ?`,["ElevatedButton","TextButton","OutlinedButton","IconButton"],1,`TextButton.`],
-["mob_txt",`Lire la saisie ?`,["<code>.value</code>","<code>TextEditingController</code>","<code>onChanged</code>","<code>.text</code> direct"],1,`Controller.`],
 ["mob_txt",`Clavier email ?`,["text","emailAddress","number","multiline"],1,`<code>emailAddress</code>.`],
 ["mob_txt",`Masquer mot de passe ?`,["<code>secure: true</code>","<code>hidden: true</code>","<code>obscureText: true</code>","<code>password: true</code>"],2,`<code>obscureText</code>.`],
-["mob_wdg",`Centrer ?`,["Container","Align","Center","Padding"],2,`Center.`],
 ["mob_wdg",`Mettre à jour l'UI ?`,["refresh()","update()","setState()","rebuild()"],2,`<code>setState</code>.`],
-["mob_wdg",`Image asset ?`,["<code>Image.file()</code>","<code>Image.asset()</code>","<code>Image.network()</code>","<code>Image.memory()</code>"],1,`<code>Image.asset</code>.`],
 
-["res_capacite",`Formule de Shannon ?`,["<code>C = 2W log₂(V)</code>","<code>C = W log₂(1 + S/N)</code>","<code>C = W / S/N</code>","<code>C = 2W</code>"],1,`<code>C = W log₂(1 + S/N)</code>.`],
-["res_capacite",`Temps de transmission de 16 Mo sur 16 Mb/s ?`,["8.38 s","16 s","16.3 s","8 s"],0,`16 Mo = 2²⁴ octets ≈ 134,2 Mb → 8,38 s.`],
-["res_capacite",`V = 8, D = 2400 b/s → R ?`,["800 bauds","2400 bauds","300 bauds","7200 bauds"],0,`R = 2400/3 = 800 bauds.`],
-["res_capacite",`Atténuation se mesure en ?`,["Hertz","Décibels","Bits/s","Bauds"],1,`Décibels.`],
-["res_capacite",`Nb échantillons T = 2 s, Te = 0,5 ms ?`,["400","4000","40","40000"],1,`N = 2/0,5·10⁻³ = 4000.`],
-["res_codage",`Manchester : rapidité de modulation ?`,["R = D","R = 2D","R = D/2","R = D²"],1,`2 transitions par bit → R = 2D.`],
-["res_codage",`Code bipolaire : combien de niveaux ?`,["1","2","3","4"],2,`3 niveaux : +V, 0, −V.`],
-["res_codage",`Manchester avec Δ = 10⁻⁸ s → débit ?`,["10 Mb/s","25 Mb/s","50 Mb/s","100 Mb/s"],2,`T_bit = 2Δ → D = 1/(2Δ) = 50 Mb/s.`],
-["res_modulation",`Pourquoi moduler ?`,["Amplifier","Réduire les dimensions de l'antenne","Numériser","Crypter"],1,`<code>L = c/(4f)</code>.`],
+["res_capacite",`Formule de Shannon ?`,["<code>C = 2W log₂(V)</code>","<code>C = W log₂(1 + S/N)</code>","<code>C = W / S/N</code>","<code>C = 2W</code>"],1,`Shannon.`],
+["res_capacite",`V = 8, D = 2400 b/s → R ?`,["800 bauds","2400 bauds","300 bauds","7200 bauds"],0,`R = 2400/3.`],
+["res_codage",`Manchester : rapidité ?`,["R = D","R = 2D","R = D/2","R = D²"],1,`2 transitions/bit.`],
+["res_codage",`Manchester Δ = 10⁻⁸ s → débit ?`,["10 Mb/s","25 Mb/s","50 Mb/s","100 Mb/s"],2,`D = 1/(2Δ).`],
 ["res_modulation",`AM modifie ?`,["Fréquence","Phase","Amplitude","Longueur d'onde"],2,`Amplitude.`],
-["res_supports",`Câble coaxial : impédance ?`,["50 ou 75 Ω","100 Ω","300 Ω","600 Ω"],0,`50 ou 75 Ω.`],
-["res_supports",`Fibre optique : monomode vs multimode ?`,["Monomode = plusieurs modes","Monomode = 1 mode, multimode = plusieurs","Identiques","Aucune"],1,`Mono = 1, multi = plusieurs.`],
-["res_supports",`ETCD ?`,["Equipement Terminal de Conversion Digitale","Equipement de Télécommunication Digitale","Equipement Terminal de Traitement de données","Equipement Terminal de Circuit de Données"],3,`ETCD = Equipement Terminal de Circuit de Données (ex. : modem).`]
+["res_supports",`Fibre : monomode vs multimode ?`,["Mono = plusieurs","Mono = 1, multi = plusieurs","Identiques","Aucune"],1,`Mono = 1.`],
+
+/* IA */
+["ia_fond",`Qu'est-ce que l'apprentissage non-supervisé ?`,["Apprendre sur des données étiquetées","Apprendre sur des données ni classées ni étiquetées","Jouer contre soi-même","Optimiser une fonction de coût"],1,`Non-supervisé = données sans étiquette. Ex. : clustering.`],
+["ia_fond",`Laquelle est typiquement non-supervisée ?`,["Reconnaissance de chiffres étiquetés","Segmentation de marché","Classif email spam/ham annotés","Prédiction de prix étiquetée"],1,`La segmentation de marché (clustering) est non-supervisée.`],
+["ia_fond",`Rôle de « k » dans K-means ?`,["Nombre d'itérations","Nombre de clusters à former","Nombre d'attributs","Distance max"],1,`« k » = nombre de clusters, fixé par l'utilisateur.`],
+
+["ia_kmeans",`Les 4 étapes de K-means ?`,["Initialiser → assigner → mettre à jour → répéter","Compresser → décompresser → évaluer","Entraîner → tester → valider","Normaliser → filtrer → sélectionner"],0,`Init → assign → update → repeat.`],
+["ia_kmeans",`Quand K-means s'arrête-t-il ?`,["Après 1 itération","Centroïdes stables ou max d'itérations","Clusters de taille égale","Inertie maximale"],1,`Convergence : centroïdes stables.`],
+["ia_kmeans",`Qu'est-ce qu'un centroïde ?`,["Premier point du cluster","Moyenne des valeurs des points du cluster","Point le plus éloigné","La médiane"],1,`Moyenne des points.`],
+["ia_kmeans",`K-means est sensible à quoi ?`,["Valeurs aberrantes (outliers)","Taille du fichier","Langage de programmation","Nombre d'attributs uniquement"],0,`Outliers + init + k à fixer.`],
+["ia_kmeans",`Inconvénient de K-means ?`,["Trop lent sur petits datasets","Ne fonctionne qu'en 1D","Peut converger vers un minimum local","Ne gère pas les points numériques"],2,`Minimum local (dépend de l'init).`],
+
+["ia_var",`Comment fonctionne K-medoids ?`,["Comme K-means mais avec plus de clusters","Comme K-means mais utilise la médiane (ou point représentatif)","Comme DBSCAN","Ignore les outliers"],1,`Médiane ou point représentatif au lieu de la moyenne.`],
+["ia_var",`Pourquoi K-medoids est robuste aux outliers ?`,["Plus de clusters","La médiane résiste aux valeurs extrêmes (vs moyenne)","Plus rapide","Ignore les outliers"],1,`Moyenne([1,3,5,7,1009]) = 205 ; médiane = 5.`],
+["ia_var",`Objectif de K-means++ ?`,["Plus de clusters","Meilleure init des centroïdes","Remplacer K-means","Gérer les NaN"],1,`Éviter les mauvaises init : P(xi) ∝ D(xi)².`],
+["ia_var",`Mini-batch K-means ?`,["Utilise des sous-échantillons (mini-batchs) pour grands ensembles","Moins d'itérations","Version 1D","Sans centroïdes"],0,`Sous-échantillons.`],
+["ia_var",`Adapté aux formes complexes ?`,["K-means","K-medoids","DBSCAN","Mini-batch"],2,`DBSCAN = densité, formes complexes.`],
+["ia_var",`K-means++ réduit quel problème ?`,["Sur-apprentissage","Mauvaise initialisation","Bruit","Surcoût mémoire"],1,`Mauvaise init → faible qualité/lenteur.`],
+
+["ia_elbow",`Que mesure l'inertie ?`,["Distance moyenne entre clusters","Σ ||xi − centroïde(xi)||²","Nombre de clusters","Taille des clusters"],1,`Somme des distances au carré.`],
+["ia_elbow",`À quoi sert la méthode du coude ?`,["Trouver k optimal (k vs inertie)","Nettoyer les données","Remplacer K-means","Calculer la distance"],0,`Chercher le coude : chute brutale puis plate.`],
+["ia_elbow",`Axes de la méthode du coude ?`,["k en x, inertie en y","Inertie en x, k en y","Distance en x, moyenne en y","Points en x, centroïdes en y"],0,`k vs inertie.`],
+["ia_elbow",`X=[1,2,3,8,9,10,25], inertie k=1 ≈ ?`,["67","404","4","2"],1,`Centroïde ≈ 8.29, Σ (xi − 8.29)² ≈ 404.`],
+
+["ia_agents",`Que signifie PEAS ?`,["Performance, Environnement, Actuateurs, Sensors","Process, Evaluation, Actions, Signals","Plan, Exécution, Analyse, Suivi","Programme, Entrée, Action, Sortie"],0,`P=Performance, E=Environnement, A=Actuateurs, S=Sensors.`],
+["ia_agents",`Une voiture autonome en ville : environnement ?`,["Complètement observable, déterministe","Partiellement observable, stochastique, séquentiel, dynamique, continu","Statique, discret","Épisodique, déterministe"],1,`Ne voit pas tout, comportements imprévisibles, décisions séquentielles, évolue en temps réel, continu.`],
+["ia_agents",`Un agent rationnel est-il omniscient ?`,["Oui, toujours","Non : rationnel agit au mieux avec les infos dispo ; omniscient connaît tout","Oui sur petits domaines","Ça dépend"],1,`Rationnel ≠ omniscient.`],
+["ia_agents",`Une porte automatique : quel type d'agent ?`,["Réflexe simple","État interne","But","Utilité"],0,`Règle condition-action basique.`],
+["ia_agents",`Un GPS qui pondère rapidité/coût/sécurité ?`,["Réflexe","État interne","But","Utilité"],3,`Pondération multi-critères = utilité.`],
+["ia_agents",`Environnement épisodique ?`,["Actions influencent les épisodes futurs","Actions n'influencent pas les épisodes futurs","Toujours observable","Toujours déterministe"],1,`Chaque épisode est indépendant.`]
 ];
 
-/* ===================== CARTES ===================== */
+/* CARTES */
 var C=[
 ["find",`Films après 2010`,`db.Films.find({ annee: { $gt: 2010 } })`],
 ["find",`Nolan ou Cameron`,`db.Films.find({ realisateur: { $in: ["Christopher Nolan", "James Cameron"] } })`],
@@ -473,568 +546,394 @@ var C=[
 ["res_codage",`Manchester avec Δ = 10⁻⁸ s`,`Δ = 10⁻⁸ s = demi-bit\nT_bit = 2Δ = 2·10⁻⁸ s\nD = 1 / (2Δ) = 50 Mb/s`],
 ["res_codage",`Caractéristiques des codes`,`NRZ          : R = D — problème de sync.\nRZ           : R = 2D — retour à zéro\nManchester   : R = 2D — auto-sync., DC nulle\nBipolaire    : R = D — 3 niveaux (+V, 0, −V)\nMiller       : R = D`],
 ["res_modulation",`Antenne : calcul`,`L = λ/4 = c/(4f), c = 3·10⁸ m/s\nf = 1000 Hz → λ = 300 km → L = 75 km\nf = 1 MHz   → λ = 300 m  → L = 75 m`],
-["res_supports",`Caractéristiques des supports`,`Coaxial     : 50/75 Ω, 500 m max\nPaire tors. : 100 Ω, 100 m max\nFibre       : monomode (1) / multimode (n),\n              ré-amplification ~250 km\nEspace libre: faisceaux hertziens, satellites`]
+["res_supports",`Caractéristiques des supports`,`Coaxial     : 50/75 Ω, 500 m max\nPaire tors. : 100 Ω, 100 m max\nFibre       : monomode (1) / multimode (n),\n              ré-amplification ~250 km\nEspace libre: faisceaux hertziens, satellites`],
+
+["ia_fond",`Non-supervisé : définition`,`Données non classées, non étiquetées.\nL'algorithme découvre la structure seul.\n\nExemples : clustering, réduction de dim.,\ndétection d'anomalies.`],
+["ia_fond",`Applications de K-means`,`- Segmentation de marché (clients similaires)\n- Compression d'image (regrouper pixels)\n- Analyse de texte (docs similaires)\n- Détection d'anomalies (points isolés)`],
+["ia_kmeans",`Étapes de K-means`,`1. Initialiser k centroïdes aléatoires\n2. Assigner chaque point au centroïde le plus proche\n3. Recalculer chaque centroïde = moyenne du cluster\n4. Répéter jusqu'à convergence\n   ou max d'itérations`],
+["ia_kmeans",`Inertie`,`Inertie = Σ ||xi − centroïde(xi)||²\n\nSomme des distances au carré\nentre chaque point et son centroïde.\n\n→ plus faible = clusters plus compacts`],
+["ia_kmeans",`Avantages / Inconvénients K-means`,`+ Simple à implémenter\n+ Rapide (petits/moyens)\n+ Bien sur données compactes\n\n- Sensible aux outliers\n- k à fixer à l'avance\n- Peut converger vers un minimum local`],
+["ia_var",`K-medoids`,`Comme K-means mais remplace la moyenne\npar un point représentatif (médiane).\n\n→ robuste aux outliers\n→ utilisable avec distances non euclidiennes`],
+["ia_var",`K-medoids vs K-means (exemple)`,`Points : 1, 3, 5, 7, 1009\n\nMoyenne = 205    (tirée par l'outlier)\nMédiane = 5      (robuste)\n\nK-medoids utilise la médiane\n→ centroïde non déformé par 1009`],
+["ia_var",`K-means++ : étapes`,`1. Choisir 1er centre aléatoirement\n2. Calculer D(xi) = distance au centre le plus proche\n3. Probabilité P(xi) ∝ D(xi)²\n4. Tirer un nouveau centre selon ces probas\n5. Répéter jusqu'à k centres\n6. Lancer K-means classique`],
+["ia_var",`K-means++ : apport`,`+ Réduction du biais initial\n+ Convergence plus rapide\n+ Minimisation du coût final (Σ distances²)\n+ Moins de minima locaux`],
+["ia_var",`Mini-batch K-means`,`Version optimisée pour grands ensembles.\nUtilise des sous-échantillons (mini-batchs)\nà chaque itération → plus rapide.`],
+["ia_var",`DBSCAN`,`Clustering basé sur la densité\n(pas sur les centroïdes).\n\nAdapté aux formes complexes\n(non sphériques).\nIdentifie aussi les outliers.`],
+["ia_elbow",`Méthode du coude (elbow)`,`1. Tester K-means pour k = 1, 2, 3, ...\n2. Calculer l'inertie pour chaque k\n3. Tracer k (x) vs inertie (y)\n4. Le « coude » = point où l'inertie\n   diminue beaucoup moins\n→ ce k est le nombre optimal de clusters`],
+["ia_elbow",`Exemple : coude sur X=[1,2,3,8,9,10,25]`,`k=1 → inertie ≈ 404\nk=2 → inertie ≈ 196 (le PDF indique 67, erreur arith.)\nk=3 → inertie = 4\nk=4 → inertie = 2\n\nChute brutale de k=1 à k=3,\npuis plus douce. Coude à k=2 ou 3\n→ k optimal = 2 ou 3`],
+["ia_agents",`PEAS`,`P — Performance (critère de succès)\nE — Environnement\nA — Actuateurs (actions)\nS — Sensors (perceptions)`],
+["ia_agents",`Caractériser un environnement`,`- Observable / partiellement observable\n- Déterministe / stochastique\n- Épisodique / séquentiel\n- Statique / dynamique\n- Discret / continu`],
+["ia_agents",`Types d'agents`,`- Réflexe simple (condition-action)\n- Réflexe avec état interne (mémoire)\n- Basé sur des buts (atteindre un but)\n- Basé sur l'utilité (pondérer critères)\n- Apprenant (améliorer par l'expérience)`],
+["ia_agents",`Agent rationnel ≠ omniscient`,`Rationnel : maximise la performance attendue\navec les infos disponibles.\n\nOmniscient : connaît l'état réel complet\net les conséquences de ses actions.`]
 ];
 
-/* ===================== EXERCICES ===================== */
+/* EXERCICES */
 var EX=[
-/* MongoDB existants */
-["find",`Trouver les étudiants d'Agadir`,`<p>Collection <code>etudiants</code> : champ <code>ville</code>. Afficher tous les étudiants habitant à <b>Agadir</b>.</p>`,`<pre>db.etudiants.find({ ville: "Agadir" })</pre>`],
-["find",`Étudiants de plus de 22 ans`,`<p>Collection <code>etudiants</code> : champ <code>age</code>. Filtrer les étudiants ayant <b>strictement plus de 22 ans</b>.</p>`,`<pre>db.etudiants.find({ age: { $gt: 22 } })</pre><p><code>$gt</code> = strictement supérieur.</p>`],
-["find",`Deux filières avec $in`,`<p>Afficher les étudiants en <b>Génie Informatique</b> ou <b>Génie Industriel</b>.</p>`,`<pre>db.etudiants.find({\n  filiere: { $in: ["Génie Informatique", "Génie Industriel"] }\n})</pre>`],
-["find",`Étudiants ayant passé BD ET Réseaux`,`<p>Étudiants ayant passé <b>les deux</b> examens « Bases de données » et « Réseaux ».</p>`,`<pre>db.etudiants.find({\n  "examens.matiere": { $all: ["Bases de données", "Réseaux"] }\n})</pre>`],
-["find",`Étudiants ayant exactement 3 examens`,`<p>Étudiants ayant <b>exactement 3 examens</b>.</p>`,`<pre>db.etudiants.find({ examens: { $size: 3 } })</pre>`],
-["find",`Examen avec note ≥ 14 ET bonus ≥ 1`,`<p>Étudiants ayant <b>un même examen</b> avec <code>note ≥ 14</code> et <code>bonus ≥ 1</code>.</p>`,`<pre>db.etudiants.find({\n  examens: { $elemMatch: { note: { $gte: 14 }, bonus: { $gte: 1 } } }\n})</pre>`],
-["tab",`Lister les matières de chaque étudiant`,`<p>Tableau des <b>matières</b> uniquement.</p>`,`<pre>db.etudiants.find({}, { _id: 0, nom: 1,\n  matieres: { $map: {\n    input: "$examens", as: "e", in: "$$e.matiere"\n  } }\n})</pre>`],
-["tab",`Afficher uniquement les examens notés ≥ 14`,`<p>Tableau <code>examens</code> filtré aux <code>note ≥ 14</code>.</p>`,`<pre>db.etudiants.find({}, { _id: 0, nom: 1,\n  bons_examens: { $filter: {\n    input: "$examens", as: "e",\n    cond: { $gte: ["$$e.note", 14] }\n  } }\n})</pre>`],
-["tab",`Premier examen noté ≥ 14`,`<p>Premier examen dont la note est ≥ 14.</p>`,`<pre>db.etudiants.find({}, { _id: 0, nom: 1,\n  premier_bon: { $arrayElemAt: [\n    { $filter: { input: "$examens", as: "e",\n      cond: { $gte: ["$$e.note", 14] } } },\n    0\n  ] }\n})</pre>`],
-["tab",`Deux premiers examens notés ≥ 12`,`<p>Filtrer les examens ≥ 12, garder les deux premiers.</p>`,`<pre>db.etudiants.find({}, { _id: 0, nom: 1,\n  deux_premiers: { $slice: [\n    { $filter: { input: "$examens", as: "e",\n      cond: { $gte: ["$$e.note", 12] } } },\n    2\n  ] }\n})</pre>`],
-["upd",`Changer le prix de la Souris Gamer`,`<p>Prix de « Souris Gamer » à <b>350</b>.</p>`,`<pre>db.produits.updateOne(\n  { nom: "Souris Gamer" },\n  { $set: { prix: 350 } }\n)</pre>`],
-["upd",`Augmenter les heures de présence d'un groupe`,`<p>+10 heures de présence pour tous les GI.</p>`,`<pre>db.etudiants.updateMany(\n  { filiere: "Génie Informatique" },\n  { $inc: { "scolarite.heures_presence": 10 } }\n)</pre>`],
-["upd",`Supprimer un champ du sous-document`,`<p>Supprimer <code>scolarite.absences</code> pour les GE.</p>`,`<pre>db.etudiants.updateMany(\n  { filiere: "Génie Électrique" },\n  { $unset: { "scolarite.absences": "" } }\n)</pre>`],
-["upd",`Renommer ville en ville_origine`,`<p>Renommer <code>ville</code> en <code>ville_origine</code> partout.</p>`,`<pre>db.etudiants.updateMany(\n  {},\n  { $rename: { ville: "ville_origine" } }\n)</pre>`],
-["upd",`Ajouter un examen à un étudiant`,`<p>Ajouter à <b>Omar Tazi</b> un examen complet.</p>`,`<pre>db.etudiants.updateOne(\n  { nom: "Omar Tazi" },\n  { $push: { examens: {\n    matiere: "Recherche opérationnelle",\n    semestre: "S2", bonus: 1, tp_rendus: 1, note: 16.5\n  } } }\n)</pre>`],
-["upd",`Retirer les examens de Réseaux`,`<p>Retirer du tableau <code>examens</code> de <b>Youssef Amrani</b> les examens de « Réseaux ».</p>`,`<pre>db.etudiants.updateOne(\n  { nom: "Youssef Amrani" },\n  { $pull: { examens: { matiere: "Réseaux" } } }\n)</pre>`],
-["upd",`Modifier la note d'un match précis`,`<p>Pour <b>Achraf Hakimi</b>, mettre à <b>9.0</b> la note du match contre Marseille.</p>`,`<pre>db.joueurs.updateOne(\n  { nom: "Achraf Hakimi" },\n  { $set: { "matchs.$[m].note": 9.0 } },\n  { arrayFilters: [ { "m.adversaire": "Marseille" } ] }\n)</pre>`],
-["upd",`Incrémenter la note des matchs avec but`,`<p>+0.2 sur la note de tous les matchs avec ≥ 1 but.</p>`,`<pre>db.joueurs.updateMany(\n  {},\n  { $inc: { "matchs.$[m].note": 0.2 } },\n  { arrayFilters: [ { "m.buts": { $gte: 1 } } ] }\n)</pre>`],
-["del",`Remplacer entièrement un document`,`<p>Remplacer le document de <b>Sofyan Amrabat</b> (tous les champs à réécrire).</p>`,`<pre>db.joueurs.replaceOne(\n  { nom: "Sofyan Amrabat" },\n  { nom: "Sofyan Amrabat", club: "Manchester United",\n    nationalite: "Maroc", poste: "Milieu défensif" }\n)</pre>`],
+/* Mongo existants + nouveaux */
+["find",`Trouver les étudiants d'Agadir`,`<p>Collection <code>etudiants</code> : champ <code>ville</code>. Étudiants à <b>Agadir</b>.</p>`,`<pre>db.etudiants.find({ ville: "Agadir" })</pre>`],
+["find",`Étudiants de plus de 22 ans`,`<p>Champ <code>age</code>. Filtrer <b>&gt; 22 ans</b>.</p>`,`<pre>db.etudiants.find({ age: { $gt: 22 } })</pre>`],
+["find",`Deux filières avec $in`,`<p>GI ou GInd.</p>`,`<pre>db.etudiants.find({\n  filiere: { $in: ["Génie Informatique", "Génie Industriel"] }\n})</pre>`],
+["find",`Étudiants ayant passé BD ET Réseaux`,`<p>Examens BD ET Réseaux (même étudiant).</p>`,`<pre>db.etudiants.find({\n  "examens.matiere": { $all: ["Bases de données", "Réseaux"] }\n})</pre>`],
+["find",`Étudiants ayant exactement 3 examens`,`<p><b>Exactement 3 examens</b>.</p>`,`<pre>db.etudiants.find({ examens: { $size: 3 } })</pre>`],
+["find",`Examen avec note ≥ 14 ET bonus ≥ 1`,`<p><b>Même examen</b> avec note ≥ 14 et bonus ≥ 1.</p>`,`<pre>db.etudiants.find({\n  examens: { $elemMatch: { note: { $gte: 14 }, bonus: { $gte: 1 } } }\n})</pre>`],
+["tab",`Lister les matières`,`<p>Tableau des matières uniquement.</p>`,`<pre>db.etudiants.find({}, { _id: 0, nom: 1,\n  matieres: { $map: {\n    input: "$examens", as: "e", in: "$$e.matiere"\n  } }\n})</pre>`],
+["tab",`Afficher examens ≥ 14`,`<p>Filtrer le tableau aux examens ≥ 14.</p>`,`<pre>db.etudiants.find({}, { _id: 0, nom: 1,\n  bons: { $filter: { input: "$examens", as: "e",\n    cond: { $gte: ["$$e.note", 14] } } }\n})</pre>`],
+["tab",`Premier examen ≥ 14`,`<p>Premier examen ≥ 14.</p>`,`<pre>db.etudiants.find({}, { _id: 0, nom: 1,\n  premier: { $arrayElemAt: [\n    { $filter: { input: "$examens", as: "e",\n      cond: { $gte: ["$$e.note", 14] } } }, 0 ] }\n})</pre>`],
+["upd",`Changer le prix`,`<p>Souris Gamer à 350.</p>`,`<pre>db.produits.updateOne(\n  { nom: "Souris Gamer" },\n  { $set: { prix: 350 } }\n)</pre>`],
+["upd",`Incrémenter heures`,`<p>+10h pour GI.</p>`,`<pre>db.etudiants.updateMany(\n  { filiere: "Génie Informatique" },\n  { $inc: { "scolarite.heures_presence": 10 } }\n)</pre>`],
+["upd",`arrayFilters sur un match`,`<p>Hakimi : note du match contre Marseille = 9.0.</p>`,`<pre>db.joueurs.updateOne(\n  { nom: "Achraf Hakimi" },\n  { $set: { "matchs.$[m].note": 9.0 } },\n  { arrayFilters: [ { "m.adversaire": "Marseille" } ] }\n)</pre>`],
+["del",`replaceOne`,`<p>Remplacer Amrabat entièrement.</p>`,`<pre>db.joueurs.replaceOne(\n  { nom: "Sofyan Amrabat" },\n  { nom: "Sofyan Amrabat", club: "Manchester United",\n    nationalite: "Maroc", poste: "Milieu défensif" }\n)</pre>`],
 
-/* MongoDB nouveaux */
-["find",`Trouve le bug : $elemMatch oublié`,
-`<p>Cette requête doit retourner les étudiants ayant <b>un même examen</b> avec <code>note ≥ 14</code> ET <code>bonus ≥ 1</code>. Elle retourne pourtant des étudiants qui n'ont aucun examen avec ces deux conditions réunies. Pourquoi ?</p>
-<pre>db.etudiants.find({
-  "examens.note": { $gte: 14 },
-  "examens.bonus": { $gte: 1 }
-})</pre>`,
-`<p><b>Bug</b> : deux conditions pointées sur <code>examens</code> sont satisfaites par <b>n'importe quel élément</b> du tableau. Un examen A peut avoir <code>note ≥ 14</code>, un examen B peut avoir <code>bonus ≥ 1</code> — la requête passe.</p>
-<pre>db.etudiants.find({
-  examens: { $elemMatch: { note: { $gte: 14 }, bonus: { $gte: 1 } } }
-})</pre>
-<p><code>$elemMatch</code> impose qu'<b>un même élément</b> respecte toutes les conditions.</p>`],
+["find",`Trouve le bug : $elemMatch oublié`,`<p>Requête qui doit exiger <b>le même examen</b> avec note ≥ 14 ET bonus ≥ 1 mais qui passe avec 2 examens différents :</p><pre>db.etudiants.find({\n  "examens.note": { $gte: 14 },\n  "examens.bonus": { $gte: 1 }\n})</pre><p>Comment corriger ?</p>`,`<p><b>Bug</b> : deux conditions pointées peuvent être satisfaites par deux éléments différents.</p><p><b>Correction</b> :</p><pre>db.etudiants.find({\n  examens: { $elemMatch: { note: { $gte: 14 }, bonus: { $gte: 1 } } }\n})</pre><p><code>$elemMatch</code> impose qu'un même élément respecte les deux conditions.</p>`],
+["tab",`Trouve le bug : $elemMatch et $filter confondus`,`<p>Cette requête veut filtrer les examens ≥ 14 mais ne fait rien de cohérent :</p><pre>db.etudiants.find({ examens: { $gte: 14 } })</pre><p>Pourquoi ?</p>`,`<p><b>Bug</b> : compare le tableau d'objets à 14.</p><p><b>Filtrer les documents</b> (garder ceux qui ont un examen ≥ 14) :</p><pre>db.etudiants.find({\n  examens: { $elemMatch: { note: { $gte: 14 } } }\n})</pre><p><b>Filtrer le tableau</b> dans la projection :</p><pre>db.etudiants.find({}, {\n  _id: 0, nom: 1,\n  bons: { $filter: { input: "$examens", as: "e",\n    cond: { $gte: ["$$e.note", 14] } } }\n})</pre>`],
+["find",`QCM : ordre d'application`,`<p>Dans <code>.sort({age:1}).skip(2).limit(3)</code>, quel ordre ?</p><ol type="a"><li>skip → limit → sort</li><li>sort → limit → skip</li><li>sort → skip → limit</li><li>Écriture</li></ol>`,`<p><b>Réponse : c) sort → skip → limit</b>. Toujours, quel que soit l'ordre d'écriture.</p>`],
 
-["tab",`Trouve le bug : $elemMatch et $filter confondus`,
-`<p>On veut filtrer le tableau <code>examens</code> pour ne garder que les examens notés ≥ 14. Ce code fait-il le travail ?</p>
-<pre>db.etudiants.find({
-  examens: { $gte: 14 }
-})</pre>`,
-`<p><b>Bug</b> : cette requête compare le <b>tableau</b> <code>examens</code> (des objets !) à <code>14</code>, ce qui ne filtre rien de cohérent.</p>
-<p><b>Deux besoins différents</b> :</p>
-<ul>
-<li><b>Filtrer les documents</b> (garder les étudiants ayant un examen ≥ 14) → <code>$elemMatch</code> dans le filtre</li>
-<li><b>Filtrer le tableau dans la projection</b> (afficher uniquement les examens ≥ 14) → <code>$filter</code></li>
-</ul>
-<pre>// 1. Filtrer les documents
-db.etudiants.find({
-  examens: { $elemMatch: { note: { $gte: 14 } } }
-})
+/* PHP */
+["phpop",`Évaluer des expressions (1/2)`,`<p><code>17 % 5</code>, <code>2 ** 3 + 1</code>, <code>$x = 4; $x *= 3; $x -= 2;</code>, <code>"7" == 7</code>, <code>"7" === 7</code>.</p>`,`<ol><li><code>17 % 5 = 2</code>. <code>2 ** 3 + 1 = 9</code>.</li><li><code>$x</code> final = <b>10</b>.</li><li><code>"7" == 7</code> → <b>true</b> ; <code>"7" === 7</code> → <b>false</b>.</li></ol>`],
+["phpop",`Évaluer des expressions (2/2)`,`<p><code>(10 &gt; 5) &amp;&amp; (3 &gt; 8)</code>, <code>(10 &gt; 5) || (3 &gt; 8)</code>, <code>!(4 &lt;= 4)</code>, <code>$a = 3; $b = $a++ + 2;</code>.</p>`,`<ol><li><code>false</code> ; <code>true</code>.</li><li><code>false</code>.</li><li><code>$a = 4</code>, <code>$b = 5</code>.</li></ol>`],
+["phpcond",`Attribuer une mention avec if/elseif`,`<p>Chaîne <code>if/elseif</code> pour : TB ≥16, B ≥14, AB ≥12, P ≥10, sinon Non validé. Pour <code>$note = 13.5</code> ?</p>`,`<pre>if ($note >= 16)      { $m = "Très bien"; }\nelseif ($note >= 14)  { $m = "Bien"; }\nelseif ($note >= 12)  { $m = "Assez bien"; }\nelseif ($note >= 10)  { $m = "Passable"; }\nelse                  { $m = "Non validé"; }\n// → "Assez bien"</pre>`],
+["phpcond",`switch : jour de la semaine`,`<p>1→Lundi, 2→Mardi, 3→Mercredi, 6 et 7→Week-end, sinon→Autre.</p>`,`<pre>switch ($jour) {\n  case 1: $nom = "Lundi"; break;\n  case 2: $nom = "Mardi"; break;\n  case 3: $nom = "Mercredi"; break;\n  case 6:\n  case 7: $nom = "Week-end"; break;\n  default: $nom = "Autre jour";\n}</pre>`],
+["phpcond",`Même chose avec match (PHP 8)`,`<p>Reprendre en <code>match</code>, tester aussi les intervalles.</p>`,`<pre>$nom = match ($jour) {\n  1 => "Lundi", 2 => "Mardi", 3 => "Mercredi",\n  6, 7 => "Week-end",\n  default => "Autre jour",\n};\n\n$mention = match (true) {\n  $note >= 16 => "Très bien",\n  $note >= 14 => "Bien",\n  $note >= 10 => "Passable",\n  default     => "Non validé",\n};</pre>`],
+["phpop",`Trouve le bug : comparaison piégeuse`,`<p>Ce code affiche « majeur » pour <code>$age = "18 ans"</code>. Pourquoi ?</p><pre>if ($age >= 18) {\n    echo "majeur";\n} else {\n    echo "mineur";\n}</pre>`,`<p><b>Bug</b> : <code>"18 ans"</code> converti numériquement en <code>18</code>, donc <code>18 &gt;= 18</code> = true.</p><pre>// Solution\n$age = (int) $age;\nif ($age >= 18) { echo "majeur"; }</pre>`],
+["phpop",`QCM : quelles valeurs sont falsy ?`,`<p>Lesquelles sont falsy ? (plusieurs)</p><ol type="a"><li><code>0</code></li><li><code>"0"</code></li><li><code>[]</code></li><li><code>"false"</code></li><li><code>null</code></li></ol>`,`<p><b>Réponses : a, b, c, e</b></p><p>Falsy : false, 0, 0.0, "", "0", [], null. <code>"false"</code> est truthy (chaîne non vide ≠ "0").</p>`],
+["phpcond",`Compléter : syntaxe alternative`,`<p>Réécris en syntaxe alternative :</p><pre>&lt;?php if ($connecte) { ?&gt;\n  &lt;a href="logout.php"&gt;Déconnexion&lt;/a&gt;\n&lt;?php } else { ?&gt;\n  &lt;a href="login.php"&gt;Connexion&lt;/a&gt;\n&lt;?php } ?&gt;</pre>`,`<pre>&lt;?php if ($connecte): ?&gt;\n  &lt;a href="logout.php"&gt;Déconnexion&lt;/a&gt;\n&lt;?php else: ?&gt;\n  &lt;a href="login.php"&gt;Connexion&lt;/a&gt;\n&lt;?php endif; ?&gt;</pre>`],
+["phpcond",`Trouve le bug : match sans default`,`<p>Pour <code>$note = 8</code>, que se passe-t-il ?</p><pre>$m = match (true) {\n  $note >= 16 => "Très bien",\n  $note >= 14 => "Bien",\n  $note >= 10 => "Passable",\n};</pre>`,`<p><b>Bug</b> : <code>UnhandledMatchError</code> — match plante si aucun cas ne correspond et pas de default.</p><pre>$m = match (true) {\n  $note >= 16 => "Très bien",\n  $note >= 14 => "Bien",\n  $note >= 10 => "Passable",\n  default     => "Non validé",\n};</pre>`],
+["phpcond",`Compléter : ternaire et ??`,`<p><code>$statut</code> = "adulte" si ≥18 sinon "mineur" ; <code>$page</code> = $_GET['page'] ou 1.</p>`,`<pre>$statut = ($age >= 18) ? "adulte" : "mineur";\n$page   = $_GET['page'] ?? 1;</pre><p><code>??</code> ne convertit pas le type (vs <code>?:</code>).</p>`],
 
-// 2. Filtrer le tableau dans la projection
-db.etudiants.find({}, {
-  _id: 0, nom: 1,
-  bons: { $filter: { input: "$examens", as: "e",
-    cond: { $gte: ["$$e.note", 14] } } }
-})</pre>
-<p><b>$elemMatch</b> filtre les <b>documents</b> ; <b>$filter</b> filtre le <b>tableau</b> dans la projection.</p>`],
+/* QL */
+["ql_metrics",`Complexité cyclomatique GestionClient`,`<p>Méthode avec une boucle for. V(G) et nb de tests ?</p>`,`<p>V(G) = 1 décision + 1 = <b>2</b>. Tests minimum = <b>2</b>. Seuil : simple.</p>`],
+["ql_metrics",`Diagnostic d'une classe`,`<p>WMC = 28, CBO = 12, LCOM = 5. Évaluer.</p>`,`<p>WMC 28 &gt; 20 (élevé). CBO 12 &gt; 10 (élevé). LCOM 5 &gt; 1 (faible cohésion).</p><p><b>Actions</b> : refactoriser, découpler, revue de code.</p>`],
+["ql_metrics",`WMC, CBO, LCOM : calcul guidé`,`<p>Classe <code>GestionClient</code> : 2 attributs (nom, commandes), 4 méthodes : getNom (utilise nom), ajouterCommande (commandes), totalAchat (commandes + boucle for), notifier (EmailService + SMS).</p>`,`<p><b>WMC</b> = 1+1+2+1 = <b>5</b> → faible.</p><p><b>CBO</b> = 2 → faible.</p><p><b>LCOM</b> = P − Q. 6 paires. Paires avec attribut commun : (ajouterCommande, totalAchat) via commandes → Q=1. P=5. <b>LCOM = 4</b> → faible cohésion.</p><p><b>Recommandation</b> : extraire <code>notifier()</code> qui n'utilise aucun attribut.</p>`],
+["ql_metrics",`LOCphy vs LOCpro`,`<p>Fragment Java de 8 lignes (avec accolades et commentaire). Calculer LOCphy et LOCpro.</p>`,`<p>LOCphy = <b>8</b> (toutes les lignes).</p><p>LOCpro = <b>4</b> (lignes 2, 4, 5, 7 — les instructions).</p><p>Ratio 50 % : beaucoup de bruit.</p>`],
+["ql_fond",`QCM : niveaux de besoins`,`<p>Client demande « gestion de stock » sans préciser multi-utilisateur. Ce besoin est :</p><ol type="a"><li>Exprimé</li><li>Spécifié</li><li>Réalisé</li><li>Vrai besoin (implicite)</li></ol>`,`<p><b>Réponse : d) Vrai besoin implicite.</b> Attente réelle non formulée.</p>`],
+["ql_process",`SonarQube : lire un rapport`,`<p>22 bugs (C), 7 vuln (E), 90.5 % coverage, 6.8 % duplications. Quelles affirmations sont vraies ?</p><ol type="a"><li>~13k tests unitaires</li><li>Coverage &gt; 90 %</li><li>Moins de 7 % non couvert</li><li>Au moins 1 vuln bloquante</li></ol>`,`<p><b>Réponses : b et d.</b></p><ul><li>b. ✅ 90.5 % &gt; 90 %</li><li>c. ❌ 100−90.5 = 9.5 % &gt; 7 %</li><li>d. ✅ badge E = blocker</li></ul>`],
+["ql_process",`Type de maintenance`,`<p>1. Corriger un calcul ; 2. Java 8 → 17 ; 3. Refactoriser. Types ?</p>`,`<ol><li>Corrective</li><li>Adaptative</li><li>Perfective</li></ol>`],
 
-["find",`QCM : ordre d'application`,
-`<p>Dans <code>db.c.find().sort({ age: 1 }).skip(2).limit(3)</code>, quel est l'ordre d'application par MongoDB ?</p>
-<ol type="a"><li>skip → limit → sort</li><li>sort → limit → skip</li><li>sort → skip → limit</li><li>L'ordre d'écriture</li></ol>`,
-`<p><b>Réponse : c) sort → skip → limit</b></p>
-<p>MongoDB applique <b>toujours</b> : 1) sort, 2) skip, 3) limit.</p>
-<p>Quel que soit l'ordre d'écriture. <code>.skip(2).limit(3).sort({age: 1})</code> donne le même résultat : les opérateurs sont déclaratifs, pas séquentiels.</p>`],
+/* Mobile */
+["mob_btn",`Quel bouton pour l'action principale ?`,`<p>Écran stock : bouton « Ajouter un produit ».</p><ol type="a"><li>TextButton</li><li>OutlinedButton</li><li>ElevatedButton</li><li>IconButton</li></ol>`,`<p><b>Réponse : c) ElevatedButton</b> (action principale, 1 par écran).</p>`],
+["mob_btn",`Trouve le bug : FAB invisible`,`<p>FAB placé dans <code>body: Column(...)</code>, il ne flotte pas. Pourquoi ?</p>`,`<p><b>Bug</b> : le FAB doit être dans <code>floatingActionButton:</code> du Scaffold, pas dans le body.</p><pre>Scaffold(\n  body: Center(child: Text("Bienvenue")),\n  floatingActionButton: FloatingActionButton(\n    onPressed: () {}, child: Icon(Icons.add),\n  ),\n)</pre>`],
+["mob_btn",`Compléter styleFrom`,`<p>Fond jaune, forme pilule, bordure noire 2px.</p>`,`<pre>ElevatedButton(\n  onPressed: () {},\n  child: Text("Cliquer"),\n  style: ElevatedButton.styleFrom(\n    backgroundColor: Colors.yellow,\n    shape: StadiumBorder(),\n    side: BorderSide(color: Colors.black, width: 2),\n  ),\n)</pre>`],
+["mob_btn",`Widgets obsolètes ?`,`<p>Lesquels ont été remplacés ? (plusieurs)</p><ol type="a"><li>FlatButton</li><li>RaisedButton</li><li>OutlineButton</li><li>IconButton</li></ol>`,`<p><b>Réponses : a, b, c</b></p><ul><li>FlatButton → TextButton</li><li>RaisedButton → ElevatedButton</li><li>OutlineButton → OutlinedButton</li></ul><p>IconButton n'a pas été remplacé.</p>`],
+["mob_btn",`Bouton qui change de texte`,`<p>ElevatedButton affiche « Cliquer ici » puis « Bouton cliqué ! » au clic.</p>`,`<pre>class _BoutonState extends State&lt;Bouton&gt; {\n  String txt = 'Cliquer ici';\n  @override\n  Widget build(BuildContext context) {\n    return Center(\n      child: ElevatedButton(\n        onPressed: () => setState(() => txt = 'Bouton cliqué !'),\n        child: Text(txt),\n      ),\n    );\n  }\n}</pre>`],
+["mob_txt",`TextField ou TextFormField ?`,`<p>Formulaire avec validation email obligatoire ?</p><ol type="a"><li>TextField</li><li>TextFormField dans Form</li><li>TextEditingController</li><li>FormField</li></ol>`,`<p><b>Réponse : b)</b> TextFormField + Form + GlobalKey&lt;FormState&gt;.</p>`],
+["mob_txt",`Trouve le bug : mot de passe visible`,`<p>Le mot de passe s'affiche en clair. Pourquoi ?</p><pre>TextFormField(\n  controller: passwordController,\n  decoration: InputDecoration(labelText: 'Password'),\n)</pre>`,`<p><b>Bug</b> : il manque <code>obscureText: true</code>.</p><pre>TextFormField(\n  controller: passwordController,\n  obscureText: true,\n  decoration: InputDecoration(labelText: 'Password'),\n)</pre>`],
+["mob_txt",`Compléter un champ email`,`<p>Clavier email + icône personne + bordure contour.</p>`,`<pre>TextFormField(\n  keyboardType: TextInputType.emailAddress,\n  decoration: InputDecoration(\n    labelText: 'Email',\n    prefixIcon: Icon(Icons.person),\n    border: OutlineInputBorder(),\n  ),\n)</pre>`],
+["mob_txt",`Vider un TextField`,`<p>Comment vider un TextFormField ? (plusieurs)</p><ol type="a"><li>TextField.clear()</li><li>controller.text = ''</li><li>controller.clear()</li><li>setState(null)</li></ol>`,`<p><b>Réponses : b et c</b></p><pre>passwordController.clear();\n// ou\npasswordController.text = '';</pre>`],
+["mob_txt",`Formulaire de login complet`,`<p>Email + mot de passe masqué + bouton Login.</p>`,`<pre>var mailCtrl = TextEditingController();\nvar passCtrl = TextEditingController();\nvar formKey = GlobalKey&lt;FormState&gt;();\n\nForm(\n  key: formKey,\n  child: Column(children: [\n    TextFormField(\n      controller: mailCtrl,\n      keyboardType: TextInputType.emailAddress,\n      validator: (v) => v!.isEmpty ? "requis" : null,\n    ),\n    TextFormField(controller: passCtrl, obscureText: true),\n    ElevatedButton(\n      onPressed: () {\n        if (formKey.currentState!.validate()) {\n          setState(() => txt = 'OK');\n          mailCtrl.clear(); passCtrl.clear();\n        }\n      },\n      child: Text('Login'),\n    ),\n  ]),\n)</pre>`],
+["mob_wdg",`Espace vertical 10px ?`,`<ol type="a"><li>Container(height: 10)</li><li>SizedBox(height: 10)</li><li>Padding</li><li>Text(" ")</li></ol>`,`<p><b>Réponse : b) SizedBox(height: 10)</b> — léger, recommandé.</p>`],
+["mob_wdg",`Trouve le bug : compteur bloqué`,`<p>Le compteur reste à 0 malgré les clics :</p><pre>onPressed: () { n++; },</pre>`,`<p><b>Bug</b> : il manque <code>setState</code>.</p><pre>onPressed: () => setState(() => n++),</pre>`],
+["mob_wdg",`Compléter : image ronde`,`<p>Image ronde depuis les assets, 200×200.</p>`,`<pre>ClipOval(\n  child: Image.asset(\n    "images/pizza.jpg",\n    width: 200, height: 200,\n    fit: BoxFit.cover,\n  ),\n)</pre>`],
+["mob_wdg",`Double compteur (2 FAB)`,`<p>FAB − , compteur, FAB + dans un Row.</p>`,`<pre>Row(\n  mainAxisAlignment: MainAxisAlignment.spaceAround,\n  children: [\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur--),\n      child: Icon(Icons.remove),\n    ),\n    Text('$compteur', style: TextStyle(fontSize: 40)),\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur++),\n      child: Icon(Icons.add),\n    ),\n  ],\n)</pre>`],
+["mob_wdg",`Slider d'images en boucle`,`<p>4 images cyclées avec modulo.</p>`,`<pre>body: Center(\n  child: ClipOval(\n    child: Image.asset(\n      images[i % images.length],\n      width: 250, height: 250,\n      fit: BoxFit.cover,\n    ),\n  ),\n)</pre>`],
 
-/* PHP existants */
-["phpop",`Évaluer des expressions (1/2)`,`<p>Sans exécuter : <code>17 % 5</code>, <code>2 ** 3 + 1</code>, <code>$x = 4; $x *= 3; $x -= 2;</code>, <code>"7" == 7</code>, <code>"7" === 7</code>.</p>`,`<ol><li><code>17 % 5 = 2</code>. <code>2 ** 3 + 1 = 9</code>.</li><li><code>$x</code> final = <b>10</b> (12 puis 10).</li><li><code>"7" == 7</code> → <b>true</b> ; <code>"7" === 7</code> → <b>false</b>.</li></ol>`],
-["phpop",`Évaluer des expressions (2/2)`,`<p>Sans exécuter : <code>(10 &gt; 5) &amp;&amp; (3 &gt; 8)</code>, <code>(10 &gt; 5) || (3 &gt; 8)</code>, <code>!(4 &lt;= 4)</code>, <code>$a = 3; $b = $a++ + 2;</code>.</p>`,`<ol><li><code>true &amp;&amp; false = false</code>. <code>true || false = true</code>.</li><li><code>4 &lt;= 4</code> = true ; <code>!true = false</code>.</li><li><code>$a = 4</code>, <code>$b = 5</code> (post-incrémentation renvoie 3, puis <code>$a</code> devient 4).</li></ol>`],
-["phpcond",`Attribuer une mention avec if/elseif`,`<p>Écrire la chaîne <code>if / elseif / else</code> pour : « Très bien » ≥16, « Bien » ≥14, « Assez bien » ≥12, « Passable » ≥10, « Non validé » sinon. Pour <code>$note = 13.5</code>, quelle mention ?</p>`,`<pre>$note = 13.5;
-if ($note >= 16)      { $m = "Très bien"; }
-elseif ($note >= 14)  { $m = "Bien"; }
-elseif ($note >= 12)  { $m = "Assez bien"; }
-elseif ($note >= 10)  { $m = "Passable"; }
-else                  { $m = "Non validé"; }
-// → "Assez bien"</pre><p>Tests du plus restrictif au plus large.</p>`],
-["phpcond",`switch : jour de la semaine`,`<p>Switch qui associe 1→Lundi, 2→Mardi, 3→Mercredi, 6 et 7→Week-end, sinon→Autre jour.</p>`,`<pre>switch ($jour) {
-  case 1: $nom = "Lundi"; break;
-  case 2: $nom = "Mardi"; break;
-  case 3: $nom = "Mercredi"; break;
-  case 6:
-  case 7: $nom = "Week-end"; break;
-  default: $nom = "Autre jour";
-}</pre><p>Deux <code>case</code> à la suite = regroupement.</p>`],
-["phpcond",`Même chose avec match (PHP 8)`,`<p>Reprendre en <code>match</code>, tester aussi les intervalles.</p>`,`<pre>$nom = match ($jour) {
-  1 => "Lundi", 2 => "Mardi", 3 => "Mercredi",
-  6, 7 => "Week-end",
-  default => "Autre jour",
-};
+/* Réseaux */
+["res_capacite",`Shannon : calculer S/N`,`<p>C = 20 Mb/s, W = 3 MHz.</p>`,`<p><code>20·10⁶ = 3·10⁶·log₂(1+S/N)</code> → <code>log₂ = 6,667</code> → <code>1+S/N ≈ 101</code> → <b>S/N ≈ 100</b> (≈20 dB).</p>`],
+["res_capacite",`Temps de transmission 16 Mo / 16 Mb/s`,`<ol type="a"><li>8.38 s</li><li>16 s</li><li>16.3 s</li><li>8 s</li></ol>`,`<p><b>Réponse : a) 8.38 s</b></p><p>16 Mo = 2²⁴ octets × 8 = 134,2 Mb. T = 134,2 / 16 ≈ 8,38 s.</p>`],
+["res_capacite",`Rapidité de modulation (V=8)`,`<p>D=2400, V=8.</p>`,`<p><code>R = 2400 / log₂(8) = 800 bauds</code>.</p>`],
+["res_capacite",`Échantillonnage`,`<p>T=2 s, Te=0,5 ms.</p>`,`<p><code>N = T / Te = 4000</code>.</p>`],
+["res_capacite",`dBm (R=50Ω)`,`<p>100 V puis 1 µV.</p>`,`<p>100 V → 200 W → <b>≈ +53 dBm</b>. 1 µV → <b>≈ −107 dBm</b>.</p>`],
+["res_capacite",`Son numérisé 8000 Hz × 8 bits`,`<p>Débit ?</p>`,`<p><code>D = 8000 × 8 = 64 kb/s</code>.</p>`],
+["res_capacite",`Capacité téléimprimeur`,`<p>W=200 Hz, S/N=2 dB.</p>`,`<p>S/N ≈ 1,585. C = 200 × log₂(2,585) ≈ <b>274 b/s</b>.</p>`],
+["res_codage",`Encoder 0100111000`,`<p>NRZ et Manchester.</p>`,`<p><b>NRZ</b> (0=−V, 1=+V) : −V +V −V −V +V +V +V −V −V −V.</p><p><b>Manchester</b> (0=H→L, 1=L→H) : HL LH HL HL LH LH LH HL HL HL.</p>`],
+["res_codage",`Manchester Δ=10⁻⁸ s`,`<p>Débit ?</p>`,`<p>T_bit = 2Δ → <b>D = 50 Mb/s</b>.</p>`],
+["res_modulation",`Antenne 1 kHz vs 1 MHz`,`<p>L = c/(4f).</p>`,`<p>1 kHz → 75 km (irréaliste). 1 MHz → 75 m (raisonnable). Modulation réduit la taille d'antenne.</p>`],
+["res_capacite",`Piège Mo / Mb`,`<p>10 Mo sur 100 Mb/s :</p><ol type="a"><li>0,1 s</li><li>0,84 s</li><li>1 s</li><li>10 s</li></ol>`,`<p><b>Réponse : b) 0,84 s</b>. 10 Mo = 83 886 080 bits. T = 83,9/100 ≈ 0,84 s.</p>`],
+["res_codage",`Décoder Manchester`,`<p>Demi-périodes : H L | L H | H L | H L | L H | L H (0=H→L, 1=L→H).</p>`,`<p><b>Séquence : 0 1 0 0 1 1</b>. Chaque bit = 2 demi-périodes.</p>`],
+["res_modulation",`QCM : modulation de fréquence`,`<p>Modifie la fréquence ?</p><ol type="a"><li>AM</li><li>FM</li><li>PM</li><li>NRZ</li></ol>`,`<p><b>Réponse : b) FM.</b> AM agit sur A, FM/PM sur θ(t).</p>`],
+["res_supports",`Choisir un support`,`<p>1. Local bureau 100 m ; 2. Bâtiments 800 m ; 3. Intercontinental.</p>`,`<ol><li>Paire torsadée (100 m)</li><li>Câble coaxial (500 m extensible)</li><li>Fibre optique (monomode, ~250 km)</li></ol>`],
 
-$mention = match (true) {
-  $note >= 16 => "Très bien",
-  $note >= 14 => "Bien",
-  $note >= 10 => "Passable",
-  default     => "Non validé",
-};</pre><p><code>match</code> : comparaison stricte, pas de break, erreur si aucun cas sans default.</p>`],
+/* IA — exercices */
+["ia_kmeans",`K-means itératif (1D)`,`<p>Points 1D : <b>{1, 2, 5, 6, 7}</b>. Centroïdes initiaux 5 et 6. Appliquer K-means jusqu'à convergence.</p>`,`<p><b>Itération 1 — assignation</b> :<br>
+1 → c1 (|1−5|=4 vs 5)<br>
+2 → c1 (3 vs 4)<br>
+5 → c1 (0 vs 1)<br>
+6 → c2 (1 vs 0)<br>
+7 → c2 (2 vs 1)</p>
+<p><b>Clusters</b> : {1, 2, 5} et {6, 7}.<br>
+C1 = 8/3 ≈ 2,67 ; C2 = 6,5.</p>
+<p><b>Itération 2</b> :<br>
+1 → c1 (|1−2,67|=1,67 vs 5,5)<br>
+2 → c1 (0,67 vs 4,5)<br>
+5 → <b>c2</b> (2,33 vs 1,5) ← change !<br>
+6 → c2 (3,33 vs 0,5)<br>
+7 → c2 (4,33 vs 0,5)</p>
+<p>Clusters : {1, 2} et {5, 6, 7}.<br>
+C1 = 1,5 ; C2 = 6.</p>
+<p><b>Itération 3</b> : 1, 2 → c1 (1,5) ; 5, 6, 7 → c2 (6). <b>Pas de changement</b> → convergence.</p>
+<p><b>Résultat</b> : clusters {1, 2} et {5, 6, 7}, centroïdes 1,5 et 6.</p>`],
 
-/* PHP nouveaux */
-["phpop",`Trouve le bug : comparaison piégeuse`,
-`<p>Ce code doit afficher « majeur » si l'âge est ≥ 18, mais affiche « majeur » pour <code>$age = "18 ans"</code>. Pourquoi ?</p>
-<pre>if ($age >= 18) {
-    echo "majeur";
-} else {
-    echo "mineur";
-}</pre>`,
-`<p><b>Bug</b> : <code>"18 ans"</code> est comparé à <code>18</code> via <code>&gt;=</code>, qui fait une conversion numérique. PHP lit <code>"18 ans"</code> comme <code>18</code> et retourne <code>true</code>.</p>
-<pre>// Solution : caster explicitement
-$age = (int) $age;
-if ($age >= 18) { echo "majeur"; }</pre>
-<p><b>Règle</b> : ne jamais comparer une chaîne à un nombre sans caster.</p>`],
-
-["phpop",`QCM : quelles valeurs sont falsy ?`,
-`<p>Parmi ces valeurs, lesquelles sont <b>falsy</b> en PHP ? (plusieurs réponses)</p>
-<ol type="a"><li><code>0</code></li><li><code>"0"</code></li><li><code>[]</code></li><li><code>"false"</code></li><li><code>null</code></li></ol>`,
-`<p><b>Réponses : a, b, c, e</b></p>
-<p>Falsy en PHP : <code>false</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>"0"</code>, <code>[]</code>, <code>null</code>.</p>
-<p><b>Piège</b> : <code>"false"</code> (chaîne) est <b>truthy</b> car non vide et ≠ <code>"0"</code>. En revanche <code>"0"</code> est <b>falsy</b>.</p>`],
-
-["phpcond",`Compléter la syntaxe alternative`,
-`<p>Réécris ce <code>if / else</code> en <b>syntaxe alternative</b> (fichier de vue).</p>
-<pre>&lt;?php if ($connecte) { ?&gt;
-  &lt;a href="logout.php"&gt;Déconnexion&lt;/a&gt;
-&lt;?php } else { ?&gt;
-  &lt;a href="login.php"&gt;Connexion&lt;/a&gt;
-&lt;?php } ?&gt;</pre>`,
-`<pre>&lt;?php if ($connecte): ?&gt;
-  &lt;a href="logout.php"&gt;Déconnexion&lt;/a&gt;
-&lt;?php else: ?&gt;
-  &lt;a href="login.php"&gt;Connexion&lt;/a&gt;
-&lt;?php endif; ?&gt;</pre>
-<p>Les accolades <code>{ }</code> deviennent <code>:</code> et <code>endif;</code> (ou <code>endfor;</code>, <code>endforeach;</code>, <code>endwhile;</code>). Recommandé dans les vues : moins de bruit visuel.</p>`],
-
-["phpcond",`Trouve le bug : match sans default`,
-`<p>Ce code doit retourner la mention. Que se passe-t-il pour <code>$note = 8</code> ?</p>
-<pre>$m = match (true) {
-  $note >= 16 => "Très bien",
-  $note >= 14 => "Bien",
-  $note >= 10 => "Passable",
-};</pre>`,
-`<p><b>Bug</b> : <code>match</code> déclenche une <b><code>UnhandledMatchError</code></b> si aucun cas ne correspond et qu'il n'y a pas de <code>default</code>.</p>
-<pre>$m = match (true) {
-  $note >= 16 => "Très bien",
-  $note >= 14 => "Bien",
-  $note >= 10 => "Passable",
-  default     => "Non validé",   // ← indispensable
-};</pre>
-<p>Contrairement à <code>switch</code> qui ne fait rien si aucun cas ne correspond, <code>match</code> <b>plante</b>.</p>`],
-
-["phpcond",`Compléter : ternaire et ??`,
-`<p>Complète : <code>$statut</code> = "adulte" si <code>$age &gt;= 18</code>, sinon "mineur". <code>$page</code> = valeur de <code>$_GET['page']</code> ou 1 par défaut.</p>
-<pre>$statut = ___;
-$page = ___;</pre>`,
-`<pre>$statut = ($age >= 18) ? "adulte" : "mineur";
-$page   = $_GET['page'] ?? 1;</pre>
-<p><b>Ternaire</b> : <code>condition ? valeur_si_vrai : valeur_si_faux</code>. Produit une valeur.</p>
-<p><b>Coalescence nulle <code>??</code></b> : renvoie l'opérande de gauche s'il existe et n'est pas <code>null</code>, sinon celui de droite. Ne fait <b>pas</b> de conversion de type (contrairement à <code>?:</code>).</p>`],
-
-/* Qualité existants (1er et 3e) */
-["ql_metrics",`Complexité cyclomatique du code GestionClient`,`<p>Méthode <code>totalAchat()</code> avec une boucle <code>for</code>. Calculer V(G) et le nombre minimal de cas de test.</p>`,`<p>V(G) = décisions + 1 = 1 + 1 = <b>2</b> (une seule décision : la boucle for).</p><p>Cas de test minimum = <b>V(G) = 2</b>. Seuils : ≤10 simple → <b>simple</b>.</p>`],
-["ql_metrics",`Diagnostic d'une classe`,`<p>Une classe avec WMC = 28, CBO = 12, LCOM = 5. Évaluer et proposer des actions.</p>`,`<p>WMC 28 &gt; 20 = élevé. CBO 12 &gt; 10 = élevé. LCOM 5 &gt; 1 = faible cohésion.</p><p><b>Actions</b> : refactoriser (extraire des méthodes), découpler (interfaces, injection), répartir les responsabilités, renforcer les tests, revue de code.</p>`],
-
-/* Qualité : WMC/CBO/LCOM corrigé */
-["ql_metrics",`WMC, CBO, LCOM : calcul guidé`,
-`<p>Classe <code>GestionClient</code> : 2 attributs (<code>nom</code>, <code>commandes</code>), 4 méthodes :</p>
-<ul>
-<li><code>getNom()</code> : utilise <code>nom</code></li>
-<li><code>ajouterCommande(c)</code> : utilise <code>commandes</code></li>
-<li><code>totalAchat()</code> : utilise <code>commandes</code> (boucle for)</li>
-<li><code>notifier()</code> : utilise <code>EmailService</code> et <code>SMS</code> (classes externes)</li>
-</ul>
-<p>Calculer WMC, CBO, LCOM et interpréter.</p>`,
-`<p><b>WMC</b> = Σ V(G). Chaque méthode vaut 1 sauf <code>totalAchat()</code> (boucle for → 2).</p>
-<p>WMC = 1 + 1 + 2 + 1 = <b>5</b> → faible (≤ 10).</p>
-<p><b>CBO</b> = nombre de classes externes utilisées = EmailService + SMS = <b>2</b> → faible (≤ 5).</p>
-<p><b>LCOM</b> = P − Q (ramené à 0 si négatif) :</p>
-<ul>
-<li><b>P</b> = nb de paires de méthodes qui <b>ne partagent aucun attribut</b></li>
-<li><b>Q</b> = nb de paires qui <b>partagent au moins un attribut</b></li>
-<li>4 méthodes → C(4,2) = <b>6 paires</b> au total</li>
-</ul>
-<table><tr><th>Paire</th><th>Attribut commun ?</th></tr>
-<tr><td>getNom / ajouterCommande</td><td>Non</td></tr>
-<tr><td>getNom / totalAchat</td><td>Non</td></tr>
-<tr><td>getNom / notifier</td><td>Non</td></tr>
-<tr><td>ajouterCommande / totalAchat</td><td><b>Oui</b> (commandes)</td></tr>
-<tr><td>ajouterCommande / notifier</td><td>Non</td></tr>
-<tr><td>totalAchat / notifier</td><td>Non</td></tr>
+["ia_elbow",`Inertie et coude sur X=[1,2,3,8,9,10,25]`,`<p>Calculer l'inertie pour k = 1, 2, 3, 4 et identifier le k optimal par la méthode du coude.</p>`,`<p><b>Inertie</b> = Σ (xi − centroïde)².</p>
+<p><b>k = 1</b> : centroïde = moyenne ≈ 8,29. Σ ≈ <b>404</b>.</p>
+<p><b>k = 2</b> : clusters {1,2,3} et {8,9,10,25}<br>
+C1 = 2 ; C2 = 13.<br>
+Σ₁ = (1−2)²+(2−2)²+(3−2)² = 2<br>
+Σ₂ = 25+16+9+144 = 194<br>
+Total ≈ <b>196</b> <i>(le PDF indique 67 — erreur arithmétique dans le document)</i>.</p>
+<p><b>k = 3</b> : clusters {1,2,3}, {8,9,10}, {25}<br>
+C1 = 2 ; C2 = 9 ; C3 = 25.<br>
+Σ = (1−2)²+(2−2)²+(3−2)² + (8−9)²+(9−9)²+(10−9)² + 0<br>
+= 1+0+1+1+0+1+0 = <b>4</b>.</p>
+<p><b>k = 4</b> : dernier point isolé, Σ ≈ <b>2</b>.</p>
+<table>
+<tr><th>k</th><th>Inertie</th></tr>
+<tr><td>1</td><td>404</td></tr>
+<tr><td>2</td><td>196 (PDF: 67)</td></tr>
+<tr><td>3</td><td>4</td></tr>
+<tr><td>4</td><td>2</td></tr>
 </table>
-<p>P = 5, Q = 1 → <b>LCOM = 5 − 1 = 4</b> → &gt; 1 → faible cohésion.</p>
-<p><b>Interprétation</b> : <code>notifier()</code> n'utilise aucun attribut → manque de cohésion. Recommandation : extraire <code>notifier()</code> dans une classe <code>NotificationService</code>.</p>`],
+<p><b>Méthode du coude</b> : l'inertie chute fortement jusqu'à k=2 ou 3, puis devient presque plate (4→2). Le coude est à <b>k = 2 ou 3</b> selon la précision des calculs. Le PDF conclut k=2, ce qui reste cohérent.</p>`],
 
-/* Qualité nouveaux */
-["ql_metrics",`LOCphy vs LOCpro`,
-`<p>Fragment Java :</p>
-<pre>public double totalAchat() {     // 1
-    double t = 0;                 // 2
-    // boucle sur les commandes   // 3
-    for (Commande c : commandes) {// 4
-        t += c.getPrix();         // 5
-    }                             // 6
-    return t;                     // 7
-}                                 // 8</pre>
-<p>Calculer LOCphy et LOCpro.</p>`,
-`<p><b>LOCphy</b> (toutes les lignes) = <b>8</b>.</p>
-<p><b>LOCpro</b> (hors commentaires et accolades seules) :</p>
-<ul><li>Ligne 2 : <code>double t = 0;</code> ✓</li><li>Ligne 3 : commentaire ✗</li><li>Ligne 4 : <code>for (...)</code> ✓</li><li>Ligne 5 : <code>t += ...</code> ✓</li><li>Ligne 7 : <code>return t;</code> ✓</li></ul>
-<p><b>LOCpro = 4</b>. Le ratio 4/8 (50 %) indique beaucoup de bruit (commentaires, accolades).</p>`],
-
-["ql_fond",`QCM : niveaux de besoins`,
-`<p>Le client demande « une appli de gestion de stock ». Il ne précise pas qu'il veut du <b>multi-utilisateur</b>. Ce besoin est :</p>
-<ol type="a"><li>Exprimé</li><li>Spécifié</li><li>Réalisé</li><li>Vrai besoin (implicite)</li></ol>`,
-`<p><b>Réponse : d) Vrai besoin (implicite)</b></p>
-<p>4 niveaux : <b>exprimés</b> (ce que le client dit), <b>spécifiés</b> (formalisés), <b>réalisés</b> (implémentés), <b>vrais besoins</b> (attentes réelles, souvent non formulées).</p>
-<p>La qualité, c'est de satisfaire aussi les vrais besoins. Le multi-utilisateur est tellement évident que le client ne le formule pas — mais il rejettera l'appli s'il est absent.</p>`],
-
-["ql_process",`SonarQube : lire un rapport`,
-`<p>Rapport SonarQube : 22 Bugs (badge C), 7 Vulnerabilities (badge E), 90.5 % Coverage, 6.8 % Duplications.</p>
-<p>Que peut-on dire ? (plusieurs réponses)</p>
-<ol type="a"><li>~13 000 tests unitaires</li><li>Couverture &gt; 90 %</li><li>Moins de 7 % non couvert</li><li>Au moins une vulnérabilité bloquante</li></ol>`,
-`<p><b>Réponses : b et d</b></p>
+["ia_var",`K-means++ : calcul des probabilités`,`<p>Points {2, 4, 6, 8, 10}, k=2. Le 1er centre est c1 = 2. Calculer P(xi) pour chaque autre point.</p>`,`<p><b>Distances à c1</b> : D(2)=0, D(4)=2, D(6)=4, D(8)=6, D(10)=8.</p>
+<p><b>D²</b> : 0, 4, 16, 36, 64. <b>Σ = 120</b>.</p>
+<p><b>Probabilités</b> P(xi) = D(xi)² / 120 :</p>
 <ul>
-<li>a. ❌ — Le rapport ne dit pas 13 000 tests (autre indicateur).</li>
-<li>b. ✅ — Coverage 90.5 % &gt; 90 %.</li>
-<li>c. ❌ — 100 − 90.5 = <b>9.5 %</b> non couvert, &gt; 7 %.</li>
-<li>d. ✅ — Badge <b>E</b> = Blocker.</li>
+<li>P(2) = 0</li>
+<li>P(4) = 4/120 ≈ 3,3 %</li>
+<li>P(6) = 16/120 ≈ 13,3 %</li>
+<li>P(8) = 36/120 = 30 %</li>
+<li>P(10) = 64/120 ≈ 53,3 %</li>
 </ul>
-<p><b>Badges</b> : A=info, B=minor, C=major, D=critical, <b>E=blocker</b>.</p>`],
+<p><b>Interprétation</b> : P(10) le plus élevé. Le point le plus éloigné de c1 a le plus de chances de devenir c2 → centres bien espacés → meilleure init.</p>`],
 
-["ql_process",`Type de maintenance`,
-`<p>Associe chaque action à son type :</p>
-<ol>
-<li>Corriger un calcul erroné dans <code>totalFinal()</code></li>
-<li>Migrer de Java 8 à Java 17</li>
-<li>Refactoriser une méthode de 200 lignes en 5 méthodes de 40 lignes</li>
+["ia_agents",`PEAS : agent de diagnostic médical`,`<p>Clinique : agent reçoit symptômes, historique, analyses → propose diagnostic + examens.</p>
+<p>Donner la description PEAS (au moins 2 éléments par lettre).</p>`,`<p><b>P — Performance</b> : exactitude du diagnostic, temps de réponse, taux de faux positifs/négatifs.</p>
+<p><b>E — Environnement</b> : patient, dossier médical, historique, analyses, médecins, hôpital.</p>
+<p><b>A — Actuateurs</b> : afficher un diagnostic, générer une prescription d'examens, envoyer une alerte au médecin.</p>
+<p><b>S — Sensors</b> : saisie des symptômes, lecteur d'analyses (fichiers labo), accès dossier médical.</p>`],
+
+["ia_agents",`Caractériser une voiture autonome`,`<p>Voiture autonome en ville : décrire l'environnement selon les 5 axes.</p>`,`<ol>
+<li><b>Partiellement observable</b> : angles morts, comportements cachés.</li>
+<li><b>Stochastique</b> : piétons et autres véhicules imprévisibles.</li>
+<li><b>Séquentiel</b> : chaque décision affecte les états futurs (freinage, dépassement).</li>
+<li><b>Dynamique</b> : l'environnement évolue en temps réel.</li>
+<li><b>Continu</b> : position, vitesse, temps sont continus.</li>
+</ol>`],
+
+["ia_agents",`Associer situations aux types d'agents`,`<p>Associer :</p><ol>
+<li>Porte automatique</li>
+<li>Robot aspirateur qui mémorise</li>
+<li>GPS vers une adresse</li>
+<li>GPS pondérant rapidité/coût/sécurité</li>
+<li>Programme de jeu qui apprend</li>
 </ol>
-<p>Types : <b>corrective</b>, <b>adaptative</b>, <b>perfective</b>.</p>`,
-`<ol>
-<li>Corriger un bug → <b>corrective</b></li>
-<li>Nouvel environnement → <b>adaptative</b></li>
-<li>Améliorer la structure sans changer le comportement → <b>perfective</b></li>
-</ol>
-<p>La <b>perfective</b> est directement liée à ISO 25010 (maintenabilité).</p>`],
+<p>Types : réflexe simple · réflexe avec état interne · but · utilité · apprenant.</p>`,`<ol>
+<li><b>Réflexe simple</b> : règle condition-action.</li>
+<li><b>Réflexe avec état interne</b> : mémorise les pièces nettoyées.</li>
+<li><b>Basé sur des buts</b> : atteindre une destination.</li>
+<li><b>Basé sur l'utilité</b> : pondère plusieurs critères.</li>
+<li><b>Apprenant</b> : améliore par l'expérience.</li>
+</ol>`],
 
-/* Mobile : les 15 nouveaux (déjà en place, abrégés) */
-["mob_btn",`Quel bouton pour l'action principale ?`,`<p>Écran de gestion de stock : bouton pour « Ajouter un produit ». Quel widget ?</p><ol type="a"><li>TextButton</li><li>OutlinedButton</li><li>ElevatedButton</li><li>IconButton</li></ol>`,`<p><b>Réponse : c) ElevatedButton</b></p><p>Hiérarchie : Elevated (principale) → Outlined (importante secondaire) → Text (tertiaire) → Icon (rapide).</p>`],
-["mob_btn",`Trouve le bug : le FAB ne s'affiche pas`,`<p>Ce FAB n'apparaît pas. Pourquoi ?</p><pre>Scaffold(\n  body: Column(children: [\n    Text("Bienvenue"),\n    FloatingActionButton(onPressed: () {}, child: Icon(Icons.add)),\n  ]),\n)</pre>`,`<p><b>Bug</b> : le FAB doit être passé à <code>floatingActionButton:</code> du Scaffold, pas dans le <code>body</code>.</p><pre>Scaffold(\n  body: Center(child: Text("Bienvenue")),\n  floatingActionButton: FloatingActionButton(\n    onPressed: () {}, child: Icon(Icons.add),\n  ),\n)</pre>`],
-["mob_btn",`Compléter un styleFrom`,`<p>Complète : fond jaune, forme pilule, bordure noire 2 px.</p><pre>ElevatedButton(\n  onPressed: () {},\n  child: Text("Cliquer"),\n  style: ElevatedButton.styleFrom(\n    backgroundColor: ___,\n    shape: ___,\n    side: ___,\n  ),\n)</pre>`,`<pre>ElevatedButton(\n  onPressed: () {},\n  child: Text("Cliquer"),\n  style: ElevatedButton.styleFrom(\n    backgroundColor: Colors.yellow,\n    shape: StadiumBorder(),\n    side: BorderSide(color: Colors.black, width: 2),\n  ),\n)</pre><p><b>StadiumBorder</b> = pilule. Pour coins arrondis : <code>RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))</code>.</p>`],
-["mob_btn",`Quels widgets sont obsolètes ?`,`<p>Lesquels ont été remplacés ? (plusieurs réponses)</p><ol type="a"><li><code>FlatButton</code></li><li><code>RaisedButton</code></li><li><code>OutlineButton</code></li><li><code>IconButton</code></li></ol>`,`<p><b>Réponses : a, b, c</b></p><ul><li>FlatButton → TextButton</li><li>RaisedButton → ElevatedButton</li><li>OutlineButton → OutlinedButton</li></ul><p><code>IconButton</code> n'a pas été remplacé.</p>`],
-["mob_btn",`Bouton qui change de texte au clic`,`<p>Écris un ElevatedButton qui affiche « Cliquer ici » puis « Bouton cliqué ! ». Avant de coder : quel type de widget ? quelle méthode pour rafraîchir ?</p>`,`<ol><li>Variable d'état dans un <code>StatefulWidget</code> : <code>String txt = 'Cliquer ici';</code></li><li><b><code>setState()</code></b> — sans ça, l'UI ne se met pas à jour.</li></ol><pre>class _BoutonState extends State&lt;Bouton&gt; {\n  String txt = 'Cliquer ici';\n  @override\n  Widget build(BuildContext context) {\n    return Center(\n      child: ElevatedButton(\n        onPressed: () => setState(() => txt = 'Bouton cliqué !'),\n        child: Text(txt),\n      ),\n    );\n  }\n}</pre>`],
-["mob_txt",`TextField ou TextFormField ?`,`<p>Formulaire d'inscription avec validation email obligatoire. Quel widget ?</p><ol type="a"><li>TextField seul</li><li>TextFormField dans un Form</li><li>TextEditingController</li><li>FormField</li></ol>`,`<p><b>Réponse : b) TextFormField dans un Form</b></p><p><code>TextFormField</code> accepte un <code>validator</code>. Le Form doit avoir une <code>GlobalKey&lt;FormState&gt;</code> pour déclencher : <code>formKey.currentState!.validate()</code>.</p>`],
-["mob_txt",`Trouve le bug : mot de passe visible`,`<p>Ce champ devrait masquer le mot de passe, mais les caractères sont visibles. Pourquoi ?</p><pre>TextFormField(\n  controller: passwordController,\n  decoration: InputDecoration(labelText: 'Password'),\n)</pre>`,`<p><b>Bug</b> : il manque <code>obscureText: true</code>.</p><pre>TextFormField(\n  controller: passwordController,\n  obscureText: true,\n  obscuringCharacter: '*',\n  decoration: InputDecoration(labelText: 'Password'),\n)</pre>`],
-["mob_txt",`Compléter un champ email`,`<p>Complète : clavier email + icône personne à gauche + bordure contour.</p><pre>TextFormField(\n  ___,\n  decoration: InputDecoration(\n    labelText: 'Email',\n    ___,\n    ___,\n  ),\n)</pre>`,`<pre>TextFormField(\n  keyboardType: TextInputType.emailAddress,\n  decoration: InputDecoration(\n    labelText: 'Email',\n    prefixIcon: Icon(Icons.person),\n    border: OutlineInputBorder(),\n  ),\n)</pre><p><code>prefixIcon</code> = icône dans le champ ; <code>icon</code> = à l'extérieur.</p>`],
-["mob_txt",`Vider un TextField programmatiquement`,`<p>Après soumission, comment effacer un TextFormField ? (plusieurs réponses)</p><ol type="a"><li><code>TextField.clear()</code></li><li><code>controller.text = ''</code></li><li><code>controller.clear()</code></li><li><code>setState(() => TextField = null)</code></li></ol>`,`<p><b>Réponses : b et c</b></p><pre>passwordController.clear();\n// équivalent\npasswordController.text = '';</pre><p>Le TextFormField doit avoir <code>controller: passwordController</code> branché. <b>Bonne pratique</b> : <code>dispose()</code> les controllers.</p>`],
-["mob_txt",`Formulaire de login complet`,`<p>Écris un formulaire avec email (validator non vide), mot de passe masqué, bouton Login qui valide et affiche. Avant : quelle classe pour lire la saisie ? comment déclencher la validation ?</p>`,`<ol><li><b><code>TextEditingController</code></b> : un par champ. Lecture via <code>controller.text</code>.</li><li><b><code>formKey.currentState!.validate()</code></b> : déclenche tous les validator du Form.</li></ol><pre>var mailCtrl = TextEditingController();\nvar passCtrl = TextEditingController();\nvar formKey = GlobalKey&lt;FormState&gt;();\n\nForm(\n  key: formKey,\n  child: Column(children: [\n    TextFormField(\n      controller: mailCtrl,\n      keyboardType: TextInputType.emailAddress,\n      validator: (v) => v!.isEmpty ? "requis" : null,\n    ),\n    TextFormField(\n      controller: passCtrl,\n      obscureText: true,\n    ),\n    ElevatedButton(\n      onPressed: () {\n        if (formKey.currentState!.validate()) {\n          setState(() => txt = 'Mail: \${mailCtrl.text}');\n          mailCtrl.clear(); passCtrl.clear();\n        }\n      },\n      child: Text('Login'),\n    ),\n  ]),\n)</pre>`],
-["mob_wdg",`Espace vertical entre deux widgets`,`<p>Espace vertical de 10 px dans une Column ?</p><ol type="a"><li>Container(height: 10)</li><li>SizedBox(height: 10)</li><li>Padding(padding: EdgeInsets.all(10))</li><li>Text(" ")</li></ol>`,`<p><b>Réponse : b) SizedBox(height: 10)</b></p><p>SizedBox est <b>le widget recommandé</b> pour un espace fixe : léger, sans décoration. Container est plus lourd, Padding ajoute de l'espace autour d'un enfant existant.</p>`],
-["mob_wdg",`Trouve le bug : compteur qui ne se met pas à jour`,`<p>Ce compteur reste à 0 malgré les clics. Pourquoi ?</p><pre>onPressed: () { n++; },</pre>`,`<p><b>Bug</b> : il manque <code>setState</code>.</p><pre>onPressed: () => setState(() => n++),</pre><p>Sans setState, la variable change mais Flutter ne redessine pas l'écran.</p>`],
-["mob_wdg",`Compléter : image ronde depuis les assets`,`<p>Complète pour afficher une image ronde qui remplit un carré 200×200.</p><pre>___(\n  child: Image.___(\n    "images/pizza.jpg",\n    width: 200, height: 200, fit: ___,\n  ),\n)</pre>`,`<pre>ClipOval(\n  child: Image.asset(\n    "images/pizza.jpg",\n    width: 200, height: 200,\n    fit: BoxFit.cover,\n  ),\n)</pre><p><b>ClipOval</b> = découpe en cercle. <b>Image.asset</b> = depuis les assets. <b>BoxFit.cover</b> = remplit sans déformer.</p>`],
-["mob_wdg",`Double compteur avec deux FAB`,`<p>Écran avec FAB « − », compteur, FAB « + ». Comment aligner les 3 horizontalement avec espace égal ?</p>`,`<p><b>Réponse</b> : <code>Row</code> + <code>mainAxisAlignment: MainAxisAlignment.spaceAround</code>.</p><pre>Row(\n  mainAxisAlignment: MainAxisAlignment.spaceAround,\n  children: [\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur--),\n      child: Icon(Icons.remove),\n    ),\n    Text('$compteur', style: TextStyle(fontSize: 40)),\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur++),\n      child: Icon(Icons.add),\n    ),\n  ],\n)</pre>`],
-["mob_wdg",`Slider d'images en boucle`,`<p>4 images, un FAB « suivant » cycle et revient à la 1ʳᵉ après la dernière. Avant : comment cycler sans <code>if</code> ? quel widget pour image ronde ?</p>`,`<ol><li><b>Modulo</b> : <code>i % images.length</code> donne 0,1,2,3,0,1… Peu importe <code>i</code>.</li><li><b>ClipOval</b> + <code>Image.asset(fit: BoxFit.cover)</code>.</li></ol><pre>body: Center(\n  child: ClipOval(\n    child: Image.asset(\n      images[i % images.length],\n      width: 250, height: 250,\n      fit: BoxFit.cover,\n    ),\n  ),\n)</pre>`],
-
-/* Réseaux existants */
-["res_capacite",`Shannon : calculer S/N (Exercice 1)`,`<p>C = 20 Mb/s, W = 3 MHz. S/N ?</p>`,`<p><code>20·10⁶ = 3·10⁶ · log₂(1 + S/N)</code></p><p><code>log₂(1 + S/N) = 6,667</code></p><p><code>1 + S/N ≈ 101</code> → <b>S/N ≈ 100</b> (≈ 20 dB).</p>`],
-["res_capacite",`Temps de transmission (Exercice 2)`,`<p>16 Mo sur 16 Mb/s : a) 8.38 s b) 16 s c) 16.3 s d) 8 s</p>`,`<p><b>Réponse : a) 8.38 s</b></p><p>16 Mo = 2²⁴ octets × 8 = 134 217 728 bits. T = 134,2 / 16 ≈ 8,38 s.</p>`],
-["res_capacite",`Rapidité de modulation (V = 8)`,`<p>D = 2400 b/s, V = 8. R ?</p>`,`<p><code>R = 2400 / log₂(8) = 800 bauds</code>.</p>`],
-["res_capacite",`Échantillonnage (Exercice 5)`,`<p>T = 2 s, Te = 0,5 ms. Nombre d'échantillons ?</p>`,`<p><code>N = T / Te = 2 / 0,5·10⁻³ = 4000</code>.</p>`],
-["res_capacite",`dBm (Exercice 6)`,`<p>R = 50 Ω. Niveau de 100 V puis 1 µV ?</p>`,`<p>100 V : P = 200 W = 200 000 mW → <b>≈ +53 dBm</b>.</p><p>1 µV : P = 2·10⁻¹⁴ W → <b>≈ −107 dBm</b>.</p>`],
-["res_capacite",`Son numérisé : débit (Test n°2)`,`<p>8000 Hz × 8 bits. Débit ?</p>`,`<p><code>D = 8000 × 8 = 64 kb/s</code>.</p>`],
-["res_capacite",`Capacité téléimprimeur (Test n°2)`,`<p>W = 200 Hz, S/N = 2 dB. Capacité ?</p>`,`<p>S/N = 10^(2/10) ≈ 1,585. C = 200 × log₂(2,585) ≈ 200 × 1,37 ≈ <b>274 b/s</b>.</p>`],
-["res_codage",`Encoder 0100111000 en NRZ et Manchester (Exercice 7)`,`<p>Suite 0100111000 en NRZ et Manchester.</p>`,`<p><b>NRZ</b> (0 = −V, 1 = +V) : −V +V −V −V +V +V +V −V −V −V.</p><p><b>Manchester</b> (0 = H→L, 1 = L→H) : HL LH HL HL LH LH LH HL HL HL.</p>`],
-["res_codage",`Manchester avec Δ = 10⁻⁸ s (Exercice 10)`,`<p>Manchester, Δ = 10⁻⁸ s. Débit ?</p>`,`<p>T_bit = 2Δ = 2·10⁻⁸ s → <b>D = 50 Mb/s</b>.</p>`],
-["res_modulation",`Antenne : f = 1 kHz vs 1 MHz`,`<p>L = c/(4f), c = 3·10⁸ m/s. L pour 1 kHz puis 1 MHz ?</p>`,`<p>1 kHz : λ = 300 km → L = 75 km (irréaliste).</p><p>1 MHz : λ = 300 m → L = 75 m (raisonnable).</p><p>La modulation réduit les dimensions d'antenne.</p>`],
-
-/* Réseaux nouveaux */
-["res_capacite",`Piège Mo / Mb : temps de transmission`,
-`<p>Fichier de <b>10 Mo</b> sur ligne à <b>100 Mb/s</b>. Combien de temps ?</p>
-<ol type="a"><li>0,1 s</li><li>0,84 s</li><li>1 s</li><li>10 s</li></ol>`,
-`<p><b>Réponse : b) 0,84 s</b></p>
-<p><b>Piège classique</b> :</p>
-<ul><li><b>Mo</b> (mégaoctet) = 2²⁰ octets = 1 048 576 octets = <b>8 388 608 bits</b></li><li><b>Mb</b> (mégabit) = 10⁶ bits</li></ul>
-<p>10 Mo = 10 × 8 388 608 = <b>83 886 080 bits</b>.</p>
-<p>T = 83 886 080 / 100 000 000 ≈ <b>0,84 s</b>.</p>
-<p>Si on avait confondu Mo et Mb : 10 / 100 = 0,1 s → réponse a (fausse).</p>
-<p><b>Règle</b> : toujours convertir en bits avant de diviser par le débit.</p>`],
-
-["res_codage",`Décoder un signal Manchester`,
-`<p>Signal Manchester (0 = H→L, 1 = L→H). Séquence de demi-périodes :</p>
-<pre>H L | L H | H L | H L | L H | L H</pre>
-<p>Quelle est la séquence binaire ?</p>`,
-`<p><b>Séquence : 0 1 0 0 1 1</b></p>
-<table><tr><th>Demi-périodes</th><th>Transition</th><th>Bit</th></tr>
-<tr><td>H L</td><td>Haut→Bas</td><td>0</td></tr>
-<tr><td>L H</td><td>Bas→Haut</td><td>1</td></tr>
-<tr><td>H L</td><td>Haut→Bas</td><td>0</td></tr>
-<tr><td>H L</td><td>Haut→Bas</td><td>0</td></tr>
-<tr><td>L H</td><td>Bas→Haut</td><td>1</td></tr>
-<tr><td>L H</td><td>Bas→Haut</td><td>1</td></tr></table>
-<p><b>Astuce</b> : en Manchester, chaque bit a <b>une transition au milieu</b>. On regarde le sens de la transition. Toujours vérifier la convention.</p>`],
-
-["res_modulation",`QCM : types de modulation`,
-`<p>Quel type de modulation modifie la <b>fréquence</b> de la porteuse ?</p>
-<ol type="a"><li>AM (amplitude)</li><li>FM (fréquence)</li><li>PM (phase)</li><li>NRZ</li></ol>`,
-`<p><b>Réponse : b) FM</b></p>
-<ul><li><b>AM</b> : <code>A</code> varie</li><li><b>FM</b> : la fréquence varie (dans θ(t))</li><li><b>PM</b> : la phase varie (dans θ(t))</li><li><b>NRZ</b> : codage en bande de base, <b>pas une modulation</b></li></ul>
-<p>Signal modulé : <code>x(t) = A cos(θ(t))</code>. AM agit sur A, FM/PM sur θ(t).</p>
-<p><b>Numériques</b> : ASK, FSK, PSK.</p>`],
-
-["res_supports",`Choisir un support selon le contexte`,
-`<p>Associe chaque situation au support le plus adapté :</p>
-<ol>
-<li>Réseau local dans un bureau (max 100 m, débit moyen)</li>
-<li>Liaison entre deux bâtiments à 800 m, haut débit</li>
-<li>Liaison intercontinentale, très haut débit</li>
-</ol>
-<p>Supports : <b>paire torsadée</b>, <b>câble coaxial</b>, <b>fibre optique</b>.</p>`,
-`<ol>
-<li><b>Réseau local bureau</b> → <b>paire torsadée</b> (UTP/STP, 100 Ω, 100 m max)</li>
-<li><b>800 m haut débit</b> → <b>câble coaxial</b> (50/75 Ω, 500 m sans ampli, extensible)</li>
-<li><b>Intercontinental</b> → <b>fibre optique</b> (monomode, ré-amplification ~250 km)</li>
-</ol>
-<p><b>Récap</b> : coaxial 50/75 Ω 500 m · paire 100 Ω 100 m · fibre mono/multimode ~250 km.</p>`]
+["ia_agents",`Vrai / faux sur les agents`,`<p>1. Agent rationnel = omniscient. 2. Épisodique : action courante n'influence pas les futurs. 3. Observable ⟹ déterministe. 4. Échecs = discret.</p>`,`<ol>
+<li><b>Faux.</b> Rationnel ≠ omniscient. Rationnel agit au mieux avec les infos dispo.</li>
+<li><b>Vrai.</b> Épisodique = épisodes indépendants.</li>
+<li><b>Faux.</b> Observable ≠ déterministe (dés observables mais stochastiques).</li>
+<li><b>Vrai.</b> Cases finies = discret.</li>
+</ol>`]
 ];
 
-/* ===================== EXAMENS BLANCS ===================== */
+/* EXAMENS */
 var EXAMS = {
   mongodb: {
     title: "Examen blanc — MongoDB",
-    intro: "Test 2 (collection etudiants). Champs : nom, filiere, ville, age, scolarite.heures_presence, scolarite.absences, examens[] {matiere, semestre, bonus, tp_rendus, note}. 31 questions.",
+    intro: "Test 2 (collection etudiants). Champs : nom, filiere, ville, age, scolarite.heures_presence, scolarite.absences, examens[] {matiere, semestre, bonus, tp_rendus, note}.",
     parts: [
-      {
-        title: "Partie 1 — find() et opérateurs (13 questions)",
-        questions: [
-          "Afficher tous les documents.",
-          "Afficher uniquement nom, filiere, ville (_id exclu).",
-          "Filtrer sur ville = \"Agadir\".",
-          "Filtrer sur age &gt; 22.",
-          "Filtrer sur filiere IN [\"Génie Informatique\", \"Génie Industriel\"].",
-          "Étudiants ayant passé les examens « Bases de données » ET « Réseaux » (utiliser $all).",
-          "Étudiants ayant exactement 3 examens (utiliser $size).",
-          "Étudiants ayant un examen avec note ≥ 14 ET bonus ≥ 1 (utiliser $elemMatch).",
-          "Étudiants dont le champ scolarite.absences existe (utiliser $exists).",
-          "Étudiants ayant passé « Bases de données » ET « Réseaux », ET ayant une note ≥ 14 dans l'un des deux (utiliser $all + $elemMatch).",
-          "Étudiants de ville IN [\"Agadir\", \"Marrakech\"], ET ayant un examen avec note ≥ 15 (utiliser $in + $elemMatch).",
-          "Trier par age décroissant.",
-          "Trier par age croissant, ignorer le premier, garder deux."
-        ],
-        corrections: [
-          "<code>db.etudiants.find()</code>",
-          "<code>db.etudiants.find({}, { _id: 0, nom: 1, filiere: 1, ville: 1 })</code>",
-          "<code>db.etudiants.find({ ville: \"Agadir\" })</code>",
-          "<code>db.etudiants.find({ age: { $gt: 22 } })</code>",
-          "<code>db.etudiants.find({ filiere: { $in: [\"Génie Informatique\", \"Génie Industriel\"] } })</code>",
-          "<code>db.etudiants.find({ \"examens.matiere\": { $all: [\"Bases de données\", \"Réseaux\"] } })</code>",
-          "<code>db.etudiants.find({ examens: { $size: 3 } })</code>",
-          "<code>db.etudiants.find({ examens: { $elemMatch: { note: { $gte: 14 }, bonus: { $gte: 1 } } } })</code>",
-          "<code>db.etudiants.find({ \"scolarite.absences\": { $exists: true } })</code>",
-          "<code>db.etudiants.find({ \"examens.matiere\": { $all: [\"Bases de données\", \"Réseaux\"] }, examens: { $elemMatch: { matiere: { $in: [\"Bases de données\", \"Réseaux\"] }, note: { $gte: 14 } } } })</code>",
-          "<code>db.etudiants.find({ ville: { $in: [\"Agadir\", \"Marrakech\"] }, examens: { $elemMatch: { note: { $gte: 15 } } } })</code>",
-          "<code>db.etudiants.find().sort({ age: -1 })</code>",
-          "<code>db.etudiants.find().sort({ age: 1 }).skip(1).limit(2)</code>"
-        ]
-      },
-      {
-        title: "Partie 2 — Opérateurs de tableaux (8 questions)",
-        questions: [
-          "Afficher uniquement les examens notés ≥ 14 dans un champ examens_filtres ($filter).",
-          "Extraire le tableau des matières dans un champ matieres ($map).",
-          "Afficher le premier examen dans un champ premier_examen ($arrayElemAt).",
-          "Afficher les deux premiers examens dans un champ deux_premiers ($slice).",
-          "Afficher les matières des examens notés ≥ 14 ($filter + $map).",
-          "Afficher le premier examen noté ≥ 14 ($filter + $arrayElemAt).",
-          "Afficher la première matière parmi les examens avec bonus ≥ 1 ($filter + $map + $arrayElemAt).",
-          "Afficher les deux premiers examens notés ≥ 12 ($filter + $slice)."
-        ],
-        corrections: [
-          "<code>db.etudiants.find({}, { _id: 0, nom: 1, examens_filtres: { $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 14] } } } })</code>",
-          "<code>db.etudiants.find({}, { _id: 0, nom: 1, matieres: { $map: { input: \"$examens\", as: \"e\", in: \"$$e.matiere\" } } })</code>",
-          "<code>db.etudiants.find({}, { _id: 0, nom: 1, premier_examen: { $arrayElemAt: [\"$examens\", 0] } })</code>",
-          "<code>db.etudiants.find({}, { _id: 0, nom: 1, deux_premiers: { $slice: [\"$examens\", 2] } })</code>",
-          "<code>db.etudiants.find({}, { _id: 0, nom: 1, matieres_note_14: { $map: { input: { $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 14] } } }, as: \"x\", in: \"$$x.matiere\" } } })</code>",
-          "<code>db.etudiants.find({}, { _id: 0, nom: 1, premier_note_sup_14: { $arrayElemAt: [{ $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 14] } } }, 0] } })</code>",
-          "<code>db.etudiants.find({}, { _id: 0, nom: 1, premiere_matiere_bonus: { $arrayElemAt: [{ $map: { input: { $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.bonus\", 1] } } }, as: \"x\", in: \"$$x.matiere\" } }, 0] } })</code>",
-          "<code>db.etudiants.find({}, { _id: 0, nom: 1, deux_examens: { $slice: [{ $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 12] } } }, 2] } })</code>"
-        ]
-      },
-      {
-        title: "Partie 3 — Mises à jour (10 questions)",
-        questions: [
-          "Mettre l'âge de Salma Idrissi à 22.",
-          "Augmenter de 10 les heures de présence de tous les étudiants en Génie Informatique.",
-          "Supprimer le champ scolarite.heures_presence pour tous les étudiants en Génie Électrique.",
-          "Renommer ville en ville_origine sur tous les documents.",
-          "Ajouter à Omar Tazi un examen { matiere: \"Recherche opérationnelle\", semestre: \"S2\", bonus: 1, tp_rendus: 1, note: 16.5 }.",
-          "Retirer du tableau examens de Youssef Amrani tous les examens dont la matière est « Réseaux ».",
-          "Ajouter à Salma Idrissi la certification « Cisco CCNA » (sans doublon).",
-          "Mettre à 18 la note de l'examen de « Bases de données » de Salma Idrissi (arrayFilters).",
-          "Incrémenter de 0.5 la note de tous les examens avec bonus ≥ 1, pour tous les étudiants (arrayFilters).",
-          "Remplacer entièrement le document d'Imane Benali par { nom: \"Imane Benali\", filiere: \"Génie Civil\", ville: \"Agadir\", option: \"Bâtiment et travaux publics\" }."
-        ],
-        corrections: [
-          "<code>db.etudiants.updateOne({ nom: \"Salma Idrissi\" }, { $set: { age: 22 } })</code>",
-          "<code>db.etudiants.updateMany({ filiere: \"Génie Informatique\" }, { $inc: { \"scolarite.heures_presence\": 10 } })</code>",
-          "<code>db.etudiants.updateMany({ filiere: \"Génie Électrique\" }, { $unset: { \"scolarite.heures_presence\": \"\" } })</code>",
-          "<code>db.etudiants.updateMany({}, { $rename: { ville: \"ville_origine\" } })</code>",
-          "<code>db.etudiants.updateOne({ nom: \"Omar Tazi\" }, { $push: { examens: { matiere: \"Recherche opérationnelle\", semestre: \"S2\", bonus: 1, tp_rendus: 1, note: 16.5 } } })</code>",
-          "<code>db.etudiants.updateOne({ nom: \"Youssef Amrani\" }, { $pull: { examens: { matiere: \"Réseaux\" } } })</code>",
-          "<code>db.etudiants.updateOne({ nom: \"Salma Idrissi\" }, { $addToSet: { certifications: \"Cisco CCNA\" } })</code>",
-          "<code>db.etudiants.updateOne({ nom: \"Salma Idrissi\" }, { $set: { \"examens.$[e].note\": 18 } }, { arrayFilters: [ { \"e.matiere\": \"Bases de données\" } ] })</code>",
-          "<code>db.etudiants.updateMany({}, { $inc: { \"examens.$[e].note\": 0.5 } }, { arrayFilters: [ { \"e.bonus\": { $gte: 1 } } ] })</code>",
-          "<code>db.etudiants.replaceOne({ nom: \"Imane Benali\" }, { nom: \"Imane Benali\", filiere: \"Génie Civil\", ville: \"Agadir\", option: \"Bâtiment et travaux publics\" })</code>"
-        ]
-      }
+      {title:"Partie 1 — find() et opérateurs (13 q)", questions:[
+        "Afficher tous les documents.","Afficher uniquement nom, filiere, ville (_id exclu).",
+        "Filtrer sur ville = \"Agadir\".","Filtrer sur age > 22.",
+        "Filtrer sur filiere IN [\"Génie Informatique\", \"Génie Industriel\"].",
+        "Étudiants ayant passé BD ET Réseaux ($all).","Étudiants ayant exactement 3 examens ($size).",
+        "Étudiants avec un examen note ≥ 14 ET bonus ≥ 1 ($elemMatch).",
+        "Étudiants dont scolarite.absences existe ($exists).",
+        "BD ET Réseaux + note ≥ 14 dans l'un ($all + $elemMatch).",
+        "Ville IN [\"Agadir\",\"Marrakech\"] + examen note ≥ 15 ($in + $elemMatch).",
+        "Trier par age décroissant.","Trier par age croissant, skip 1, limit 2."
+      ], corrections:[
+        "<code>db.etudiants.find()</code>",
+        "<code>db.etudiants.find({}, { _id: 0, nom: 1, filiere: 1, ville: 1 })</code>",
+        "<code>db.etudiants.find({ ville: \"Agadir\" })</code>",
+        "<code>db.etudiants.find({ age: { $gt: 22 } })</code>",
+        "<code>db.etudiants.find({ filiere: { $in: [\"Génie Informatique\", \"Génie Industriel\"] } })</code>",
+        "<code>db.etudiants.find({ \"examens.matiere\": { $all: [\"Bases de données\", \"Réseaux\"] } })</code>",
+        "<code>db.etudiants.find({ examens: { $size: 3 } })</code>",
+        "<code>db.etudiants.find({ examens: { $elemMatch: { note: { $gte: 14 }, bonus: { $gte: 1 } } } })</code>",
+        "<code>db.etudiants.find({ \"scolarite.absences\": { $exists: true } })</code>",
+        "<code>db.etudiants.find({ \"examens.matiere\": { $all: [\"Bases de données\", \"Réseaux\"] }, examens: { $elemMatch: { matiere: { $in: [\"Bases de données\", \"Réseaux\"] }, note: { $gte: 14 } } } })</code>",
+        "<code>db.etudiants.find({ ville: { $in: [\"Agadir\", \"Marrakech\"] }, examens: { $elemMatch: { note: { $gte: 15 } } } })</code>",
+        "<code>db.etudiants.find().sort({ age: -1 })</code>",
+        "<code>db.etudiants.find().sort({ age: 1 }).skip(1).limit(2)</code>"
+      ]},
+      {title:"Partie 2 — Opérateurs de tableaux (8 q)", questions:[
+        "Filtrer les examens ≥ 14 ($filter).","Extraire les matières ($map).",
+        "Premier examen ($arrayElemAt).","Deux premiers ($slice).",
+        "Matières des examens ≥ 14 ($filter + $map).",
+        "Premier examen ≥ 14 ($filter + $arrayElemAt).",
+        "Première matière des examens avec bonus ≥ 1 ($filter + $map + $arrayElemAt).",
+        "Deux premiers examens ≥ 12 ($filter + $slice)."
+      ], corrections:[
+        "<code>db.etudiants.find({}, { _id: 0, nom: 1, examens_filtres: { $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 14] } } } })</code>",
+        "<code>db.etudiants.find({}, { _id: 0, nom: 1, matieres: { $map: { input: \"$examens\", as: \"e\", in: \"$$e.matiere\" } } })</code>",
+        "<code>db.etudiants.find({}, { _id: 0, nom: 1, premier_examen: { $arrayElemAt: [\"$examens\", 0] } })</code>",
+        "<code>db.etudiants.find({}, { _id: 0, nom: 1, deux_premiers: { $slice: [\"$examens\", 2] } })</code>",
+        "<code>db.etudiants.find({}, { _id: 0, nom: 1, matieres_note_14: { $map: { input: { $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 14] } } }, as: \"x\", in: \"$$x.matiere\" } } })</code>",
+        "<code>db.etudiants.find({}, { _id: 0, nom: 1, premier_note_sup_14: { $arrayElemAt: [{ $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 14] } } }, 0] } })</code>",
+        "<code>db.etudiants.find({}, { _id: 0, nom: 1, premiere_matiere_bonus: { $arrayElemAt: [{ $map: { input: { $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.bonus\", 1] } } }, as: \"x\", in: \"$$x.matiere\" } }, 0] } })</code>",
+        "<code>db.etudiants.find({}, { _id: 0, nom: 1, deux_examens: { $slice: [{ $filter: { input: \"$examens\", as: \"e\", cond: { $gte: [\"$$e.note\", 12] } } }, 2] } })</code>"
+      ]},
+      {title:"Partie 3 — Mises à jour (10 q)", questions:[
+        "Âge de Salma à 22 ($set).","+10h présence pour GI ($inc).",
+        "Supprimer heures_presence des GE ($unset).","Renommer ville → ville_origine ($rename).",
+        "Ajouter examen à Omar ($push).","Retirer examens Réseaux de Youssef ($pull).",
+        "Ajouter certification Cisco CCNA à Salma ($addToSet).",
+        "Note 18 à l'examen BD de Salma (arrayFilters).",
+        "Incrémenter 0.5 la note des examens bonus ≥ 1 (arrayFilters).",
+        "replaceOne sur Imane Benali."
+      ], corrections:[
+        "<code>db.etudiants.updateOne({ nom: \"Salma Idrissi\" }, { $set: { age: 22 } })</code>",
+        "<code>db.etudiants.updateMany({ filiere: \"Génie Informatique\" }, { $inc: { \"scolarite.heures_presence\": 10 } })</code>",
+        "<code>db.etudiants.updateMany({ filiere: \"Génie Électrique\" }, { $unset: { \"scolarite.heures_presence\": \"\" } })</code>",
+        "<code>db.etudiants.updateMany({}, { $rename: { ville: \"ville_origine\" } })</code>",
+        "<code>db.etudiants.updateOne({ nom: \"Omar Tazi\" }, { $push: { examens: { matiere: \"Recherche opérationnelle\", semestre: \"S2\", bonus: 1, tp_rendus: 1, note: 16.5 } } })</code>",
+        "<code>db.etudiants.updateOne({ nom: \"Youssef Amrani\" }, { $pull: { examens: { matiere: \"Réseaux\" } } })</code>",
+        "<code>db.etudiants.updateOne({ nom: \"Salma Idrissi\" }, { $addToSet: { certifications: \"Cisco CCNA\" } })</code>",
+        "<code>db.etudiants.updateOne({ nom: \"Salma Idrissi\" }, { $set: { \"examens.$[e].note\": 18 } }, { arrayFilters: [ { \"e.matiere\": \"Bases de données\" } ] })</code>",
+        "<code>db.etudiants.updateMany({}, { $inc: { \"examens.$[e].note\": 0.5 } }, { arrayFilters: [ { \"e.bonus\": { $gte: 1 } } ] })</code>",
+        "<code>db.etudiants.replaceOne({ nom: \"Imane Benali\" }, { nom: \"Imane Benali\", filiere: \"Génie Civil\", ville: \"Agadir\", option: \"Bâtiment et travaux publics\" })</code>"
+      ]}
     ]
   },
   ql: {
     title: "Examen blanc — Qualité du Logiciel",
-    intro: "INF4011 · Examen intra blanc · 2025-2026 · Dr. Aimad QAZDAR. Partie 1 : questions de cours. Partie 2 : étude de cas.",
+    intro: "INF4011 · Examen intra blanc · 2025-2026 · Dr. Aimad QAZDAR.",
     parts: [
-      {
-        title: "Partie 1 — Exercice 1 : QCM (2 questions)",
-        questions: [
-          "Quel niveau de besoins correspond aux attentes réelles mais non exprimées par le client ?<br>a) Spécifiés · b) Réalisés · c) Exprimés · d) Vrais besoins",
-          "Quel est l'objectif principal de l'Assurance Qualité Logicielle (SQA) ?<br>a) Réduire le nombre de lignes de code<br>b) Accélérer la livraison<br>c) Garantir objectivement que le logiciel répond aux exigences, dans les contraintes de coût et de délai<br>d) Remplacer les tests manuels"
-        ],
-        corrections: [
-          "<b>d) Vrais besoins</b> — attentes réelles, souvent non formulées.",
-          "<b>c)</b> Garantir objectivement que le logiciel répond aux exigences, dans les contraintes de coût et de délai."
-        ]
-      },
-      {
-        title: "Partie 1 — Exercice 2 : concepts de base (3 questions)",
-        questions: [
-          "Selon ISO/IEC/IEEE 24765:2017, quels éléments constituent le « logiciel » ?",
-          "Expliquer la chaîne causale erreur → défaut → défaillance. Donner un exemple.",
-          "Quels sont les deux piliers de la qualité logicielle ?"
-        ],
-        corrections: [
-          "Programmes, procédures, données et documentation.",
-          "Erreur (humaine) → Défaut (dans le code/conception) → Défaillance (observable en exécution).<br><b>Exemple</b> : oubli d'un cas (erreur) → division par zéro non gérée (défaut) → crash de l'application (défaillance).",
-          "<b>Produit</b> (fiabilité, sécurité, maintenabilité…) et <b>Processus</b> (méthodes, outils, rigueur du développement)."
-        ]
-      },
-      {
-        title: "Partie 1 — Exercice 3 : SQuaRE / ISO 25010 (3 questions)",
-        questions: [
-          "Quel est l'objectif principal du modèle SQuaRE ?",
-          "Citer 3 caractéristiques de qualité ISO 25010.",
-          "Parmi les caractéristiques ISO 25010, laquelle couvre la capacité à corriger ou améliorer un logiciel ? Justifier."
-        ],
-        corrections: [
-          "Fournir un cadre pour évaluer la qualité logicielle via des caractéristiques mesurables : Qualité ≈ f(attributs).",
-          "Au choix parmi : adéquation fonctionnelle, efficacité de performance, compatibilité, facilité d'utilisation, fiabilité, sécurité, maintenabilité, portabilité.",
-          "La <b>Maintenabilité</b>. Elle couvre la correction (corrective), l'adaptation (adaptative) et l'amélioration (perfective) — donc la capacité à faire évoluer le logiciel."
-        ]
-      },
-      {
-        title: "Partie 2 — Exercice 1 : LOC & complexité cyclomatique",
-        questions: [
-          "Soit la méthode totalAchat() : { double t = 0; for (Commande c : commandes) { t += c.getPrix(); } return t; }. Calculer LOCphy et LOCpro.",
-          "Calculer la complexité cyclomatique V(G) de cette méthode.",
-          "Quel est le nombre minimal de cas de test pour couvrir les décisions ?",
-          "Le code est-il facile à tester/maintenir ? Pourquoi ?"
-        ],
-        corrections: [
-          "<b>LOCphy</b> : compter toutes les lignes (avec accolades, blancs et commentaires) ≈ 7. <b>LOCpro</b> : lignes productives (instructions seules) ≈ 4.",
-          "V(G) = nombre de décisions + 1 = 1 (la boucle for) + 1 = <b>2</b>. Ou E − N + 2.",
-          "<b>V(G) = 2</b> cas de test minimum pour la couverture des décisions.",
-          "Oui : V(G) = 2 &lt; 10 (simple). Méthode courte et lisible, facile à tester et à maintenir."
-        ]
-      },
-      {
-        title: "Partie 2 — Exercice 2 : métriques CK (WMC, CBO, LCOM)",
-        questions: [
-          "Classe GestionClient : nom, commandes, getNom(), ajouterCommande(), totalAchat() (boucle for), notifier() (EmailService + SMS). Calculer WMC.",
-          "Calculer CBO.",
-          "Analyser la cohésion : combien de paires de méthodes ont une intersection d'attributs vide ? En déduire LCOM.",
-          "Interpréter les métriques (WMC=5, CBO=2, LCOM=4)."
-        ],
-        corrections: [
-          "<b>WMC</b> = 1 + 1 + 2 + 1 = <b>5</b>.",
-          "<b>CBO</b> = EmailService + SMS = <b>2</b>.",
-          "4 méthodes → C(4,2) = 6 paires. Paires sans attribut commun : (getNom, ajouterCommande), (getNom, totalAchat), (getNom, notifier), (ajouterCommande, notifier), (totalAchat, notifier) = 5 paires (P=5). Paires avec attribut commun : (ajouterCommande, totalAchat) via commandes = 1 paire (Q=1). <b>LCOM = P − Q = 5 − 1 = 4</b>.",
-          "WMC = 5 (faible, ≤10). CBO = 2 (faible, ≤5). LCOM = 4 (&gt; 1 → faible cohésion). Recommandation : extraire <code>notifier()</code> qui n'utilise aucun attribut (manque de cohésion)."
-        ]
-      },
-      {
-        title: "Partie 2 — Exercice 3 : synthèse (WMC=28, CBO=12, LCOM=5)",
-        questions: [
-          "Évaluer la qualité de cette classe.",
-          "Que conseiller à l'équipe ? (Refactorisation ? Revue de code ? Tests ?) Justifier."
-        ],
-        corrections: [
-          "WMC = 28 &gt; 20 → élevé (complexité excessive). CBO = 12 &gt; 10 → élevé (couplage excessif). LCOM = 5 &gt; 1 → faible cohésion. Les 3 métriques sont au-dessus des seuils.",
-          "Refactorisation pour réduire la complexité (extraire des méthodes). Découplage (interfaces, injection). Répartition des responsabilités (split en plusieurs classes). Renforcer les tests. Revue de code."
-        ]
-      },
-      {
-        title: "Partie 2 — Exercice 4 : SonarQube",
-        questions: [
-          "Rapport SonarQube : 22 bugs (badge C), 7 vulnérabilités (badge E), 90.5 % coverage, 6.8 % duplications. Quelles affirmations sont correctes ?<br>A) ~13 000 tests unitaires<br>B) Couverture &gt; 90 %<br>C) Moins de 7 % non couvert<br>D) Au moins une vulnérabilité bloquante<br>E) Au moins un bug critique"
-        ],
-        corrections: [
-          "<b>A. Vrai</b> (~13k tests). <b>B. Vrai</b> (90.5 % &gt; 90 %). <b>C. Faux</b> (100 − 90.5 = 9.5 % &gt; 7 %). <b>D. Vrai</b> (badge E = blocker). <b>E. Faux</b> (badge C = major, pas critical)."
-        ]
-      }
+      {title:"Partie 1 — QCM (2 q)", questions:[
+        "Niveau de besoins non exprimés ? a) Spécifiés · b) Réalisés · c) Exprimés · d) Vrais besoins",
+        "Objectif SQA ? a) Moins de LOC · b) Livrer vite · c) Garantir objectivement la qualité dans coût/délai · d) Remplacer les tests"
+      ], corrections:[
+        "<b>d) Vrais besoins</b>.",
+        "<b>c)</b> Garantir objectivement que le logiciel répond aux exigences."
+      ]},
+      {title:"Partie 1 — Exercice 2 (3 q)", questions:[
+        "ISO 24765 : éléments du logiciel ?","Chaîne causale erreur → défaut → défaillance + exemple.","2 piliers de la qualité ?"
+      ], corrections:[
+        "Programmes, procédures, données et documentation.",
+        "Erreur (humaine) → Défaut (code) → Défaillance (observable). Ex. : oubli de cas → division par 0 non gérée → crash.",
+        "<b>Produit</b> + <b>Processus</b>."
+      ]},
+      {title:"Partie 1 — Exercice 3 SQuaRE (3 q)", questions:[
+        "Objectif SQuaRE ?","3 caractéristiques ISO 25010.","Caractéristique qui couvre correction/amélioration ?"
+      ], corrections:[
+        "Fournir un cadre pour évaluer la qualité via des caractéristiques mesurables.",
+        "Au choix : adéquation fonctionnelle, efficacité de performance, compatibilité, facilité d'utilisation, fiabilité, sécurité, maintenabilité, portabilité.",
+        "<b>Maintenabilité</b> (corrective + adaptative + perfective)."
+      ]},
+      {title:"Partie 2 — Exercice 1 LOC & V(G)", questions:[
+        "LOCphy et LOCpro de totalAchat() ?","V(G) ?","Nb minimum de tests ?","Facile à maintenir ?"
+      ], corrections:[
+        "LOCphy ≈ 7, LOCpro ≈ 4.",
+        "V(G) = 1 décision + 1 = <b>2</b>.",
+        "<b>V(G) = 2</b>.",
+        "Oui : V(G) = 2 &lt; 10 (simple)."
+      ]},
+      {title:"Partie 2 — Exercice 2 CK", questions:[
+        "WMC ?","CBO ?","LCOM et nb de paires sans attribut commun ?","Interpréter (WMC=5, CBO=2, LCOM=4)."
+      ], corrections:[
+        "WMC = 1+1+2+1 = <b>5</b>.",
+        "CBO = EmailService + SMS = <b>2</b>.",
+        "6 paires, P=5 sans attribut commun, Q=1 avec (ajouterCommande, totalAchat). <b>LCOM = 5−1 = 4</b>.",
+        "WMC faible, CBO faible, LCOM faible cohésion. Extraire <code>notifier()</code>."
+      ]},
+      {title:"Partie 2 — Exercice 3 synthèse", questions:[
+        "WMC=28, CBO=12, LCOM=5 : évaluer.","Conseils ?"
+      ], corrections:[
+        "WMC &gt;20 élevé, CBO &gt;10 élevé, LCOM &gt;1 faible cohésion.",
+        "Refactoriser, découpler, split, revue de code + tests."
+      ]},
+      {title:"Partie 2 — Exercice 4 SonarQube", questions:[
+        "22 bugs(C), 7 vuln(E), 90.5% coverage, 6.8% dupl. Quelles affirmations vraies ?<br>A)~13k tests · B)&gt;90% · C)&lt;7% non couvert · D)≥1 vuln bloquante · E)≥1 bug critique"
+      ], corrections:[
+        "<b>A ✅</b> (~13k tests), <b>B ✅</b> (90.5&gt;90), <b>C ❌</b> (9.5&gt;7), <b>D ✅</b> (badge E=blocker), <b>E ❌</b> (badge C=major)."
+      ]}
     ]
   },
   res: {
     title: "Examen blanc — Réseaux et Télécoms",
     intro: "INF4031 · Test n°2 · QCM + exercices.",
     parts: [
-      {
-        title: "QCM (4 questions)",
-        questions: [
-          "L'atténuation d'une ligne de transmission se mesure en :<br>a) Hertz · b) Décibels · c) Bits par seconde · d) Bauds",
-          "Un signal composite est décomposé en f, 3f, 5f, 7f et 11f. La bande passante est [5f, 13f]. Combien de signaux sinusoïdaux élémentaires sont détectés à l'arrivée ?",
-          "Que signifie ETCD ?<br>a) Equipement Terminal de Conversion Digitale<br>b) Equipement de Télécommunication Digitale<br>c) Equipement Terminal de Traitement de données<br>d) Equipement Terminal de Circuit de Données",
-          "Donner un exemple d'un système de transmission qui joue le rôle d'un ETCD."
-        ],
-        corrections: [
-          "<b>b) Décibels.</b>",
-          "<b>3 signaux</b> : 5f, 7f et 11f sont dans la bande [5f, 13f]. (3f et f sont en dehors.)",
-          "<b>d) Equipement Terminal de Circuit de Données.</b>",
-          "Le <b>modem</b> (modulateur-démodulateur) : il convertit le signal numérique du terminal en un signal adapté à la ligne."
-        ]
-      },
-      {
-        title: "Exercice 1 — Son numérisé",
-        questions: [
-          "On désire transporter un son sur une voie de transmission. Le son est numérisé à 8000 Hz et codé sur 8 bits. Quel doit être le débit de la ligne utilisée ?"
-        ],
-        corrections: [
-          "<code>D = Fe × nb_bits = 8000 × 8 = 64 000 b/s = 64 kb/s</code>. (C'est le débit de la téléphonie numérisée.)"
-        ]
-      },
-      {
-        title: "Exercice 2 — Capacité d'une ligne",
-        questions: [
-          "Quelle est la capacité d'une ligne pour téléimprimeur de largeur de bande 200 Hz et de rapport signal/bruit de 2 dB ?"
-        ],
-        corrections: [
-          "Convertir S/N en linéaire : <code>S/N = 10^(2/10) ≈ 1,585</code>. Puis <code>C = 200 × log₂(1 + 1,585) = 200 × log₂(2,585) ≈ 200 × 1,37 ≈ 274 b/s</code>."
-        ]
-      },
-      {
-        title: "Exercice 3 — Chaîne de communication",
-        questions: [
-          "À partir du schéma {Process → Capteur → CAN → Codage en bande de base → Canal de transmission}, expliquez le rôle de chaque bloc."
-        ],
-        corrections: [
-          "<b>Process</b> : le phénomène physique à mesurer (pression, température, niveau…). <b>Capteur</b> : convertit la grandeur physique en signal électrique analogique. <b>CAN</b> (Convertisseur Analogique-Numérique) : numérise le signal (échantillonnage + quantification + codage). <b>Codage en bande de base</b> : transforme les bits en signal électrique adapté au canal (NRZ, Manchester…). <b>Canal de transmission</b> : support physique (câble, fibre, air)."
-        ]
-      }
+      {title:"QCM (4 q)", questions:[
+        "Atténuation se mesure en : a) Hz · b) dB · c) bit/s · d) bauds",
+        "Signal décomposé en f, 3f, 5f, 7f, 11f. Bande [5f, 13f]. Combien de sinusoïdes détectées ?",
+        "ETCD signifie ? a) Equipement Terminal de Conversion Digitale · b) Equipement de Télécommunication Digitale · c) Equipement Terminal de Traitement de données · d) Equipement Terminal de Circuit de Données",
+        "Exemple de système ETCD ?"
+      ], corrections:[
+        "<b>b) Décibels.</b>",
+        "<b>3 signaux</b> (5f, 7f, 11f).",
+        "<b>d) ETCD = Equipement Terminal de Circuit de Données.</b>",
+        "Le <b>modem</b> (module/démodule le signal pour la ligne)."
+      ]},
+      {title:"Exercice 1 — Son numérisé", questions:[
+        "Son numérisé à 8000 Hz, 8 bits. Débit de la ligne ?"
+      ], corrections:[
+        "<code>D = 8000 × 8 = 64 kb/s</code>."
+      ]},
+      {title:"Exercice 2 — Capacité", questions:[
+        "Largeur de bande 200 Hz, S/N = 2 dB. Capacité ?"
+      ], corrections:[
+        "S/N = 10^(2/10) ≈ 1,585. C = 200·log₂(2,585) ≈ <b>274 b/s</b>."
+      ]},
+      {title:"Exercice 3 — Chaîne de communication", questions:[
+        "Rôle de chaque bloc : Process → Capteur → CAN → Codage → Canal."
+      ], corrections:[
+        "<b>Process</b> : phénomène à mesurer. <b>Capteur</b> : convertit en signal analogique. <b>CAN</b> : numérise (échantillonnage + quantification + codage). <b>Codage bande de base</b> : transforme les bits en signal adapté au canal (NRZ, Manchester…). <b>Canal</b> : support physique."
+      ]}
+    ]
+  },
+  ia: {
+    title: "Examen blanc — Intelligence Artificielle",
+    intro: "Couverture : K-means, variantes, méthode du coude, agents intelligents (PEAS, environnements, types).",
+    parts: [
+      {title:"QCM (4 q)", questions:[
+        "L'apprentissage non-supervisé utilise : a) données étiquetées · b) données non étiquetées · c) un professeur · d) un oracle",
+        "« k » dans K-means représente : a) nb d'itérations · b) nb de clusters · c) nb d'attributs · d) distance max",
+        "Quel algorithme remplace la moyenne par la médiane ? a) K-means++ · b) Mini-batch · c) K-medoids · d) DBSCAN",
+        "PEAS signifie : a) Performance, Environnement, Actuateurs, Sensors · b) Process, Evaluation, Actions, Signals · c) Plan, Exécution, Analyse, Suivi · d) Programme, Entrée, Action, Sortie"
+      ], corrections:[
+        "<b>b) données non étiquetées.</b>",
+        "<b>b) nombre de clusters.</b>",
+        "<b>c) K-medoids.</b>",
+        "<b>a) Performance, Environnement, Actuateurs, Sensors.</b>"
+      ]},
+      {title:"Exercice 1 — K-means itératif", questions:[
+        "Points {1, 2, 5, 6, 7}. Centroïdes initiaux 5 et 6. Appliquer K-means jusqu'à convergence."
+      ], corrections:[
+        "<b>It. 1</b> : {1,2,5} et {6,7}, C1=8/3≈2,67, C2=6,5.<br><b>It. 2</b> : 5 rejoint C2 → {1,2} et {5,6,7}, C1=1,5, C2=6.<br><b>It. 3</b> : pas de changement → <b>convergence</b>. Clusters {1,2} et {5,6,7}."
+      ]},
+      {title:"Exercice 2 — Inertie et coude", questions:[
+        "X = [1, 2, 3, 8, 9, 10, 25]. Calculer l'inertie pour k=1, 2, 3, 4 et trouver le k optimal par la méthode du coude."
+      ], corrections:[
+        "<b>k=1</b> : centroïde ≈ 8,29, Σ ≈ <b>404</b>.<br><b>k=2</b> : {1,2,3} et {8,9,10,25}, C=2 et 13, Σ ≈ 2+194 = <b>196</b> <i>(le PDF indique 67, erreur arithm.)</i>.<br><b>k=3</b> : {1,2,3}, {8,9,10}, {25}, Σ = <b>4</b>.<br><b>k=4</b> : Σ ≈ <b>2</b>.<br>Le coude est à k=2 ou k=3 (chute brutale puis plate) → k optimal = 2 ou 3."
+      ]},
+      {title:"Exercice 3 — K-means++", questions:[
+        "Points {2, 4, 6, 8, 10}, k=2, c1=2. Calculer P(xi) pour chaque autre point."
+      ], corrections:[
+        "D² : 0, 4, 16, 36, 64. Σ=120.<br>P(4) ≈ 3,3 %, P(6) ≈ 13,3 %, P(8) = 30 %, P(10) ≈ 53,3 %.<br>P(10) max : le point le plus éloigné a le plus de chances → centres bien espacés."
+      ]},
+      {title:"Exercice 4 — PEAS diagnostic médical", questions:[
+        "Donner la description PEAS (≥2 éléments par lettre) pour un agent de diagnostic médical."
+      ], corrections:[
+        "<b>P</b> : exactitude, temps de réponse, taux faux positifs/négatifs.<br><b>E</b> : patient, dossier médical, analyses, médecins, hôpital.<br><b>A</b> : afficher diagnostic, générer prescription, alerter médecin.<br><b>S</b> : saisie symptômes, lecteur analyses, accès dossier."
+      ]},
+      {title:"Exercice 5 — Environnements & agents", questions:[
+        "1. Caractériser l'environnement d'une voiture autonome (5 axes).<br>2. Associer : porte automatique, robot aspirateur, GPS vers adresse, GPS pondéré, jeu auto-apprenant → types d'agents.<br>3. Vrai/faux : (a) rationnel = omniscient · (b) épisodique = indépendant · (c) observable ⟹ déterministe · (d) échecs = discret."
+      ], corrections:[
+        "<b>1.</b> Partiellement observable, stochastique, séquentiel, dynamique, continu.<br><b>2.</b> Porte → réflexe simple. Robot → réflexe avec état interne. GPS adresse → but. GPS pondéré → utilité. Jeu → apprenant.<br><b>3.</b> (a) <b>Faux</b>. (b) <b>Vrai</b>. (c) <b>Faux</b>. (d) <b>Vrai</b>."
+      ]}
     ]
   }
 };
-var EXAM_SUBJECTS = ["mongodb", "ql", "res"];
+var EXAM_SUBJECTS = ["mongodb", "ql", "res", "ia"];
 
-/* ===================== Helpers ===================== */
+/* Helpers */
 var $=function(i){return document.getElementById(i)};
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 function fmt(s){return s.replace(/\[\[(.+?)\]\]/g,"<code>$1</code>")}
@@ -1049,11 +948,12 @@ var SUBTITLES = {
   php:"PHP : opérateurs, conditions et structures de contrôle.",
   ql:"Qualité logicielle : besoins, SQuaRE, métriques, processus.",
   mob:"Flutter : boutons, formulaires et widgets.",
-  res:"Réseaux et Télécoms : codage, capacité, modulation, supports."
+  res:"Réseaux et Télécoms : codage, capacité, modulation, supports.",
+  ia:"IA : clustering non-supervisé (K-means) et agents intelligents."
 };
 
 /* Updates modal */
-var UPDATES_VERSION = "v1.2-2026-11-19";
+var UPDATES_VERSION = "v1.3-2026-11-19";
 function showUpdates(){$("updatesModal").classList.remove("hid")}
 function hideUpdates(){
   $("updatesModal").classList.add("hid");
@@ -1068,29 +968,18 @@ $("updatesClose").onclick=hideUpdates;
 $("updatesOk").onclick=hideUpdates;
 $("updatesBtn").onclick=showUpdates;
 
-/* Beta banner */
-(function(){
-  var bar=$("betaBar"),btn=$("betaClose");
-  if(!bar||!btn)return;
-  if(localStorage.getItem("rev-beta-dismissed")==="1") bar.classList.add("hid");
-  btn.onclick=function(){
-    bar.classList.add("hid");
-    try{localStorage.setItem("rev-beta-dismissed","1")}catch(e){}
-  };
-})();
-
 function updateSubjectButtons(){
   document.querySelectorAll(".subjects button").forEach(function(b){
     b.setAttribute("aria-selected", b.dataset.subject === app.subject);
   });
 }
 function updateModeButtons(){
-  document.querySelectorAll("nav.modes button").forEach(function(b){
+  document.querySelectorAll("nav.modes button, .topbar button[data-mode]").forEach(function(b){
     b.setAttribute("aria-selected", b.dataset.mode === app.mode);
   });
 }
 function showFiche(){
-  ["mongodb","php","ql","mob","res"].forEach(function(s){
+  ["mongodb","php","ql","mob","res","ia"].forEach(function(s){
     $("fiche-"+s).classList.toggle("hid", !(app.mode === "fiche" && app.subject === s));
   });
 }
@@ -1106,9 +995,11 @@ function setMode(m){
   $("cards").classList.toggle("hid", m !== "cards");
   $("exos").classList.toggle("hid", m !== "exos");
   $("exam").classList.toggle("hid", m !== "exam");
+  $("planning").classList.toggle("hid", m !== "planning"); // AJOUT
   showFiche();
   if (m === "exos") buildExos();
   if (m === "exam") buildExam();
+  if (m === "planning") buildPlanning(); // AJOUT
 }
 function fillSelect(sel, subj){
   sel.innerHTML = "";
@@ -1134,6 +1025,7 @@ function setSubject(s){
   $("qsetup").classList.remove("hid");
   if (app.mode === "exos") buildExos();
   if (app.mode === "exam") buildExam();
+  if (app.mode === "planning") buildPlanning();
   showFiche();
 }
 document.querySelectorAll(".subjects button").forEach(function(b){
@@ -1304,6 +1196,56 @@ $("enext").onclick = function(){
   exI = (exI + 1) % exDeck.length;
   exReveal = false; drawExo();
 };
+/* ===================== PLANNING ===================== */
+var PLANNING = [
+  { day: "Lundi 23 nov.", exams: [
+    { time: "10:30 – 12:00", name: "Qualité du logiciel", type: "Écrit · Bloc B", color: "ecrit" }
+  ]},
+  { day: "Mardi 24 nov.", exams: [
+    { time: "10:30 – 12:00", name: "Réseaux et télécoms", type: "Écrit · Bloc S", color: "ecrit" }
+  ]},
+  { day: "Mercredi 25 nov.", exams: [
+    { time: "14:30 – 15:30", name: "Technologie web", type: "Moodle · Bloc P", color: "moodle" }
+  ]},
+  { day: "Jeudi 26 nov.", exams: [
+    { time: "08:30 – 12:00", name: "Communication", type: "Oral", color: "oral" },
+    { time: "14:30 – 16:00", name: "Mobile Flutter", type: "Moodle", color: "moodle" }
+  ]},
+  { day: "Vendredi 27 nov.", exams: [
+    { time: "15:00 – 16:30", name: "Intelligence artificielle", type: "Écrit · Bloc S", color: "ecrit" }
+  ]},
+  { day: "Samedi 28 nov.", exams: [
+    { time: "08:30 – 10:00", name: "Bases de données NoSQL", type: "Écrit · Bloc S", color: "ecrit" },
+    { time: "10:30 – 11:30", name: "English for Engineers", type: "Moodle · Bloc P", color: "moodle" }
+  ]}
+];
+
+function buildPlanning(){
+  var card = $("plancard");
+  if(!card) return;
+  var h = '<h2 style="margin-top:0">📅 Examens intra · 23 – 28 nov. 2026</h2>';
+  h += '<div class="plan-legend">';
+  h += '<span><i style="background:var(--bad-soft);border-color:var(--bad)"></i>Écrit (Bloc S / B)</span>';
+  h += '<span><i style="background:var(--accent-soft);border-color:var(--accent)"></i>Moodle (Bloc P)</span>';
+  h += '<span><i style="background:var(--code);border-color:var(--mute)"></i>Oral</span>';
+  h += '</div>';
+  PLANNING.forEach(function(d){
+    h += '<div class="plan-day">';
+    h += '<h4>' + d.day + '</h4>';
+    d.exams.forEach(function(e){
+      h += '<div class="plan-exam ' + e.color + '">';
+      h += '<span class="time">' + e.time + '</span>';
+      h += '<div class="info"><span class="name">' + e.name + '</span>';
+      if (e.type) h += '<span class="type">' + e.type + '</span>';
+      h += '</div></div>';
+    });
+    h += '</div>';
+  });
+  card.innerHTML = h;
+}
+
+// Clic sur le bouton Planning
+$("planningBtn").onclick = function(){ setMode("planning"); };
 
 /* Examen blanc */
 function buildExam(){
