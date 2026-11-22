@@ -1356,6 +1356,18 @@ var Q=[
 ["res_codage",`Manchester Δ = 10⁻⁸ s → débit ?`,["10 Mb/s","25 Mb/s","50 Mb/s","100 Mb/s"],2,`D = 1/(2Δ).`],
 ["res_modulation",`AM modifie ?`,["Fréquence","Phase","Amplitude","Longueur d'onde"],2,`Amplitude.`],
 ["res_supports",`Fibre : monomode vs multimode ?`,["Mono = plusieurs","Mono = 1, multi = plusieurs","Identiques","Aucune"],1,`Mono = 1.`],
+/* Réseaux : ajouts formules */
+["res_capacite",`Quelle est la formule de l'atténuation en dB à partir de la fraction de puissance perdue p ?`,["<code>A_dB = -10 log10(1 - p)</code>","<code>A_dB = 10 log10(p)</code>","<code>A_dB = -20 log10(p)</code>","<code>A_dB = 10 log10(1 + p)</code>"],0,`La perte est p = 1 - 10^(-A_dB/10). Ex: 20% de perte (p=0,2) donne A_dB ≈ 0,97 dB.`],
+["res_capacite",`Comment s'additionnent les gains et atténuations en cascade ?`,["On multiplie les dB","On additionne les dB","On fait la moyenne des dB","On soustrait les dB"],1,`Les gains en dB s'additionnent : A_total = Σ A_i.`],
+["res_capacite",`Quelle est l'unité de l'atténuation linéique α ?`,["Hz","bit/s","dB/km","dBm"],2,`α = A_dB / L. Si L est en km, α est en dB/km.`],
+["res_capacite",`Quelle est la formule du volume de données audio numérique ?`,["<code>V = fe × m × c × T</code>","<code>V = fe × m</code>","<code>V = fmax × 2 × T</code>","<code>V = m × c × T</code>"],0,`fe (Hz) × m (bits/échantillon) × c (canaux) × T (s).`],
+["res_capacite",`Un CAN de 8 bits de -8V à +8V a un pas de quantification q de :`,["0,0625 V","0,125 V","0,5 V","16 V"],0,`<code>q = (Vmax - Vmin) / 2^n = 16 / 256 = 0,0625 V</code>.`],
+["res_capacite",`Quelle est la formule du temps de propagation ?`,["<code>T = Q / D</code>","<code>T = L / v</code>","<code>T = 1 / f</code>","<code>T = 2 fmax</code>"],1,`L = longueur du trajet (m), v = vitesse de propagation (m/s).`],
+["res_capacite",`Que signifie ETTD ?`,["Equipement Terminal de Traitement de Données","Equipement de Transmission de Données","Equipement Terminal de Télécommunication Digitale","Equipement de Traitement des Télécoms"],0,`ETTD = ordinateur, etc. ETCD = modem.`],
+["res_capacite",`Quelle est la règle de Carson pour la bande passante d'un signal FM ?`,["<code>B ≈ 2(Δf + fm)</code>","<code>B ≈ Δf / fm</code>","<code>B ≈ 2fm</code>","<code>B ≈ Δf</code>"],0,`B_FM ≈ 2(Δf + fm) où Δf est l'excursion de fréquence et fm la fréquence du modulant.`],
+["res_capacite",`Dans un signal composite, quelle harmonique kf est conservée ?`,["Toutes les harmoniques","Celles où kf ≥ fmax","Celles où fmin ≤ kf ≤ fmax","Seulement la première"],2,`La bande passante agit comme un filtre : seules les fréquences entre fmin et fmax passent.`],
+["res_capacite",`Dans le code AMI bipolaire, comment sont codés les 1 successifs ?`,["Ils alternent entre +V et -V","Ils restent à +V","Ils restent à -V","Ils sont à 0V"],0,`Le 0 est codé par 0V. Les 1 alternent : +V, puis -V, puis +V...`],
+
 
 /* IA */
 ["ia_fond",`Qu'est-ce que l'apprentissage non-supervisé ?`,["Apprendre sur des données étiquetées","Apprendre sur des données ni classées ni étiquetées","Jouer contre soi-même","Optimiser une fonction de coût"],1,`Non-supervisé = données sans étiquette. Ex. : clustering.`],
@@ -1480,26 +1492,116 @@ var C=[
 `<code>SizedBox</code> est beaucoup <b>plus léger</b> en mémoire car il ne gère pas de décorations (couleur, bordure, padding). Pour un simple espace, c'est la bonne pratique.`],
 
 /* ===================== RÉSEAUX ===================== */
-["res_capacite",`Quelle est la formule de la capacité d'un canal selon Shannon ?`,
-`<code>C = W · log₂(1 + S/N)</code><br><br>C'est le <b>débit maximal théorique</b> d'un canal bruité, avec W la bande passante et S/N le rapport signal/bruit (linéaire, pas en dB).`],
+/* ===================== RÉSEAUX ===================== */
+["res_capacite",`Formule de Shannon`,
+`<code>C = W · log₂(1 + S/N)</code><br><br>• C : capacité max (bits/s)<br>• W : largeur de bande (Hz)<br>• S/N : rapport signal/bruit <b>linéaire</b> (pas en dB)<br><br>Conversion dB → linéaire : <code>S/N = 10^(dB/10)</code>.`],
 
-["res_capacite",`Quelle est la différence entre <code>Mo</code> et <code>Mb</code> ?`,
-`<b>Mo</b> (mégaoctet) = 2²⁰ octets = 8 388 608 bits.<br><b>Mb</b> (mégabit) = 10⁶ bits.<br><br>C'est le piège classique pour calculer le temps de transmission : il faut <b>toujours convertir en bits</b> avant de diviser par le débit.`],
+["res_capacite",`Formule de Nyquist`,
+`<code>D_max = 2W · log₂(V)</code><br><br>• D_max : débit binaire maximal<br>• W : bande passante<br>• V : nombre de niveaux du signal<br><br>Valable pour un canal <b>sans bruit</b>.`],
 
-["res_codage",`Pourquoi le code Manchester est-il meilleur que le NRZ ?`,
-`Manchester a une <b>transition au milieu de chaque bit</b> (auto-synchronisation) et sa composante continue (DC) est nulle.<br>Le NRZ perd la synchronisation sur de longues suites de 0 ou de 1.`],
+["res_capacite",`Rapidité de modulation`,
+`<code>R = D / log₂(V)</code> (en bauds)<br><br>R = nombre de symboles transmis par seconde.<br>D = débit binaire (bits/s).<br>V = nombre d'états du signal.`],
 
-["res_codage",`Comment calculer le débit (D) en code Manchester si on connaît Δ (demi-bit) ?`,
-`Le bit dure 2Δ.<br><code>D = 1 / (2Δ)</code>.<br><br><i>Exemple : Δ = 10⁻⁸ s → D = 50 Mb/s.</i>`],
+["res_capacite",`Temps de transmission`,
+`<code>T = Volume / Débit</code><br><br>⚠ Toujours convertir le volume en <b>bits</b> avant de diviser.<br>1 Mo (mégaoctet) = 8 388 608 bits (2²⁰ octets).<br>1 Mb (mégabit) = 10⁶ bits.`],
 
-["res_modulation",`Pourquoi moduler un signal (utiliser une porteuse) ?`,
-`Pour <b>réduire la taille de l'antenne</b>.<br>La longueur optimale est <code>L = c / (4f)</code>. En augmentant la fréquence f (porteuse), on réduit L à des dimensions pratiques.`],
+["res_capacite",`Piège Mo / Mb`,
+`<b>Mo</b> (mégaoctet, binaire) = 2²⁰ octets = 8 388 608 bits.<br><b>Mb</b> (mégabit, décimal) = 10⁶ bits.<br><br>• 16 Mo = 134,2 Mb (pas 16 Mb !).<br>• 10 Mo = 83,9 Mb.<br><br>C'est l'erreur classique de calcul de temps de transmission.`],
 
-["res_modulation",`Quel paramètre est modifié en AM, FM et PM ?`,
-`<b>AM</b> (Amplitude) : on modifie A.<br><b>FM</b> (Fréquence) : on modifie f.<br><b>PM</b> (Phase) : on modifie φ.<br><br>Signal : <code>x(t) = A cos(θ(t))</code>. AM agit sur A, FM/PM sur θ(t).`],
+["res_capacite",`Niveau en dBm`,
+`<code>P(dBm) = 10 log₁₀(P / 1mW)</code><br><br>• 0 dBm = 1 mW<br>• 10 dBm = 10 mW<br>• 30 dBm = 1 W<br>• −30 dBm = 1 µW`],
 
-["res_supports",`Quel est le support le plus adapté pour une liaison intercontinentale ?`,
-`La <b>fibre optique</b> (monomode).<br>Pertes très faibles, ré-amplification seulement tous les ~250 km.`],
+["res_capacite",`Puissance dans une résistance`,
+`<code>P = V_eff² / R</code><br><br>Ne dépend pas de la fréquence.<br>Permet de convertir une tension en puissance (puis en dBm).<br><br>Ex : V=100V, R=50Ω → P=200W → +53 dBm.`],
+
+["res_capacite",`Échantillonnage (Nyquist)`,
+`<code>Fe ≥ 2 · f_max</code><br><br>Nombre d'échantillons : <code>N = T / Te = T · Fe</code><br><br>Ex : T=2s, Te=0,5ms → Fe=2kHz, N=4000.`],
+
+["res_capacite",`Antenne λ/4`,
+`Longueur d'onde : <code>λ = c / f</code> avec c = 3·10⁸ m/s.<br>Antenne optimale : <code>L = λ/4 = c/(4f)</code>.<br><br>Ex : f=1kHz → L=75km (irréaliste) ; f=1MHz → L=75m (pratique).`],
+
+["res_capacite",`Atténuation en dB`,
+`<code>Atténuation(dB) = 10 log₁₀(P_entrée / P_sortie)</code><br><br>Un câble qui perd 50 % de sa puissance a une atténuation de 3 dB.`],
+
+["res_codage",`Code NRZ`,
+`• Un seul niveau par bit (pas de retour à zéro).<br>• Rapide : <code>R = D</code>.<br>• <b>Problème</b> : longues suites de 0 ou 1 → perte de synchronisation.<br>• 0 = −V, 1 = +V (convention courante).`],
+
+["res_codage",`Code RZ`,
+`• Retour à zéro à chaque demi-période.<br>• <code>R = 2D</code> (deux fois plus rapide que NRZ).<br>• Auto-synchronisant (transition garantie).<br>• Consomme plus de bande passante.`],
+
+["res_codage",`Code Manchester (biphasé)`,
+`• Transition au milieu de chaque bit.<br>• Convention : 0 = H→L, 1 = L→H (ou inverse).<br>• Auto-synchronisant.<br>• Composante continue (DC) nulle.<br>• <code>R = 2D</code>.`],
+
+["res_codage",`Manchester différentiel`,
+`• Basé sur les transitions, pas sur les niveaux absolus.<br>• Auto-synchronisant.<br>• Pas besoin de connaître la polarité du signal.<br>• <code>R = 2D</code>.`],
+
+["res_codage",`Code bipolaire`,
+`• 3 niveaux : +V, 0, −V.<br>• Les impulsions alternent entre +V et −V.<br>• 0 code le 0, les 1 alternent.<br>• DC nulle.<br>• <code>R = D</code>.`],
+
+["res_codage",`Code Miller`,
+`• Transition au milieu d'un 1 et entre deux 0 consécutifs.<br>• Auto-synchronisant.<br>• <code>R = D</code>.<br>• Moins de transitions que Manchester.`],
+
+["res_codage",`Manchester Δ = 10⁻⁸ s`,
+`Δ = durée d'un demi-bit.<br><code>T_bit = 2Δ = 2·10⁻⁸ s</code><br><code>D = 1/T_bit = 50 Mb/s</code>.`],
+
+["res_modulation",`Pourquoi moduler ?`,
+`Pour <b>réduire la taille de l'antenne</b> :<br><code>L = c/(4f)</code><br>En augmentant la fréquence (porteuse), on réduit L.<br><br>Autres bénéfices : partage du canal (fréquences différentes), portée, multiplexage.`],
+
+["res_modulation",`AM / FM / PM`,
+`Modifient respectivement :<br>• <b>AM</b> : amplitude A<br>• <b>FM</b> : fréquence (dans θ)<br>• <b>PM</b> : phase (dans θ)<br><br>Signal : <code>x(t) = A cos(θ(t))</code>.`],
+
+["res_modulation",`ASK / FSK / PSK`,
+`Modulations <b>numériques</b> :<br>• <b>ASK</b> : amplitude (Amplitude Shift Keying)<br>• <b>FSK</b> : fréquence (Frequency Shift Keying)<br>• <b>PSK</b> : phase (Phase Shift Keying)<br><br>Wi-Fi et Bluetooth utilisent PSK/QAM.`],
+
+["res_modulation",`Signal modulant vs porteuse`,
+`• <b>Modulant</b> : le message à transmettre (basse fréquence, BF).<br>• <b>Porteuse</b> : signal haute fréquence (HF) qui sera modifié.<br>• <b>Modulé</b> : résultat de la modulation.`],
+
+["res_modulation",`Rôle du démodulateur`,
+`Récupérer le signal modulant (message original) à partir du signal modulé reçu.<br><br>Le modulateur + démodulateur = <b>modem</b>.`],
+
+["res_supports",`Câble coaxial`,
+`• Impédance : 50 Ω ou 75 Ω.<br>• Distance max sans ampli : ~500 m.<br>• Composants : conducteur central, isolant, blindage, gaine.<br>• Usage : TV câble, antenne, ancien Ethernet.`],
+
+["res_supports",`Paire torsadée`,
+`• Impédance : 100 Ω.<br>• Distance max : ~100 m.<br>• Variantes : UTP (non blindé), STP / FTP (blindé).<br>• Usage : Ethernet RJ45, téléphone.`],
+
+["res_supports",`Fibre optique`,
+`• Monomode : un seul mode de propagation (longue distance, ~250 km sans ampli).<br>• Multimode : plusieurs modes (courte distance, LAN).<br>• Débit très élevé, immunité électromagnétique.<br>• Usage : backbone Internet, data centers.`],
+
+["res_supports",`Espace libre`,
+`• Faisceaux hertziens (radio, Wi-Fi, 4G/5G).<br>• Satellites (communication intercontinentale).<br>• Avantage : mobilité.<br>• Inconvénient : sensibles aux perturbations, portée limitée.`],
+
+["res_supports",`4 grands canaux de transmission`,
+`1. <b>Filaire</b> (coaxial)<br>2. <b>Bifilaire</b> (paire torsadée)<br>3. <b>Fibre optique</b><br>4. <b>Espace libre</b> (hertzien, satellite)`],
+
+["res_supports",`ETCD : définition`,
+`<b>Equipement Terminal de Circuit de Données</b>.<br>Le modem en est l'exemple type : il convertit le signal numérique du terminal en un signal adapté à la ligne.`],
+
+["res_supports",`Chaîne de communication`,
+`Source → <b>Capteur</b> (grandeur → signal) → <b>CAN</b> (analogique → numérique) → <b>Codage bande de base</b> → <b>Canal</b> → Récepteur → Utilisation`],
+
+["res_supports",`Échantillonnage son téléphonique`,
+`Numérisation : Fe = 8000 Hz, 8 bits/échantillon.<br><code>D = 8000 × 8 = 64 kb/s</code>.<br>C'est le débit standard de la téléphonie numérisée.`],
+["res_capacite",`Atténuation en dB et fraction perdue (p)`,
+`<code>A_dB = -10 log10(1 - p)</code><br><br>Ex: 20% de perte (p=0,2) → A ≈ 0,97 dB.<br>10 dB de perte → Ps = Pe/10.<br>3 dB de perte → Ps = Pe/2.`],
+["res_capacite",`Atténuation linéique (α)`,
+`<code>α = A / L</code> (en dB/km)<br><code>A = α × L</code><br><br>L est la longueur du support.`],
+["res_capacite",`Volume de données audio`,
+`<code>V = fe × m × c × T</code><br><br>• fe : fréquence d'échantillonnage (Hz)<br>• m : bits par échantillon<br>• c : nombre de canaux (1 mono, 2 stéréo)<br>• T : durée (s)<br><br>Ex: 8000 Hz, 8 bits, mono, 1s → 64 kbit.`],
+["res_capacite",`Quantification (CAN)`,
+`• Nombre de niveaux : <code>L = 2^n</code><br>• Pas de quantification : <code>q = (Vmax - Vmin) / 2^n</code><br>• Erreur max : <code>|eq| ≤ q/2</code><br><br>Ex: CAN 8 bits, -8V à +8V → q = 16/256 = 0,0625 V.`],
+["res_capacite",`Temps de transmission vs Propagation`,
+`• <b>Transmission</b> : <code>T_tx = Q / D</code> (Volume / Débit)<br>• <b>Propagation</b> : <code>T_prop = L / v</code> (Longueur / Vitesse)<br><br>Le délai total est la somme des deux (+ délais de traitement).`],
+["res_capacite",`Gain et atténuation en cascade`,
+`En cascade, les gains et atténuations en dB s'<b>additionnent</b> :<br><code>A_total = Σ A_i</code><br><code>G_total = Σ G_i</code>`],
+["res_capacite",`Puissance et tension efficace`,
+`<code>P = Veff² / R</code><br><code>Veff = √(P × R)</code><br><br>Ex pour R = 50 Ω :<br><code>P_dBm = 10 log10(20 × Veff²)</code>`],
+["res_capacite",`Indices de modulation AM et FM`,
+`<b>AM</b> : μ = (Amax - Amin) / (Amax + Amin)<br><b>FM</b> : β = Δf / fm<br><br>Δf = excursion max de fréquence.<br>Règle de Carson : B_FM ≈ 2(Δf + fm).`],
+["res_capacite",`Fourier et signal composite`,
+`Un signal composite est la somme de sinusoïdes (f, 3f, 5f...).<br>La composante de fréquence <b>kf</b> n'est transmise que si :<br><code>fmin ≤ kf ≤ fmax</code>`],
+["res_capacite",`ETTD vs ETCD`,
+`• <b>ETTD</b> : Equipement Terminal de Traitement de Données (ex: ordinateur).<br>• <b>ETCD</b> : Equipement Terminal de Circuit de Données (ex: modem).`],
 
 /* ===================== IA ===================== */
 ["ia_kmeans",`Quelles sont les 4 étapes de l'algorithme K-means ?`,
@@ -1557,13 +1659,204 @@ var EX=[
 ["phpcond",`Compléter : ternaire et ??`,`<p><code>$statut</code> = "adulte" si ≥18 sinon "mineur" ; <code>$page</code> = $_GET['page'] ou 1.</p>`,`<pre>$statut = ($age >= 18) ? "adulte" : "mineur";\n$page   = $_GET['page'] ?? 1;</pre><p><code>??</code> ne convertit pas le type (vs <code>?:</code>).</p>`],
 
 /* QL */
-["ql_metrics",`Complexité cyclomatique GestionClient`,`<p>Méthode avec une boucle for. V(G) et nb de tests ?</p>`,`<p>V(G) = 1 décision + 1 = <b>2</b>. Tests minimum = <b>2</b>. Seuil : simple.</p>`],
-["ql_metrics",`Diagnostic d'une classe`,`<p>WMC = 28, CBO = 12, LCOM = 5. Évaluer.</p>`,`<p>WMC 28 &gt; 20 (élevé). CBO 12 &gt; 10 (élevé). LCOM 5 &gt; 1 (faible cohésion).</p><p><b>Actions</b> : refactoriser, découpler, revue de code.</p>`],
-["ql_metrics",`WMC, CBO, LCOM : calcul guidé`,`<p>Classe <code>GestionClient</code> : 2 attributs (nom, commandes), 4 méthodes : getNom (utilise nom), ajouterCommande (commandes), totalAchat (commandes + boucle for), notifier (EmailService + SMS).</p>`,`<p><b>WMC</b> = 1+1+2+1 = <b>5</b> → faible.</p><p><b>CBO</b> = 2 → faible.</p><p><b>LCOM</b> = P − Q. 6 paires. Paires avec attribut commun : (ajouterCommande, totalAchat) via commandes → Q=1. P=5. <b>LCOM = 4</b> → faible cohésion.</p><p><b>Recommandation</b> : extraire <code>notifier()</code> qui n'utilise aucun attribut.</p>`],
-["ql_metrics",`LOCphy vs LOCpro`,`<p>Fragment Java de 8 lignes (avec accolades et commentaire). Calculer LOCphy et LOCpro.</p>`,`<p>LOCphy = <b>8</b> (toutes les lignes).</p><p>LOCpro = <b>4</b> (lignes 2, 4, 5, 7 — les instructions).</p><p>Ratio 50 % : beaucoup de bruit.</p>`],
-["ql_fond",`QCM : niveaux de besoins`,`<p>Client demande « gestion de stock » sans préciser multi-utilisateur. Ce besoin est :</p><ol type="a"><li>Exprimé</li><li>Spécifié</li><li>Réalisé</li><li>Vrai besoin (implicite)</li></ol>`,`<p><b>Réponse : d) Vrai besoin implicite.</b> Attente réelle non formulée.</p>`],
-["ql_process",`SonarQube : lire un rapport`,`<p>22 bugs (C), 7 vuln (E), 90.5 % coverage, 6.8 % duplications. Quelles affirmations sont vraies ?</p><ol type="a"><li>~13k tests unitaires</li><li>Coverage &gt; 90 %</li><li>Moins de 7 % non couvert</li><li>Au moins 1 vuln bloquante</li></ol>`,`<p><b>Réponses : b et d.</b></p><ul><li>b. ✅ 90.5 % &gt; 90 %</li><li>c. ❌ 100−90.5 = 9.5 % &gt; 7 %</li><li>d. ✅ badge E = blocker</li></ul>`],
-["ql_process",`Type de maintenance`,`<p>1. Corriger un calcul ; 2. Java 8 → 17 ; 3. Refactoriser. Types ?</p>`,`<ol><li>Corrective</li><li>Adaptative</li><li>Perfective</li></ol>`],
+/* Qualité — exercices */
+["ql_fond",`QCM : niveau de besoin`,
+`<p>Le client dit : « Je veux une appli de stock ». Il ne parle pas de sauvegarde automatique. Ce besoin est :</p>
+<ol type="a"><li>Exprimé</li><li>Spécifié</li><li>Réalisé</li><li>Vrai besoin (implicite)</li></ol>`,
+`<p><b>Réponse : d) Vrai besoin (implicite).</b></p>
+<p>Le client ne formule pas la sauvegarde, mais il rejettera l'appli si elle n'existe pas. C'est une attente réelle non exprimée.</p>`],
+
+["ql_fond",`QCM : objectif SQA`,
+`<p>Quel est l'objectif principal de l'Assurance Qualité Logicielle ?</p>
+<ol type="a"><li>Réduire les lignes de code</li><li>Accélérer la livraison</li><li>Garantir objectivement que le logiciel répond aux exigences, dans les contraintes de coût et de délai</li><li>Remplacer les tests manuels</li></ol>`,
+`<p><b>Réponse : c)</b> Garantir objectivement que le logiciel répond aux exigences, dans les contraintes de coût et de délai.</p>`],
+
+["ql_fond",`Chaîne causale + exemple`,
+`<p>Expliquer la chaîne causale <b>erreur → défaut → défaillance</b> et donner un exemple concret.</p>`,
+`<p><b>Erreur</b> : action humaine incorrecte (ex. : développeur oublie de gérer le cas "division par zéro").</p>
+<p><b>Défaut</b> : conséquence dans le code (ex. : la fonction <code>calculerMoyenne()</code> fait <code>total / n</code> sans vérifier <code>n == 0</code>).</p>
+<p><b>Défaillance</b> : comportement observable en exécution (ex. : crash de l'appli quand l'utilisateur lance un calcul sur un ensemble vide).</p>`],
+
+["ql_fond",`2 piliers de la qualité`,
+`<p>Citer et expliquer les 2 piliers de la qualité logicielle.</p>`,
+`<p><b>1. Produit</b> : caractéristiques internes du logiciel — fiabilité, sécurité, maintenabilité, performance, etc.</p>
+<p><b>2. Processus</b> : façon dont le logiciel est développé — méthodes, outils, rigueur, revues de code, tests automatisés.</p>
+<p>Un bon produit ne peut pas naître d'un mauvais processus.</p>`],
+
+["ql_square",`ISO 25010 : citer 3 caractéristiques`,
+`<p>Citer 3 des 8 caractéristiques de l'ISO/IEC 25010 et donner un exemple concret pour chacune.</p>`,
+`<p>Au choix (3 parmi 8) :</p>
+<ul>
+<li><b>Adéquation fonctionnelle</b> : l'appli fait bien ce qu'elle est censée faire.</li>
+<li><b>Efficacité de performance</b> : temps de réponse &lt; 2 s.</li>
+<li><b>Compatibilité</b> : fonctionne sur Chrome, Firefox, Safari.</li>
+<li><b>Facilité d'utilisation</b> : ergonomie, apprentissage rapide.</li>
+<li><b>Fiabilité</b> : pas de crash sur 1 000 utilisations.</li>
+<li><b>Sécurité</b> : authentification, chiffrement.</li>
+<li><b>Maintenabilité</b> : code modulaire, commenté, testé.</li>
+<li><b>Portabilité</b> : passe de Windows à Linux sans modification.</li>
+</ul>`],
+
+["ql_square",`Maintenabilité : rôle et justification`,
+`<p>Parmi les 8 caractéristiques ISO 25010, laquelle couvre la capacité à corriger ou améliorer un logiciel ? Justifier.</p>`,
+`<p><b>La Maintenabilité.</b></p>
+<p>Elle englobe :</p>
+<ul>
+<li><b>Corrective</b> : corriger les bugs.</li>
+<li><b>Adaptative</b> : s'adapter à un nouvel environnement.</li>
+<li><b>Perfective</b> : améliorer la qualité interne sans changer le comportement.</li>
+</ul>
+<p>C'est donc la caractéristique dédiée à l'évolution du logiciel après livraison.</p>`],
+
+["ql_metrics",`Calcul V(G) sur 3 méthodes`,
+`<p>Calculer V(G) pour chaque méthode :</p>
+<pre>// Méthode A
+public int abs(int x) {
+  if (x &lt; 0) return -x;
+  return x;
+}
+
+// Méthode B
+public String check(int n) {
+  if (n &lt; 0) return "négatif";
+  else if (n == 0) return "zéro";
+  else return "positif";
+}
+
+// Méthode C
+public int sum(int[] arr) {
+  int s = 0;
+  for (int x : arr) {
+    if (x &gt; 0) s += x;
+  }
+  return s;
+}</pre>`,
+`<p><b>Méthode A</b> : 1 décision (<code>if</code>) → V(G) = 2.</p>
+<p><b>Méthode B</b> : 2 décisions (<code>if</code> et <code>else if</code>) → V(G) = 3.</p>
+<p><b>Méthode C</b> : 1 boucle + 1 if = 2 décisions → V(G) = 3.</p>
+<p><b>Nombre minimal de cas de test</b> pour chaque méthode = V(G).</p>`],
+
+["ql_metrics",`Trouve le bug : V(G) mal calculée`,
+`<p>Un développeur affirme : « Cette méthode a 3 <code>if</code>, donc V(G) = 3 ».</p>
+<pre>public int classify(int x) {
+  if (x &lt; 0) return -1;
+  if (x == 0) return 0;
+  if (x &gt; 100) return 100;
+  return x;
+}</pre>
+<p>Son calcul est-il correct ?</p>`,
+`<p><b>Bug</b> : il a oublié le <code>+ 1</code>.</p>
+<p><code>V(G) = nombre de décisions + 1 = 3 + 1 = <b>4</b></code>.</p>
+<p>Il faut au moins <b>4 cas de test</b> (un par branche + le cas par défaut).</p>`],
+
+["ql_metrics",`LOCphy vs LOCpro`,
+`<p>Fragment Java :</p>
+<pre>public double totalAchat() {
+    double t = 0;
+    // boucle
+    for (Commande c : commandes) {
+        t += c.getPrix();
+    }
+    return t;
+}</pre>
+<p>Calculer LOCphy et LOCpro.</p>`,
+`<p><b>LOCphy</b> (toutes les lignes) = 8 (avec accolades, blancs, commentaire).</p>
+<p><b>LOCpro</b> (instructions uniquement) :</p>
+<ul>
+<li><code>double t = 0;</code> ✓</li>
+<li><code>for (...)</code> ✓</li>
+<li><code>t += c.getPrix();</code> ✓</li>
+<li><code>return t;</code> ✓</li>
+</ul>
+<p><b>LOCpro = 4</b>. Le ratio 4/8 (50 %) indique beaucoup de bruit.</p>`],
+
+["ql_metrics",`WMC / CBO / LCOM : calcul guidé`,
+`<p>Classe <code>GestionClient</code> : 2 attributs (<code>nom</code>, <code>commandes</code>), 4 méthodes :</p>
+<ul>
+<li><code>getNom()</code> : utilise <code>nom</code>, V(G)=1</li>
+<li><code>ajouterCommande(c)</code> : utilise <code>commandes</code>, V(G)=1</li>
+<li><code>totalAchat()</code> : utilise <code>commandes</code> + boucle, V(G)=2</li>
+<li><code>notifier()</code> : utilise EmailService et SMS, V(G)=1</li>
+</ul>
+<p>Calculer WMC, CBO, LCOM.</p>`,
+`<p><b>WMC</b> = 1+1+2+1 = <b>5</b> → faible (≤ 10).</p>
+<p><b>CBO</b> = EmailService + SMS = <b>2</b> → faible (≤ 5).</p>
+<p><b>LCOM</b> : 4 méthodes → C(4,2) = <b>6 paires</b>.</p>
+<table>
+<tr><th>Paire</th><th>Attribut commun ?</th></tr>
+<tr><td>getNom / ajouterCommande</td><td>Non</td></tr>
+<tr><td>getNom / totalAchat</td><td>Non</td></tr>
+<tr><td>getNom / notifier</td><td>Non</td></tr>
+<tr><td>ajouterCommande / totalAchat</td><td><b>Oui</b> (commandes)</td></tr>
+<tr><td>ajouterCommande / notifier</td><td>Non</td></tr>
+<tr><td>totalAchat / notifier</td><td>Non</td></tr>
+</table>
+<p>P = 5 (sans), Q = 1 (avec) → <b>LCOM = 5 − 1 = 4</b> → &gt; 1 → faible cohésion.</p>
+<p><b>Recommandation</b> : extraire <code>notifier()</code> dans une classe <code>NotificationService</code>.</p>`],
+
+["ql_metrics",`Trouve le bug : LCOM mal interprété`,
+`<p>Un développeur voit un LCOM = 4 et dit : « LCOM élevé = forte cohésion, la classe est bonne ».</p>
+<p>Est-ce correct ?</p>`,
+`<p><b>Bug</b> : la logique est inversée.</p>
+<ul>
+<li><b>LCOM ≤ 1</b> = forte cohésion (bien).</li>
+<li><b>LCOM &gt; 1</b> = faible cohésion (problème).</li>
+</ul>
+<p>LCOM = 4 &gt; 1 → faible cohésion. Les méthodes ne partagent pas assez d'attributs → il faut envisager de séparer la classe.</p>`],
+
+["ql_metrics",`Diagnostic métrique complète`,
+`<p>Classe avec : WMC = 28, CBO = 12, LCOM = 5. Faire un diagnostic complet et proposer des actions.</p>`,
+`<p><b>Diagnostic</b> :</p>
+<ul>
+<li>WMC 28 &gt; 20 → classe <b>trop complexe</b>.</li>
+<li>CBO 12 &gt; 10 → <b>couplage excessif</b> (dépend de trop de classes).</li>
+<li>LCOM 5 &gt; 1 → <b>faible cohésion</b> (méthodes indépendantes).</li>
+</ul>
+<p><b>Actions</b> :</p>
+<ol>
+<li>Refactoriser (extraire des méthodes privées).</li>
+<li>Découpler (interfaces, injection de dépendances).</li>
+<li>Split en plusieurs classes spécialisées.</li>
+<li>Renforcer les tests + revue de code.</li>
+</ol>`],
+
+["ql_process",`SonarQube : lire un rapport`,
+`<p>Un rapport SonarQube affiche : 22 bugs (badge <b>C</b>), 7 vulnérabilités (badge <b>E</b>), 90.5 % coverage, 6.8 % duplications. Quelles affirmations sont vraies ?</p>
+<ol type="a"><li>Il y a ~13 000 tests unitaires</li><li>La couverture dépasse 90 %</li><li>Moins de 7 % du code n'est pas couvert</li><li>Il y a au moins une vulnérabilité bloquante</li><li>Il y a au moins un bug critique</li></ol>`,
+`<p><b>Réponses : b et d</b></p>
+<ul>
+<li>a. ❌ — Le rapport ne mentionne pas le nombre de tests.</li>
+<li>b. ✅ — Coverage 90.5 % &gt; 90 %.</li>
+<li>c. ❌ — 100 − 90.5 = <b>9.5 %</b> non couvert, &gt; 7 %.</li>
+<li>d. ✅ — Badge <b>E</b> = Blocker.</li>
+<li>e. ❌ — Badge <b>C</b> = Major, pas Critical (D).</li>
+</ul>`],
+
+["ql_process",`Associer action → type de maintenance`,
+`<p>Classer chaque action dans son type : <b>corrective</b>, <b>adaptative</b> ou <b>perfective</b>.</p>
+<ol>
+<li>Corriger un calcul erroné dans <code>totalFinal()</code></li>
+<li>Migrer de Java 8 à Java 17</li>
+<li>Refactoriser une méthode de 200 lignes en 5 méthodes</li>
+<li>Adapter l'appli pour iOS 18</li>
+<li>Fixer un bug d'affichage</li>
+<li>Améliorer les performances d'une requête SQL</li>
+</ol>`,
+`<ol>
+<li><b>Corrective</b> — bug fonctionnel.</li>
+<li><b>Adaptative</b> — nouvel environnement.</li>
+<li><b>Perfective</b> — amélioration structurelle.</li>
+<li><b>Adaptative</b> — nouveau système cible.</li>
+<li><b>Corrective</b> — bug d'affichage.</li>
+<li><b>Perfective</b> — amélioration qualité sans changer le comportement.</li>
+</ol>`],
+
+["ql_process",`Vérification vs Validation + retenir`,
+`<p>Expliquer la différence entre Vérification et Validation, et donner un exemple concret de chaque.</p>`,
+`<p><b>Vérification</b> : « Construisons-nous le produit <b>correctement</b> ? » → conformité aux spécifications.</p>
+<p><i>Exemple :</i> une revue de code vérifie que la fonction <code>login()</code> fait bien ce qui est écrit dans la spec.</p>
+<p><b>Validation</b> : « Construisons-nous le <b>bon produit</b> ? » → satisfaction des besoins réels du client.</p>
+<p><i>Exemple :</i> un test utilisateur montre que le client arrive bien à se connecter et à utiliser l'appli comme il l'imaginait.</p>`],
 
 /* Mobile */
 ["mob_btn",`Quel bouton pour l'action principale ?`,`<p>Écran stock : bouton « Ajouter un produit ».</p><ol type="a"><li>TextButton</li><li>OutlinedButton</li><li>ElevatedButton</li><li>IconButton</li></ol>`,`<p><b>Réponse : c) ElevatedButton</b> (action principale, 1 par écran).</p>`],
@@ -1583,20 +1876,229 @@ var EX=[
 ["mob_wdg",`Slider d'images en boucle`,`<p>4 images cyclées avec modulo.</p>`,`<pre>body: Center(\n  child: ClipOval(\n    child: Image.asset(\n      images[i % images.length],\n      width: 250, height: 250,\n      fit: BoxFit.cover,\n    ),\n  ),\n)</pre>`],
 
 /* Réseaux */
-["res_capacite",`Shannon : calculer S/N`,`<p>C = 20 Mb/s, W = 3 MHz.</p>`,`<p><code>20·10⁶ = 3·10⁶·log₂(1+S/N)</code> → <code>log₂ = 6,667</code> → <code>1+S/N ≈ 101</code> → <b>S/N ≈ 100</b> (≈20 dB).</p>`],
-["res_capacite",`Temps de transmission 16 Mo / 16 Mb/s`,`<ol type="a"><li>8.38 s</li><li>16 s</li><li>16.3 s</li><li>8 s</li></ol>`,`<p><b>Réponse : a) 8.38 s</b></p><p>16 Mo = 2²⁴ octets × 8 = 134,2 Mb. T = 134,2 / 16 ≈ 8,38 s.</p>`],
-["res_capacite",`Rapidité de modulation (V=8)`,`<p>D=2400, V=8.</p>`,`<p><code>R = 2400 / log₂(8) = 800 bauds</code>.</p>`],
-["res_capacite",`Échantillonnage`,`<p>T=2 s, Te=0,5 ms.</p>`,`<p><code>N = T / Te = 4000</code>.</p>`],
-["res_capacite",`dBm (R=50Ω)`,`<p>100 V puis 1 µV.</p>`,`<p>100 V → 200 W → <b>≈ +53 dBm</b>. 1 µV → <b>≈ −107 dBm</b>.</p>`],
-["res_capacite",`Son numérisé 8000 Hz × 8 bits`,`<p>Débit ?</p>`,`<p><code>D = 8000 × 8 = 64 kb/s</code>.</p>`],
-["res_capacite",`Capacité téléimprimeur`,`<p>W=200 Hz, S/N=2 dB.</p>`,`<p>S/N ≈ 1,585. C = 200 × log₂(2,585) ≈ <b>274 b/s</b>.</p>`],
-["res_codage",`Encoder 0100111000`,`<p>NRZ et Manchester.</p>`,`<p><b>NRZ</b> (0=−V, 1=+V) : −V +V −V −V +V +V +V −V −V −V.</p><p><b>Manchester</b> (0=H→L, 1=L→H) : HL LH HL HL LH LH LH HL HL HL.</p>`],
-["res_codage",`Manchester Δ=10⁻⁸ s`,`<p>Débit ?</p>`,`<p>T_bit = 2Δ → <b>D = 50 Mb/s</b>.</p>`],
-["res_modulation",`Antenne 1 kHz vs 1 MHz`,`<p>L = c/(4f).</p>`,`<p>1 kHz → 75 km (irréaliste). 1 MHz → 75 m (raisonnable). Modulation réduit la taille d'antenne.</p>`],
-["res_capacite",`Piège Mo / Mb`,`<p>10 Mo sur 100 Mb/s :</p><ol type="a"><li>0,1 s</li><li>0,84 s</li><li>1 s</li><li>10 s</li></ol>`,`<p><b>Réponse : b) 0,84 s</b>. 10 Mo = 83 886 080 bits. T = 83,9/100 ≈ 0,84 s.</p>`],
-["res_codage",`Décoder Manchester`,`<p>Demi-périodes : H L | L H | H L | H L | L H | L H (0=H→L, 1=L→H).</p>`,`<p><b>Séquence : 0 1 0 0 1 1</b>. Chaque bit = 2 demi-périodes.</p>`],
-["res_modulation",`QCM : modulation de fréquence`,`<p>Modifie la fréquence ?</p><ol type="a"><li>AM</li><li>FM</li><li>PM</li><li>NRZ</li></ol>`,`<p><b>Réponse : b) FM.</b> AM agit sur A, FM/PM sur θ(t).</p>`],
-["res_supports",`Choisir un support`,`<p>1. Local bureau 100 m ; 2. Bâtiments 800 m ; 3. Intercontinental.</p>`,`<ol><li>Paire torsadée (100 m)</li><li>Câble coaxial (500 m extensible)</li><li>Fibre optique (monomode, ~250 km)</li></ol>`],
+/* Réseaux — exercices */
+["res_capacite",`Shannon : calculer S/N`,
+`<p>C = 20 Mb/s, W = 3 MHz. Quel doit être le rapport signal/bruit S/N ?</p>`,
+`<p><code>20·10⁶ = 3·10⁶ · log₂(1+S/N)</code></p>
+<p><code>log₂(1+S/N) = 20/3 ≈ 6,667</code></p>
+<p><code>1+S/N ≈ 2^6,667 ≈ 101</code> → <b>S/N ≈ 100</b> (≈ 20 dB).</p>`],
+
+["res_capacite",`Temps de transmission (16 Mo / 16 Mb/s)`,
+`<p>Le temps de transmission de 16 Mo sur 16 Mb/s vaut :</p>
+<ol type="a"><li>8.38 s</li><li>16 s</li><li>16.3 s</li><li>8 s</li></ol>`,
+`<p><b>Réponse : a) 8,38 s</b></p>
+<p>16 Mo = 16 × 2²⁰ × 8 = 134 217 728 bits.</p>
+<p>T = 134,2 / 16 ≈ <b>8,38 s</b>.</p>
+<p>Si on avait fait 16/16 = 1 s, on aurait confondu Mo et Mb.</p>`],
+
+["res_capacite",`Rapidité de modulation (V=8)`,
+`<p>D = 2400 b/s, V = 8 niveaux. Calculer la rapidité de modulation R.</p>`,
+`<p><code>R = D / log₂(V) = 2400 / log₂(8) = 2400 / 3</code></p>
+<p><b>R = 800 bauds.</b></p>`],
+
+["res_capacite",`Échantillonnage (T=2s, Te=0,5ms)`,
+`<p>Durée d'enregistrement T = 2 s. Période d'échantillonnage Te = 0,5 ms. Combien d'échantillons ?</p>`,
+`<p><code>Fe = 1/Te = 1 / 0,5·10⁻³ = 2000 Hz</code></p>
+<p><code>N = T / Te = 2 / 0,5·10⁻³ = 4000</code></p>
+<p>ou <code>N = T · Fe = 2 × 2000 = 4000</code></p>
+<p><b>N = 4000 échantillons.</b></p>`],
+
+["res_capacite",`Niveau dBm (R = 50 Ω)`,
+`<p>Calculer le niveau en dBm pour V = 100 V puis V = 1 µV sur R = 50 Ω.</p>`,
+`<p>Formule : <code>P = V_eff² / R</code> puis <code>dBm = 10 log₁₀(P / 1mW)</code>.</p>
+<p><b>100 V</b> : P = 100²/50 = 200 W = 200 000 mW → <code>10 log(200 000) ≈ +53 dBm</code>.</p>
+<p><b>1 µV</b> : P = (10⁻⁶)²/50 = 2·10⁻¹⁴ W = 2·10⁻¹¹ mW → <code>10 log(2·10⁻¹¹) ≈ −107 dBm</code>.</p>`],
+
+["res_capacite",`Son numérisé : débit`,
+`<p>Un son est numérisé à 8000 Hz et codé sur 8 bits. Quel est le débit binaire ?</p>`,
+`<p><code>D = Fe × nb_bits = 8000 × 8 = 64 000 b/s = 64 kb/s</code>.</p>`],
+
+["res_capacite",`Capacité d'un téléimprimeur`,
+`<p>Largeur de bande W = 200 Hz, S/N = 2 dB. Calculer la capacité.</p>`,
+`<p>Conversion : <code>S/N = 10^(2/10) ≈ 1,585</code>.</p>
+<p><code>C = 200 · log₂(1 + 1,585) = 200 · log₂(2,585)</code></p>
+<p><code>log₂(2,585) ≈ 1,37</code> → <b>C ≈ 274 b/s</b>.</p>`],
+
+["res_capacite",`Piège Mo / Mb`,
+`<p>Un fichier de 10 Mo doit être transmis sur une ligne à 100 Mb/s. Combien de temps ?</p>
+<ol type="a"><li>0,1 s</li><li>0,84 s</li><li>1 s</li><li>10 s</li></ol>`,
+`<p><b>Réponse : b) 0,84 s</b></p>
+<p>10 Mo = 10 × 8 388 608 = <b>83 886 080 bits</b>.</p>
+<p>T = 83 886 080 / 100 000 000 ≈ <b>0,84 s</b>.</p>
+<p>Piège : 10/100 = 0,1 s est faux (confond Mo et Mb).</p>`],
+
+["res_codage",`Encoder 0100111000 en NRZ`,
+`<p>Représenter la suite binaire 0100111000 en NRZ (convention : 0 = −V, 1 = +V).</p>`,
+`<p>Un niveau constant par bit :</p>
+<pre>Bits :  0   1   0   0   1   1   1   0   0   0
+NRZ  : −V  +V  −V  −V  +V  +V  +V  −V  −V  −V</pre>
+<p>Rapidité : <code>R = D</code>.</p>`],
+
+["res_codage",`Encoder 0100111000 en Manchester`,
+`<p>Représenter 0100111000 en Manchester (0 = H→L, 1 = L→H).</p>`,
+`<p>Deux demi-périodes par bit :</p>
+<pre>Bits :  0   1   0   0   1   1   1   0   0   0
+Manch: HL  LH  HL  HL  LH  LH  LH  HL  HL  HL</pre>
+<p>Rapidité : <code>R = 2D</code>. DC nulle, auto-synchronisant.</p>`],
+
+["res_codage",`Décoder un signal Manchester`,
+`<p>Signal Manchester (0 = H→L, 1 = L→H). Demi-périodes :</p>
+<pre>H L | L H | H L | H L | L H | L H</pre>
+<p>Quelle est la séquence binaire ?</p>`,
+`<p><b>Séquence : 0 1 0 0 1 1</b></p>
+<table>
+<tr><th>Demi-périodes</th><th>Transition</th><th>Bit</th></tr>
+<tr><td>H L</td><td>Haut → Bas</td><td>0</td></tr>
+<tr><td>L H</td><td>Bas → Haut</td><td>1</td></tr>
+<tr><td>H L</td><td>Haut → Bas</td><td>0</td></tr>
+<tr><td>H L</td><td>Haut → Bas</td><td>0</td></tr>
+<tr><td>L H</td><td>Bas → Haut</td><td>1</td></tr>
+<tr><td>L H</td><td>Bas → Haut</td><td>1</td></tr>
+</table>`],
+
+["res_codage",`Manchester avec Δ = 10⁻⁸ s`,
+`<p>Un signal Manchester a Δ = 10⁻⁸ s (demi-bit). Quel est le débit du support ?</p>`,
+`<p><code>T_bit = 2Δ = 2·10⁻⁸ s</code></p>
+<p><code>D = 1/T_bit = 1 / (2·10⁻⁸) = 50·10⁶</code></p>
+<p><b>D = 50 Mb/s.</b></p>`],
+
+["res_codage",`Comparer NRZ / RZ / Manchester`,
+`<p>Classer ces trois codes selon : rapidité (R), auto-synchronisation, composante DC.</p>`,
+`<table>
+<tr><th>Code</th><th>R</th><th>Auto-sync</th><th>DC</th></tr>
+<tr><td>NRZ</td><td>D</td><td>Non</td><td>Non nulle</td></tr>
+<tr><td>RZ</td><td>2D</td><td>Oui</td><td>Nulle</td></tr>
+<tr><td>Manchester</td><td>2D</td><td>Oui</td><td>Nulle</td></tr>
+</table>
+<p>NRZ est le plus rapide mais perd la synchronisation. Manchester est le meilleur compromis.</p>`],
+
+["res_codage",`Trouve le bug : R Manchester mal calculée`,
+`<p>Un étudiant dit : « Manchester transmet 1 bit par période, donc R = D. »</p>
+<p>Corriger.</p>`,
+`<p><b>Bug</b> : Manchester a <b>une transition au milieu de chaque bit</b>, donc <b>deux moments par bit</b>.</p>
+<p><code>R = 2D</code>.</p>
+<p>Ex : D = 10 Mb/s → R = 20 Mbauds.</p>`],
+
+["res_modulation",`QCM : modulation de fréquence`,
+`<p>Quel type de modulation modifie la fréquence de la porteuse ?</p>
+<ol type="a"><li>AM</li><li>FM</li><li>PM</li><li>NRZ</li></ol>`,
+`<p><b>Réponse : b) FM.</b></p>
+<p>AM agit sur l'amplitude, PM sur la phase, NRZ n'est pas une modulation (codage).</p>`],
+
+["res_modulation",`Calcul antenne f = 1 kHz vs 1 MHz`,
+`<p>Longueur d'onde : λ = c/f, antenne L = λ/4, c = 3·10⁸ m/s. Calculer L pour f = 1 kHz puis f = 1 MHz. Conclure.</p>`,
+`<p><b>f = 1 kHz</b> : λ = 3·10⁸ / 10³ = 300 km → <b>L = 75 km</b> (irréaliste).</p>
+<p><b>f = 1 MHz</b> : λ = 3·10⁸ / 10⁶ = 300 m → <b>L = 75 m</b> (raisonnable).</p>
+<p><b>Conclusion</b> : la modulation permet d'augmenter la fréquence et donc de réduire les dimensions de l'antenne à des valeurs pratiques.</p>`],
+
+["res_modulation",`Identifier le type de modulation`,
+`<p>Un signal <code>x(t) = A cos(θ(t))</code> avec A constant mais θ(t) qui varie. De quel type de modulation s'agit-il ?</p>`,
+`<p>Si <b>A est constant</b> et <b>θ(t) varie</b>, c'est une modulation angulaire :</p>
+<ul>
+<li><b>FM</b> si la fréquence instantanée varie.</li>
+<li><b>PM</b> si la phase instantanée varie.</li>
+</ul>
+<p>Ce n'est <b>pas</b> AM (qui modifie A).</p>`],
+
+["res_modulation",`Pourquoi moduler ?`,
+`<p>Un signal audio a une fréquence max de 20 kHz. Pourquoi ne pas transmettre directement ?</p>`,
+`<p>À f = 20 kHz, λ = c/f = 3·10⁸ / 2·10⁴ = <b>15 km</b>.</p>
+<p>L'antenne λ/4 mesurerait <b>3,75 km</b> — irréalisable.</p>
+<p>En modulant avec une porteuse à 100 MHz : λ = 3 m, L = 75 cm (pratique).</p>`],
+
+["res_supports",`Choisir un support selon le contexte`,
+`<p>Associer :</p>
+<ol>
+<li>Réseau local dans un bureau (max 100 m, débit moyen)</li>
+<li>Liaison entre deux bâtiments à 800 m</li>
+<li>Liaison intercontinentale</li>
+</ol>
+<p>Supports : paire torsadée, câble coaxial, fibre optique.</p>`,
+`<ol>
+<li><b>Paire torsadée</b> (100 Ω, 100 m).</li>
+<li><b>Câble coaxial</b> (50/75 Ω, 500 m extensible).</li>
+<li><b>Fibre optique</b> (monomode, ~250 km sans ampli).</li>
+</ol>`],
+
+["res_supports",`Caractéristiques des supports`,
+`<p>Compléter le tableau :</p>
+<table>
+<tr><th>Support</th><th>Impédance</th><th>Distance max</th></tr>
+<tr><td>Coaxial</td><td>?</td><td>?</td></tr>
+<tr><td>Paire torsadée</td><td>?</td><td>?</td></tr>
+<tr><td>Fibre optique</td><td>—</td><td>?</td></tr>
+</table>`,
+`<table>
+<tr><th>Support</th><th>Impédance</th><th>Distance max</th></tr>
+<tr><td>Coaxial</td><td>50 ou 75 Ω</td><td>~500 m</td></tr>
+<tr><td>Paire torsadée</td><td>100 Ω</td><td>~100 m</td></tr>
+<tr><td>Fibre optique</td><td>—</td><td>~250 km (monomode)</td></tr>
+</table>`],
+
+["res_supports",`ETCD : rôle`,
+`<p>Que signifie ETCD et quel est son rôle ? Donner un exemple.</p>`,
+`<p><b>ETCD</b> = Equipement Terminal de Circuit de Données.</p>
+<p>Il fait l'interface entre le terminal (ordinateur) et le circuit de transmission.</p>
+<p><b>Exemple</b> : le <b>modem</b> — il module/démodule le signal pour l'adapter à la ligne.</p>`],
+
+["res_supports",`Chaîne de communication`,
+`<p>Décrire les 5 blocs d'une chaîne allant d'un phénomène physique à un signal transmis.</p>`,
+`<p>1. <b>Process</b> (phénomène à mesurer)<br>2. <b>Capteur</b> (grandeur physique → signal électrique)<br>3. <b>CAN</b> (analogique → numérique)<br>4. <b>Codage bande de base</b> (bits → signal adapté au canal)<br>5. <b>Canal</b> (support physique)</p>`],
+
+["res_capacite",`Trouve le bug : conversion dB`,
+`<p>Un étudiant calcule C = W · log₂(1 + S/N) avec S/N = 20 dB et trouve un résultat aberrant. Pourquoi ?</p>`,
+`<p><b>Bug</b> : il a utilisé S/N = 20 (en dB) au lieu de la valeur linéaire.</p>
+<p>Il faut convertir : <code>S/N = 10^(20/10) = 100</code>.</p>
+<p>Puis <code>C = W · log₂(1 + 100) = W · log₂(101) ≈ W · 6,66</code>.</p>`],
+
+["res_modulation",`Rapidité de modulation d'un modem QAM`,
+`<p>Un modem transmet D = 9600 b/s avec 16 états (V=16). Quelle est sa rapidité de modulation ?</p>`,
+`<p><code>R = D / log₂(V) = 9600 / log₂(16) = 9600 / 4</code></p>
+<p><b>R = 2400 bauds.</b></p>`],
+["res_capacite",`Atténuation et puissance de sortie`,
+`<p>Un signal de puissance Pe = 10 W traverse un câble qui perd 20 % de sa puissance. Calculer l'atténuation en dB et la puissance de sortie.</p>`,
+`<p><b>Fraction perdue</b> : p = 0,20 (20 %).</p>
+<p><code>A_dB = -10 log10(1 - p) = -10 log10(0,8) ≈ 0,97 dB</code>.</p>
+<p><b>Puissance de sortie</b> : Ps = 0,8 × Pe = <b>8 W</b>.</p>`],
+
+["res_capacite",`Volume de données audio`,
+`<p>Un enregistrement audio stéréo (2 canaux) dure 3 minutes. Il est numérisé à 44,1 kHz sur 16 bits.</p>
+<p>Calculer le volume de données en Mo (décimal).</p>`,
+`<p><b>Formule</b> : V = fe × m × c × T</p>
+<p><code>V = 44 100 × 16 × 2 × 180 = 254 016 000 bits</code></p>
+<p>Conversion en octets : <code>254 016 000 / 8 = 31 752 000 octets</code></p>
+<p>En Mo décimal (10⁶) : <b>≈ 31,75 Mo</b>.</p>`],
+
+["res_capacite",`Quantification d'un CAN`,
+`<p>Un CAN de 8 bits convertit une tension entre -5 V et +5 V.</p>
+<ol>
+<li>Combien de niveaux de quantification L ?</li>
+<li>Quel est le pas de quantification q ?</li>
+<li>Quelle est l'erreur maximale ?</li>
+</ol>`,
+`<ol>
+<li><code>L = 2^n = 2^8 = <b>256 niveaux</b></code>.</li>
+<li><code>q = (Vmax - Vmin) / 2^n = (5 - (-5)) / 256 = 10 / 256 = <b>0,039 V</b></code>.</li>
+<li><code>|eq| ≤ q/2 = <b>0,0195 V</b></code>.</li>
+</ol>`],
+
+["res_capacite",`Atténuation en cascade`,
+`<p>Un signal traverse 3 câbles. Le premier a une atténuation de 3 dB, le deuxième de 7 dB, le troisième a un gain de 2 dB.</p>
+<p>Quelle est l'atténuation totale ? Le signal est-il atténué ou amplifié ?</p>`,
+`<p>En cascade, les dB s'additionnent :</p>
+<p><code>A_total = 3 + 7 - 2 = 8 dB d'atténuation</code>.</p>
+<p>Le signal est <b>atténué</b> (perte de 8 dB, soit un rapport de puissance de 10^(8/10) ≈ 6,3).</p>`],
+
+["res_capacite",`Temps de propagation`,
+`<p>Un signal parcourt 100 km de fibre optique à une vitesse de 2·10⁸ m/s.</p>
+<p>Quel est le temps de propagation ?</p>`,
+`<p><code>T_prop = L / v = 100 000 / (2·10⁸) = 5·10⁻⁴ s = <b>0,5 ms</b></code>.</p>`],
+
+["res_capacite",`Indice de modulation AM`,
+`<p>Un signal AM a une amplitude maximale Amax = 10 V et une amplitude minimale Amin = 2 V.</p>
+<p>Calculer l'indice de modulation μ.</p>`,
+`<p><code>μ = (Amax - Amin) / (Amax + Amin) = (10 - 2) / (10 + 2) = 8 / 12 ≈ <b>0,67</b></code>.</p>
+<p>L'indice μ est compris entre 0 et 1. Une modulation est optimale autour de 0,3 à 0,8.</p>`],
 
 /* IA — exercices */
 ["ia_kmeans",`K-means itératif (1D)`,`<p>Points 1D : <b>{1, 2, 5, 6, 7}</b>. Centroïdes initiaux 5 et 6. Appliquer K-means jusqu'à convergence.</p>`,`<p><b>Itération 1 — assignation</b> :<br>
