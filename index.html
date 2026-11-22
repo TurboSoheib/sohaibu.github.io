@@ -1344,59 +1344,140 @@ var Q=[
 ];
 
 /* CARTES */
+/* CARTES */
 var C=[
-["find",`Films après 2010`,`db.Films.find({ annee: { $gt: 2010 } })`],
-["find",`Nolan ou Cameron`,`db.Films.find({ realisateur: { $in: ["Christopher Nolan", "James Cameron"] } })`],
-["find",`Nolan OU genre SF`,`db.Films.find({ $or: [\n  { realisateur: "Christopher Nolan" },\n  { genre: "Science-fiction" }\n] })`],
-["regex",`Titres « ar » depuis 2000`,`db.Films.find({ $and: [\n  { annee: { $gt: 2000 } },\n  { titre: /ar/i }\n] })`],
-["regex",`Étudiants à Agadir`,`db.Etudiants.find({ "adresse.ville": "Agadir" })`],
-["find",`Note ≥ 8 ET buts ≥ 1 (même match)`,`db.joueurs.find({\n  matchs: { $elemMatch: { note: { $gte: 8 }, buts: { $gte: 1 } } }\n})`],
-["find",`Tri, skip 1, limit 2`,`db.joueurs.find().sort({ age: 1 }).skip(1).limit(2)`],
-["tab",`$filter + $map`,`db.joueurs.find({}, { _id: 0, nom: 1,\n  adversaires_note_8: { $map: {\n    input: { $filter: { input: "$matchs", as: "m",\n      cond: { $gte: ["$$m.note", 8] } } },\n    as: "x", in: "$$x.adversaire" } } })`],
-["upd",`$set prix`,`db.produits.updateOne(\n  { nom: "Souris Gamer" },\n  { $set: { prix: 350 } })`],
-["upd",`arrayFilters + $set`,`db.joueurs.updateOne(\n  { nom: "Achraf Hakimi" },\n  { $set: { "matchs.$[m].note": 9.0 } },\n  { arrayFilters: [ { "m.adversaire": "Marseille" } ] })`],
-["del",`replaceOne joueur`,`db.joueurs.replaceOne(\n  { nom: "Sofyan Amrabat" },\n  { nom: "Sofyan Amrabat", club: "Manchester United" })`],
+/* ===================== MONGODB ===================== */
+["find",`Différence entre <code>$elemMatch</code> et deux conditions pointées ?`,
+`Deux conditions pointées (<code>"examens.note"</code> et <code>"examens.bonus"</code>) peuvent être satisfaites par <b>deux éléments différents</b>.<br><br><code>$elemMatch</code> impose qu'<b>un même élément</b> respecte toutes les conditions.`],
 
-["phpop",`Tester pair`,`$n % 2 === 0`],
-["phpcond",`Mention if/elseif`,`$note = 13.5;\nif ($note >= 16) { $m = "Très bien"; }\nelseif ($note >= 14) { $m = "Bien"; }\nelseif ($note >= 12) { $m = "Assez bien"; }\nelseif ($note >= 10) { $m = "Passable"; }\nelse { $m = "Non validé"; }`],
-["phpcond",`Mention avec match`,`$m = match (true) {\n  $note >= 16 => "Très bien",\n  $note >= 14 => "Bien",\n  $note >= 10 => "Passable",\n  default     => "Non validé",\n};`],
+["find",`Quel est l'ordre d'application de <code>sort</code>, <code>skip</code> et <code>limit</code> ?`,
+`MongoDB applique <b>toujours</b> :<br>1. <code>sort</code> (tri)<br>2. <code>skip</code> (ignorer)<br>3. <code>limit</code> (limiter)<br><br>Quel que soit l'ordre d'écriture dans la requête.`],
 
-["ql_fond",`Chaîne causale`,`Erreur (humaine)\n  → Défaut (dans le code)\n  → Défaillance (observable)`],
-["ql_metrics",`V(G)`,`V(G) = E − N + 2 = décisions + 1\n1-10 simple, 11-20 modéré, >20 complexe`],
-["ql_metrics",`WMC, CBO, LCOM`,`WMC  = Σ V(G)              (≤10 faible)\nCBO  = nb classes couplées (≤5 faible)\nLCOM = P − Q               (≤1 forte cohésion)`],
-["ql_process",`Vérification vs Validation`,`Vérification : produit correctement (specs)\nValidation   : bon produit (besoins réels)`],
+["tab",`Rôle de <code>$filter</code> vs <code>$map</code> ?`,
+`<b>$filter</b> : garde les éléments qui respectent une condition (comme un WHERE).<br><b>$map</b> : transforme chaque élément (extrait un champ, calcule).<br><br>On les combine souvent : filtrer puis extraire.`],
 
-["mob_btn",`FAB dans Scaffold`,`Scaffold(\n  floatingActionButton: FloatingActionButton(\n    onPressed: () {},\n    child: Icon(Icons.add),\n  ),\n)`],
-["mob_btn",`ElevatedButton pilule + bordure`,`ElevatedButton(\n  onPressed: () {},\n  child: Text("Click to begin"),\n  style: ElevatedButton.styleFrom(\n    backgroundColor: Colors.yellow,\n    foregroundColor: Colors.black,\n    elevation: 15,\n    shape: StadiumBorder(),\n    side: BorderSide(color: Colors.black, width: 2),\n  ),\n)`],
-["mob_txt",`Lire et vider un TextField`,`var ctrl = TextEditingController();\nTextField(controller: ctrl);\n// lire :  ctrl.text\n// vider : ctrl.clear()`],
-["mob_wdg",`Changer texte bouton`,`String txt = 'Cliquer ici';\n// ...\nElevatedButton(\n  onPressed: () => setState(() => txt = 'Bouton cliqué !'),\n  child: Text(txt),\n)`],
+["tab",`Que fait <code>$arrayElemAt</code> sur un tableau filtré vide ?`,
+`Il ne renvoie <b>pas d'erreur</b>.<br>Le champ est simplement <b>absent</b> du document résultat.`],
 
-["res_capacite",`Formules clés`,`Shannon :  C = W · log₂(1 + S/N)\nNyquist :  D_max = 2W · log₂(V)\nRap. mod : R = D / log₂(V)  (bauds)\nAntenne  : L = c / (4f)`],
-["res_capacite",`dBm (R = 50 Ω)`,`P = V_eff² / R\nV_dBm = 10 log₁₀(P / 1mW)\n\n100 V   → P = 200 W → ≈ +53 dBm\n1 µV    → P = 2·10⁻¹⁴ W → ≈ −107 dBm`],
-["res_codage",`Manchester avec Δ = 10⁻⁸ s`,`Δ = 10⁻⁸ s = demi-bit\nT_bit = 2Δ = 2·10⁻⁸ s\nD = 1 / (2Δ) = 50 Mb/s`],
-["res_codage",`Caractéristiques des codes`,`NRZ          : R = D — problème de sync.\nRZ           : R = 2D — retour à zéro\nManchester   : R = 2D — auto-sync., DC nulle\nBipolaire    : R = D — 3 niveaux (+V, 0, −V)\nMiller       : R = D`],
-["res_modulation",`Antenne : calcul`,`L = λ/4 = c/(4f), c = 3·10⁸ m/s\nf = 1000 Hz → λ = 300 km → L = 75 km\nf = 1 MHz   → λ = 300 m  → L = 75 m`],
-["res_supports",`Caractéristiques des supports`,`Coaxial     : 50/75 Ω, 500 m max\nPaire tors. : 100 Ω, 100 m max\nFibre       : monomode (1) / multimode (n),\n              ré-amplification ~250 km\nEspace libre: faisceaux hertziens, satellites`],
+["upd",`Différence entre <code>$push</code> et <code>$addToSet</code> ?`,
+`<code>$push</code> ajoute la valeur <b>même si elle existe déjà</b> (doublons possibles).<br><code>$addToSet</code> n'ajoute la valeur <b>que si elle est absente</b> (garantit l'unicité).`],
 
-["ia_fond",`Non-supervisé : définition`,`Données non classées, non étiquetées.\nL'algorithme découvre la structure seul.\n\nExemples : clustering, réduction de dim.,\ndétection d'anomalies.`],
-["ia_fond",`Applications de K-means`,`- Segmentation de marché (clients similaires)\n- Compression d'image (regrouper pixels)\n- Analyse de texte (docs similaires)\n- Détection d'anomalies (points isolés)`],
-["ia_kmeans",`Étapes de K-means`,`1. Initialiser k centroïdes aléatoires\n2. Assigner chaque point au centroïde le plus proche\n3. Recalculer chaque centroïde = moyenne du cluster\n4. Répéter jusqu'à convergence\n   ou max d'itérations`],
-["ia_kmeans",`Inertie`,`Inertie = Σ ||xi − centroïde(xi)||²\n\nSomme des distances au carré\nentre chaque point et son centroïde.\n\n→ plus faible = clusters plus compacts`],
-["ia_kmeans",`Avantages / Inconvénients K-means`,`+ Simple à implémenter\n+ Rapide (petits/moyens)\n+ Bien sur données compactes\n\n- Sensible aux outliers\n- k à fixer à l'avance\n- Peut converger vers un minimum local`],
-["ia_var",`K-medoids`,`Comme K-means mais remplace la moyenne\npar un point représentatif (médiane).\n\n→ robuste aux outliers\n→ utilisable avec distances non euclidiennes`],
-["ia_var",`K-medoids vs K-means (exemple)`,`Points : 1, 3, 5, 7, 1009\n\nMoyenne = 205    (tirée par l'outlier)\nMédiane = 5      (robuste)\n\nK-medoids utilise la médiane\n→ centroïde non déformé par 1009`],
-["ia_var",`K-means++ : étapes`,`1. Choisir 1er centre aléatoirement\n2. Calculer D(xi) = distance au centre le plus proche\n3. Probabilité P(xi) ∝ D(xi)²\n4. Tirer un nouveau centre selon ces probas\n5. Répéter jusqu'à k centres\n6. Lancer K-means classique`],
-["ia_var",`K-means++ : apport`,`+ Réduction du biais initial\n+ Convergence plus rapide\n+ Minimisation du coût final (Σ distances²)\n+ Moins de minima locaux`],
-["ia_var",`Mini-batch K-means`,`Version optimisée pour grands ensembles.\nUtilise des sous-échantillons (mini-batchs)\nà chaque itération → plus rapide.`],
-["ia_var",`DBSCAN`,`Clustering basé sur la densité\n(pas sur les centroïdes).\n\nAdapté aux formes complexes\n(non sphériques).\nIdentifie aussi les outliers.`],
-["ia_elbow",`Méthode du coude (elbow)`,`1. Tester K-means pour k = 1, 2, 3, ...\n2. Calculer l'inertie pour chaque k\n3. Tracer k (x) vs inertie (y)\n4. Le « coude » = point où l'inertie\n   diminue beaucoup moins\n→ ce k est le nombre optimal de clusters`],
-["ia_elbow",`Exemple : coude sur X=[1,2,3,8,9,10,25]`,`k=1 → inertie ≈ 404\nk=2 → inertie ≈ 196 (le PDF indique 67, erreur arith.)\nk=3 → inertie = 4\nk=4 → inertie = 2\n\nChute brutale de k=1 à k=3,\npuis plus douce. Coude à k=2 ou 3\n→ k optimal = 2 ou 3`],
-["ia_agents",`PEAS`,`P — Performance (critère de succès)\nE — Environnement\nA — Actuateurs (actions)\nS — Sensors (perceptions)`],
-["ia_agents",`Caractériser un environnement`,`- Observable / partiellement observable\n- Déterministe / stochastique\n- Épisodique / séquentiel\n- Statique / dynamique\n- Discret / continu`],
-["ia_agents",`Types d'agents`,`- Réflexe simple (condition-action)\n- Réflexe avec état interne (mémoire)\n- Basé sur des buts (atteindre un but)\n- Basé sur l'utilité (pondérer critères)\n- Apprenant (améliorer par l'expérience)`],
-["ia_agents",`Agent rationnel ≠ omniscient`,`Rationnel : maximise la performance attendue\navec les infos disponibles.\n\nOmniscient : connaît l'état réel complet\net les conséquences de ses actions.`]
+["upd",`Différence entre <code>$</code> et <code>$[elem]</code> dans une mise à jour ?`,
+`<code>$</code> (positionnel) : modifie <b>uniquement la 1ʳᵉ occurrence</b> du tableau.<br><code>$[elem]</code> avec <code>arrayFilters</code> : modifie <b>toutes les occurrences</b> qui respectent la condition.`],
+
+["upd",`Que se passe-t-il si on utilise <code>replaceOne</code> ?`,
+`Le document est <b>entièrement remplacé</b>.<br>Tous les champs non réécrits sont <b>supprimés</b>.<br>Seul l'<code>_id</code> est conservé.<br>Aucun opérateur (<code>$set</code>, <code>$inc</code>...) n'est autorisé.`],
+
+["mod",`Embedding vs Referencing : lequel optimise la lecture ?`,
+`<b>Embedding</b> optimise la <b>lecture</b> (tout est dans le même document, pas de jointure).<br><b>Referencing</b> optimise l'<b>écriture</b> (pas de duplication, mise à jour d'un seul endroit).`],
+
+["mod",`Quelle est la limite de taille d'un document MongoDB ?`,
+`<b>16 Mo</b>.<br>C'est l'inconvénient principal de l'embedding : on ne peut pas tout mettre dans un seul document.`],
+
+/* ===================== PHP ===================== */
+["phpop",`Quelle est la différence entre <code>==</code> et <code>===</code> ?`,
+`<code>==</code> compare la valeur <b>après conversion de type</b>.<br><code>===</code> compare la valeur <b>ET le type</b>.<br><br><i>Piège : <code>"1e3" == "1000"</code> est vrai, car PHP les convertit en nombres.</i>`],
+
+["phpop",`Quelles sont les valeurs "falsy" en PHP ?`,
+`<code>false</code>, <code>0</code>, <code>0.0</code>, <code>""</code>, <code>"0"</code>, <code>[]</code>, <code>null</code>.<br><br><i>Piège : <code>"0"</code> est faux, mais <code>"false"</code> est vrai (car non vide).</i>`],
+
+["phpcond",`Pourquoi <code>match</code> est préféré à <code>switch</code> pour associer une valeur ?`,
+`<code>match</code> est une <b>expression</b> (renvoie une valeur), utilise <b>===</b> (strict), et n'a <b>pas besoin de break</b>.<br><code>switch</code> est une instruction, utilise <code>==</code> (souple) et exige <code>break</code>.`],
+
+["phpcond",`Que fait l'opérateur <code>??</code> (coalescence nulle) ?`,
+`Il renvoie l'opérande de gauche s'il existe et n'est pas <code>null</code>, sinon celui de droite.<br><br><i>Exemple : <code>$page = $_GET['page'] ?? 1;</code></i><br><b>Attention :</b> contrairement à <code>?:</code>, il ne convertit pas le type.`],
+
+["phpcond",`Comment fonctionne la syntaxe alternative <code>if(): endif;</code> ?`,
+`C'est la syntaxe recommandée dans les vues HTML.<br>On remplace les accolades <code>{ }</code> par un deux-points <code>:</code> et on ferme par <code>endif;</code> (ou <code>endfor;</code>, <code>endforeach;</code>).`],
+
+["phpop",`Comment passer un tableau par référence dans un <code>foreach</code> ?`,
+`En ajoutant <code>&</code> : <code>foreach ($tab as &$val) { ... }</code>.<br><br><b>Piège :</b> il faut <b>toujours</b> faire <code>unset($val);</code> après la boucle, sinon la variable garde la référence et écrase la dernière valeur du tableau.`],
+
+["phpop",`Quelle est la différence entre <code>include</code> et <code>require</code> ?`,
+`<code>include</code> génère un <b>warning</b> si le fichier est absent (le script continue).<br><code>require</code> génère une <b>erreur fatale</b> (le script s'arrête).<br><br>On utilise <code>require</code> pour les fichiers vitaux (BDD, config).`],
+
+/* ===================== QUALITÉ ===================== */
+["ql_metrics",`Quelle est la formule de la complexité cyclomatique <code>V(G)</code> ?`,
+`<code>V(G) = E - N + 2</code> (graphe)<br>ou <code>V(G) = nombre de décisions + 1</code>.<br><br>C'est aussi le <b>nombre minimal de cas de test</b> pour couvrir toutes les décisions.`],
+
+["ql_metrics",`À quoi servent les métriques <code>WMC</code>, <code>CBO</code> et <code>LCOM</code> ?`,
+`Ce sont des métriques orientées objet (CK) :<br>• <b>WMC</b> = complexité totale de la classe (Σ V(G))<br>• <b>CBO</b> = couplage (nb de classes externes)<br>• <b>LCOM</b> = cohésion (paires de méthodes sans attribut commun)`],
+
+["ql_metrics",`Quel est le seuil critique pour <code>LCOM</code> ?`,
+`<b>LCOM ≤ 1</b> : forte cohésion (la classe fait une seule chose).<br><b>LCOM > 1</b> : faible cohésion (il faut probablement séparer la classe).`],
+
+["ql_process",`Quelle est la différence entre Vérification et Validation ?`,
+`<b>Vérification</b> : « Construisons-nous le produit correctement ? » (conformité aux specs).<br><b>Validation</b> : « Construisons-nous le bon produit ? » (satisfaction des besoins réels du client).`],
+
+["ql_process",`Quels sont les 3 types de maintenance ?`,
+`1. <b>Corrective</b> : corriger des bugs.<br>2. <b>Adaptative</b> : s'adapter à un nouvel environnement (ex: Java 8 → 17).<br>3. <b>Perfective</b> : améliorer la qualité interne sans changer le comportement (refactoring).`],
+
+["ql_fond",`Quelle est la chaîne causale de la qualité logicielle ?`,
+`<b>Erreur</b> (humaine) → <b>Défaut</b> (dans le code) → <b>Défaillance</b> (observable à l'exécution).<br><br><i>Exemple : oubli d'un cas → division par zéro non gérée → crash.</i>`],
+
+/* ===================== MOBILE ===================== */
+["mob_btn",`Quelle est la hiérarchie d'importance des boutons Flutter ?`,
+`1. <b>ElevatedButton</b> : Action principale (1 par écran).<br>2. <b>OutlinedButton</b> : Action importante secondaire (bordure).<br>3. <b>TextButton</b> : Action tertiaire (sans fond).`],
+
+["mob_btn",`Comment obtenir une forme "pilule" (bords complètement arrondis) sur un bouton ?`,
+`Utiliser <code>shape: StadiumBorder()</code> dans le <code>styleFrom</code>.<br>(Pour des coins arrondis classiques : <code>RoundedRectangleBorder</code>).`],
+
+["mob_txt",`Quelle est la différence entre <code>TextField</code> et <code>TextFormField</code> ?`,
+`<code>TextFormField</code> s'utilise à l'intérieur d'un <b><code>Form</code></b> et accepte un <b><code>validator</code></b> pour valider les données (email, mot de passe, etc.).<br><code>TextField</code> est une simple zone de saisie sans validation intégrée.`],
+
+["mob_txt",`À quoi sert un <code>TextEditingController</code> ?`,
+`Il permet de <b>lire</b> (<code>ctrl.text</code>) et de <b>modifier/vider</b> (<code>ctrl.clear()</code>) le contenu d'un champ de texte.<br>Il doit être passé au paramètre <code>controller:</code> du TextField.`],
+
+["mob_wdg",`Quelle est la différence entre <code>StatelessWidget</code> et <code>StatefulWidget</code> ?`,
+`<b>StatelessWidget</b> : immuable, l'interface ne change pas (ex: texte statique).<br><b>StatefulWidget</b> : mutable, l'interface peut changer via <code>setState()</code> (ex: compteur, formulaire).`],
+
+["mob_wdg",`Pourquoi utiliser <code>SizedBox</code> plutôt que <code>Container</code> pour un espace vide ?`,
+`<code>SizedBox</code> est beaucoup <b>plus léger</b> en mémoire car il ne gère pas de décorations (couleur, bordure, padding). Pour un simple espace, c'est la bonne pratique.`],
+
+/* ===================== RÉSEAUX ===================== */
+["res_capacite",`Quelle est la formule de la capacité d'un canal selon Shannon ?`,
+`<code>C = W · log₂(1 + S/N)</code><br><br>C'est le <b>débit maximal théorique</b> d'un canal bruité, avec W la bande passante et S/N le rapport signal/bruit (linéaire, pas en dB).`],
+
+["res_capacite",`Quelle est la différence entre <code>Mo</code> et <code>Mb</code> ?`,
+`<b>Mo</b> (mégaoctet) = 2²⁰ octets = 8 388 608 bits.<br><b>Mb</b> (mégabit) = 10⁶ bits.<br><br>C'est le piège classique pour calculer le temps de transmission : il faut <b>toujours convertir en bits</b> avant de diviser par le débit.`],
+
+["res_codage",`Pourquoi le code Manchester est-il meilleur que le NRZ ?`,
+`Manchester a une <b>transition au milieu de chaque bit</b> (auto-synchronisation) et sa composante continue (DC) est nulle.<br>Le NRZ perd la synchronisation sur de longues suites de 0 ou de 1.`],
+
+["res_codage",`Comment calculer le débit (D) en code Manchester si on connaît Δ (demi-bit) ?`,
+`Le bit dure 2Δ.<br><code>D = 1 / (2Δ)</code>.<br><br><i>Exemple : Δ = 10⁻⁸ s → D = 50 Mb/s.</i>`],
+
+["res_modulation",`Pourquoi moduler un signal (utiliser une porteuse) ?`,
+`Pour <b>réduire la taille de l'antenne</b>.<br>La longueur optimale est <code>L = c / (4f)</code>. En augmentant la fréquence f (porteuse), on réduit L à des dimensions pratiques.`],
+
+["res_modulation",`Quel paramètre est modifié en AM, FM et PM ?`,
+`<b>AM</b> (Amplitude) : on modifie A.<br><b>FM</b> (Fréquence) : on modifie f.<br><b>PM</b> (Phase) : on modifie φ.<br><br>Signal : <code>x(t) = A cos(θ(t))</code>. AM agit sur A, FM/PM sur θ(t).`],
+
+["res_supports",`Quel est le support le plus adapté pour une liaison intercontinentale ?`,
+`La <b>fibre optique</b> (monomode).<br>Pertes très faibles, ré-amplification seulement tous les ~250 km.`],
+
+/* ===================== IA ===================== */
+["ia_kmeans",`Quelles sont les 4 étapes de l'algorithme K-means ?`,
+`1. <b>Initialiser</b> k centroïdes aléatoires.<br>2. <b>Assigner</b> chaque point au centroïde le plus proche.<br>3. <b>Mettre à jour</b> chaque centroïde (moyenne des points).<br>4. <b>Répéter</b> jusqu'à convergence.`],
+
+["ia_kmeans",`Qu'est-ce que l'inertie en K-means ?`,
+`C'est la <b>somme des distances au carré</b> entre chaque point et son centroïde.<br><code>Inertie = Σ ||xi - centroïde(xi)||²</code><br><br>Plus l'inertie est faible, plus les clusters sont compacts.`],
+
+["ia_var",`Pourquoi K-medoids est-il plus robuste que K-means ?`,
+`K-medoids utilise la <b>médiane</b> (ou un point représentatif) au lieu de la <b>moyenne</b>.<br>La moyenne est tirée par les valeurs aberrantes (outliers), pas la médiane.<br><i>Ex: Moyenne de [1,3,5,7,1009] = 205, Médiane = 5.</i>`],
+
+["ia_var",`Quel est le principe de K-means++ ?`,
+`Améliorer l'initialisation des centres.<br>Au lieu de choisir au hasard, chaque nouveau centre est tiré avec une probabilité proportionnelle à <code>D(x)²</code> (distance au centre le plus proche).<br>→ Les centres sont mieux espacés au départ.`],
+
+["ia_elbow",`Comment fonctionne la méthode du coude (elbow) ?`,
+`On trace l'inertie en fonction de k.<br>On cherche le point où l'inertie <b>chute brutalement</b> puis commence à <b>s'aplatir</b>.<br>Ce "coude" indique le nombre optimal de clusters.`],
+
+["ia_agents",`Que signifie PEAS ?`,
+`<b>P</b>erformance (critère de succès)<br><b>E</b>nvironnement<br><b>A</b>ctuateurs (actions possibles)<br><b>S</b>ensors (perceptions)<br><br>C'est la grille pour définir un agent intelligent.`],
+
+["ia_agents",`Quelle est la différence entre un agent rationnel et un agent omniscient ?`,
+`<b>Rationnel</b> : agit au mieux avec les infos dont il dispose.<br><b>Omniscient</b> : connaît l'état réel complet et toutes les conséquences de ses actions (idéal inatteignable).<br>→ Un agent rationnel n'est pas omniscient.`]
 ];
-
 /* EXERCICES */
 var EX=[
 /* Mongo existants + nouveaux */
