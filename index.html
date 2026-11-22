@@ -972,7 +972,127 @@ LCOM  = P − Q = 5 − 1 = 4           → faible cohésion (&gt;1)</pre>
 <tr><td>13k unit tests</td><td>≈ 13 000 tests unitaires</td></tr>
 <tr><td>6.8 % duplications</td><td>&lt; 7 % → acceptable</td></tr>
 </table></div>
-<p>Badges : <b>A</b> = info, <b>B</b> = minor, <b>C</b> = major, <b>D</b> = critical, <b>E</b> = blocker.</p>
+<p>Notes : <b>A</b> = aucun problème, <b>B</b> = pire problème mineur, <b>C</b> = majeur, <b>D</b> = critique, <b>E</b> = bloquant.</p>
+<h2>Concepts de base : compléments</h2>
+<div class="wrap"><table>
+<tr><th>Notion</th><th>À retenir</th></tr>
+<tr><td>Logiciel (ISO/IEC/IEEE 24765:2017)</td><td>Programmes, procédures, règles, documentation associée, données</td></tr>
+<tr><td>Erreur / défaut / défaillance</td><td>Erreur humaine → défaut non détecté → défaillance (failure) en exploitation</td></tr>
+<tr><td>Écarts entre besoins</td><td>Vrais → exprimés → spécifiés → réalisés : chaque passage perd de l'information</td></tr>
+<tr><td>SQA</td><td>Activités objectives et indépendantes du projet, dans les contraintes de coût et de délai</td></tr>
+<tr><td>Types de métriques</td><td>Processus (coût, délais) · Produit (code, complexité) · Projet (effectif, effort)</td></tr>
+<tr><td>Rôles de la métrologie</td><td>Évaluatif · Vérificatif · Prédictif</td></tr>
+<tr><td>Répartition des défauts</td><td>63 % = structurel 25 % + données 22 % + fonctionnalités 16 %</td></tr>
+</table></div>
+<h3>Échecs célèbres</h3>
+<div class="wrap"><table>
+<tr><th>Cas</th><th>Cause</th></tr>
+<tr><td>Mariner 1 (1962)</td><td>Formule manuscrite mal transcrite</td></tr>
+<tr><td>Therac-25</td><td>Mauvaise gestion des états concurrents</td></tr>
+<tr><td>Patriot (1991)</td><td>Arrondi de l'horloge, 28 morts</td></tr>
+<tr><td>Ariane 5</td><td>Débordement float → entier</td></tr>
+<tr><td>Mars Climate Orbiter (1999)</td><td>Unités impérial / métrique</td></tr>
+<tr><td>Boeing 737 MAX</td><td>Capteurs + logique MCAS non redondée, 346 morts</td></tr>
+<tr><td>Bug de 2038</td><td>19 janvier 2038, 03:14:08 UTC</td></tr>
+</table></div>
+
+<h2>Modèles de qualité (McCall, ISO 9126, GQM)</h2>
+<div class="wrap"><table>
+<tr><th>Modèle</th><th>Contenu</th></tr>
+<tr><td>McCall (1977)</td><td>11 facteurs, 23 critères. Opérationnel (conformité, fiabilité, efficacité, intégrité, facilité d'emploi) · Évolution (maintenabilité, souplesse, testabilité) · Adaptabilité (portabilité, réutilisabilité, interopérabilité)</td></tr>
+<tr><td>ISO 9126</td><td>6 caractéristiques, 27 sous-caractéristiques : fonctionnalité, fiabilité, utilisabilité, efficacité, maintenabilité, portabilité. Qualité interne, externe, en usage</td></tr>
+<tr><td>GQM (Basili)</td><td>Goal → Question → Metric : mesurer uniquement ce qui sert un objectif</td></tr>
+</table></div>
+<p><b>Hiérarchie :</b> facteur (vision externe, utilisateur) → critère (vision interne, développeur) → métrique. Évaluation : <code>Ic = f(m1, m2…)</code>, <code>If = g(Ic1, Ic2…)</code>.</p>
+<p><b>Processus d'évaluation :</b> 1) définir facteurs et critères ; 2) choisir métriques, seuils et taux de satisfaction ; 3) mesurer → noter → apprécier.</p>
+<h3>Types de mesure (Stevens, 1946)</h3>
+<div class="wrap"><table>
+<tr><th>Échelle</th><th>Propriété</th><th>Exemple</th><th>Transformation</th></tr>
+<tr><td>Nominale</td><td>Catégories sans ordre</td><td>Type d'erreur</td><td>Un-à-un</td></tr>
+<tr><td>Ordinale</td><td>Ordre, écarts non mesurables</td><td>Sévérité mineur / majeur / critique</td><td>Préserve l'ordre</td></tr>
+<tr><td>Intervalle</td><td>Écarts mesurables, zéro arbitraire</td><td>Température, score 0–100</td><td>a·M + b (a &gt; 0)</td></tr>
+<tr><td>Ratio</td><td>Zéro absolu</td><td>Taux de couverture, âge</td><td>a·M (a &gt; 0)</td></tr>
+<tr><td>Absolue</td><td>Comptage</td><td>Nombre d'erreurs</td><td>Identité</td></tr>
+</table></div>
+<h3>Étude de cas (agrégation pondérée)</h3>
+<pre>Notes : commentaires 10 % → 1 ; noms incompréhensibles → 0 ; complexité 3 → 2 ; 50–100 lignes → 1
+Auto-documentation = 0,5·1 + 0,5·0 = 0,5
+Simplicité         = 0,4·1 + 0,4·2 + 0,2·1 = 1,4
+Maintenabilité     = 0,6·1,4 + 0,4·0,5 = 1,04
+Fiabilité          = 1·1,4 = 1,4</pre>
+
+<h2>Métriques de code : compléments</h2>
+<div class="wrap"><table>
+<tr><th>Métrique</th><th>Définition</th><th>Norme</th></tr>
+<tr><td><code>LOCphy</code></td><td>Lignes physiques</td><td>200–500 par fichier</td></tr>
+<tr><td><code>LOCpro</code></td><td>Lignes de programme</td><td>50–300 par classe</td></tr>
+<tr><td><code>LOCcom</code></td><td>Lignes de commentaires</td><td>10–30 % du code</td></tr>
+<tr><td><code>LOCbl</code></td><td>Lignes vides</td><td>10–20 % du code</td></tr>
+<tr><td><code>DC</code></td><td>LOCcom / LOCphy</td><td>0,2–0,3</td></tr>
+</table></div>
+<p><b>V(G)</b> = <code>E − N + 2P</code> (P = composantes connexes, 1 en général) = <code>π + 1</code>. IF = 1 décision, FOR / WHILE = 1, CASE à N cas = N − 1. Minimum = 1.</p>
+<div class="wrap"><table>
+<tr><th>V(G)</th><th>Interprétation</th><th>Risque</th><th>Mauvaise correction</th></tr>
+<tr><td>1–10</td><td>Simple</td><td>Faible</td><td>5 %</td></tr>
+<tr><td>11–20</td><td>Plus complexe</td><td>Modéré</td><td></td></tr>
+<tr><td>20–30</td><td></td><td></td><td>20 %</td></tr>
+<tr><td>21–50</td><td>Complexe</td><td>Élevé</td><td></td></tr>
+<tr><td>&gt; 50</td><td>Non testable</td><td>Très élevé</td><td>40 % (≈ 100 : 60 %)</td></tr>
+</table></div>
+<h3>Halstead</h3>
+<div class="wrap"><table>
+<tr><th>Mesure</th><th>Formule</th></tr>
+<tr><td>n1, n2 / N1, N2</td><td>Opérateurs / opérandes uniques / occurrences totales</td></tr>
+<tr><td>Vocabulaire, longueur</td><td><code>n = n1 + n2</code> · <code>N = N1 + N2</code></td></tr>
+<tr><td>Volume</td><td><code>V = N · log₂(n)</code></td></tr>
+<tr><td>Difficulté, niveau</td><td><code>D = (n1/2) · (N2/n2)</code> · <code>L = 1/D</code></td></tr>
+<tr><td>Effort</td><td><code>E = V · D</code></td></tr>
+<tr><td>Temps</td><td><code>T = E / 18</code> secondes (Stroud)</td></tr>
+<tr><td>Bugs</td><td><code>B = E^(2/3) / 3000</code></td></tr>
+</table></div>
+<p>Exemple : <code>a := a + 1;</code> → opérateurs <code>:=</code>, <code>+</code>, <code>;</code> ; opérandes <code>a</code>, <code>1</code>.</p>
+
+<h2>Métriques POO complètes (CK) et architecture (Martin)</h2>
+<div class="wrap"><table>
+<tr><th>Métrique</th><th>Définition</th><th>Seuils</th></tr>
+<tr><td><code>WMC</code></td><td>Σ complexité des méthodes</td><td>≤ 10 faible, 11–20 moyen, &gt; 20 élevé</td></tr>
+<tr><td><code>DIT</code></td><td>Profondeur d'héritage (min 1 en Java)</td><td>0–4 acceptable, 5–7 moyen, &gt; 7 profond</td></tr>
+<tr><td><code>NOC</code></td><td>Sous-classes directes</td><td>0–3 normal, 4–7 moyen, &gt; 7 élevé</td></tr>
+<tr><td><code>RFC</code></td><td>Méthodes de la classe + méthodes appelées</td><td>0–20 faible, 21–50 moyen, &gt; 50 élevé</td></tr>
+<tr><td><code>CBO</code></td><td>Classes couplées</td><td>0–5 faible, 6–10 moyen, &gt; 10 élevé</td></tr>
+<tr><td><code>LCOM</code></td><td>P − Q (0 si P ≤ Q)</td><td>≤ 1 forte cohésion</td></tr>
+<tr><td><code>SI</code></td><td>NORM × DIT / NOM</td><td>≈ 0 générique, 0,5–1 équilibré, &gt; 1,5 très spécialisé</td></tr>
+</table></div>
+<p><b>SOLID :</b> S responsabilité unique · O ouvert / fermé · L substitution de Liskov · I interfaces ségrégées · D inversion de dépendances.</p>
+<h3>Package : A, I, D (Robert C. Martin)</h3>
+<div class="wrap"><table>
+<tr><th>Métrique</th><th>Formule</th><th>Lecture</th></tr>
+<tr><td>Abstractivité A</td><td><code>Nabstract / Ntotal</code></td><td>0 concret, 1 abstrait</td></tr>
+<tr><td>Instabilité I</td><td><code>Ce / (Ca + Ce)</code></td><td>0 stable (beaucoup en dépendent), 1 instable. Ca = entrant, Ce = sortant</td></tr>
+<tr><td>Distance D</td><td><code>|A + I − 1|</code></td><td>Proche de 0 = bien conçu. Moyenne : &lt; 0,3 très bon, 0,3–0,5 acceptable, &gt; 0,5 déséquilibré</td></tr>
+</table></div>
+<p>Cas typiques : concret et stable (A = 0, I = 0,1, D = 0,9) trop rigide ; abstrait et instable (A = 1, I = 0,8, D = 0,2) bien conçu ; équilibré (A = 0,5, I = 0,5, D = 0) idéal.</p>
+
+<h2>SonarQube : compléments</h2>
+<ul>
+<li>Web open source, gestion centralisée, + de 25 langages, intégration CI (Jenkins, TravisCI, Azure DevOps), accès RBAC.</li>
+<li><b>7 axes :</b> anomalies, duplications, tests unitaires, complexité, architecture / design, documentation, standards.</li>
+<li><b>Quality Gate :</b> PASSED / FAILED (pas d'anomalie bloquante, couverture &gt; 80 %, sécurité, fiabilité, maintenabilité).</li>
+<li><b>Complexité :</b> cyclomatique (McCabe) vs cognitive (2016, SonarSource : effort de compréhension).</li>
+<li><b>Dette technique :</b> temps estimé de correction des code smells. Duplications : tendre vers 0.</li>
+<li><b>Sévérités :</b> bloquant, critique, majeur, mineur, info.</li>
+</ul>
+
+<h2>Processus : compléments</h2>
+<div class="wrap"><table>
+<tr><th>Modèle</th><th>Avantages</th><th>Limites</th></tr>
+<tr><td>Cascade</td><td>Documentation, traçabilité, systèmes critiques</td><td>Pas de retour arrière, feedback tardif, exigences stables requises</td></tr>
+<tr><td>Incrémental</td><td>Feedback fréquent, valeur livrée tôt, risque réduit</td><td>Processus moins visible, dégradation du code, intégration complexe</td></tr>
+<tr><td>Intégration &amp; Configuration</td><td>Moins de coûts et de risques, livraison rapide</td><td>Compromis sur les exigences, dépendance aux tiers</td></tr>
+</table></div>
+<p><b>I&amp;C :</b> COTS (SAP, WordPress), bibliothèques / frameworks (Spring, React), services Web (Stripe, Google Maps).</p>
+<p><b>Agile :</b> manifeste de février 2001 (Snowbird, 17 experts). Principes : implication du client, livraison incrémentale, personnes pas processus, embrasser le changement, simplicité. Limite : passage à l'échelle. Méthodes : Scrum, XP, Crystal Clear. Chaos Report : 70 % d'échecs liés à la gestion des exigences changeantes (50 % liés à de mauvaises exigences).</p>
+
 </div>
 </section>
 
@@ -1248,7 +1368,7 @@ ETCD = Equipement Terminal de Circuit de Données (ex: modem)</pre>
 var CATS = {
   mongodb:{all:"Tout MongoDB",find:"Lecture : find et comparaisons",regex:"Regex et sous-documents",tab:"Tableaux : $filter, $map, combos",upd:"Mises à jour",del:"Suppression et replaceOne",mod:"Modélisation"},
   php:{all:"Tout PHP",phpop:"Opérateurs et expressions",phpcond:"Conditions : if, switch, match"},
-  ql:{all:"Tout Qualité",ql_fond:"Fondamentaux",ql_square:"SQuaRE (ISO 25010)",ql_metrics:"Métriques (LOC, McCabe, CK)",ql_process:"Processus SDLC"},
+  ql:{all:"Tout Qualité",ql_fond:"Fondamentaux et concepts",ql_models:"Modèles de qualité (McCall, ISO 9126, GQM, mesure)",ql_square:"SQuaRE (ISO 25010)",ql_metrics:"Métriques (LOC, McCabe, CK)",ql_halstead:"Halstead",ql_poo:"POO (CK, SI, Martin A/I/D)",ql_sonar:"SonarQube",ql_process:"Processus SDLC et agile"},
   mob:{all:"Tout Mobile",mob_btn:"Boutons",mob_txt:"TextFields et formulaires",mob_wdg:"Widgets et état"},
   res:{all:"Tout Réseaux",res_codage:"Codage en bande de base",res_capacite:"Capacité, débits, théorèmes",res_modulation:"Modulation et porteuse",res_supports:"Supports de transmission"},
   ia:{all:"Toute l'IA",ia_fond:"Apprentissage non-supervisé",ia_kmeans:"K-means classique",ia_var:"Variantes (K-medoids, ++, Mini-batch, DBSCAN)",ia_elbow:"Inertie et méthode du coude",ia_agents:"Agents intelligents"}
@@ -1397,7 +1517,102 @@ var Q=[
 ["ia_agents",`Un agent rationnel est-il omniscient ?`,["Oui, toujours","Non : rationnel agit au mieux avec les infos dispo ; omniscient connaît tout","Oui sur petits domaines","Ça dépend"],1,`Rationnel ≠ omniscient.`],
 ["ia_agents",`Une porte automatique : quel type d'agent ?`,["Réflexe simple","État interne","But","Utilité"],0,`Règle condition-action basique.`],
 ["ia_agents",`Un GPS qui pondère rapidité/coût/sécurité ?`,["Réflexe","État interne","But","Utilité"],3,`Pondération multi-critères = utilité.`],
-["ia_agents",`Environnement épisodique ?`,["Actions influencent les épisodes futurs","Actions n'influencent pas les épisodes futurs","Toujours observable","Toujours déterministe"],1,`Chaque épisode est indépendant.`]
+["ia_agents",`Environnement épisodique ?`,["Actions influencent les épisodes futurs","Actions n'influencent pas les épisodes futurs","Toujours observable","Toujours déterministe"],1,`Chaque épisode est indépendant.`],
+
+/* ===== QUALITÉ : ajouts quiz ===== */
+["ql_fond",`Mariner 1 (1962) : quelle est la cause de l'échec ?`,["Débordement float → entier","Mauvaise transcription d'une formule manuscrite","Arrondi de l'horloge","Unités impérial / métrique"],1,`Le programmeur a mal transcrit une formule manuscrite. Perte : 18,5 M$.`],
+["ql_fond",`Patriot (1991) : cause de l'échec ?`,["Erreur de transcription","Calcul inexact du temps (arrondi de l'horloge)","Débordement de conversion","Capteurs non redondés"],1,`Erreur d'arrondi sur l'horloge → Scud non intercepté, 28 morts.`],
+["ql_fond",`Therac-25 : cause principale ?`,["Mauvaise gestion des états concurrents","Arrondi d'horloge","Dates sur 2 chiffres","Incohérence d'unités"],0,`Surdoses de radiations dues à une mauvaise gestion de la concurrence.`],
+["ql_fond",`Mars Climate Orbiter (1999) : cause ?`,["Incohérence d'unités (impérial vs métrique)","Débordement","Arrondi","Transcription"],0,`Mélange d'unités impériales et métriques.`],
+["ql_fond",`Boeing 737 MAX (MCAS) : cause ?`,["Mauvais capteurs + logique logicielle non redondée","Unités","Dates sur 2 chiffres","Mise à jour de trading"],0,`2 crashs, 346 morts.`],
+["ql_fond",`Quel % des défauts vient de la structure du code, des données et des fonctionnalités implémentées ?`,["37 %","50 %","63 %","75 %"],2,`25 % (structurel) + 22 % (données) + 16 % (fonctionnalités) = 63 %.`],
+["ql_fond",`Quel rôle n'appartient PAS à la métrologie logicielle ?`,["Évaluatif","Vérificatif","Prédictif","Marketing"],3,`Les 3 rôles : évaluatif, vérificatif, prédictif.`],
+["ql_fond",`La complexité cyclomatique est une métrique de quel type ?`,["Processus","Produit","Projet","Service"],1,`Métrique produit (code, complexité). Processus = coût, temps. Projet = effectif, effort.`],
+["ql_fond",`« Nombre de développeurs » est une métrique de :`,["Processus","Produit","Projet","Service"],2,`Projet : nombre de développeurs, effort, productivité.`],
+["ql_fond",`Un défaut (defect) est :`,["Une manifestation en production","Une erreur humaine non détectée pendant dév / QA / tests","Un plantage","Un comportement correct"],1,`Erreur → défaut → défaillance (failure = manifestation du défaut en exploitation).`],
+["ql_fond",`Pourquoi la qualité du seul code source ne suffit-elle pas ?`,["Un système est bien plus complexe qu'un programme : composants et interactions comptent","Le code n'a pas d'importance","Les tests suffisent","Seul le client compte"],0,`Il faut identifier tous les composants et leurs interactions.`],
+["ql_fond",`Attribut clé de la fonction SQA ?`,["Rapidité","Objectivité (indépendance vis-à-vis du projet)","Réduction du code","Automatisation"],1,`La SQA est objective et peut être indépendante des pressions techniques, managériales et financières.`],
+["ql_fond",`Le bug de l'an 2038 survient le :`,["19 janvier 2038","1er janvier 2000","31 décembre 1999","13 décembre 1901"],0,`19 janvier 2038, 03:14:08 UTC : les systèmes concernés revoient 1901.`],
+["ql_models",`McCall (1977) : combien de facteurs et de critères ?`,["6 / 27","11 / 23","8 / 31","5 / 12"],1,`11 facteurs et 23 critères, chaque critère ayant au moins une métrique.`],
+["ql_models",`ISO 9126 : combien de caractéristiques et de sous-caractéristiques ?`,["6 et 27","8 et 31","11 et 23","4 et 12"],0,`6 caractéristiques : fonctionnalité, fiabilité, utilisabilité, efficacité, maintenabilité, portabilité.`],
+["ql_models",`Les 3 dimensions de McCall ?`,["Opérationnel, Évolution, Adaptabilité","Produit, Processus, Projet","Interne, Externe, Usage","Fonction, Forme, Coût"],0,`Product Operation, Product Revision, Product Transition.`],
+["ql_models",`Quel facteur McCall relève de la dimension Évolution (Revision) ?`,["Maintenabilité","Portabilité","Intégrité","Efficacité"],0,`Évolution : maintenabilité, souplesse (flexibilité), testabilité.`],
+["ql_models",`Portabilité, réutilisabilité, interopérabilité : quelle dimension McCall ?`,["Opérationnel","Évolution","Adaptabilité (Transition)","Aucune"],2,`Adaptabilité = Product Transition.`],
+["ql_models",`GQM (Basili) signifie :`,["Goal → Question → Metric","Metric → Goal → Question","Goal → Metric → Question","Question → Goal → Metric"],0,`On part de l'objectif, on formule des questions, puis on définit les métriques.`],
+["ql_models",`Principe de GQM ?`,["Collecter un maximum de mesures","Mesurer uniquement ce qui aide à atteindre un objectif","Mesurer seulement le code","Remplacer ISO 9126"],1,`Les métriques découlent des objectifs réels de l'organisation.`],
+["ql_models",`Facteur vs critère ?`,["Facteur = vision externe (utilisateur) ; critère = vision interne (développeur)","Facteur = développeur ; critère = utilisateur","Identiques","Facteur = métrique"],0,`Hiérarchie : facteur → critère → métrique.`],
+["ql_models",`Les 3 niveaux d'évaluation d'un modèle de qualité ?`,["Métriques, critères, facteurs","Goal, question, metric","Produit, processus, projet","Interne, externe, usage"],0,`Ic = f(m1, m2…) pour les critères ; If = g(Ic1, Ic2…) pour les facteurs.`],
+["ql_models",`Étape 3 de l'évaluation : quel ordre ?`,["Mesure → Notation → Appréciation","Notation → Mesure → Appréciation","Appréciation → Mesure → Notation","Mesure → Appréciation → Notation"],0,`On mesure, on attribue une note, puis on apprécie globalement.`],
+["ql_models",`Taux de couverture des tests (%) : quelle échelle de Stevens ?`,["Nominale","Ordinale","Intervalle","Ratio"],3,`Zéro absolu et rapports significatifs → ratio.`],
+["ql_models",`Sévérité d'un bug {mineur, majeur, critique} : quelle échelle ?`,["Nominale","Ordinale","Intervalle","Ratio"],1,`Il y a un ordre, mais les écarts ne sont pas mesurables.`],
+["ql_models",`Nombre total d'erreurs détectées : quelle échelle ?`,["Nominale","Intervalle","Absolue","Ordinale"],2,`Comptage direct → échelle absolue (cas particulier du ratio).`],
+["ql_models",`Transformation autorisée sur une échelle de ratio ?`,["t(M) = a·M + b","t(M) = a·M avec a > 0","Identité seulement","Toute bijection"],1,`Ex. MAD = 0,093 × EUR. Intervalle : a·M + b. Absolue : identité.`],
+["ql_models",`Celsius → Fahrenheit : quelle échelle ?`,["Nominale","Intervalle","Ratio","Absolue"],1,`Zéro arbitraire ; transformation F = 9/5·C + 32.`],
+["ql_models",`Simplicité = 0,4·Commentaires + 0,4·Complexité + 0,2·Lignes, avec valeurs 1, 2, 1. Résultat ?`,["1,0","1,4","1,6","2,0"],1,`0,4 + 0,8 + 0,2 = 1,4.`],
+["ql_metrics",`DC (densité de commentaires) = ?`,["LOCcom / LOCphy","LOCpro / LOCphy","LOCbl / LOCcom","LOCcom / LOCpro"],0,`DC = LOCcom / LOCphy.`],
+["ql_metrics",`Fichier de 19 lignes dont 12 de commentaires : DC ?`,["0,21","0,63","0,40","1,58"],1,`12 / 19 ≈ 0,63.`],
+["ql_metrics",`Norme pour DC ?`,["0,2 – 0,3","0,5 – 0,7","0,05 – 0,1","≥ 1"],0,`Bon équilibre code / documentation. LOCcom : 10–30 % du code.`],
+["ql_metrics",`Norme LOCphy par fichier ?`,["200 – 500","5 – 20","1000 – 2000","Aucune"],0,`Au-delà : fractionner le fichier. LOCpro : 50–300 par classe.`],
+["ql_metrics",`V(G) = E − N + 2P avec E = 11, N = 8, P = 1 :`,["3","5","6","21"],1,`11 − 8 + 2 = 5.`],
+["ql_metrics",`Une instruction CASE traitant N cas compte :`,["1 décision","N − 1 décisions","N décisions","N + 1 décisions"],1,`IF = 1 décision, FOR / WHILE = 1, CASE à N cas = N − 1.`],
+["ql_metrics",`V(G) entre 21 et 50 :`,["Simple, risque faible","Plus complexe, risque modéré","Complexe, risque élevé","Non testable"],2,`1–10 faible, 11–20 modéré, 21–50 élevé, > 50 non testable (très élevé).`],
+["ql_metrics",`Valeur minimale de V(G) ?`,["0","1","2","10"],1,`Il y a toujours au moins un chemin.`],
+["ql_metrics",`Programme : lire p, lire e, Si e ≠ 0 alors Tant que e > 0 faire… V(G) ?`,["2","3","4","5"],1,`2 décisions (Si + Tant que) + 1 = 3. Avec le graphe : 12 − 11 + 2 = 3.`],
+["ql_metrics",`Probabilité de « mauvaise correction » pour V(G) > 50 ?`,["5 %","20 %","40 %","60 %"],2,`1–10 : 5 % ; 20–30 : 20 % ; > 50 : 40 % ; ~100 : 60 %.`],
+["ql_halstead",`n1 dans Halstead :`,["Nb total d'opérateurs","Nb d'opérateurs uniques","Nb d'opérandes uniques","Nb total d'opérandes"],1,`n1/n2 = uniques ; N1/N2 = occurrences totales.`],
+["ql_halstead",`Vocabulaire n = ?`,["n1 + n2","N1 + N2","n1 × n2","n1 / n2"],0,`n = n1 + n2 ; N = N1 + N2.`],
+["ql_halstead",`Volume V = ?`,["N · log₂(n)","n · log₂(N)","N · n","N / n"],0,`Taille du programme en bits.`],
+["ql_halstead",`Difficulté D = ?`,["(n1/2) × (N2/n2)","(n2/2) × (N1/n1)","N1 / N2","n1 + n2"],0,`Plus d'opérateurs uniques et d'opérandes répétés → plus difficile.`],
+["ql_halstead",`Effort E = ?`,["V × D","V / D","N × n","D / V"],0,`Effort mental d'implémentation.`],
+["ql_halstead",`Temps d'implémentation T (secondes) = ?`,["E / 18","E / 3000","E × 18","V / 18"],0,`S = 18 (constante de Stroud).`],
+["ql_halstead",`Nombre de bugs estimés B = ?`,["E^(2/3) / 3000","E / 18","V × D","N / 3000"],0,`3000 = facteur de calibration empirique.`],
+["ql_halstead",`Niveau du programme L = ?`,["1 / D","D / V","V × D","N / n"],0,`Plus L est proche de 1, plus le langage est de haut niveau.`],
+["ql_halstead",`a := a + 1; Combien d'opérateurs et d'opérandes uniques ?`,["3 opérateurs (:=, +, ;) et 2 opérandes (a, 1)","2 opérateurs et 3 opérandes","4 opérateurs et 1 opérande","3 et 3"],0,`Opérandes = jetons qui contiennent une valeur ; le reste = opérateurs.`],
+["ql_halstead",`n1 = 8 et n2 = 5. Vocabulaire n ?`,["13","40","3","8"],0,`n = 8 + 5 = 13.`],
+["ql_poo",`Qui a défini les 6 métriques orientées objet (1994) ?`,["Chidamber et Kemerer","McCabe","Halstead","Robert Martin"],0,`WMC, DIT, NOC, RFC, CBO, LCOM.`],
+["ql_poo",`Que mesure DIT ?`,["Distance maximale entre la classe et la racine de l'héritage","Nb de sous-classes directes","Nb de méthodes","Le couplage"],0,`En Java, DIT minimal = 1 (tout hérite de Object).`],
+["ql_poo",`NOC = ?`,["Nb de sous-classes directes","Nb total de descendants","Profondeur d'héritage","Nb de méthodes"],0,`NOC élevé → risque d'instabilité de la super-classe.`],
+["ql_poo",`Seuils DIT et NOC ?`,["DIT 0–4 acceptable ; NOC 0–3 normal","DIT 0–10 ; NOC 0–10","DIT 0–2 ; NOC 0–1","Pas de seuils"],0,`DIT : 5–7 moyen, > 7 profond. NOC : 4–7 moyen, > 7 élevé.`],
+["ql_poo",`RFC = ?`,["Méthodes de la classe + méthodes appelées directement","Nb de classes couplées","Nb d'attributs","Σ V(G)"],0,`RFC = |RS| (response set).`],
+["ql_poo",`C1 a M1, M2, M3 ; M3 appelle C2.M1(). RFC(C1) = ?`,["3","4","5","2"],1,`3 méthodes internes + 1 externe = 4.`],
+["ql_poo",`Seuils RFC ?`,["0–20 faible, 21–50 moyen, > 50 élevé","0–5 faible, > 5 élevé","0–10 faible, > 10 élevé","Pas de seuil"],0,`RFC élevé → classe difficile à comprendre et à tester.`],
+["ql_poo",`Indice de spécialisation SI = ?`,["NORM × DIT / NOM","NOM × DIT / NORM","(NORM + DIT) / NOM","NORM / DIT"],0,`NORM = méthodes redéfinies, NOM = nb de méthodes.`],
+["ql_poo",`C3 : NORM = 3, DIT = 3, NOM = 3. SI = ? Interprétation ?`,["1 : équilibrée","3 : très spécialisée (> 1,5), refactoriser","9 : trop","0,33 : générique"],1,`3 > 1,5 : C3 redéfinit tout → préférer une interface à l'héritage.`],
+["ql_poo",`I1 = {a,b,c,d,e}, I2 = {a,b,c}, I3 = {x,y,z}. LCOM = ?`,["0","1","2","3"],1,`P = 2 (I1∩I3, I2∩I3 vides), Q = 1 → 2 − 1 = 1.`],
+["ql_poo",`Si P ≤ Q, la valeur de LCOM est :`,["0","P − Q (négatif)","Q − P","Erreur"],0,`LCOM = P − Q si P > Q, sinon 0.`],
+["ql_poo",`Principe S de SOLID ?`,["Single Responsibility : une classe = une responsabilité","Substitution","Séparation","Stabilité"],0,`O = Open/Closed, L = Liskov, I = Interface Segregation, D = Dependency Inversion.`],
+["ql_poo",`Principe de Liskov (L) ?`,["Les sous-classes doivent pouvoir remplacer leurs super-classes sans altérer le comportement","Ouvert à l'extension, fermé à la modification","Plusieurs petites interfaces","Une seule responsabilité"],0,`Substitution des sous-classes.`],
+["ql_poo",`Principe D de SOLID ?`,["Dependency Inversion : dépendre d'abstractions","Dependency Injection","Dynamic Dispatch","Design"],0,`Les modules de haut niveau dépendent d'abstractions, pas d'implémentations.`],
+["ql_poo",`Abstractivité A = ?`,["Nabstract / Ntotal","Ce / (Ca + Ce)","|A + I − 1|","Ca / Ce"],0,`Proportion de classes abstraites et d'interfaces d'un package. 0 = concret, 1 = abstrait.`],
+["ql_poo",`Instabilité I = ?`,["Ce / (Ca + Ce)","Ca / (Ca + Ce)","Nabstract / Ntotal","Ca + Ce"],0,`Ca = dépendances entrantes, Ce = dépendances sortantes.`],
+["ql_poo",`I proche de 0 signifie :`,["Module stable (beaucoup en dépendent), difficile à changer","Module instable","Module abstrait","Aucune dépendance sortante uniquement"],0,`I proche de 1 : instable, facile à changer car personne n'en dépend.`],
+["ql_poo",`Forme : Ca = 2, Ce = 0. I = ?`,["0","0,5","1","2"],0,`0 / (2 + 0) = 0 → très stable.`],
+["ql_poo",`Distance à la séquence principale D = ?`,["|A + I − 1|","A + I","A × I","|A − I|"],0,`D proche de 0 = package bien conçu.`],
+["ql_poo",`Package concret et stable (A = 0, I = 0,1). D et verdict ?`,["D = 0, idéal","D = 0,9, trop rigide","D = 0,1, bien conçu","D = 1, trop abstrait"],1,`|0 + 0,1 − 1| = 0,9 : toute modification casse beaucoup de choses.`],
+["ql_poo",`D moyenne = 0,417. Verdict ?`,["Très bonne (< 0,3)","Acceptable mais améliorable (0,3–0,5)","Déséquilibrée (> 0,5)","Impossible"],1,`Seuils : < 0,3 très bon ; 0,3–0,5 acceptable ; > 0,5 déséquilibré.`],
+["ql_poo",`Les métriques CK mesurent :`,["La qualité locale par classe (complexité, couplage, cohésion)","L'architecture globale des packages","Le processus","Les tests"],0,`Les packages sont couverts par les métriques de Martin (A, I, D).`],
+["ql_sonar",`SonarQube est :`,["Une solution web open source de gestion centralisée de la qualité du code","Un IDE","Un compilateur","Un outil de test de charge"],0,`Multi-langages (+ de 25), intégré DevOps.`],
+["ql_sonar",`Lequel n'est PAS un des 7 axes de qualité ?`,["Duplications","Complexité","Respect des standards","Rapidité du réseau"],3,`7 axes : anomalies, duplications, tests unitaires, complexité, architecture / design, documentation / commentaires, standards.`],
+["ql_sonar",`À quoi sert le Quality Gate ?`,["Décider si on peut livrer en production (PASSED / FAILED)","Lister les bugs","Compiler","Définir les profils de règles"],0,`Basé sur : pas d'anomalie bloquante, couverture > 80 %, sécurité, fiabilité, maintenabilité.`],
+["ql_sonar",`Complexité cognitive ?`,["Inventée en 2016 par SonarSource, qualifie l'effort de compréhension","Formule de McCabe","Métrique de Halstead","Nb de lignes"],0,`Pas de fondement mathématique ; la cyclomatique compte les chemins linéairement indépendants.`],
+["ql_sonar",`Niveaux de sévérité d'une anomalie ?`,["Bloquant, critique, majeur, mineur, info","Haut, moyen, bas","A à E","Erreur, warning"],0,`Les notes A–E sont des ratings, pas des sévérités.`],
+["ql_sonar",`La dette technique (Debt) représente :`,["Le temps estimé de correction des code smells","Le nb de bugs","La couverture","Le coût du serveur"],0,`Ex. 23 min de dette pour 7 code smells.`],
+["ql_sonar",`Duplications : objectif ?`,["Tendre vers 0","100 %","50 %","Sans importance"],0,`Forte probabilité d'anomalies, code inutile → refactoring.`],
+["ql_sonar",`Ressources non fermées, boucles infinies : ce sont des…`,["Bugs (anomalies pouvant provoquer des plantages)","Code smells","Vulnérabilités","Duplications"],0,`Autres exemples : new BigDecimal(double), exception créée sans throw.`],
+["ql_sonar",`Sécurité des accès dans SonarQube ?`,["RBAC (Role-Based Access Control)","Mot de passe unique","Aucune","Pare-feu uniquement"],0,`Intégration CI : Jenkins, TravisCI, Azure DevOps.`],
+["ql_sonar",`Quelle édition est gratuite ?`,["Community Build","Developer","Enterprise","Data Center"],0,`Open source ; les autres éditions ajoutent langages et haute disponibilité.`],
+["ql_process",`Avantage du modèle en cascade ?`,["Documentation exhaustive, forte traçabilité, idéal pour systèmes critiques","Feedback client rapide","Pas de documentation","Adapté aux exigences changeantes"],0,`Ex. freinage ABS, aéronautique.`],
+["ql_process",`Limite du modèle en cascade ?`,["Retour en arrière impossible et feedback client tardif","Trop rapide","Pas de tests","Trop flexible"],0,`Exigences supposées stables : rare en entreprise.`],
+["ql_process",`Inconvénient du développement incrémental ?`,["Dégradation structurelle du code, processus moins visible","Pas de feedback","Pas de livraison","Pas de tests"],0,`Intégration de plus en plus complexe sans bonne architecture.`],
+["ql_process",`COTS ?`,["Logiciels prêts à l'emploi, configurés et non modifiés (SAP, WordPress)","Frameworks","Services Web","Code écrit from scratch"],0,`Intégration & Configuration : COTS, bibliothèques / frameworks, services Web.`],
+["ql_process",`Limite d'Intégration & Configuration ?`,["Compromis sur les exigences et dépendance aux composants tiers","Lent","Très coûteux","Aucune réutilisation"],0,`Le système s'adapte aux composants disponibles, pas l'inverse.`],
+["ql_process",`Manifeste Agile ?`,["Février 2001, Snowbird (Utah), 17 experts, Kent Beck","1970, Royce","1976, McCabe","2016, SonarSource"],0,`Scrum, XP, Crystal, ASD y étaient représentés.`],
+["ql_process",`Lequel n'est PAS un principe agile ?`,["Implication du client","Livraison incrémentale","Documentation exhaustive avant tout code","Embrasser le changement"],2,`5 principes : client, incrémental, personnes pas processus, changement, simplicité.`],
+["ql_process",`Limite des méthodes agiles ?`,["Difficiles à passer à l'échelle sur de très grands systèmes","Pas de feedback","Pas de tests","Trop de documentation"],0,`Conçues pour petites équipes collaboratives.`],
+["ql_process",`Chaos Report (Standish) : 70 % des projets échouent à cause de :`,["La mauvaise gestion des exigences changeantes","Le matériel","Les tests","Le budget marketing"],0,`À ne pas confondre avec 50 % des échecs liés à de mauvaises exigences.`],
+["ql_process",`« Le système doit répondre en moins de 2 secondes » est une exigence :`,["Fonctionnelle","Non fonctionnelle","Réalisée","Spécifiée seulement"],1,`Non fonctionnelle : performance, qualité, sécurité.`],
+["ql_process",`Le développement comprend deux sous-activités :`,["Conception et implémentation","Spécification et validation","Tests et maintenance","Planning et budget"],0,`Conception (architecture, composants) puis implémentation (code).`]
+
 ];
 
 /* CARTES */
@@ -1623,7 +1838,81 @@ var C=[
 `<b>P</b>erformance (critère de succès)<br><b>E</b>nvironnement<br><b>A</b>ctuateurs (actions possibles)<br><b>S</b>ensors (perceptions)<br><br>C'est la grille pour définir un agent intelligent.`],
 
 ["ia_agents",`Quelle est la différence entre un agent rationnel et un agent omniscient ?`,
-`<b>Rationnel</b> : agit au mieux avec les infos dont il dispose.<br><b>Omniscient</b> : connaît l'état réel complet et toutes les conséquences de ses actions (idéal inatteignable).<br>→ Un agent rationnel n'est pas omniscient.`]
+`<b>Rationnel</b> : agit au mieux avec les infos dont il dispose.<br><b>Omniscient</b> : connaît l'état réel complet et toutes les conséquences de ses actions (idéal inatteignable).<br>→ Un agent rationnel n'est pas omniscient.`],
+
+/* ===== QUALITÉ : ajouts cartes ===== */
+["ql_fond",`Quelles sont les 3 catégories de métriques ?`,
+`• <b>Processus</b> : coût, délais<br>• <b>Produit</b> : code, complexité, tests<br>• <b>Projet</b> : effectif, effort, productivité<br><br>Rôles de la métrologie : <b>évaluatif</b>, <b>vérificatif</b>, <b>prédictif</b>.`],
+
+["ql_fond",`Quel % des défauts vient du code, des données et des fonctionnalités ?`,
+`<b>63 %</b> = structurel 25 % + données 22 % + fonctionnalités implémentées 16 %.`],
+
+["ql_fond",`Causes célèbres : Mariner 1, Patriot, Therac-25, Mars Climate Orbiter, 737 MAX`,
+`• <b>Mariner 1</b> : formule mal transcrite<br>• <b>Patriot</b> : arrondi d'horloge<br>• <b>Therac-25</b> : états concurrents<br>• <b>Mars Climate Orbiter</b> : unités impérial / métrique<br>• <b>737 MAX</b> : capteurs + logique MCAS non redondée`],
+
+["ql_models",`McCall : chiffres et dimensions`,
+`<b>11 facteurs, 23 critères</b>.<br>• <b>Opérationnel</b> : conformité, fiabilité, efficacité, intégrité, facilité d'emploi<br>• <b>Évolution</b> : maintenabilité, souplesse, testabilité<br>• <b>Adaptabilité</b> : portabilité, réutilisabilité, interopérabilité`],
+
+["ql_models",`ISO 9126 : structure`,
+`<b>6 caractéristiques, 27 sous-caractéristiques</b> : fonctionnalité, fiabilité, utilisabilité, efficacité, maintenabilité, portabilité.<br>Types : interne, externe, en usage.`],
+
+["ql_models",`GQM (Basili)`,
+`<b>Goal → Question → Metric</b>.<br>On mesure uniquement ce qui aide à atteindre un objectif.`],
+
+["ql_models",`Facteur, critère, métrique`,
+`• <b>Facteur</b> : vision externe (utilisateur)<br>• <b>Critère</b> : vision interne (développeur)<br>• <b>Métrique</b> : mesure d'une propriété d'un critère<br>Ic = f(m1, m2…) ; If = g(Ic1, Ic2…)`],
+
+["ql_models",`Les 5 types de mesure de Stevens`,
+`<b>Nominal</b> (catégories), <b>Ordinal</b> (ordre), <b>Intervalle</b> (zéro arbitraire, a·M+b), <b>Ratio</b> (zéro absolu, a·M), <b>Absolu</b> (comptage, identité).`],
+
+["ql_metrics",`LOCphy, LOCpro, LOCcom, LOCbl, DC`,
+`• LOCphy : toutes les lignes<br>• LOCpro : lignes de programme<br>• LOCcom : commentaires<br>• LOCbl : lignes vides<br>• <b>DC = LOCcom / LOCphy</b> (norme 0,2–0,3)`],
+
+["ql_metrics",`V(G) : formules et règles de comptage`,
+`<code>V(G) = E − N + 2P</code> (P = composantes connexes, 1 en général)<br><code>V(G) = π + 1</code> (π = décisions)<br>IF = 1, FOR / WHILE = 1, CASE à N cas = N − 1.`],
+
+["ql_metrics",`Risque selon V(G)`,
+`1–10 simple (faible) · 11–20 modéré · 21–50 élevé · > 50 non testable (très élevé).`],
+
+["ql_halstead",`Halstead : les 4 comptages de base`,
+`n1 = opérateurs uniques, n2 = opérandes uniques, N1 = occurrences d'opérateurs, N2 = occurrences d'opérandes.`],
+
+["ql_halstead",`Halstead : toutes les formules`,
+`n = n1 + n2 · N = N1 + N2<br>V = N·log₂(n)<br>D = (n1/2)·(N2/n2) · L = 1/D<br>E = V·D · T = E/18 s<br>B = E<sup>2/3</sup>/3000`],
+
+["ql_poo",`DIT et NOC`,
+`<b>DIT</b> : profondeur max dans l'arbre d'héritage (min 1 en Java). Acceptable 0–4.<br><b>NOC</b> : nb de sous-classes directes. Normal 0–3.`],
+
+["ql_poo",`RFC`,
+`Méthodes de la classe + méthodes appelées directement.<br>Seuils : 0–20 faible, 21–50 moyen, > 50 élevé.`],
+
+["ql_poo",`Indice de spécialisation SI`,
+`<code>SI = NORM × DIT / NOM</code><br>≈ 0 générique · 0,5–1 équilibré · > 1,5 très spécialisé (refactoriser, préférer une interface).`],
+
+["ql_poo",`SOLID`,
+`<b>S</b> responsabilité unique · <b>O</b> ouvert / fermé · <b>L</b> Liskov (substitution) · <b>I</b> interfaces ségrégées · <b>D</b> inversion de dépendances.`],
+
+["ql_poo",`Métriques de Martin : A, I, D`,
+`<code>A = Nabstract / Ntotal</code><br><code>I = Ce / (Ca + Ce)</code> (Ca entrant, Ce sortant)<br><code>D = |A + I − 1|</code> : proche de 0 = bien conçu.<br>Moyenne D : < 0,3 très bon · 0,3–0,5 acceptable · > 0,5 déséquilibré.`],
+
+["ql_sonar",`Les 7 axes de qualité de SonarQube`,
+`Anomalies, duplications, tests unitaires (couverture), complexité, architecture / design (code spaghetti), documentation / commentaires, respect des standards.`],
+
+["ql_sonar",`Quality Gate`,
+`Répond à « puis-je livrer aujourd'hui ? » : <b>PASSED / FAILED</b>.<br>Pas d'anomalie bloquante, couverture > 80 %, + indicateurs sécurité, fiabilité, maintenabilité.`],
+
+["ql_sonar",`Cyclomatique vs cognitive (Sonar)`,
+`<b>Cyclomatique</b> : chemins linéairement indépendants (McCabe).<br><b>Cognitive</b> : créée en 2016 par SonarSource, mesure l'effort pour comprendre.`],
+
+["ql_sonar",`Sévérités et notes A–E`,
+`Sévérités : bloquant, critique, majeur, mineur, info.<br>Notes : A aucun problème, B mineur, C majeur, D critique, E bloquant.`],
+
+["ql_process",`Cascade, incrémental, I&C : forces et limites`,
+`• <b>Cascade</b> : traçabilité, systèmes critiques / pas de retour, feedback tardif<br>• <b>Incrémental</b> : feedback rapide / dégradation du code, peu de visibilité<br>• <b>I&C</b> : rapide, économique / compromis sur les besoins, dépendance aux tiers`],
+
+["ql_process",`Agile : manifeste et principes`,
+`Février 2001, Snowbird, 17 experts (Kent Beck).<br>Principes : implication du client, livraison incrémentale, personnes pas processus, embrasser le changement, simplicité.<br>Exemples : Scrum, XP, Crystal Clear.`]
+
 ];
 /* EXERCICES */
 var EX=[
@@ -2187,7 +2476,85 @@ C1 = 2 ; C2 = 9 ; C3 = 25.<br>
 <li><b>Vrai.</b> Épisodique = épisodes indépendants.</li>
 <li><b>Faux.</b> Observable ≠ déterministe (dés observables mais stochastiques).</li>
 <li><b>Vrai.</b> Cases finies = discret.</li>
-</ol>`]
+</ol>`],
+
+/* ===== QUALITÉ : ajouts exercices ===== */
+["ql_halstead",`Halstead : calcul complet`,
+`<p>Calculer les mesures de Halstead :</p>
+<pre>z = 0;
+while x &gt; 0
+  z = z + y;
+  x = x - 1;
+end-while;
+print (z);</pre>`,
+`<p><b>Opérateurs</b> : <code>=</code> (3), <code>;</code> (5), <code>while/end-while</code> (1), <code>&gt;</code> (1), <code>+</code> (1), <code>-</code> (1), <code>print</code> (1), <code>()</code> (1) → n1 = 8, N1 = 14.</p>
+<p><b>Opérandes</b> : <code>z</code> (4), <code>0</code> (2), <code>x</code> (3), <code>y</code> (1), <code>1</code> (1) → n2 = 5, N2 = 11.</p>
+<p>n = 13 · N = 14 + 11 = <b>25</b> (la diapo écrit 24 : coquille).</p>
+<p>V = 25·log₂(13) ≈ <b>92,5</b> · D = (8/2)·(11/5) = <b>8,8</b> · L = 1/8,8 ≈ 0,114</p>
+<p>E = V·D ≈ <b>814</b> · T = E/18 ≈ <b>45 s</b> · B = 814<sup>2/3</sup>/3000 ≈ <b>0,03</b></p>`],
+
+["ql_poo",`RFC et LCOM d'une classe`,
+`<p>Classe C1 : M1(), M2(), M3() où M3 appelle C2.M1(). Calculer RFC(C1).</p>
+<p>Puis LCOM d'une classe avec 5 méthodes : paires sans attribut commun = 6, paires avec attribut commun = 4.</p>`,
+`<p><b>RFC</b> = 3 méthodes internes + 1 méthode externe = <b>4</b> (faible, 0–20).</p>
+<p><b>LCOM</b> = P − Q = 6 − 4 = <b>2</b> &gt; 1 → faible cohésion : regrouper les méthodes qui manipulent les mêmes attributs, ou scinder la classe.</p>`],
+
+["ql_poo",`Indice de spécialisation`,
+`<p>Hiérarchie Object → C1 → C2 → C3. C3 a 3 méthodes, toutes redéfinies. Calculer SI(C3) et conclure.</p>`,
+`<p>DIT(C3) = 3, NORM = 3, NOM = 3.</p>
+<p><code>SI = NORM × DIT / NOM = 3 × 3 / 3 = <b>3</b></code></p>
+<p>3 &gt; 1,5 → classe très spécialisée : elle redéfinit tout ce qu'elle hérite. Préférer implémenter une interface, pour réduire le couplage et améliorer la réutilisabilité.</p>`],
+
+["ql_poo",`Instabilité des classes`,
+`<p>Carre référence Rectangle, Rectangle référence Forme, Cercle référence Forme. Calculer Ca, Ce et I = Ce / (Ca + Ce) pour chaque classe.</p>`,
+`<table>
+<tr><th>Classe</th><th>Ca</th><th>Ce</th><th>I</th></tr>
+<tr><td>Forme</td><td>2</td><td>0</td><td>0 (très stable)</td></tr>
+<tr><td>Rectangle</td><td>1</td><td>1</td><td>0,5</td></tr>
+<tr><td>Carre</td><td>0</td><td>1</td><td>1 (très instable)</td></tr>
+<tr><td>Cercle</td><td>0</td><td>1</td><td>1 (très instable)</td></tr>
+</table>
+<p>Une classe générique (bas niveau) est stable ; une classe proche du métier est instable.</p>`],
+
+["ql_poo",`Distance à la séquence principale`,
+`<p>Trois packages : P1 (A = 0,5 ; I = 0,25), P2 (A = 0 ; I = 1), P3 (A = 0 ; I = 0). Calculer D = |A + I − 1| pour chacun et la moyenne. Conclure.</p>`,
+`<p>P1 : |0,5 + 0,25 − 1| = <b>0,25</b> (équilibré)</p>
+<p>P2 : |0 + 1 − 1| = <b>0</b> (sur la ligne principale)</p>
+<p>P3 : |0 + 0 − 1| = <b>1</b> (concret et stable : très rigide)</p>
+<p>Moyenne = (0,25 + 0 + 1) / 3 ≈ <b>0,417</b> → 0,3–0,5 : architecture acceptable mais améliorable, surtout à cause de P3.</p>`],
+
+["ql_models",`Étude de cas : agrégation pondérée`,
+`<p>Mesures : commentaires 10 % ; noms de variables incompréhensibles ; complexité 3 ; 50 à 100 lignes par module.</p>
+<p>Notes par tranche : commentaires [100–20] = 2, ]20–10] = 1, ]10–0] = 0 ; noms : significatifs 2, moyens 1, incompréhensibles 0 ; complexité [0–3] = 2, ]3–5] = 1, > 5 = 0 ; lignes [0–50] = 2, ]50–100] = 1, > 100 = 0.</p>
+<p>Coefficients : Auto-documentation = 0,5 Commentaires + 0,5 Noms. Simplicité = 0,4 Commentaires + 0,4 Complexité + 0,2 Lignes. Maintenabilité = 0,6 Simplicité + 0,4 Auto-doc. Fiabilité = 1 Simplicité.</p>
+<p>Calculer les critères, les facteurs et la qualité du logiciel.</p>`,
+`<p><b>Notes</b> : commentaires = 1, noms = 0, complexité = 2, lignes = 1.</p>
+<p><b>Critères</b> : Auto-doc = 0,5·1 + 0,5·0 = <b>0,5</b> · Simplicité = 0,4·1 + 0,4·2 + 0,2·1 = <b>1,4</b></p>
+<p><b>Facteurs</b> : Maintenabilité = 0,6·1,4 + 0,4·0,5 = <b>1,04</b> · Fiabilité = <b>1,4</b></p>
+<p><b>Qualité du logiciel</b> : en équipondérant les facteurs, (1,04 + 1,4) / 2 = <b>1,22</b> sur 2, soit environ 61 %. L'énoncé ne précise pas l'agrégation finale : vérifier la méthode de ton cours.</p>`],
+
+["ql_metrics",`McCabe : graphe et pseudo-code`,
+`<p>Calculer V(G) avec les deux formules :</p>
+<pre>10 lire p
+20 lire e
+30 cal := 1
+40 Si e != 0 alors
+50   Tant que e &gt; 0 faire
+60     cal := cal * p
+70     e := e - 1
+80   Fin_faire
+90 Fin_si
+100 ecrire cal</pre>
+<p>Le graphe a E = 12 arêtes et N = 11 nœuds.</p>`,
+`<p><code>V(G) = E − N + 2P = 12 − 11 + 2 = <b>3</b></code></p>
+<p><code>V(G) = π + 1 = 2 + 1 = <b>3</b></code> (décisions : <code>Si</code> et <code>Tant que</code>).</p>
+<p>Risque faible (1–10) ; 3 cas de test au minimum.</p>`],
+
+["ql_metrics",`Densité de commentaires`,
+`<p>Un fichier Python fait 19 lignes physiques : 4 lignes de programme, 12 lignes de commentaires, 4 lignes vides. Calculer DC et conclure avec la norme.</p>`,
+`<p><code>DC = LOCcom / LOCphy = 12 / 19 ≈ <b>0,63</b></code></p>
+<p>Norme : 0,2–0,3 → bien au-dessus : trop de commentaires, probablement redondants.</p>`]
+
 ];
 
 /* EXAMENS */
@@ -2404,7 +2771,7 @@ var app = { subject:"mongodb", mode:"quiz" };
 var SUBTITLES = {
   mongodb:"NoSQL : lecture, mises à jour, modélisation.",
   php:"PHP : opérateurs, conditions et structures de contrôle.",
-  ql:"Qualité logicielle : besoins, SQuaRE, métriques, processus.",
+  ql:"Qualité logicielle : concepts, modèles, métriques (LOC, McCabe, Halstead, POO), SonarQube, processus.",
   mob:"Flutter : boutons, formulaires et widgets.",
   res:"Réseaux et Télécoms : codage, capacité, modulation, supports.",
   ia:"IA : clustering non-supervisé (K-means) et agents intelligents."
