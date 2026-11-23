@@ -2769,37 +2769,161 @@ var EXAMS = {
     ]
   },
   res: {
-    title: "Examen blanc — Réseaux et Télécoms",
-    intro: "INF4031 · Test n°2 · QCM + exercices.",
-    parts: [
-      {title:"QCM (4 q)", questions:[
-        "Atténuation se mesure en : a) Hz · b) dB · c) bit/s · d) bauds",
-        "Signal décomposé en f, 3f, 5f, 7f, 11f. Bande [5f, 13f]. Combien de sinusoïdes détectées ?",
-        "ETCD signifie ? a) Equipement Terminal de Conversion Digitale · b) Equipement de Télécommunication Digitale · c) Equipement Terminal de Traitement de données · d) Equipement Terminal de Circuit de Données",
-        "Exemple de système ETCD ?"
-      ], corrections:[
-        "<b>b) Décibels.</b>",
-        "<b>3 signaux</b> (5f, 7f, 11f).",
-        "<b>d) ETCD = Equipement Terminal de Circuit de Données.</b>",
-        "Le <b>modem</b> (module/démodule le signal pour la ligne)."
-      ]},
-      {title:"Exercice 1 — Son numérisé", questions:[
-        "Son numérisé à 8000 Hz, 8 bits. Débit de la ligne ?"
-      ], corrections:[
-        "<code>D = 8000 × 8 = 64 kb/s</code>."
-      ]},
-      {title:"Exercice 2 — Capacité", questions:[
-        "Largeur de bande 200 Hz, S/N = 2 dB. Capacité ?"
-      ], corrections:[
-        "S/N = 10^(2/10) ≈ 1,585. C = 200·log₂(2,585) ≈ <b>274 b/s</b>."
-      ]},
-      {title:"Exercice 3 — Chaîne de communication", questions:[
-        "Rôle de chaque bloc : Process → Capteur → CAN → Codage → Canal."
-      ], corrections:[
-        "<b>Process</b> : phénomène à mesurer. <b>Capteur</b> : convertit en signal analogique. <b>CAN</b> : numérise (échantillonnage + quantification + codage). <b>Codage bande de base</b> : transforme les bits en signal adapté au canal (NRZ, Manchester…). <b>Canal</b> : support physique."
-      ]}
-    ]
-  },
+  title: "Examen blanc — Réseaux et Télécoms",
+  intro: "INF4031 · Couvre le Test n°2 (QCM + exercices) et la Série Chapitre 2 Partie 2. Formules clés rappelées dans les corrections.",
+  parts: [
+    {
+      title: "Partie 1 — QCM (Test n°2, 4 questions)",
+      questions: [
+        "L'atténuation d'une ligne de transmission se mesure en :<br>a) Hertz · b) Décibels · c) Bits par seconde · d) Bauds",
+        "Un signal composite est décomposé en f, 3f, 5f, 7f et 11f. La bande passante est [5f, 13f]. Combien de signaux sinusoïdaux élémentaires sont détectés à l'arrivée ?",
+        "Que signifie ETCD ?<br>a) Equipement Terminal de Conversion Digitale<br>b) Equipement de Télécommunication Digitale<br>c) Equipement Terminal de Traitement de données<br>d) Equipement Terminal de Circuit de Données",
+        "Donner un exemple d'un système de transmission qui joue le rôle d'un ETCD."
+      ],
+      corrections: [
+        "<b>b) Décibels.</b> L'atténuation mesure une perte de puissance.",
+        "<b>3 signaux</b> : 5f, 7f et 11f sont dans la bande [5f, 13f]. (3f et f sont en dehors.)",
+        "<b>d) Equipement Terminal de Circuit de Données.</b>",
+        "Le <b>modem</b> (modulateur-démodulateur) : il convertit le signal numérique du terminal en un signal adapté à la ligne. ETTD = ordinateur, ETCD = modem."
+      ]
+    },
+    {
+      title: "Partie 2 — Exercice 1 (Test n°2) : Son numérisé",
+      questions: [
+        "On désire transporter un son sur une voie de transmission. Le son est numérisé à 8000 Hz et codé sur 8 bits. Quel doit être le débit de la ligne utilisée ?"
+      ],
+      corrections: [
+        "<code>D = Fe × nb_bits = 8000 × 8 = 64 000 b/s = 64 kb/s</code>.<br>C'est le débit standard de la téléphonie numérisée."
+      ]
+    },
+    {
+      title: "Partie 3 — Exercice 2 (Test n°2) : Capacité d'une ligne",
+      questions: [
+        "Quelle est la capacité d'une ligne pour téléimprimeur de largeur de bande 200 Hz et de rapport signal/bruit de 2 dB ?"
+      ],
+      corrections: [
+        "Convertir S/N en linéaire : <code>S/N = 10^(2/10) ≈ 1,585</code>.<br>Puis <code>C = 200 × log₂(1 + 1,585) = 200 × log₂(2,585) ≈ 200 × 1,37 ≈ <b>274 b/s</b></code>."
+      ]
+    },
+    {
+      title: "Partie 4 — Exercice 3 (Test n°2) : Chaîne de communication",
+      questions: [
+        "À partir du schéma {Process → Capteur → CAN → Codage en bande de base → Canal de transmission}, expliquez le rôle de chaque bloc."
+      ],
+      corrections: [
+        "<b>Process</b> : le phénomène physique à mesurer (pression, température, niveau…).<br><b>Capteur</b> : convertit la grandeur physique en signal électrique analogique.<br><b>CAN</b> (Convertisseur Analogique-Numérique) : numérise le signal (échantillonnage + quantification + codage).<br><b>Codage en bande de base</b> : transforme les bits en signal électrique adapté au canal (NRZ, Manchester…).<br><b>Canal de transmission</b> : support physique (câble, fibre, air)."
+      ]
+    },
+    {
+      title: "Partie 5 — Série Ch.2 : Shannon (S/N)",
+      questions: [
+        "Une voie possède une capacité de 20 Mbits/s. La largeur de bande de la voie est de 3 MHz. Quel doit être le rapport signal/bruit S/N (en linéaire et en dB) ?"
+      ],
+      corrections: [
+        "Formule de Shannon : <code>C = W · log₂(1 + S/N)</code>.<br><code>20·10⁶ = 3·10⁶ · log₂(1 + S/N)</code><br><code>log₂(1 + S/N) = 20/3 ≈ 6,667</code><br><code>1 + S/N ≈ 2^6,667 ≈ 101</code><br><b>S/N ≈ 100</b> (soit ≈ 20 dB)."
+      ]
+    },
+    {
+      title: "Partie 6 — Série Ch.2 : Temps de transmission",
+      questions: [
+        "Le temps de transmission de 16 Mégaoctets sur un réseau dont le débit est de 16 Mb/s vaut :<br>a) 8.38 s · b) 16 s · c) 16.3 s · d) 8 s"
+      ],
+      corrections: [
+        "Attention : <b>Mo</b> = mégaoctet binaire (2²⁰ octets), <b>Mb</b> = mégabit décimal (10⁶ bits).<br>16 Mo = 16 × 2²⁰ octets = 16 777 216 octets = 134 217 728 bits.<br><code>T = 134 217 728 / 16 000 000 ≈ <b>8,38 s</b></code><br><b>Réponse : a) 8.38 s</b>."
+      ]
+    },
+    {
+      title: "Partie 7 — Série Ch.2 : Rapidité de modulation (V=8)",
+      questions: [
+        "Dans un système de transmission numérique dont le débit binaire est 2400 bit/s. Quelle est la rapidité de modulation nécessaire sachant que les signaux transmis sont octovalents (V=8) ?"
+      ],
+      corrections: [
+        "<code>R = D / log₂(V) = 2400 / log₂(8) = 2400 / 3 = <b>800 bauds</b></code>."
+      ]
+    },
+    {
+      title: "Partie 8 — Série Ch.2 : Échantillonnage",
+      questions: [
+        "La durée de l'enregistrement d'un son est de 2 s. Déterminer le nombre d'échantillons pris lors de cet enregistrement avec une période d'échantillonnage Te = 0,5 ms."
+      ],
+      corrections: [
+        "<code>Fe = 1/Te = 1 / 0,5·10⁻³ = 2000 Hz</code><br><code>N = T / Te = 2 / 0,5·10⁻³ = <b>4000 échantillons</b></code><br>ou <code>N = T × Fe = 2 × 2000 = 4000</code>."
+      ]
+    },
+    {
+      title: "Partie 9 — Série Ch.2 : dBm",
+      questions: [
+        "Niveau en dBm : <code>V_dBm = 10 log₁₀(P / 1mW)</code>. Pour R = 50 Ω, calculer le niveau correspondant à 100 V puis 1 µV."
+      ],
+      corrections: [
+        "Puissance : <code>P = V_eff² / R</code> (indépendante de la fréquence).<br><b>100 V</b> : P = (100)² / 50 = 200 W = 200 000 mW → <code>10 log(200 000) ≈ <b>+53 dBm</b></code>.<br><b>1 µV</b> : P = (10⁻⁶)² / 50 = 2·10⁻¹⁴ W = 2·10⁻¹¹ mW → <code>10 log(2·10⁻¹¹) ≈ <b>−107 dBm</b></code>."
+      ]
+    },
+    {
+      title: "Partie 10 — Série Ch.2 : Encodage NRZ et Manchester",
+      questions: [
+        "Représenter les différents signaux en bande de base de la suite binaire 0100111000 selon les codes NRZ et Manchester."
+      ],
+      corrections: [
+        "<b>NRZ</b> (convention : 0 = −V, 1 = +V) :<br><code>−V +V −V −V +V +V +V −V −V −V</code><br>Un niveau constant par bit, pas de retour à zéro. R = D.<br><br><b>Manchester</b> (convention : 0 = H→L, 1 = L→H) :<br><code>HL LH HL HL LH LH LH HL HL HL</code><br>Transition au milieu de chaque bit, DC nulle, auto-synchronisant. R = 2D."
+      ]
+    },
+    {
+      title: "Partie 11 — Série Ch.2 : Décoder Manchester",
+      questions: [
+        "On observe un signal codé en Manchester avec Δ = 10⁻⁸ s (demi-bit). Donner la séquence binaire transmise (si les demi-périodes sont : H L | L H | H L | H L | L H | L H, avec 0=H→L et 1=L→H) et le débit offert par le support."
+      ],
+      corrections: [
+        "Chaque bit = 2 demi-périodes :<br>H L → 0 ; L H → 1 ; H L → 0 ; H L → 0 ; L H → 1 ; L H → 1<br><b>Séquence : 0 1 0 0 1 1</b>.<br><br><b>Débit</b> : T_bit = 2Δ = 2·10⁻⁸ s → <code>D = 1/(2Δ) = <b>50 Mb/s</b></code>."
+      ]
+    },
+    {
+      title: "Partie 12 — Série Ch.2 : V=8 et Miller",
+      questions: [
+        "Dans un système de transmission numérique dont le débit binaire est 2400 bit/s, avec des signaux octovalents (V=8) :<br>1. Quelle est la rapidité de modulation nécessaire ?<br>2. Quelle doit être la valeur minimale du rapport signal/bruit si la bande passante est de 1200 Hz pour obtenir ce même débit ?<br>3. Représenter la suite binaire 001011010010101100 selon le codage Miller."
+      ],
+      corrections: [
+        "1. <code>R = D / log₂(V) = 2400 / 3 = <b>800 bauds</b></code>.<br><br>2. <code>C = W · log₂(1 + S/N)</code> → <code>2400 = 1200 · log₂(1 + S/N)</code> → <code>log₂(1+S/N) = 2</code> → <code>1 + S/N = 4</code> → <b>S/N = 3</b> (soit ≈ 4,77 dB).<br><br>3. <b>Miller</b> : transition au milieu d'un 1 et entre deux 0 consécutifs. Pour 001011010010101100 :<br>0 0 → transition entre les deux ; 1 → transition milieu ; 0 1 → pas de transition ; etc. La représentation graphique dépend du niveau de départ. R = D."
+      ]
+    },
+    {
+      title: "Partie 13 — Formules : Atténuation et cascade",
+      questions: [
+        "1. Un signal traverse un câble qui perd 20 % de sa puissance. Calculer l'atténuation en dB.<br>2. Un signal traverse 3 câbles : 3 dB de perte, 7 dB de perte, puis 2 dB de gain. Quelle est l'atténuation totale ?"
+      ],
+      corrections: [
+        "1. <code>A_dB = -10 log₁₀(1 - p)</code> avec p = 0,20.<br><code>A_dB = -10 log₁₀(0,8) ≈ <b>0,97 dB</b></code>.<br><br>2. En cascade, les dB s'additionnent :<br><code>A_total = 3 + 7 - 2 = <b>8 dB</b></code> (atténuation nette)."
+      ]
+    },
+    {
+      title: "Partie 14 — Formules : CAN et quantification",
+      questions: [
+        "Un CAN de 8 bits convertit une tension entre -5 V et +5 V.<br>1. Combien de niveaux de quantification L ?<br>2. Quel est le pas de quantification q ?<br>3. Quelle est l'erreur maximale ?"
+      ],
+      corrections: [
+        "1. <code>L = 2^n = 2^8 = <b>256 niveaux</b></code>.<br>2. <code>q = (Vmax - Vmin) / 2^n = 10 / 256 = <b>0,039 V</b></code>.<br>3. <code>|eq| ≤ q/2 = <b>0,0195 V</b></code>."
+      ]
+    },
+    {
+      title: "Partie 15 — Formules : Audio et propagation",
+      questions: [
+        "1. Un enregistrement audio stéréo dure 3 minutes. Il est numérisé à 44,1 kHz sur 16 bits. Calculer le volume en Mo (décimal).<br>2. Un signal parcourt 100 km de fibre optique à 2·10⁸ m/s. Quel est le temps de propagation ?"
+      ],
+      corrections: [
+        "1. <code>V = fe × m × c × T = 44 100 × 16 × 2 × 180 = 254 016 000 bits</code>.<br>En octets : 31 752 000 octets.<br>En Mo (10⁶) : <b>≈ 31,75 Mo</b>.<br><br>2. <code>T_prop = L / v = 100 000 / (2·10⁸) = 5·10⁻⁴ s = <b>0,5 ms</b></code>."
+      ]
+    },
+    {
+      title: "Partie 16 — Formules : Modulation AM/FM",
+      questions: [
+        "1. Un signal AM a Amax = 10 V et Amin = 2 V. Calculer l'indice de modulation μ.<br>2. Pour un signal FM, quelle est la règle approximative de Carson pour la bande passante ?"
+      ],
+      corrections: [
+        "1. <code>μ = (Amax - Amin) / (Amax + Amin) = 8/12 ≈ <b>0,67</b></code>.<br><br>2. <b>Règle de Carson</b> : <code>B_FM ≈ 2(Δf + fm)</code> où Δf = excursion max de fréquence et fm = fréquence du modulant."
+      ]
+    }
+  ]
+},
   ia: {
     title: "Examen blanc — Intelligence Artificielle",
     intro: "Couverture : K-means, variantes, méthode du coude, agents intelligents (PEAS, environnements, types).",
