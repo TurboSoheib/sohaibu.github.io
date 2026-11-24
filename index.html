@@ -1469,6 +1469,26 @@ var Q=[
 ["mob_txt",`Clavier email ?`,["text","emailAddress","number","multiline"],1,`<code>emailAddress</code>.`],
 ["mob_txt",`Masquer mot de passe ?`,["<code>secure: true</code>","<code>hidden: true</code>","<code>obscureText: true</code>","<code>password: true</code>"],2,`<code>obscureText</code>.`],
 ["mob_wdg",`Mettre à jour l'UI ?`,["refresh()","update()","setState()","rebuild()"],2,`<code>setState</code>.`],
+["mob_btn",`Quel widget remplace <code>RaisedButton</code> (obsolète) ?`,["TextButton","OutlinedButton","ElevatedButton","FilledButton"],2,`RaisedButton → <code>ElevatedButton</code>, FlatButton → <code>TextButton</code>, OutlineButton → <code>OutlinedButton</code>.`],
+["mob_btn",`Où place-t-on un <code>FloatingActionButton</code> ?`,["Dans le body","Dans le <code>floatingActionButton:</code> du Scaffold","Dans l'AppBar","Dans un Container"],1,`Il doit être ajouté au <code>Scaffold</code>, sinon il ne flotte pas.`],
+["mob_btn",`Quelle propriété positionne le FAB en haut au centre ?`,["<code>floatingActionButtonLocation</code>","<code>alignment</code>","<code>position</code>","<code>gravity</code>"],0,`<code>floatingActionButtonLocation: FloatingActionButtonLocation.centerTop</code>.`],
+["mob_btn",`Quel bouton est sans fond ni bordure par défaut (actions secondaires) ?`,["ElevatedButton","OutlinedButton","TextButton","FloatingActionButton"],2,`<code>TextButton</code> : toolbars, AlertDialog, Card.`],
+["mob_btn",`OutlinedButton se situe, en importance visuelle, entre :`,["IconButton et FAB","ElevatedButton et TextButton","TextButton et IconButton","FAB et ElevatedButton"],1,`Bordure visible, sans fond par défaut : actions importantes mais pas principales.`],
+["mob_btn",`Quel bouton affiche uniquement une icône, sans texte ?`,["IconButton","TextButton","ElevatedButton","BackButton"],0,`<code>IconButton</code> : compact, idéal pour favoris, partage, paramètres.`],
+["mob_btn",`Que fait <code>onPressed: () {}</code> ?`,["Une erreur","Une fonction vide : le bouton reste actif mais ne fait rien","Désactive le bouton","Appelle setState"],1,`Avec <code>onPressed: null</code>, le bouton serait désactivé.`],
+["mob_txt",`Quelle propriété de <code>TextFormField</code> sert à valider la saisie ?`,["<code>checker</code>","<code>validate</code>","<code>validator</code>","<code>onChanged</code>"],2,`<code>validator: (val) { ... }</code> reçoit la valeur du champ.`],
+["mob_txt",`Que doit retourner <code>validator</code> si la saisie est valide ?`,["<code>true</code>","<code>null</code>","Une chaîne vide","<code>\"ok\"</code>"],1,`Un message (String) si invalide, <code>null</code> si valide.`],
+["mob_txt",`Comment déclencher la validation d'un Form au clic ?`,["<code>formKey.currentState!.validate()</code>","<code>form.check()</code>","<code>Form.validate()</code>","<code>setState(validate)</code>"],0,`Avec <code>GlobalKey&lt;FormState&gt;</code> passée à <code>Form(key: ...)</code>.`],
+["mob_txt",`Quel type de clé faut-il créer pour accéder à un Form ?`,["TextEditingController","GlobalKey&lt;FormState&gt;","Key()","ValueKey"],1,`<code>var formKey = GlobalKey&lt;FormState&gt;();</code>`],
+["mob_txt",`Quelle propriété limite le nombre de caractères saisis ?`,["<code>maxLength</code>","<code>maxLines</code>","<code>limit</code>","<code>length</code>"],0,`<code>maxLines</code> limite le nombre de <b>lignes</b>, pas de caractères.`],
+["mob_txt",`Quel <code>keyboardType</code> pour un champ de texte sur plusieurs lignes ?`,["<code>TextInputType.text</code>","<code>TextInputType.multiline</code>","<code>TextInputType.name</code>","<code>TextInputType.datetime</code>"],1,`À associer à <code>maxLines</code>.`],
+["mob_txt",`Pourquoi appeler <code>controller.dispose()</code> ?`,["Pour vider le champ","Pour libérer les ressources du controller","Pour valider le Form","Pour masquer le clavier"],1,`Dans <code>dispose()</code> du State, avant <code>super.dispose()</code>.`],
+["mob_txt",`<code>int.tryParse("abc")</code> retourne :`,["0","Une exception","<code>null</code>","-1"],2,`Utile dans un validator : <code>null</code> → « Veuillez saisir un nombre entier ».`],
+["mob_txt",`Pour confirmer un mot de passe, le validator compare :`,["<code>val.length</code>","<code>val != passwordController.text</code>","<code>val.isEmpty</code>","<code>val.contains('@')</code>"],1,`Type d'erreur : incohérence entre champs.`],
+["mob_wdg",`Quelles propriétés de <code>ListTile</code> affichent icône, titre, sous-titre et icône finale ?`,["icon, text, sub, end","leading, title, subtitle, trailing","start, label, caption, end","prefix, name, detail, suffix"],1,`<code>leading</code> (début), <code>title</code>, <code>subtitle</code>, <code>trailing</code> (fin).`],
+["mob_wdg",`Formule de l'IMC avec la taille saisie en cm :`,["poids / taille²","poids / (taille/100)²","poids × taille / 100","poids / (taille×100)²"],1,`Convertir cm → m : 60 kg, 170 cm → 60 / 1,7² ≈ 20,76.`],
+["mob_wdg",`IMC = 23 : quel message selon le tableau du TP ?`,["Poids très bas","Poids idéal","Surpoids","Obésité grade 1"],1,`18,6 ≤ IMC &lt; 24,9 → Poids idéal.`],
+["mob_wdg",`Pourquoi un compteur avec boutons +/− nécessite-t-il un StatefulWidget ?`,["Pour utiliser des Scaffold","L'état change et l'UI doit être reconstruite via setState","Pour utiliser des FAB","Pour gérer les images"],1,`StatelessWidget est immuable.`],
 
 ["res_capacite",`Formule de Shannon ?`,["<code>C = 2W log₂(V)</code>","<code>C = W log₂(1 + S/N)</code>","<code>C = W / S/N</code>","<code>C = 2W</code>"],1,`Shannon.`],
 ["res_capacite",`V = 8, D = 2400 b/s → R ?`,["800 bauds","2400 bauds","300 bauds","7200 bauds"],0,`R = 2400/3.`],
@@ -1792,6 +1812,36 @@ var C=[
 
 ["mob_wdg",`Pourquoi utiliser <code>SizedBox</code> plutôt que <code>Container</code> pour un espace vide ?`,
 `<code>SizedBox</code> est beaucoup <b>plus léger</b> en mémoire car il ne gère pas de décorations (couleur, bordure, padding). Pour un simple espace, c'est la bonne pratique.`],
+
+["mob_btn",`FloatingActionButton : règles d'usage`,
+`• Bouton circulaire qui survole le contenu, pour l'<b>action principale</b>.<br>• <b>Un seul</b> par écran (plusieurs possibles via Row/Column).<br>• Actions positives : créer, partager, naviguer.<br>• À placer dans le <code>Scaffold</code> : <code>floatingActionButton:</code> + <code>floatingActionButtonLocation:</code>.`],
+
+["mob_btn",`Boutons obsolètes → actifs`,
+`<code>FlatButton</code> → <code>TextButton</code><br><code>RaisedButton</code> → <code>ElevatedButton</code><br><code>OutlineButton</code> → <code>OutlinedButton</code><br><br>Thèmes : TextButtonTheme, ElevatedButtonTheme, OutlinedButtonTheme. Personnalisation via <code>styleFrom</code>.`],
+
+["mob_btn",`TextButton : où et comment l'utiliser ?`,
+`Actions secondaires, sans fond ni bordure par défaut.<br>• Où : toolbars, <code>AlertDialog</code>, <code>Card</code> (groupés en bas, souvent à droite).<br>• Prévoir un <code>padding</code> suffisant.<br>• À éviter : au milieu d'un texte ou d'une liste (confusion avec le contenu).`],
+
+["mob_btn",`IconButton`,
+`Bouton avec <b>icône seule</b> : <code>IconButton(icon: Icon(Icons.volume_up), tooltip: '...', onPressed: () {})</code>.<br>Pour actions rapides et fréquentes : favoris, partage, recherche, paramètres.`],
+
+["mob_txt",`TextField : propriétés essentielles`,
+`• <code>decoration: InputDecoration(labelText, hintText, icon / prefixIcon, border: OutlineInputBorder())</code><br>• <code>onChanged: (value) {}</code><br>• <code>controller</code><br>• <code>maxLines</code> (lignes), <code>maxLength</code> (caractères)<br>• <code>keyboardType: TextInputType.number / emailAddress / phone / multiline</code><br>• <code>obscureText: true</code> + <code>obscuringCharacter: \"*\"</code> (mot de passe)`],
+
+["mob_txt",`Lire la saisie : onChanged vs controller`,
+`<b>onChanged</b> : <code>(val) { setState(() => message = val); }</code><br><b>controller</b> : <code>var ctrl = TextEditingController();</code> puis <code>controller: ctrl</code> et <code>ctrl.text</code>.<br>Toujours libérer : <code>@override void dispose() { ctrl.dispose(); super.dispose(); }</code>`],
+
+["mob_txt",`Valider un formulaire : les 3 étapes`,
+`1. <code>var formKey = GlobalKey&lt;FormState&gt;();</code><br>2. <code>Form(key: formKey, child: Column(...))</code> avec des <code>TextFormField(validator: ...)</code><br>3. Dans <code>onPressed</code> : <code>if (formKey.currentState!.validate()) { ... }</code><br><br>validator : retourne un <b>message</b> si invalide, <b>null</b> si valide.`],
+
+["mob_txt",`Principaux types d'erreurs de validation`,
+`• Champ obligatoire : vide<br>• Longueur min / max<br>• Format incorrect (e-mail : contient @ et .)<br>• Valeur hors intervalle (âge 18–60, via <code>int.tryParse</code>)<br>• Valeur non autorisée (caractère interdit)<br>• Incohérence entre champs (mots de passe différents)`],
+
+["mob_wdg",`ListTile`,
+`Ligne de liste standard : <code>leading</code> (Icon/avatar), <code>title</code>, <code>subtitle</code>, <code>trailing</code> (Icon).<br>Exemple du TP : liste d'écoles (Universiapolis) avec logo, nom, filière et icône « ⋮ ».`],
+
+["mob_wdg",`TP IMC : structure de l'application`,
+`• <code>calculerImc()</code> : poids / (taille/100)².<br>• <code>getMessage(imc)</code> : &lt;18,6 très bas ; &lt;24,9 idéal ; &lt;29,9 surpoids ; &lt;34,9 obésité 1 ; &lt;39,9 obésité 2 ; sinon obésité 3.<br>• Bouton → <code>setState</code> pour afficher « Votre IMC : 20.76 ».<br>• Validation : champs non vides et numériques (« Poids invalide », « Taille invalide »).`],
 
 /* ===================== RÉSEAUX ===================== */
 /* ===================== RÉSEAUX ===================== */
@@ -2250,6 +2300,17 @@ public int sum(int[] arr) {
 ["mob_wdg",`Compléter : image ronde`,`<p>Image ronde depuis les assets, 200×200.</p>`,`<pre>ClipOval(\n  child: Image.asset(\n    "images/pizza.jpg",\n    width: 200, height: 200,\n    fit: BoxFit.cover,\n  ),\n)</pre>`],
 ["mob_wdg",`Double compteur (2 FAB)`,`<p>FAB − , compteur, FAB + dans un Row.</p>`,`<pre>Row(\n  mainAxisAlignment: MainAxisAlignment.spaceAround,\n  children: [\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur--),\n      child: Icon(Icons.remove),\n    ),\n    Text('$compteur', style: TextStyle(fontSize: 40)),\n    FloatingActionButton(\n      onPressed: () => setState(() => compteur++),\n      child: Icon(Icons.add),\n    ),\n  ],\n)</pre>`],
 ["mob_wdg",`Slider d'images en boucle`,`<p>4 images cyclées avec modulo.</p>`,`<pre>body: Center(\n  child: ClipOval(\n    child: Image.asset(\n      images[i % images.length],\n      width: 250, height: 250,\n      fit: BoxFit.cover,\n    ),\n  ),\n)</pre>`],
+["mob_btn",`Bouton avec icône (OutlinedButton)`,`<p>Créer un OutlinedButton avec l'icône <code>settings</code>, fond ambre, padding 25, texte « Outlined Button ».</p>`,`<pre>OutlinedButton.icon(\n  icon: Icon(Icons.settings),\n  onPressed: () {},\n  style: OutlinedButton.styleFrom(\n    backgroundColor: Colors.amber,\n    padding: const EdgeInsets.all(25),\n  ),\n  label: Text("Outlined Button"),\n)</pre>`],
+["mob_btn",`FAB en haut au centre`,`<p>Ajouter un FloatingActionButton orange, icône +, élévation 10, positionné en haut au centre.</p>`,`<pre>Scaffold(\n  floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,\n  floatingActionButton: FloatingActionButton(\n    backgroundColor: Colors.orange,\n    foregroundColor: Colors.white,\n    elevation: 10,\n    onPressed: () {},\n    child: Icon(Icons.add),\n  ),\n)</pre>`],
+["mob_txt",`Trouve le bug : validator sans retour`,`<p>Le formulaire se bloque toujours :</p><pre>validator: (val) {\n  if (val == null || val.isEmpty) return "Champ obligatoire";\n}</pre>`,`<p><b>Bug</b> : il manque <code>return null;</code> pour le cas valide (sinon erreur de compilation en null safety).</p><pre>validator: (val) {\n  if (val == null || val.isEmpty) return "Champ obligatoire";\n  return null;\n}</pre>`],
+["mob_txt",`Lire un champ avec un controller`,`<p>Afficher sous le TextField le texte saisi, en temps réel, avec un TextEditingController (sans fuite mémoire).</p>`,`<pre>var ctrl = TextEditingController();\nvar message = "";\n\nTextField(\n  controller: ctrl,\n  onChanged: (val) =&gt; setState(() =&gt; message = ctrl.text),\n  decoration: InputDecoration(hintText: "User Name", icon: Icon(Icons.person)),\n),\nText(message),\n\n@override\nvoid dispose() {\n  ctrl.dispose();\n  super.dispose();\n}</pre>`],
+["mob_txt",`Valider un âge entre 18 et 60`,`<p>Champ « Age » : obligatoire, entier, compris entre 18 et 60.</p>`,`<pre>validator: (val) {\n  if (val == null || val.isEmpty) return "Champ obligatoire";\n  int? age = int.tryParse(val);\n  if (age == null) return "Veuillez saisir un nombre entier";\n  if (age &lt; 18 || age &gt; 60) {\n    return "L'âge doit être compris entre 18 et 60 ans";\n  }\n  return null;\n},</pre>`],
+["mob_txt",`Valider un e-mail et confirmer un mot de passe`,`<p>1) E-mail : obligatoire et contient « @ » et « . ». 2) Confirmation : identique au mot de passe.</p>`,`<pre>// E-mail\nvalidator: (val) {\n  if (val == null || val.isEmpty) return "Champ obligatoire";\n  if (!val.contains("@") || !val.contains(".")) {\n    return "Format d'e-mail incorrect";\n  }\n  return null;\n},\n\n// Confirmation\nvalidator: (val) {\n  if (val == null || val.isEmpty) return "Champ obligatoire";\n  if (val != passwordController.text) {\n    return "Les mots de passe ne correspondent pas";\n  }\n  return null;\n},</pre>`],
+["mob_txt",`Champ multiligne`,`<p>TextFormField de 5 lignes max, clavier multiligne, label « Texte sur plusieurs lignes ».</p>`,`<pre>TextFormField(\n  keyboardType: TextInputType.multiline,\n  maxLines: 5,\n  decoration: InputDecoration(\n    labelText: "Texte sur plusieurs lignes",\n    hintText: "multiple",\n    icon: Icon(Icons.text_fields),\n  ),\n)</pre>`],
+["mob_wdg",`TP IMC : calculerImc et getMessage`,`<p>Écrire les deux méthodes. Poids en kg, taille en cm. Seuils : &lt;18,6 « Poids très bas » ; &lt;24,9 « Poids idéal » ; &lt;29,9 « Surpoids » ; &lt;34,9 « Obésité grade 1 » ; &lt;39,9 « Obésité grade 2 » ; sinon « Obésité grade 3 ».</p>`,`<pre>double calculerImc() {\n  double poids = double.parse(poidsCtrl.text);\n  double taille = double.parse(tailleCtrl.text) / 100;\n  return poids / (taille * taille);\n}\n\nString getMessage(double imc) {\n  if (imc &lt; 18.6) return "Poids très bas";\n  if (imc &lt; 24.9) return "Poids idéal";\n  if (imc &lt; 29.9) return "Surpoids";\n  if (imc &lt; 34.9) return "Obésité grade 1";\n  if (imc &lt; 39.9) return "Obésité grade 2";\n  return "Obésité grade 3";\n}</pre>`],
+["mob_wdg",`TP IMC : bouton et validation`,`<p>Deux TextFormField (Poids en Kg, Taille en cm) dans un Form. Au clic sur « Calculer votre IMC » : si valide, afficher « Votre IMC : 20.76 » (poids 60, taille 170), sinon afficher « Poids invalide » / « Taille invalide » sous les champs.</p>`,`<pre>var formKey = GlobalKey&lt;FormState&gt;();\nvar poidsCtrl = TextEditingController();\nvar tailleCtrl = TextEditingController();\nString resultat = "";\n\nForm(\n  key: formKey,\n  child: Column(children: [\n    TextFormField(\n      controller: poidsCtrl,\n      keyboardType: TextInputType.number,\n      decoration: InputDecoration(labelText: "Poids en Kg"),\n      validator: (v) =&gt; double.tryParse(v ?? "") == null ? "Poids invalide" : null,\n    ),\n    TextFormField(\n      controller: tailleCtrl,\n      keyboardType: TextInputType.number,\n      decoration: InputDecoration(labelText: "Taille en cm"),\n      validator: (v) =&gt; double.tryParse(v ?? "") == null ? "Taille invalide" : null,\n    ),\n    ElevatedButton(\n      onPressed: () {\n        if (formKey.currentState!.validate()) {\n          setState(() =&gt; resultat =\n              "Votre IMC : \${calculerImc().toStringAsFixed(2)}");\n        }\n      },\n      child: Text("Calculer votre IMC"),\n    ),\n    Text(resultat),\n  ]),\n)</pre>`],
+["mob_wdg",`ListTile : liste d'écoles`,`<p>Créer un ListTile : avatar (leading), titre « Ecole polytechnique », sous-titre « Ingénierie », icône « ⋮ » (trailing), fond bleu clair.</p>`,`<pre>Container(\n  color: Colors.lightBlue.shade100,\n  child: ListTile(\n    leading: CircleAvatar(backgroundImage: AssetImage("images/poly.png")),\n    title: Text("Ecole polytechnique"),\n    subtitle: Text("Ingénierie"),\n    trailing: Icon(Icons.more_vert),\n  ),\n)</pre>`],
+["mob_wdg",`Compteur avec bouton − (StatefulWidget)`,`<p>À partir du projet par défaut, ajouter un second FAB qui décrémente le compteur de 1.</p>`,`<pre>void _decrementCounter() {\n  setState(() {\n    _counter--;\n  });\n}\n\nfloatingActionButton: Row(\n  mainAxisAlignment: MainAxisAlignment.spaceEvenly,\n  children: [\n    FloatingActionButton(onPressed: _incrementCounter, child: Icon(Icons.add)),\n    FloatingActionButton(onPressed: _decrementCounter, child: Icon(Icons.remove)),\n  ],\n),</pre>`],
 
 /* Réseaux */
 /* Réseaux — exercices */
@@ -2965,9 +3026,54 @@ var EXAMS = {
         "<b>1.</b> Partiellement observable, stochastique, séquentiel, dynamique, continu.<br><b>2.</b> Porte → réflexe simple. Robot → réflexe avec état interne. GPS adresse → but. GPS pondéré → utilité. Jeu → apprenant.<br><b>3.</b> (a) <b>Faux</b>. (b) <b>Vrai</b>. (c) <b>Faux</b>. (d) <b>Vrai</b>."
       ]}
     ]
+  },
+  mob: {
+    title: "Examen blanc — Mobile (Flutter)",
+    intro: "Boutons, TextFields, validation de formulaire, ListTile et TP IMC.",
+    parts: [
+      {title:"Partie 1 — Boutons (5 q)", questions:[
+        "Citer les trois boutons actifs qui remplacent FlatButton, RaisedButton et OutlineButton.",
+        "Classer ElevatedButton, OutlinedButton et TextButton par importance et donner un usage de chacun.",
+        "Où et comment place-t-on un FloatingActionButton en haut au centre ?",
+        "Écrire un ElevatedButton jaune en forme de pilule avec bordure noire de 2 px.",
+        "Écrire un ElevatedButton centré dont le texte passe de « Cliquer ici » à « Bouton cliqué ! » au clic."
+      ], corrections:[
+        "FlatButton → <code>TextButton</code>, RaisedButton → <code>ElevatedButton</code>, OutlineButton → <code>OutlinedButton</code>.",
+        "ElevatedButton : action principale (1 par écran). OutlinedButton : action importante secondaire. TextButton : action secondaire (dialogues, cartes).",
+        "Dans le Scaffold : <pre>floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,\nfloatingActionButton: FloatingActionButton(onPressed: () {}, child: Icon(Icons.add)),</pre>",
+        "<pre>ElevatedButton(\n  onPressed: () {},\n  child: Text('Cliquer'),\n  style: ElevatedButton.styleFrom(\n    backgroundColor: Colors.yellow,\n    shape: StadiumBorder(),\n    side: BorderSide(color: Colors.black, width: 2),\n  ),\n)</pre>",
+        "StatefulWidget : <pre>String txt = 'Cliquer ici';\nCenter(child: ElevatedButton(\n  onPressed: () =&gt; setState(() =&gt; txt = 'Bouton cliqué !'),\n  child: Text(txt),\n))</pre>"
+      ]},
+      {title:"Partie 2 — TextField et validation (6 q)", questions:[
+        "Différence entre TextField et TextFormField ?",
+        "Comment lire la saisie avec un TextEditingController et pourquoi appeler dispose() ?",
+        "Comment afficher un champ mot de passe masqué par « * » et limité à 12 caractères ?",
+        "Écrire un validator pour un champ obligatoire d'au moins 8 caractères.",
+        "Écrire un validator pour un âge entier entre 18 et 60.",
+        "Écrire le code du bouton qui valide le Form et affiche « Formulaire validé » ou « Prière de fixer les erreurs »."
+      ], corrections:[
+        "TextFormField intègre la propriété <code>validator</code> et s'utilise dans un <code>Form</code>. TextField n'a pas de validation intégrée.",
+        "<code>var ctrl = TextEditingController();</code>, <code>controller: ctrl</code>, lecture avec <code>ctrl.text</code>. <code>dispose()</code> libère les ressources du controller.",
+        "<pre>TextFormField(\n  obscureText: true,\n  obscuringCharacter: '*',\n  maxLength: 12,\n)</pre>",
+        "<pre>validator: (val) {\n  if (val == null || val.isEmpty) return 'Champ obligatoire';\n  if (val.length &lt; 8) return 'Au moins 8 caractères';\n  return null;\n},</pre>",
+        "<pre>validator: (val) {\n  if (val == null || val.isEmpty) return 'Champ obligatoire';\n  int? age = int.tryParse(val);\n  if (age == null) return 'Nombre entier requis';\n  if (age &lt; 18 || age &gt; 60) return 'Entre 18 et 60 ans';\n  return null;\n},</pre>",
+        "<pre>ElevatedButton(onPressed: () {\n  if (formKey.currentState!.validate()) {\n    setState(() =&gt; message = 'Formulaire validé');\n  } else {\n    setState(() =&gt; message = 'Prière de fixer les erreurs');\n  }\n}, child: Text('Valider'))</pre>"
+      ]},
+      {title:"Partie 3 — TP IMC et ListTile (4 q)", questions:[
+        "Donner la formule de l'IMC (poids en kg, taille en cm).",
+        "Écrire getMessage(imc) selon le tableau du TP.",
+        "Quel est l'IMC d'une personne de 60 kg et 170 cm ? Quel message ?",
+        "Citer les quatre propriétés d'un ListTile et leur rôle."
+      ], corrections:[
+        "<code>IMC = poids / (taille/100)²</code>.",
+        "<pre>String getMessage(double imc) {\n  if (imc &lt; 18.6) return 'Poids très bas';\n  if (imc &lt; 24.9) return 'Poids idéal';\n  if (imc &lt; 29.9) return 'Surpoids';\n  if (imc &lt; 34.9) return 'Obésité grade 1';\n  if (imc &lt; 39.9) return 'Obésité grade 2';\n  return 'Obésité grade 3';\n}</pre>",
+        "60 / 1,7² ≈ <b>20,76</b> → Poids idéal.",
+        "<code>leading</code> : icône/avatar au début ; <code>title</code> : titre ; <code>subtitle</code> : sous-titre ; <code>trailing</code> : icône à la fin."
+      ]}
+    ]
   }
 };
-var EXAM_SUBJECTS = ["mongodb", "ql", "res", "ia"];
+var EXAM_SUBJECTS = ["mongodb", "ql", "res", "ia", "mob"];
 
 /* Helpers */
 var $=function(i){return document.getElementById(i)};
